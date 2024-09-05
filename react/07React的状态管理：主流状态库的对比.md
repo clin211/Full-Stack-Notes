@@ -16,8 +16,6 @@ React 状态管理是指处理和更新 React 组件状态的过程。它涉及�
 
 ![QQ_1725418264326](assets/QQ_1725418264326.png)
 
-![QQ_1724295328908](assets/QQ_1724295328908.png)
-
 | 名称                                                     | star数 | 最新版本 | 创建时间 | 最近更新时间 |
 | -------------------------------------------------------- | ------ | -------- | -------- | ------------ |
 | [Redux](https://github.com/reduxjs/redux)                | 60.7k  | v5.0.1   | 2012     | 2023-11-24   |
@@ -184,7 +182,7 @@ Redux 在以下情景中更有用：
 
 ## redux 在 react 中的使用
 
-#### 使用 Vite 创建一个 React 项目
+### 使用 Vite 创建一个 React 项目
 
 ```sh
 $ npx create-vite
@@ -477,8 +475,72 @@ export default UseDispatch
 在这个示例中，使用 `useDispatch` 钩子函数获取了 Redux store 的 `dispatch` 函数，并将其赋值给 `dispatch` 变量。随后，我们可以在组件中使用 `dispatch` 函数来派发 Redux actions，例如在按钮的点击事件处理函数中派发 `increment` 和 `decrement` actions。
 
 #### 在 redux 中处理异步 action
+在 Redux 中处理异步 action 有几种常见的方案，主要包括 Redux Thunk、Redux Saga、Redux Observable、以及使用 Redux Toolkit 的 createAsyncThunk。每种方案都有其特点和适用场景。以下是几种主要的方案：
+##### Redux Thunk
+**特点**:
+  - 允许你在 action creator 中返回函数（thunk）而不是 action 对象。
+  - 这个函数可以进行异步操作，并在异步操作完成后手动 dispatch action。
+  - 简单易用，适合大部分中小型项目。
 
+**优点**:
+  - 简单直观，学习成本低。
+  - 可以直接访问 Redux 的 dispatch 和 getState。
 
+**缺点**:
+  - 随着项目复杂度增加，thunk 的嵌套和管理可能变得繁琐。
+  适用场景:
+  - 项目规模较小到中等。
+  - 需要简单的异步数据获取或 API 调用。
+
+##### Redux Saga
+**特点**:
+- 基于 ES6 generator functions 的中间件，用来管理应用中的副作用（side effects）。
+- 通过 saga，你可以使用更复杂的控制流，如并发、取消、重试等操作。
+
+**优点**:
+- 强大的副作用管理功能，可以处理复杂的异步操作和控制流。
+- 测试性好，因为 saga 本质上是一个普通函数。
+
+**缺点**:
+- 学习曲线较陡，需要理解 generator 和 effects 模式。
+- 代码可能会变得冗长和复杂。
+
+**适用场景**:
+- 大型项目，尤其是需要处理复杂的异步逻辑。
+- 需要高级副作用管理功能，例如并发控制、任务取消等。
+
+##### Redux Observable
+**特点**:
+- 基于 RxJS 的中间件，用来处理异步 action 流。
+- 使用 observable 和操作符来处理 action 流和副作用。
+
+**优点**:
+- 通过流式处理异步操作，功能强大且灵活。
+- 可以轻松处理复杂的异步流程，如并发、多路复用、任务取消等。
+
+**缺点**:
+- 学习曲线陡峭，需要了解 RxJS 的概念。
+- 不适合简单的异步操作。
+
+**适用场景**:
+- 需要使用或已经在使用 RxJS 的项目。
+- 需要流式处理的复杂异步操作。
+
+##### Redux Toolkit 的 createAsyncThunk
+**特点**:
+- Redux Toolkit 内置的异步 action 处理工具，简化了异步操作的定义。
+- 通过 createAsyncThunk，你可以轻松创建一个支持异步操作的 thunk。
+  
+**优点**:
+- 集成在 Redux Toolkit 中，使用简便，代码量少。
+- 自动处理异步请求的状态管理（如 pending、fulfilled、rejected）。
+
+**缺点**:
+- 灵活性不如 saga 或 observable，但适合大多数异步场景。
+
+**适用场景**:
+- 使用 Redux Toolkit 的项目。
+- 需要快速实现简单的异步逻辑，而不需要复杂的控制流。
 
 ### Redux Toolkit（RTK）
 
@@ -739,3 +801,10 @@ function App () {
 export default App
 ```
 
+## 总结
+
+在 React 项目中，状态管理是确保用户界面和数据保持同步的关键。简单来说，状态管理就是处理和更新组件状态，让应用能够响应用户操作。我们可以把状态分为局部状态、全局状态和服务器状态。局部状态就是某个组件内部使用的状态，全局状态是多个组件之间共享的数据，服务器状态则涉及从后台获取的数据。
+
+Redux 是一种流行的状态管理工具，特别适合复杂的大型应用。通过 Redux，我们可以将全局状态集中管理，确保数据流动的清晰和稳定。结合 React-Redux 和 Redux Toolkit，我们可以更轻松地在项目中使用 Redux，并根据项目需求灵活选择访问和管理 Store 数据的方式，比如使用 useSelector 或 connect，前者常用于函数组件，后者更适合类组件。
+
+总的来说，掌握好状态管理的方式，可以让你的 React 应用变得更加高效、易于维护。
