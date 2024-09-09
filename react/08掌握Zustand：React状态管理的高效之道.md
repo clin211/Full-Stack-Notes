@@ -1,0 +1,375 @@
+在上一篇《React的状态管理：主流状态库的对比》的文章中，我们深入探讨了React生态中那些经典的状态管理库，特别是 Redux 这老牌库，能完成各种基本功能，并且有着庞大的中间件生态来扩展额外功能，但 redux 经常被人诟病它的使用繁琐。近两年，React 社区出现了很多新的状态管理库，zustand 算是其中最流行的一个；从 star (2024年9月9日) 数看，redux 有 60.8k，而 zustand 也有 46.1k 了，Zustand 是 2021 年 Star 增长最快的 React 状态管理库，也是最近这三年呼声最高的一个状态管理库，设计理念函数式，全面拥抱 hooks，API 设计简洁、优雅，对业务的侵入小，是一个现代化、高效且易于使用的状态管理解决方案，它正逐渐成为React 开发者的新宠儿。主要是学习的成本也不是很高，维护的心智负担也比较小。
+
+![img](assets/bear.jpg)
+
+## zustand 介绍
+
+[Zustand](https://zustand.docs.pmnd.rs/getting-started/introduction) 是一个轻量级的状态管理库，用于 JavaScript 应用程序，特别是在 React 生态系统中。它提供了一个简单、可扩展的解决方案来管理应用程序的状态。
+
+与其他状态管理解决方案（如 Redux ）相比，`Zustand` 旨在提供更简洁的 API 和更少的样板代码。它允许你创建一个全局状态存储，并且可以在应用程序的任何地方访问和更新这个状态，而不需要像 Redux 那样编写大量的 action creators 和 reducers。
+
+### 为什么使用 zustand
+
+- 学习曲线平缓。只需几行代码即可创建管理状态
+- 无需提供 React 上下文（Context），这使得状态管理更灵活，且可以在任何组件中轻松访问状态。
+- 体积相对较小，减少了项目的依赖和加载时间
+- 原生支持 TypeScript，提供类型安全，增强了开发体验，便于维护和扩展。
+- ……
+
+### 它的出现解决了那些问题
+
+Zustand 是一个为 React 应用程序提供状态管理的库，它旨在简化状态管理的过程，解决了许多开发者在使用其他状态管理库时遇到的问题。以下是 Zustand 解决的一些主要问题：
+
+1. **简化状态管理**：Zustand 提供了一个简单直观的 API，使得创建和管理状态变得容易，无需复杂的配置。
+2. **减少样板代码**：它减少了编写样板代码的需要，如在 Redux 中常见的 action 创建和 reducer 编写。
+3. **全面支持 Hooks**：Zustand 完全基于 React Hooks，使得在函数组件中使用状态变得非常自然和方便。
+4. **性能优化**：Zustand 通过使用 Proxy 来实现状态的响应式更新，只有当状态真正改变时，组件才会重新渲染，这有助于提高应用的性能。
+5. **易于测试**：由于其简单性和基于 Hooks 的设计，使用 Zustand 的应用更容易进行单元测试和集成测试。
+6. **减少心智负担**：Zustand 的设计哲学是减少开发者的心智负担，使得状态管理变得更加直观和容易理解。
+7. **更好的类型支持**：Zustand 与 TypeScript 有很好的集成，提供了良好的类型推断和类型安全，减少了运行时错误的可能性。
+8. **易于集成**：Zustand 可以很容易地与其他库和工具集成，如 Redux DevTools，使得调试和开发更加方便。
+9. **支持中间件**：虽然不像 Redux 那样拥有庞大的中间件生态，Zustand 也支持中间件，允许开发者扩展其功能。
+10. **轻量级**：Zustand 的体积相对较小，不会给应用带来过多的负担，这对于性能敏感或需要快速加载的应用来说是一个优势。
+
+### 优势及特点
+
+- **轻量级** ：Zustand 的整个代码库非常小巧，gzip 压缩后仅有 1KB，对项目性能影响极小。
+
+- **简洁的 API** ：Zustand 提供了简洁明了的 API，能够快速上手并使用它来管理项目状态。   
+- **基于 React Hooks**: Zustand 使用 React 的 Hooks 机制作为状态管理的基础。它通过创建自定义 Hook 来提供对状态的访问和更新。这种方式与函数式组件和钩子的编程模型紧密配合，使得状态管理变得非常自然和无缝。
+
+- **易于集成** ：Zustand 可以轻松地与其他 React 库（如 Redux、MobX 等）共存，方便逐步迁移项目状态管理。
+
+- **支持 TypeScript**：Zustand 支持 TypeScript，让项目更具健壮性。
+
+- **灵活性**：Zustand 允许根据项目需求自由组织状态树，适应不同的项目结构。
+
+- **可拓展性** : Zustand 也引入了中间件 (middleware) 的概念，允许你通过插件的方式扩展其功能。中间件可以用于处理日志记录、持久化存储、异步操作等需求，使得状态管理更加灵活和可扩展。
+
+- **性能优化**: Zustand 在设计时非常注重性能。它采用了高效的状态更新机制，避免了不必要的渲染。同时，Zustand 还支持分片状态和惰性初始化，以提高大型应用程序的性能。
+
+- **无副作用**: Zustand 鼓励无副作用的状态更新方式。它倡导使用 immer 库来处理不可变性，使得状态更新更具可预测性，也更易于调试和维护。
+
+### Redux 与 zustand 对比
+
+- redux
+
+  ```tsx
+  // redux-toolkit
+  import { useSelector } from 'react-redux'
+  import type { TypedUseSelectorHook } from 'react-redux'
+  import { createSlice, configureStore } from '@reduxjs/toolkit'
+  
+  const countSlice = createSlice({
+        name: 'count',
+        initialState: { value: 0 },
+        reducers: {
+              incremented: (state, qty: number) => {
+                // Redux Toolkit does not mutate the state, it uses the Immer library
+                // behind scenes, allowing us to have something called "draft state".
+                state.value += qty
+              },
+              decremented: (state, qty: number) => {
+                state.value -= qty
+              },
+        },
+  })
+  
+  const countStore = configureStore({ reducer: countSlice.reducer })
+  
+  const useAppSelector: TypedUseSelectorHook<typeof countStore.getState> = useSelector
+  
+  const useAppDispatch: () => typeof countStore.dispatch = useDispatch
+  
+  const Component = () => {
+        const count = useAppSelector((state) => state.count.value)
+        const dispatch = useAppDispatch()
+        // ...
+  }
+  ```
+
+  ```ts
+  // redux
+  import { createStore } from 'redux'
+  import { useSelector, useDispatch } from 'react-redux'
+  
+  type State = {
+    	count: number
+  }
+  
+  type Action = {
+        type: 'increment' | 'decrement'
+        qty: number
+  }
+  
+  const countReducer = (state: State, action: Action) => {
+        switch (action.type) {
+              case 'increment':
+                	return { count: state.count + action.qty }
+              case 'decrement':
+                	return { count: state.count - action.qty }
+              default:
+                	return state
+        }
+  }
+  
+  const countStore = createStore(countReducer)
+  
+  const Component = () => {
+        const count = useSelector((state) => state.count)
+        const dispatch = useDispatch()
+        // ...
+  }
+  ```
+
+- zustand
+
+  ```tsx
+  import { create } from 'zustand'
+  
+  type State = {
+    	count: number
+  }
+  
+  type Actions = {
+        increment: (qty: number) => void
+        decrement: (qty: number) => void
+  }
+  
+  const useCountStore = create<State & Actions>((set) => ({
+        count: 0,
+        increment: (qty: number) => set((state) => ({ count: state.count + qty })),
+        decrement: (qty: number) => set((state) => ({ count: state.count - qty })),
+  }))
+  
+  const Component = () => {
+        const count = useCountStore((state) => state.count)
+        const increment = useCountStore((state) => state.increment)
+        const decrement = useCountStore((state) => state.decrement)
+        // ...
+  }
+  ```
+
+  ![image-20240909145946338](assets/image-20240909145946338.png)
+
+  ![image-20240909145851733](assets/image-20240909145851733.png)
+
+  ### 对比分析
+  
+  1. 状态定义：
+  
+     - Zustand：使用 `create` 函数直接定义状态和操作。
+     - Redux：需要定义初始状态和 reducer 函数。
+  
+  2. 状态更新：
+  
+     - Zustand：通过 `set` 方法直接更新状态，使用函数式更新。
+     - Redux：通过 dispatching action 来更新状态，涉及 action 类型和 reducer。
+  
+  3. 组件连接：
+  
+     - Zustand：直接在组件中使用 `useCountStore` 获取状态和操作。
+     - Redux：使用 `useSelector` 获取状态，使用 `useDispatch` 调用操作。
+  
+  4. 代码复杂性：
+  
+     - Zustand：代码结构简单，聚焦于状态和操作的定义。
+     - Redux：需要定义多个部分（reducer、action、store），代码量较大。
+
+
+## zustand 的使用
+
+有了上面的铺垫，接下来看看如何在 react 中如何使用 zustand！本模块就新建一个 react 应用，以 todoMVC 应用为例来快速入门 zustand！
+
+#### 新建项目并启动
+
+- 使用 vite 创建项目
+
+  ```sh
+  $ npx create-vite
+  ```
+
+  ![QQ_1725867113285](assets/QQ_1725867113285.png)
+
+- 在 IDE 中打开并安装依赖并启动
+
+  在 vscode 中打开并安装依赖，如下图：
+
+  ![QQ_1725867303615](assets/QQ_1725867303615.png)
+
+- 使用命令 `pnpm dev`，在浏览器中查看效果图如下图：
+
+  ![QQ_1725867504024](assets/QQ_1725867504024.png)
+
+  ![QQ_1725867542270](assets/QQ_1725867542270.png)
+
+- 安装 zustand
+
+  ```sh
+  $ pnpm add zustand
+  ```
+
+  
+
+在刚创建的项目中添加一个计数器的应用；其中显示数字和操作数字的按钮放在两个不同的组件中！具体操作步骤如下：
+
+1. 在项目的src目录下创建一个 store 目录
+
+2. 在 store 目录中，创建一个 useCounter 的 ts 文件
+
+3. 在这个 ts 文件中写入如下代码：
+
+   ```ts
+   import { create } from 'zustand'
+   
+   type State = {
+       count: number
+   }
+   
+   type Action = {
+       increment: () => void
+       decrement: () => void
+   }
+   
+   const useCounter = create<State & Action>((set) => ({
+       count: 0,
+       increment: () => set((state) => ({ count: state.count + 1 })),
+       decrement: () => set((state) => ({ count: state.count - 1 })),
+   }))
+   
+   
+   export default useCounter
+   ```
+
+4. 在项目的 src 目录下创建 components/CounterButton.tsx 文件，代码如下：
+
+   ```tsx
+   import React from 'react'
+   import useCounter from '../store/useCounter'
+   
+   interface Props {
+       type: 'increment' | 'decrement'
+   }
+   export default function CounterButton(props: Props) {
+       const increment = useCounter(state => state.increment)
+   
+       const decrement = useCounter(state => state.decrement)
+       const handleClick = () => {
+           if (props.type === 'increment') {
+               increment()
+           } else {
+               decrement()
+           }
+       }
+       
+       return (
+           <button onClick={handleClick}>{props.type === 'increment' ? 'increment' : 'decrement'}</button>
+       )
+   }
+   ```
+
+5. 在 App.tsx 中将原来 count 的逻辑替换成如下代码：
+
+   ```tsx
+   import reactLogo from './assets/react.svg'
+   import viteLogo from '/vite.svg'
+   import './App.css'
+   import useCounter from './store/useCounter'
+   import CounterButton from './assets/components/CounterButton'
+   
+   function App() {
+     const count = useCounter(state => state.count)
+   
+     return (
+       <>
+         <div>
+           <a href="https://vitejs.dev" target="_blank">
+             <img src={viteLogo} className="logo" alt="Vite logo" />
+           </a>
+           <a href="https://react.dev" target="_blank">
+             <img src={reactLogo} className="logo react" alt="React logo" />
+           </a>
+         </div>
+         <h1>Vite + React</h1>
+         <div className="card">
+           <CounterButton type='decrement' />
+           <p>{count}</p>
+           <CounterButton type='increment' />
+           <p>
+             Edit <code>src/App.tsx</code> and save to test HMR
+           </p>
+         </div>
+         <p className="read-the-docs">
+           Click on the Vite and React logos to learn more
+         </p>
+       </>
+     )
+   }
+   
+   export default App
+   
+   ```
+
+   效果如下：
+
+   ![2024-09-09 16.46.42](assets/2024-09-09 16.46.42.gif)
+
+上面就是用 zustand 简单实现了一个跨组件计数的功能,下面我们就用一个更完善的 TODO 应用来深入使用一下 zustand！
+
+#### 分析 todo 应用并拆分组件
+
+- 最终效果图也可以访问[链接](https://todomvc.com/examples/react/dist/)查看
+
+  ![QQ_1725868318897](assets/QQ_1725868318897.png)
+
+- 组件拆分
+
+  ![QQ_1725868940490](assets/QQ_1725868940490.png)
+
+  - todo item 组件封装
+
+    ```tsx
+    ```
+
+    
+
+- 安装 zustand
+
+  ```sh
+  $ pnpm add zustand
+  ```
+
+- 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## zustand 的中间件
+
+
+
+## zustand 的使用技巧
+
+
+
+## 精读源码
+
+
+
+## 简单实现一个 zustand
+
