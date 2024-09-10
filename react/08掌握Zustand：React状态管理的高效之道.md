@@ -314,32 +314,226 @@ Zustand 是一个为 React 应用程序提供状态管理的库，它旨在简�
 
    ![2024-09-09 16.46.42](assets/2024-09-09 16.46.42.gif)
 
-上面就是用 zustand 简单实现了一个跨组件计数的功能,下面我们就用一个更完善的 TODO 应用来深入使用一下 zustand！
+上面就是用 zustand 简单实现了一个跨组件计数的功能，接着我们看看 zustand 中的中间件的使用（这里不会去一一介绍中间件怎么使用）。
 
-#### 分析 todo 应用并拆分组件
+### zustand 的中间件
 
-- 最终效果图也可以访问[链接](https://todomvc.com/examples/react/dist/)查看
+`Zustand`也提供了中间件的功能，可以用于在状态更新前后执行一些操作。
 
-  ![QQ_1725868318897](assets/QQ_1725868318897.png)
+官方也提供了几个常用的中间：combine、devtools、immer、presist等，中间件是一个函数，它接收一个对象，其中包含了当前状态和一个更新状态的函数。中间件可以在状态更新前后执行一些操作，例如打印日志、发送网络请求等。
 
-- 组件拆分
+下面以 immer 为例，假如现在有一个复杂的状态，这个状态对象嵌套了多层级，我们称之为`nestedObject`。如下：
 
-  ![QQ_1725868940490](assets/QQ_1725868940490.png)
+```js
+const nestedObject = {
+    a: {
+        b: {
+            c: {
+                d: 0,
+            },
+        },
+    },
+};
+```
 
-  - todo item 组件封装
+如果我们想要更新这个状态，应该怎么做？
 
-    ```tsx
-    ```
+```js
+const useStore = create((set) => ({
+    nestedObject,
+    updateState () {
+        set(prevState => ({
+            nestedObject: {
+                ...prevState.nestedObject,
+                a: {
+                    ...prevState.nestedObject.a,
+                    b: {
+                        ...prevState.nestedObject.a.b,
+                        c: {
+                            ...prevState.nestedObject.a.b.c,
+                            d: ++prevState.nestedObject.a.b.c.d,
+                        },
+                    },
+                },
+            },
+        }));
+    },
+}));
+```
 
-    
+这段代码中，不难发现以下问题：
 
-- 安装 zustand
+- 可读性太差，深层嵌套不仅增加理解成本还增加维护成本
+- 每一层都使用扩展运算符进行拷贝，对性能也有很大的影响
+- 写了很多与修改目标属性无关的代码
 
-  ```sh
-  $ pnpm add zustand
-  ```
+修改四层就如此麻烦，那要是修改个七八层的数据，稍有不慎就搞错了，排查问题也极为头痛。其实，我们可以借助 [immer](https://immerjs.github.io/immer/zh-CN/) 来优化这个问题，最终上面的代码被优化后的为：
 
-- 
+```js
+import produce from 'immer';
+
+const useStore = create((set) => ({
+    nestedObject,
+    updateState () {
+        set(produce(draft => {
+            ++draft.nestedObject.a.b.c.d;
+        }));
+    },
+}));
+```
+
+代码一下子就干净、整洁多了，可读性也高了不少，但也增加了额外的理解成本，本阶不做 immer 的讲解，如果读者不熟悉的话，可以去官 [immer 官网](https://immerjs.github.io/immer/zh-CN/)查看，官网也有中文！
+
+在 zustand 中，需要单独安装 immer 库才能搭配使用，不过 zustand 官方已经适配好了，使用姿势如下：
+
+```ts
+import { create } from 'zustand'
+import { immer } from 'zustand/middleware/immer'
+
+type State = {
+    count: number
+}
+
+type Actions = {
+    increment: (qty: number) => void
+    decrement: (qty: number) => void
+}
+
+export const useCountStore = create < State & Actions > ()(
+    immer((set) => ({
+        count: 0,
+        increment: (qty: number) =>
+            set((state) => {
+                state.count += qty
+            }),
+        decrement: (qty: number) =>
+            set((state) => {
+                state.count -= qty
+            }),
+    })),
+)
+```
+
+另一种使用方式：
+
+```ts
+import { create } from 'zustand'
+import { immer } from 'zustand/middleware/immer'
+
+interface Todo {
+    id: string
+    title: string
+    done: boolean
+}
+
+type State = {
+    todos: Record<string, Todo>
+}
+
+type Actions = {
+    toggleTodo: (todoId: string) => void
+}
+
+export const useTodoStore = create < State & Actions > (immer((set) => ({
+    todos: {
+        '82471c5f-4207-4b1d-abcb-b98547e01a3e': {
+            id: '82471c5f-4207-4b1d-abcb-b98547e01a3e',
+            title: 'Learn Zustand',
+            done: false,
+        },
+        '354ee16c-bfdd-44d3-afa9-e93679bda367': {
+            id: '354ee16c-bfdd-44d3-afa9-e93679bda367',
+            title: 'Learn Jotai',
+            done: false,
+        },
+        '771c85c5-46ea-4a11-8fed-36cc2c7be344': {
+            id: '771c85c5-46ea-4a11-8fed-36cc2c7be344',
+            title: 'Learn Valtio',
+            done: false,
+        },
+        '363a4bac-083f-47f7-a0a2-aeeee153a99c': {
+            id: '363a4bac-083f-47f7-a0a2-aeeee153a99c',
+            title: 'Learn Signals',
+            done: false,
+        },
+    },
+    toggleTodo: (todoId: string) =>
+        set((state) => {
+            state.todos[todoId].done = !state.todos[todoId].done
+        }),
+})))
+```
+
+### zustand 中异步请求
+
+```ts
+
+import { create } from 'zustand';
+
+interface User {
+    userId: number
+    id: number
+    title: string
+    completed: boolean
+}
+
+type State = {
+    user: User | null
+    loading: boolean
+    error: string | null
+}
+
+type Actions = {
+    fetchUser: (id: string) => void
+}
+
+const useUserStore = create<State & Actions>((set) => ({
+    user: null,
+    loading: false,
+    error: null,
+    fetchUser: async (id) => {
+        set({ loading: true });
+        try {
+            const response = await fetch(`https://jsonplaceholder.typicode.com/todos/${id}`);
+            if (!response.ok || response.status !== 200) return;
+            const data = await response.json();
+            set({ user: data, loading: false });
+        } catch (error) {
+            set({ error: error.message || '', loading: false });
+        }
+    },
+}));
+
+export default useUserStore;
+```
+
+在 react 中使用：
+
+```tsx
+import { useEffect } from 'react';
+import useUserStore from './store/useUserStore';
+
+function Sync() {
+    const user = useUserStore(state => state.user);
+    const fetchUser = useUserStore(state => state.fetchUser);
+
+    useEffect(() => {
+        fetchUser('1');
+    }, []);
+
+    return (
+        <div>
+            {JSON.stringify(user, null, 4)}
+        </div>
+    );
+}
+
+export default Sync;
+```
+
+在这个组件中，我们使用 `useEffect` hook 在组件挂载时调用 `fetchItems` 函数。当 `fetchItems` 函数完成时，它会更新 `user` 状态，这将触发组件重新渲染。
+
+## shallow
 
 
 
@@ -352,14 +546,6 @@ Zustand 是一个为 React 应用程序提供状态管理的库，它旨在简�
 
 
 
-
-
-
-
-
-
-
-## zustand 的中间件
 
 
 
