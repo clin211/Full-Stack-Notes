@@ -129,3 +129,29 @@ func (list *LinkedList[T]) Find(v T) *Node[T] {
 	// 为找到匹配的节点，返回 nil
 	return nil
 }
+
+func (list *LinkedList[T]) Update(p *Node[T], v T) bool {
+	// 如果位置无效，返回 false
+	if add <= 0 || uint(add) > list.length {
+		return false
+	}
+
+	// 从头节点的下一个节点开始
+	temp := list.head.next
+	// 遍历链表找到第 add 个节点
+	for i := 1; i < add; i++ {
+		if temp != nil {
+			temp = temp.next
+		} else {
+			return false // 如果到达链表末尾，返回 false
+		}
+	}
+
+	// 更新找到的节点的值
+	if temp != nil {
+		temp.data = newElem
+		return true
+	}
+
+	return false // 没有找到节点
+}
