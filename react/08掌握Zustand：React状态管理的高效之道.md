@@ -252,8 +252,8 @@ Zustand 是一个为 React 应用程序提供状态管理的库，它旨在简�
    }
    export default function CounterButton(props: Props) {
        const increment = useCounter(state => state.increment)
-   
        const decrement = useCounter(state => state.decrement)
+       
        const handleClick = () => {
            if (props.type === 'increment') {
                increment()
@@ -535,27 +535,192 @@ export default Sync;
 
 ## shallow
 
+细心的小伙伴可能发现了，上面的代码中写了两遍 `useUserStore`，如果有100个属性或方法，那是不是要写100次 `useUserStore` 呢？如果写成 `const {user, fetchUser} = useUserStore()`，会有什么问题呢？ 
 
+我们先用一个设置主题和语言的例子来看看写成对象解构的方式有什么问题。
 
+创建一个存放主题和语言类型的store：
 
+```ts
+import { create } from 'zustand';
 
+interface State {
+    theme: string;
+    lang: string;
+}
 
+interface Action {
+    setTheme: (theme: string) => void;
+    setLang: (lang: string) => void;
+}
 
+const useConfigStore = create<State & Action>((set) => ({
+    theme: 'light',
+    lang: 'zh-CN',
+    setLang: (lang: string) => set({ lang }),
+    setTheme: (theme: string) => set({ theme }),
+}));
 
+export default useConfigStore;
+```
 
+分别创建两个组件，主题组件和语言类型组件：
 
+````tsx
+import useConfigureStore from '../store/useConfigureStore';
 
+const Theme = () => {
+    const { theme, setTheme } = useConfigureStore();
+    console.log('theme render', theme);
 
+    return (
+        <div>
+            <div>{theme}</div>
+            <button
+                onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}>
+                切换主题
+            </button>
+        </div>
+    );
+};
 
+export default Theme;
+````
 
+````tsx
+import useConfigStore from '../store/useConfigureStore';
 
-## zustand 的使用技巧
+const Language = () => {
+    const { lang, setLang } = useConfigStore();
+    console.log('lang render', lang);
+    return (
+        <div>
+            <div>{lang}</div>
+            <button
+                onClick={() => setLang(lang === 'zh-CN' ? 'en-US' : 'zh-CN')}>
+                切换语言
+            </button>
+        </div>
+    );
+};
 
+export default Language;
+````
 
+查看下面效果：
 
-## 精读源码
+![2024-09-11 10.48.16](assets/2024-09-11 10.48.16.gif)
 
+> TIPS：
+>
+> 上图的控制台每个打印都有两次，原因是因为 `<React.StrictMode>` 导致的
+>
+> ![QQ_1726036582587](assets/QQ_1726036582587.png)
+>
+> 严格模式在生产环境是不生效的，如果你想在测试环境也不生效的话，直接不使用 `<React.StrictMode>` 包裹根组件。
 
+从上面的效果不难看出，改变 theme 会导致 Language 组件渲染，改变 Language 会导致 Theme 重新渲染，但是实际上这两个组件都没任何关系，至于为什么会导致这样，后面专门写一篇 zustand 的源码解读去分析，我们先看看这种方式要怎么优化？
 
-## 简单实现一个 zustand
+第一种方案就是将原先的解构改成单值返回：
+
+```ts
+// Theme.tsx
+const { theme, setTheme } = useConfigureStore();
+
+// Language.tsx
+const { lang, setLang } = useConfigureStore();
+```
+
+替换成：
+
+```ts
+// Theme.tsx
+const theme = useConfigureStore(state => state.theme);
+const setTheme = useConfigureStore(state => state.setTheme);
+
+// Language.tsx
+const lang = useConfigureStore(state => state.lang);
+const setLang = useConfigureStore(state => state.setLang);
+```
+
+优化之后就不会出现上面的问题了，如下图：
+
+![2024-09-11 11.48.40](assets/2024-09-11 11.48.40.gif)
+
+其实上面的写法还是不够优雅，因为要写很多遍 `useConfigStore`，我们可以把单值返回改成一个对象，这样在多属性的时候代码就相对要简洁一点。
+
+```ts
+// Theme.tsx
+const { theme, setTheme } = useConfigureStore(state => ({
+    theme: state.theme,
+    setTheme: state.setTheme,
+}));
+
+// Language.tsx
+const { lang, setLang } = useConfigStore(state => ({
+    lang: state.lang,
+    setLang: state.setLang,
+}));
+```
+
+这种写法仍然有个问题：任意属性改变之后都会返回一个新的对象，zustand 内部拿到返回值后与上次比较，发现每次都是一个新对象，然后就重新渲染。好在 zustand 提供了解决方案，对外暴露了一个 useShallow 方法，可以浅比较两个对象；我们把上面的对象改写一下，完整代码如下：
+
+```tsx
+import { useShallow } from 'zustand/react/shallow';
+import useConfigureStore from '../store/useConfigureStore';
+
+const Theme = () => {
+    const { theme, setTheme } = useConfigureStore(
+        useShallow(state => ({
+            theme: state.theme,
+            setTheme: state.setTheme,
+        }))
+    );
+    console.log('theme render', theme);
+
+    return (
+        <div>
+            <div>{theme}</div>
+            <button
+                onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}>
+                切换主题
+            </button>
+        </div>
+    );
+};
+
+export default Theme;
+```
+
+```tsx
+import { useShallow } from 'zustand/react/shallow';
+import useConfigStore from '../store/useConfigureStore';
+
+const Language = () => {
+    const { lang, setLang } = useConfigStore(
+        useShallow(state => ({
+            lang: state.lang,
+            setLang: state.setLang,
+        }))
+    );
+    console.log('lang render', lang);
+    return (
+        <div>
+            <div>{lang}</div>
+            <button
+                onClick={() => setLang(lang === 'zh-CN' ? 'en-US' : 'zh-CN')}>
+                切换语言
+            </button>
+        </div>
+    );
+};
+
+export default Language;
+```
+
+优化之后看看效果：
+
+![2024-09-11 14.26.52](assets/2024-09-11 14.26.52.gif)
+
+## 总结
 
