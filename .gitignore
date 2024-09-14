@@ -461,3 +461,5 @@ $RECYCLE.BIN/
 # .pnp.*
 
 # End of https://www.toptal.com/developers/gitignore/api/macos,visualstudiocode,node,yarn,go,python,rust,rust-analyzer,windows,linux
+
+/**/tmp

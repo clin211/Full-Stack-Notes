@@ -3,5 +3,6 @@
         "linkedlist",
         "nums",
         "productexceptself"
-    ]
+    ],
+    "liveServer.settings.port": 5502
 }
