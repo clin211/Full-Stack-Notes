@@ -192,7 +192,7 @@ export function useStore<S extends ReadonlyStoreApi<unknown>, U>(
 ): U
 ```
 
-useStore 使用了 TypeScript 的重载功能来支持不同的用法，第一种使用方法也是最简单的，传入一个 api 参数，只获取当前状态。第二种方法是传入一个 `api` 和一个 `selecter`。接下来我们看看具体实现：
+`useStore` 使用了 TypeScript 的重载功能来支持不同的用法，第一种使用方法也是最简单的，传入一个 `api` 参数，只获取当前状态。第二种方法是传入一个 `api` 和一个 `selecter`。接下来我们看看具体实现：
 
 ```ts
 export function useStore<TState, StateSlice>(
@@ -213,7 +213,7 @@ export function useStore<TState, StateSlice>(
 
 > `zustand`的核心代码如此简洁，一大原因就是使用了`useSyncExternalStoreWithSelector`，这个是`react`官方出的`use-sync-external-store/shim/with-selector`包，之所以出这个包，是因为`react`在提出[useSyncExternalStore](https://react.dev/reference/react/useSyncExternalStore#usage)这个 hook 后，在`react v18`版本做了重新实现，有破坏性更新。为了兼容性考虑出了这个包。
 
-最后我们看下 createImpl 到底返回了什么：
+最后我们看下 `createImpl` 到底返回了什么：
 
 ```ts
 const createImpl = <T>(createState: StateCreator<T, [], []>) => {
@@ -250,19 +250,25 @@ export function useShallow<S, U>(selector: (state: S) => U): (state: S) => U {
 }
 ```
 
-我们看看 vanilla 中的 shallow 的实现：
+我们看看 vanilla 中的 `shallow` 的实现：
 
 ```ts
 const isIterable = (obj: object): obj is Iterable<unknown> =>
   Symbol.iterator in obj
 
+// Map 对比
 const compareMapLike = (
   iterableA: Iterable<[unknown, unknown]>,
   iterableB: Iterable<[unknown, unknown]>,
 ) => {
+    // 是 Map 就直接返回，如果不是就 new 一个
   const mapA = iterableA instanceof Map ? iterableA : new Map(iterableA)
   const mapB = iterableB instanceof Map ? iterableB : new Map(iterableB)
+  
+  // 如果 size 不一样就直接返回 false
   if (mapA.size !== mapB.size) return false
+    
+  // 逐项对比
   for (const [key, value] of mapA) {
     if (!Object.is(value, mapB.get(key))) {
       return false
@@ -340,5 +346,392 @@ export function shallow<T>(objA: T, objB: T): boolean {
 
 ### 中间件
 
+#### combine
 
+`combine` 将多个 store 组合在一起，适用于复杂状态管理。主要功能是合并两个状态对象。它将初始状态对象 `initialState` 和通过 `create` 函数生成的状态对象合并到一起。返回一个新的状态创建函数，这个新的状态创建函数会将初始状态和附加状态合并为一个状态对象。
+
+```ts
+import type { StateCreator, StoreMutatorIdentifier } from '../vanilla.ts'
+
+type Write<T, U> = Omit<T, keyof U> & U
+
+type Combine = <
+  T extends object,
+  U extends object,
+  Mps extends [StoreMutatorIdentifier, unknown][] = [],
+  Mcs extends [StoreMutatorIdentifier, unknown][] = [],
+>(
+  initialState: T,
+  additionalStateCreator: StateCreator<T, Mps, Mcs, U>,
+) => StateCreator<Write<T, U>, Mps, Mcs>
+
+// 返回一个新函数，这个新函数接收可变参数（...a）
+export const combine: Combine =
+  (initialState, create) =>
+  (...a) =>
+    Object.assign({}, initialState, (create as any)(...a))
+```
+
+
+
+#### devtools
+
+提供与 Redux DevTools 进行交互的功能，便于调试状态变化。`devtools` 中间件允许开发者通过 Redux DevTools 工具监控状态变化和调试。核心实现是对 `setState` 方法进行包装，并在每次状态更新时向 Redux DevTools 发送状态变化的通知。
+
+![](./assets/QQ_1726662430600.png)
+
+这一部分代码尝试在浏览器中获取 Redux DevTools 扩展，如果未安装则会输出警告信息。：
+
+```ts
+let extensionConnector:
+  | (typeof window)['__REDUX_DEVTOOLS_EXTENSION__']
+  | false
+try {
+  extensionConnector =
+    (enabled ?? import.meta.env?.MODE !== 'production') &&
+    window.__REDUX_DEVTOOLS_EXTENSION__
+} catch {
+  // ignored
+}
+```
+
+包装的核心逻辑是这块：
+
+```ts
+// 控制是否需要记录状态的变化
+let isRecording = true
+
+// 将 api.setState 替换成一个新的函数并被强制转换为 any 类型。
+;(api.setState as any) = ((state, replace, nameOrAction: Action) => {
+    
+  // 调用原始的 set 函数
+  const r = set(state, replace as any)
+  
+  // 如果不进行任何额外的操作，直接返回 r
+  if (!isRecording) return r
+    
+  // 根据 nameOrAction 参数来生成一个 action 对象且包含 type 属性
+  const action: { type: string } =
+    nameOrAction === undefined
+      ? { type: anonymousActionType || 'anonymous' }
+      : typeof nameOrAction === 'string'
+        ? { type: nameOrAction }
+        : nameOrAction
+  
+  // 如果 store 为 undefined 则通过 connection.send 发送 action 和当前状态并返回 set 后的对象
+  if (store === undefined) {
+    connection?.send(action, get())
+    return r
+  }
+  
+  // 如果 store 不为 undefined，则发送一个带有 store 信息的 action，将 action.type 更新为 ${store}/${action.type}
+  connection?.send(
+    {
+      ...action,
+      type: `${store}/${action.type}`,
+    },
+    {
+      ...getTrackedConnectionState(options.name),
+      [store]: api.getState(),
+    },
+  )
+  return r
+}) as NamedSet<S>
+```
+
+这段代码的作用是在 `setState` 调用时，记录状态的变化并通过 `connection` 发送到外部。它提供了对 `state` 更改的拦截，并根据 `isRecording` 和 `store` 的状态决定是否发送记录。
+
+通过 `action` 和 `store` 的组合，它能够为每个状态更改分配唯一的标识符，确保在多 store 的环境下区分不同的状态。
+
+```ts
+;(
+  connection as unknown as {
+    // FIXME https://github.com/reduxjs/redux-devtools/issues/1097
+    subscribe: (
+      listener: (message: Message) => void,
+    ) => (() => void) | undefined
+  }
+).subscribe((message: any) => {
+  // 根据不同的 type 类型进行处理
+  switch (message.type) {
+    case 'ACTION':
+      // 如果 payload 不是字符串就打印错误信息并终止继续执行
+      if (typeof message.payload !== 'string') {
+        console.error(
+          '[zustand devtools middleware] Unsupported action format',
+        )
+        return
+      }
+      // 解析 json 格式的 payload
+      return parseJsonThen<{ type: unknown; state?: PartialState }>(
+        message.payload,
+        (action) => {
+          if (action.type === '__setState') {
+            if (store === undefined) {
+              setStateFromDevtools(action.state as PartialState)
+              return
+            }
+            // 如果有多个属性则直接打印错误信息
+            if (Object.keys(action.state as S).length !== 1) {
+              console.error(
+                `
+                [zustand devtools middleware] Unsupported __setState action format.
+                When using 'store' option in devtools(), the 'state' should have only one key, which is a value of 'store' that was passed in devtools(),
+                and value of this only key should be a state object. Example: { "type": "__setState", "state": { "abc123Store": { "foo": "bar" } } }
+                `,
+              )
+            }
+            // 从 action.state 中获取 store
+            const stateFromDevtools = (action.state as S)[store]
+            
+            // 如果没有值就直接返回
+            if (
+              stateFromDevtools === undefined ||
+              stateFromDevtools === null
+            ) {
+              return
+            }
+              
+            // 如果当前状态与 DevTools 中的状态不同，直接更新应用状态
+            if (
+              JSON.stringify(api.getState()) !==
+              JSON.stringify(stateFromDevtools)
+            ) {
+              setStateFromDevtools(stateFromDevtools)
+            }
+            return
+          }
+
+          // 如果 dispatchFromDevtools 不存在，则直接返回
+          if (!(api as any).dispatchFromDevtools) return
+          if (typeof (api as any).dispatch !== 'function') return
+            
+          // 调用 dispatch 执行 action
+          ;(api as any).dispatch(action)
+        },
+      )
+
+    case 'DISPATCH':
+      switch (message.payload.type) {
+        // 重置
+        case 'RESET':
+          setStateFromDevtools(initialState as S)
+          if (store === undefined) {
+            return connection?.init(api.getState())
+          }
+          return connection?.init(getTrackedConnectionState(options.name))
+		// 提交
+        case 'COMMIT':
+          if (store === undefined) {
+            connection?.init(api.getState())
+            return
+          }
+          return connection?.init(getTrackedConnectionState(options.name))
+		// 回滚
+        case 'ROLLBACK':
+          return parseJsonThen<S>(message.state, (state) => {
+            if (store === undefined) {
+              setStateFromDevtools(state)
+              connection?.init(api.getState())
+              return
+            }
+            setStateFromDevtools(state[store] as S)
+            connection?.init(getTrackedConnectionState(options.name))
+          })
+		// 跳转到指定的状态或操作
+        case 'JUMP_TO_STATE':
+        case 'JUMP_TO_ACTION':
+          return parseJsonThen<S>(message.state, (state) => {
+            if (store === undefined) {
+              setStateFromDevtools(state)
+              return
+            }
+            if (
+              JSON.stringify(api.getState()) !==
+              JSON.stringify(state[store])
+            ) {
+              setStateFromDevtools(state[store] as S)
+            }
+          })
+
+        // 导入 state
+        case 'IMPORT_STATE': {
+          const { nextLiftedState } = message.payload
+          const lastComputedState =
+            nextLiftedState.computedStates.slice(-1)[0]?.state
+          if (!lastComputedState) return
+          if (store === undefined) {
+            setStateFromDevtools(lastComputedState)
+          } else {
+            setStateFromDevtools(lastComputedState[store])
+          }
+          connection?.send(
+            null as any, // FIXME no-any
+            nextLiftedState,
+          )
+          return
+        }
+		// 暂停或继续记录状态更改
+        case 'PAUSE_RECORDING':
+          return (isRecording = !isRecording)
+      }
+      return
+  }
+})
+```
+
+该代码片段订阅了 Redux DevTools 的消息，并相应地更新 Zustand 的状态。当 DevTools 发送 `RESET`、`COMMIT`、`ROLLBACK` 等命令时，对应的处理逻辑也会同步更新 Zustand 的状态。
+
+#### immer
+
+`immer` 中间件允许我们使用 Immer 库来管理不可变状态。`immer` 接受一个状态创建函数，并在内部通过 `produce` 函数生成不可变的新状态。
+
+![](./assets/QQ_1726666404826.png)
+
+使用也很方便：
+
+```ts
+import { produce } from 'immer'
+
+const useStore = create(immer((set) => ({
+  count: 0,
+  increment: () => set(produce((state) => {
+    state.count += 1;
+  })),
+})));
+```
+
+#### persist
+
+它将 store 的状态保存在本地存储中（如 `localStorage`），并在应用重新加载时恢复状态。这persist` 中间件的核心在于，它通过包装 `setState` 方法，将状态变化同步到本地存储中。当应用重新加载时，它会从本地存储中恢复状态，并更新到 store 中。
+
+```ts
+// ...
+
+const persistImpl: PersistImpl = (config, baseOptions) => (set, get, api) => {
+  // 实现逻辑
+}
+
+type PersistImpl = <T>(
+  storeInitializer: StateCreator<T, [], []>,
+  options: PersistOptions<T, T>,
+) => StateCreator<T, [], []>
+
+// ...
+export const persist = persistImpl as unknown as Persist
+```
+
+> 代码太多了，就不一一贴出来了，可以访问 [src/middleware/persist.ts](https://github.com/clin211/zustand/blob/main/src/middleware/persist.ts)查看源码！
+
+上面可以看到 `persist` 其实就是 `persistImpl`，它通过 `api.setState` 进行包装，当状态发生变化时会将其存储到持久化存储中。主要流程如下：
+
+- **初始化持久化选项**：将用户传入的 `PersistOptions` 和默认的选项合并。
+- **重写 `setState`**：它会拦截 `zustand` 的 `setState` 方法，在状态更新后调用 `setItem` 将更新后的状态持久化到存储中。
+- **初始化状态 `hydrate`**：调用 `hydrate` 函数，从存储中获取已保存的状态，如果有保存的状态，则合并存储的状态与当前状态。如果版本不匹配且有 `migrate` 函数，则进行状态迁移。
+- **注册生命周期回调**：包括 `onHydrate` 和 `onFinishHydration`，分别在状态开始和结束持久化时触发。
+
+还定义了用于存储管理的接口。通过实现这些接口，可以自定义各种存储解决方案（如 `localStorage`、`sessionStorage` 或其他异步存储）。
+
+```ts
+export interface StateStorage {
+  getItem: (name: string) => string | null | Promise<string | null>
+  setItem: (name: string, value: string) => unknown | Promise<unknown>
+  removeItem: (name: string) => unknown | Promise<unknown>
+}
+
+export type StorageValue<S> = {
+  state: S
+  version?: number
+}
+```
+
+从 `PersistOptions` 中可以看出，持久化的配置项，定义了持久化的存储位置默认是 `localStorage`
+
+```ts
+export interface PersistOptions<S, PersistedState = S> {
+  /** Name of the storage (must be unique) */
+  name: string
+  /**
+   * Use a custom persist storage.
+   *
+   * Combining `createJSONStorage` helps creating a persist storage
+   * with JSON.parse and JSON.stringify.
+   *
+   * @default createJSONStorage(() => localStorage)
+   */
+  storage?: PersistStorage<PersistedState> | undefined
+  /**
+   * Filter the persisted value.
+   *
+   * @params state The state's value
+   */
+  partialize?: (state: S) => PersistedState
+  /**
+   * A function returning another (optional) function.
+   * The main function will be called before the state rehydration.
+   * The returned function will be called after the state rehydration or when an error occurred.
+   */
+  onRehydrateStorage?: (
+    state: S,
+  ) => ((state?: S, error?: unknown) => void) | void
+  /**
+   * If the stored state's version mismatch the one specified here, the storage will not be used.
+   * This is useful when adding a breaking change to your store.
+   */
+  version?: number
+  /**
+   * A function to perform persisted state migration.
+   * This function will be called when persisted state versions mismatch with the one specified here.
+   */
+  migrate?: (
+    persistedState: unknown,
+    version: number,
+  ) => PersistedState | Promise<PersistedState>
+  /**
+   * A function to perform custom hydration merges when combining the stored state with the current one.
+   * By default, this function does a shallow merge.
+   */
+  merge?: (persistedState: unknown, currentState: S) => S
+
+  /**
+   * An optional boolean that will prevent the persist middleware from triggering hydration on initialization,
+   * This allows you to call `rehydrate()` at a specific point in your apps rendering life-cycle.
+   *
+   * This is useful in SSR application.
+   *
+   * @default false
+   */
+  skipHydration?: boolean
+}
+```
+
+`PersistOptions` 接口用于配置 `zustand` 状态持久化中间件的行为，允许开发者控制状态如何存储、过滤、迁移和合并。核心选项包括存储名称（`name`），自定义存储方式（`storage`，如 `localStorage`），通过 `partialize` 过滤需要持久化的状态，及在状态恢复（`rehydration`）前后的回调（`onRehydrateStorage`）。此外，`version` 用于控制状态版本，当版本不匹配时可通过 `migrate` 函数处理旧状态，`merge` 用于自定义存储状态与当前状态的合并方式，`skipHydration` 则可防止应用初始化时自动恢复状态。
+
+使用示例如下：
+
+```ts
+import { persist } from 'zustand/middleware'
+
+const useStore = create(
+  persist(
+    (set) => ({
+      user: null,
+      login: (user) => set({ user }),
+      logout: () => set({ user: null }),
+    }),
+    {
+      name: 'user-storage', // 存储的 key
+      partialize: (state) => ({ user: state.user }), // 只持久化 user 字段
+      version: 1, // 状态的版本控制
+      migrate: (persistedState, version) => {
+        // 当版本号不匹配时执行的迁移逻辑
+        if (version === 0) {
+          return { user: persistedState.user }
+        }
+        return persistedState
+      },
+    }
+  )
+)
+```
 
