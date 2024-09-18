@@ -155,7 +155,7 @@ Zustand 是一个为 React 应用程序提供状态管理的库，它旨在简�
   ![image-20240909145851733](assets/image-20240909145851733.png)
 
 ### 对比分析
-  
+
 1. 状态定义：
    - Zustand：使用 `create` 函数直接定义状态和操作。
    - Redux：需要定义初始状态和 reducer 函数。
@@ -392,7 +392,7 @@ type Actions = {
     decrement: (qty: number) => void
 }
 
-export const useCountStore = create < State & Actions > ()(
+export const useCountStore = create<State & Actions> ()(
     immer((set) => ({
         count: 0,
         increment: (qty: number) =>
@@ -427,7 +427,7 @@ type Actions = {
     toggleTodo: (todoId: string) => void
 }
 
-export const useTodoStore = create < State & Actions > (immer((set) => ({
+export const useTodoStore = create<State & Actions> (immer((set) => ({
     todos: {
         '82471c5f-4207-4b1d-abcb-b98547e01a3e': {
             id: '82471c5f-4207-4b1d-abcb-b98547e01a3e',
