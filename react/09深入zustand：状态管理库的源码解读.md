@@ -745,7 +745,7 @@ type Write<T, U> = Omit<T, keyof U> & U
 // 定义一个 Redux 动作对象，包含一个 type 属性
 type Action = { type: string }
 
-// 
+
 type StoreRedux<A> = {
   dispatch: (a: A) => A
   dispatchFromDevtools: true // 是否支持从 Redux DevTools 分发 action
@@ -930,160 +930,13 @@ function TextInput() {
 
 这段代码展示了使用 Zustand 和 `subscribeWithSelector` 中间件创建和使用一个状态管理 store 的基本方法。两个 React 组件 `Counter` 和 `TextInput` 分别演示了如何使用这个 store。`Counter` 组件显示计数并提供增加按钮，而 `TextInput` 组件允许用户输入和修改文本。
 
-上面我们就从头到尾把核心的 API 和中间件研究了一遍，下面也琢磨琢磨自己手写一个！
+## 总结
 
-## 手写简易版 zustand
+Zustand 是一个轻量、灵活、高效的状态管理库。它提供了简单易用的 API，无外部依赖，与 React 深度集成，支持中间件扩展，性能优化出色，并支持渐进式增强。通过对其核心 API 和中间件的深入研究，我们可以看到 zustand 在保持简单性的同时，提供了灵活、高效的状态管理解决方案。
 
-让我们来实现一个简化版的 zustand，包含核心功能但不包括中间件和一些高级特性。这个简化版将包括创建 store、更新状态、订阅变化和在 React 组件中使用 store 的基本功能。
-
-首先，我们来定义基本的类型和接口：
-```ts
-
-// State 类型，可以是任何对象
-type State = Record<string, any>;
-
-// SetState 函数类型，用于更新状态
-type SetState<T extends State> = (
-  partial: T | Partial<T> | ((state: T) => T | Partial<T>),
-  replace?: boolean
-) => void;
-
-// GetState 函数类型，用于获取当前状态
-type GetState<T extends State> = () => T;
-
-// StoreApi 接口，定义了 store 的基本结构
-interface StoreApi<T extends State> {
-  setState: SetState<T>;
-  getState: GetState<T>;
-  subscribe: (listener: (state: T, prevState: T) => void) => () => void;
-}
-
-// CreateStore 函数类型，用于创建 store
-type CreateStore = <T extends State>(
-  createState: (set: SetState<T>, get: GetState<T>) => T
-) => StoreApi<T>;
-```
-
-接下来，让我们实现 `createStore` 函数，这是 Zustand 的核心部分：
-```ts
-// 实现 createStore 函数
-const createStore: CreateStore = (createState) => {
-  let state: State;
-  const listeners = new Set<(state: State, prevState: State) => void>();
-
-  const setState: SetState<State> = (partial, replace) => {
-    const nextState = typeof partial === 'function'
-      ? partial(state)
-      : partial;
-
-    if (!Object.is(nextState, state)) {
-      const previousState = state;
-      state = replace
-        ? (nextState as State)
-        : { ...state, ...nextState };
-      listeners.forEach((listener) => listener(state, previousState));
-    }
-  };
-
-  const getState: GetState<State> = () => state;
-
-  const subscribe = (listener: (state: State, prevState: State) => void) => {
-    listeners.add(listener);
-    return () => listeners.delete(listener);
-  };
-
-  const api: StoreApi<State> = { setState, getState, subscribe };
-
-  state = createState(setState, getState);
-
-  return api;
-};
-```
-
-这个 `createStore` 函数实现了 Zustand 的核心功能。让我们逐步解析它的工作原理：
-
-1. 函数接收一个 `createState` 参数，这是一个用户定义的函数，用于初始化状态。
-
-2. 内部声明了 `state` 变量和 `listeners` 集合。`state` 用于存储当前状态，`listeners` 用于存储订阅状态变化的监听器。
-
-3. `setState` 函数实现了状态更新逻辑：
-   - 它可以接受一个部分状态对象或一个返回部分状态的函数。
-   - 使用 `Object.is` 进行浅比较，只有在状态确实发生变化时才更新。
-   - 如果 `replace` 为 true，则完全替换状态；否则，合并新旧状态。
-   - 状态更新后，通知所有监听器。
-
-4. `getState` 函数简单地返回当前状态。
-
-5. `subscribe` 函数允许添加监听器，并返回一个用于取消订阅的函数。
-
-6. 创建包含 `setState`、`getState` 和 `subscribe` 的 `api` 对象。
-
-7. 最后，调用用户提供的 `createState` 函数来初始化状态，并返回 `api` 对象。
-
-这个实现展示了 Zustand 的简洁性和灵活性。它提供了一个轻量级的状态管理解决方案，不依赖于上下文或装饰器，使得状态管理变得简单直接。
-
-接下来，我们可以看看如何使用这个 `createStore` 函数来创建和使用一个 store。
-
-首先，让我们创建一个简单的 store：
-```ts
-const useStore = createStore((set) => ({
-  count: 0,
-  increment: () => set((state) => ({ count: state.count + 1 })),
-  decrement: () => set((state) => ({ count: state.count - 1 })),
-}));
-
-// 使用这个 store
-function Counter() {
-  const { count, increment, decrement } = useStore();
-
-  return (
-    <div>
-      <p>Count: {count}</p>
-      <button onClick={increment}>+</button>
-      <button onClick={decrement}>-</button>
-    </div>
-  );
-}
-
-// 在组件外部访问状态
-console.log(useStore.getState().count);
-
-// 订阅状态变化
-const unsubscribe = useStore.subscribe(
-  (state, prevState) => console.log('状态从', prevState, '变为', state)
-);
-
-// 取消订阅
-unsubscribe();
-```
-
-这个例子展示了 Zustand 的基本用法：
-
-1. 创建 store：我们使用 `createStore` 函数创建了一个包含 `count` 状态和两个更新函数的 store。
-
-2. 在组件中使用：`Counter` 组件直接从 store 中获取状态和更新函数，无需使用 context 或 HOC。
-
-3. 组件外部访问：我们可以在组件外部使用 `useStore.getState()` 直接访问状态。
-
-4. 订阅状态变化：我们可以使用 `subscribe` 方法监听状态变化，并在需要时取消订阅。
-
-这种方式相比 Redux 或 MobX 等其他状态管理库，有以下优点：
-
-1. 简洁：不需要 actions、reducers 或 decorators，just plain functions。
-
-2. 灵活：可以在任何地方访问和更新状态，不局限于组件内部。
-
-3. 高性能：默认只在使用的状态发生变化时才重新渲染组件。
-
-4. 轻量级：整个库的大小很小，没有多余的概念和抽象。
-
-然而，Zustand 也有一些潜在的缺点：
-
-1. 缺少严格的规范：相比 Redux，Zustand 给了开发者更多的自由，这可能导致在大型项目中状态管理变得混乱。
-
-2. 调试相对困难：没有像 Redux DevTools 那样强大的开发工具支持。
-
-3. 中间件支持有限：虽然 Zustand 支持中间件，但相比 Redux 的生态系统还是较为有限。
-
-总的来说，Zustand 是一个非常适合中小型项目的状态管理解决方案。它简单易用，性能出色，能够快速上手并提高开发效率。对于大型复杂的应用，可能还是需要考虑使用更严格和功能更全面的状态管理库。
-
+源码中也有不少技巧和设计理念是值得我们学习和借鉴的；比如：
+- 使用 `shallow` 做比对，避免不必要的渲染。
+- 通过中间件机制增加了状态管理库的灵活性和可扩展性。
+- 通过 `selector` 订阅状态的特定 stateSlice，从而减少不必要的渲染，提高性能。
+- 状态管理与组件逻辑分离，每个 store 专注于管理其自身的状态和逻辑。
+- 核心功能不依赖于第三方库，减少了外部依赖的复杂性。
