@@ -735,3 +735,355 @@ const useStore = create(
 )
 ```
 
+#### redux
+
+redux 中间件能够让 Zustand 模仿 Redux 风格的状态管理，提供类似的 `dispatch` 和 `reducer` 的支持，让开发者能够以 Redux 的方式去管理和更新状态，其核心在于通过 `dispatch` 方式将 `action` 传递给 `reducer`，并更具 `reducer` 的返回值更新状态；这样就可以将 Redux 的设计模式融入 Zustand 状态管理中。
+
+```ts
+type Write<T, U> = Omit<T, keyof U> & U
+
+// 定义一个 Redux 动作对象，包含一个 type 属性
+type Action = { type: string }
+
+// 
+type StoreRedux<A> = {
+  dispatch: (a: A) => A
+  dispatchFromDevtools: true // 是否支持从 Redux DevTools 分发 action
+}
+
+type ReduxState<A> = {
+  dispatch: StoreRedux<A>['dispatch']
+}
+
+type WithRedux<S, A> = Write<S, StoreRedux<A>>
+
+type Redux = <
+  T,
+  A extends Action,
+  Cms extends [StoreMutatorIdentifier, unknown][] = [],
+>(
+  reducer: (state: T, action: A) => T,
+  initialState: T,
+) => StateCreator<Write<T, ReduxState<A>>, Cms, [['zustand/redux', A]]>
+```
+`StoreRedux` 和 `ReduxState` 类型定义了状态扩展的方法，允许在 Zustand 中使用 `dispatch` 方法来分发动作。接下来看看 redux 中间件是怎么实现的：
+```ts
+type ReduxImpl = <T, A extends Action>(
+  reducer: (state: T, action: A) => T, // 根据 action 更新状态
+  initialState: T, // 初始状态
+) => StateCreator<T & ReduxState<A>, [], []>
+
+const reduxImpl: ReduxImpl = (reducer, initial) => (set, _get, api) => {
+  type S = typeof initial
+  type A = Parameters<typeof reducer>[1]
+  // 定义 dispatch 方法
+  ;(api as any).dispatch = (action: A) => {
+    ;(set as NamedSet<S>)((state: S) => reducer(state, action), false, action)
+    return action
+  }
+  // 支持 Redux DevTools 的调试
+  ;(api as any).dispatchFromDevtools = true
+
+  return { dispatch: (...a) => (api as any).dispatch(...a), ...initial }
+}
+export const redux = reduxImpl as unknown as Redux
+```
+
+使用起来也比较简单，下面是个简单的示例：
+```ts
+import create from 'zustand';
+import { redux } from 'zustand/middleware';
+
+// 定义 reducer 函数
+const reducer = (state, action) => {
+  switch (action.type) {
+    case 'INCREMENT':
+      return { count: state.count + 1 };
+    case 'DECREMENT':
+      return { count: state.count - 1 };
+    default:
+      return state;
+  }
+};
+
+// 创建 store
+const useStore = create(redux(reducer, { count: 0 }));
+
+function Counter() {
+  // 获取当前状态和 dispatch 方法
+  const count = useStore((state) => state.count);
+  const dispatch = useStore((state) => state.dispatch);
+
+  return (
+    <div>
+      <span>{count} </span>
+      {/* 点击按钮就派发 Increment 和 decrement 去更新状态 */}
+      < button onClick={() => dispatch({ type: 'INCREMENT' })}> Increment </button>
+      < button onClick={() => dispatch({ type: 'DECREMENT' })}> Decrement </button>
+    </div>
+  );
+}
+```
+#### subscribeWithSelector
+
+subscribeWithSelector 是 zustand 的一个中间件，它允许开发者订阅 store 中特定的状态片段，而不是整个状态。这种方式可以提高性能，因为只有当选择的状态发生变化时，才会触发回调函数。它还支持在组件外部监听状态变化，并允许使用自定义比较函数。通过 subscribeWithSelector，开发者可以更好地优化应用性能，提高响应速度，并在处理复杂状态逻辑时获得更大的灵活性。
+
+扩展后的 subscribe 方法，提供两种订阅方式：
+- 一种是订阅整个状态的变化。
+- 另一种是通过选择器订阅状态子集的变化。
+```ts
+type StoreSubscribeWithSelector<T> = {
+  subscribe: {
+    (listener: (selectedState: T, previousSelectedState: T) => void): () => void
+    <U>(
+      selector: (state: T) => U,
+      listener: (selectedState: U, previousSelectedState: U) => void,
+      options?: {
+        equalityFn?: (a: U, b: U) => boolean
+        fireImmediately?: boolean
+      },
+    ): () => void
+  }
+}
+```
+这段代码实现了 `subscribeWithSelector` 中间件的核心逻辑。让我们逐步解析：
+```ts
+type SubscribeWithSelectorImpl = <T extends object>(
+  storeInitializer: StateCreator<T, [], []>,
+) => StateCreator<T, [], []>
+
+// 接收一个 store 初始化函数 fn，并返回一个新的 store 创建函数
+const subscribeWithSelectorImpl: SubscribeWithSelectorImpl =
+  (fn) => (set, get, api) => {
+    type S = ReturnType<typeof fn>
+    type Listener = (state: S, previousState: S) => void
+    // 暂存原来的 subscribe
+    const origSubscribe = api.subscribe as (listener: Listener) => () => void
+    // 在原来 subscribe 的基础上扩展
+    api.subscribe = ((selector: any, optListener: any, options: any) => {
+      let listener: Listener = selector // 如果没有选择器，直接使用传入的监听器
+      if (optListener) {
+        // 比较选择器返回的新旧值，默认是 Object.is 方法
+        const equalityFn = options?.equalityFn || Object.is
+        let currentSlice = selector(api.getState())
+        listener = (state) => {
+          const nextSlice = selector(state)
+          // 值有变化，则调用监听器
+          if (!equalityFn(currentSlice, nextSlice)) {
+            const previousSlice = currentSlice
+            optListener((currentSlice = nextSlice), previousSlice)
+          }
+        }
+        // 如果设置了 fireImmediately 选项，立即触发一次监听器
+        if (options?.fireImmediately) {
+          optListener(currentSlice, currentSlice)
+        }
+      }
+      // 调用原始的 subscribe 方法来注册这个新创建的监听器并返回
+      return origSubscribe(listener)
+    }) as any
+    // 调用原始的 store 初始化函数 fn，并返回初始状态
+    const initialState = fn(set, get, api)
+    return initialState
+  }
+export const subscribeWithSelector =
+  subscribeWithSelectorImpl as unknown as SubscribeWithSelector
+```
+这个实现允许用户订阅 store 的特定部分（通过选择器），并且只有当选择的部分发生变化时才触发监听器，从而提高了性能和灵活性。
+
+这个使用示例也比较简单：
+```ts
+import create from 'zustand';
+import { subscribeWithSelector } from 'zustand/middleware';
+
+const useStore = create(subscribeWithSelector((set) => ({
+  count: 0,
+  text: "",
+  increment: () => set((state) => ({ count: state.count + 1 })),
+  setText: (text) => set({ text }), // 修改 text
+})));
+
+function Counter() {
+  const count = useStore((state) => state.count);
+  const increment = useStore((state) => state.increment);
+
+  return (
+    <div>
+      <span>{count}</span>
+      <button onClick={increment}>Increment</button>
+    </div>
+  );
+}
+
+function TextInput() {
+  const text = useStore((state) => state.text);
+  const setText = useStore((state) => state.setText);
+
+  return (
+    <input
+      value={text}
+      onChange={(e) => setText(e.target.value)}
+    />
+  );
+}
+```
+
+这段代码展示了使用 Zustand 和 `subscribeWithSelector` 中间件创建和使用一个状态管理 store 的基本方法。两个 React 组件 `Counter` 和 `TextInput` 分别演示了如何使用这个 store。`Counter` 组件显示计数并提供增加按钮，而 `TextInput` 组件允许用户输入和修改文本。
+
+上面我们就从头到尾把核心的 API 和中间件研究了一遍，下面也琢磨琢磨自己手写一个！
+
+## 手写简易版 zustand
+
+让我们来实现一个简化版的 zustand，包含核心功能但不包括中间件和一些高级特性。这个简化版将包括创建 store、更新状态、订阅变化和在 React 组件中使用 store 的基本功能。
+
+首先，我们来定义基本的类型和接口：
+```ts
+
+// State 类型，可以是任何对象
+type State = Record<string, any>;
+
+// SetState 函数类型，用于更新状态
+type SetState<T extends State> = (
+  partial: T | Partial<T> | ((state: T) => T | Partial<T>),
+  replace?: boolean
+) => void;
+
+// GetState 函数类型，用于获取当前状态
+type GetState<T extends State> = () => T;
+
+// StoreApi 接口，定义了 store 的基本结构
+interface StoreApi<T extends State> {
+  setState: SetState<T>;
+  getState: GetState<T>;
+  subscribe: (listener: (state: T, prevState: T) => void) => () => void;
+}
+
+// CreateStore 函数类型，用于创建 store
+type CreateStore = <T extends State>(
+  createState: (set: SetState<T>, get: GetState<T>) => T
+) => StoreApi<T>;
+```
+
+接下来，让我们实现 `createStore` 函数，这是 Zustand 的核心部分：
+```ts
+// 实现 createStore 函数
+const createStore: CreateStore = (createState) => {
+  let state: State;
+  const listeners = new Set<(state: State, prevState: State) => void>();
+
+  const setState: SetState<State> = (partial, replace) => {
+    const nextState = typeof partial === 'function'
+      ? partial(state)
+      : partial;
+
+    if (!Object.is(nextState, state)) {
+      const previousState = state;
+      state = replace
+        ? (nextState as State)
+        : { ...state, ...nextState };
+      listeners.forEach((listener) => listener(state, previousState));
+    }
+  };
+
+  const getState: GetState<State> = () => state;
+
+  const subscribe = (listener: (state: State, prevState: State) => void) => {
+    listeners.add(listener);
+    return () => listeners.delete(listener);
+  };
+
+  const api: StoreApi<State> = { setState, getState, subscribe };
+
+  state = createState(setState, getState);
+
+  return api;
+};
+```
+
+这个 `createStore` 函数实现了 Zustand 的核心功能。让我们逐步解析它的工作原理：
+
+1. 函数接收一个 `createState` 参数，这是一个用户定义的函数，用于初始化状态。
+
+2. 内部声明了 `state` 变量和 `listeners` 集合。`state` 用于存储当前状态，`listeners` 用于存储订阅状态变化的监听器。
+
+3. `setState` 函数实现了状态更新逻辑：
+   - 它可以接受一个部分状态对象或一个返回部分状态的函数。
+   - 使用 `Object.is` 进行浅比较，只有在状态确实发生变化时才更新。
+   - 如果 `replace` 为 true，则完全替换状态；否则，合并新旧状态。
+   - 状态更新后，通知所有监听器。
+
+4. `getState` 函数简单地返回当前状态。
+
+5. `subscribe` 函数允许添加监听器，并返回一个用于取消订阅的函数。
+
+6. 创建包含 `setState`、`getState` 和 `subscribe` 的 `api` 对象。
+
+7. 最后，调用用户提供的 `createState` 函数来初始化状态，并返回 `api` 对象。
+
+这个实现展示了 Zustand 的简洁性和灵活性。它提供了一个轻量级的状态管理解决方案，不依赖于上下文或装饰器，使得状态管理变得简单直接。
+
+接下来，我们可以看看如何使用这个 `createStore` 函数来创建和使用一个 store。
+
+首先，让我们创建一个简单的 store：
+```ts
+const useStore = createStore((set) => ({
+  count: 0,
+  increment: () => set((state) => ({ count: state.count + 1 })),
+  decrement: () => set((state) => ({ count: state.count - 1 })),
+}));
+
+// 使用这个 store
+function Counter() {
+  const { count, increment, decrement } = useStore();
+
+  return (
+    <div>
+      <p>Count: {count}</p>
+      <button onClick={increment}>+</button>
+      <button onClick={decrement}>-</button>
+    </div>
+  );
+}
+
+// 在组件外部访问状态
+console.log(useStore.getState().count);
+
+// 订阅状态变化
+const unsubscribe = useStore.subscribe(
+  (state, prevState) => console.log('状态从', prevState, '变为', state)
+);
+
+// 取消订阅
+unsubscribe();
+```
+
+这个例子展示了 Zustand 的基本用法：
+
+1. 创建 store：我们使用 `createStore` 函数创建了一个包含 `count` 状态和两个更新函数的 store。
+
+2. 在组件中使用：`Counter` 组件直接从 store 中获取状态和更新函数，无需使用 context 或 HOC。
+
+3. 组件外部访问：我们可以在组件外部使用 `useStore.getState()` 直接访问状态。
+
+4. 订阅状态变化：我们可以使用 `subscribe` 方法监听状态变化，并在需要时取消订阅。
+
+这种方式相比 Redux 或 MobX 等其他状态管理库，有以下优点：
+
+1. 简洁：不需要 actions、reducers 或 decorators，just plain functions。
+
+2. 灵活：可以在任何地方访问和更新状态，不局限于组件内部。
+
+3. 高性能：默认只在使用的状态发生变化时才重新渲染组件。
+
+4. 轻量级：整个库的大小很小，没有多余的概念和抽象。
+
+然而，Zustand 也有一些潜在的缺点：
+
+1. 缺少严格的规范：相比 Redux，Zustand 给了开发者更多的自由，这可能导致在大型项目中状态管理变得混乱。
+
+2. 调试相对困难：没有像 Redux DevTools 那样强大的开发工具支持。
+
+3. 中间件支持有限：虽然 Zustand 支持中间件，但相比 Redux 的生态系统还是较为有限。
+
+总的来说，Zustand 是一个非常适合中小型项目的状态管理解决方案。它简单易用，性能出色，能够快速上手并提高开发效率。对于大型复杂的应用，可能还是需要考虑使用更严格和功能更全面的状态管理库。
+
