@@ -20,6 +20,57 @@ func newNode(data int) *Node {
 	return &Node{Data: data}
 }
 
+// 在双向链表的头部插入一个新节点
+func (dll *DoublyLinkedList) InsertAtHead(data int) {
+	node := newNode(data)
+	if dll.head == nil {
+		dll.head = node
+		dll.tail = node
+		return
+	}
+	dll.head.next = node
+	node.prev = dll.tail
+	dll.tail = node
+}
+
+// 在双向链表的指定位置插入一个新节点
+func (dll *DoublyLinkedList) insertAt(data int, position int) {
+	if position < 0 {
+		// 负数位置无效
+		return
+	}
+
+	newNode := newNode(data) // 创建新节点
+	if dll.head == nil {
+		// 如果链表为空，新节点成为唯一的节点
+		dll.head = newNode
+		dll.tail = newNode
+		return
+	}
+
+	current := dll.head
+	for current != nil && position > 0 {
+		// 移动到指定位置
+		current = current.next
+		position--
+	}
+
+	if current == nil {
+		// 插入位置超出链表长度，将新节点插入到末尾
+		dll.tail.next = newNode
+		newNode.prev = dll.tail
+		dll.tail = newNode
+	} else {
+		// 插入新节点到链表中
+		newNode.next = current
+		newNode.prev = current.prev
+		if current.prev != nil {
+			current.prev.next = newNode
+		}
+		current.prev = newNode
+	}
+}
+
 // 在双向链表的末尾插入一个新节点
 func (dll *DoublyLinkedList) append(data int) {
 	newNode := newNode(data)
@@ -60,6 +111,16 @@ func (dll *DoublyLinkedList) find(data int) *Node {
 		current = current.next
 	}
 	return nil
+}
+
+// 修改节点的数据
+func (dll *DoublyLinkedList) update(oldData, newData int) bool {
+	node := dll.find(oldData)
+	if node != nil {
+		node.Data = newData
+		return true
+	}
+	return false
 }
 
 // 遍历双向链表
