@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Exo:wght@600&display=swap");
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            width: 100vw;
+            min-height: 100vh;
+            font-family: "Exo", Arial, sans-serif;
+            background-color: #557;
+            color: #fff;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(600px, 100%), 1fr));
+            gap: 1rem;
+            padding: 1rem;
+        }
+
+        .card {
+            background: #ffffff;
+            border: 1px solid rgb(0 0 0 / 0.31);
+            box-shadow: 0px 0px 5px 4px rgb(0 0 0 /0.04);
+            border-radius: 1rem;
+            display: flex;
+            padding: 1rem;
+            gap: 1rem;
+        }
+
+        .card__thumb {
+            flex: 0 1 240px;
+            min-inline-size: 200px;
+            aspect-ratio: 4 / 3;
+            background: rgba(0, 209, 255, 0.38);
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .card__thumb svg {
+            object-fit: contain;
+            width: 50%;
+            color: #d51616;
+            /* 'mix-blend-mode' 属性指定元素的内容应如何与其背景混合。 */
+            mix-blend-mode: difference;
+        }
+
+        .card__content {
+            flex: 1;
+            min-width: 0;
+            color: #000;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 0.25em;
+        }
+
+        h3 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            width: 100%;
+        }
+
+        h3 small {
+            display: block;
+            font-size: 45%;
+            color: rgb(58 89 90 / 0.85);
+        }
+
+        .card__content button {
+            --background: #275efe;
+            --text: #fff;
+            --shadow: rgba(10, 22, 50, 0.24);
+            background: var(--background);
+            border-radius: 99rem;
+            box-shadow: 0 2px 8px -1px var(--shadow);
+            transition: all 0.2s ease;
+            border: none 0;
+            padding: 0.5rem 1rem;
+            color: var(--text);
+            cursor: pointer;
+            min-block-size: 44px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card button:hover {
+            --background: #1f41a3;
+            --shadow: rgba(10, 22, 50, 0.4);
+        }
+
+        .card__content button {
+            display: inline-flex;
+            align-self: flex-end;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="card">
+        <div class="card__thumb">
+            <svg t="1662879804494" class="icon" viewBox="0 0 1445 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                p-id="5503" width="200" height="200">
+                <path
+                    d="M0.005421 131.312941V584.282353a30.117647 30.117647 0 0 0 49.995294 22.889412l271.661177-236.724706a60.235294 60.235294 0 0 1 77.101176 0l259.011765 207.209412 142.757647-142.757647a60.235294 60.235294 0 0 1 80.112941-4.216471l301.176471 240.941176a60.235294 60.235294 0 1 1-75.294118 93.967059l-259.011765-207.209412-142.757647 142.757648a60.235294 60.235294 0 0 1-80.112941 4.21647L361.417186 493.929412l-301.176471 262.625882a180.705882 180.705882 0 0 0-60.235294 136.131765A131.312941 131.312941 0 0 0 131.318362 1024h1183.021177A131.312941 131.312941 0 0 0 1445.65248 892.687059V131.312941A131.312941 131.312941 0 0 0 1314.339539 0H131.318362A131.312941 131.312941 0 0 0 0.005421 131.312941zM1114.358362 421.647059a144.564706 144.564706 0 1 1 144.564706-144.564706A144.564706 144.564706 0 0 1 1114.358362 421.647059z"
+                    fill="currentColor" p-id="5504"></path>
+            </svg>
+        </div>
+        <div class="card__content">
+
+            <h3 class="title">
+                <small>UX Design</small>
+                Make it easier to search and filter
+            </h3>
+
+            <button>Read More</button>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card__thumb">
+            <svg t="1662879804494" class="icon" viewBox="0 0 1445 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                p-id="5503" width="200" height="200">
+                <path
+                    d="M0.005421 131.312941V584.282353a30.117647 30.117647 0 0 0 49.995294 22.889412l271.661177-236.724706a60.235294 60.235294 0 0 1 77.101176 0l259.011765 207.209412 142.757647-142.757647a60.235294 60.235294 0 0 1 80.112941-4.216471l301.176471 240.941176a60.235294 60.235294 0 1 1-75.294118 93.967059l-259.011765-207.209412-142.757647 142.757648a60.235294 60.235294 0 0 1-80.112941 4.21647L361.417186 493.929412l-301.176471 262.625882a180.705882 180.705882 0 0 0-60.235294 136.131765A131.312941 131.312941 0 0 0 131.318362 1024h1183.021177A131.312941 131.312941 0 0 0 1445.65248 892.687059V131.312941A131.312941 131.312941 0 0 0 1314.339539 0H131.318362A131.312941 131.312941 0 0 0 0.005421 131.312941zM1114.358362 421.647059a144.564706 144.564706 0 1 1 144.564706-144.564706A144.564706 144.564706 0 0 1 1114.358362 421.647059z"
+                    fill="currentColor" p-id="5504"></path>
+            </svg>
+        </div>
+        <div class="card__content">
+            <h3 class="title">
+                <small>UX Design</small>
+
+                Make it easier to search and filter
+            </h3>
+
+            <button>Read More</button>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card__thumb">
+            <svg t="1662879804494" class="icon" viewBox="0 0 1445 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                p-id="5503" width="200" height="200">
+                <path
+                    d="M0.005421 131.312941V584.282353a30.117647 30.117647 0 0 0 49.995294 22.889412l271.661177-236.724706a60.235294 60.235294 0 0 1 77.101176 0l259.011765 207.209412 142.757647-142.757647a60.235294 60.235294 0 0 1 80.112941-4.216471l301.176471 240.941176a60.235294 60.235294 0 1 1-75.294118 93.967059l-259.011765-207.209412-142.757647 142.757648a60.235294 60.235294 0 0 1-80.112941 4.21647L361.417186 493.929412l-301.176471 262.625882a180.705882 180.705882 0 0 0-60.235294 136.131765A131.312941 131.312941 0 0 0 131.318362 1024h1183.021177A131.312941 131.312941 0 0 0 1445.65248 892.687059V131.312941A131.312941 131.312941 0 0 0 1314.339539 0H131.318362A131.312941 131.312941 0 0 0 0.005421 131.312941zM1114.358362 421.647059a144.564706 144.564706 0 1 1 144.564706-144.564706A144.564706 144.564706 0 0 1 1114.358362 421.647059z"
+                    fill="currentColor" p-id="5504"></path>
+            </svg>
+        </div>
+        <div class="card__content">
+            <h3 class="title">
+                <small>UX Design</small>
+
+                Make it easier to search and filter
+            </h3>
+
+            <button>Read More</button>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card__thumb">
+            <svg t="1662879804494" class="icon" viewBox="0 0 1445 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                p-id="5503" width="200" height="200">
+                <path
+                    d="M0.005421 131.312941V584.282353a30.117647 30.117647 0 0 0 49.995294 22.889412l271.661177-236.724706a60.235294 60.235294 0 0 1 77.101176 0l259.011765 207.209412 142.757647-142.757647a60.235294 60.235294 0 0 1 80.112941-4.216471l301.176471 240.941176a60.235294 60.235294 0 1 1-75.294118 93.967059l-259.011765-207.209412-142.757647 142.757648a60.235294 60.235294 0 0 1-80.112941 4.21647L361.417186 493.929412l-301.176471 262.625882a180.705882 180.705882 0 0 0-60.235294 136.131765A131.312941 131.312941 0 0 0 131.318362 1024h1183.021177A131.312941 131.312941 0 0 0 1445.65248 892.687059V131.312941A131.312941 131.312941 0 0 0 1314.339539 0H131.318362A131.312941 131.312941 0 0 0 0.005421 131.312941zM1114.358362 421.647059a144.564706 144.564706 0 1 1 144.564706-144.564706A144.564706 144.564706 0 0 1 1114.358362 421.647059z"
+                    fill="currentColor" p-id="5504"></path>
+            </svg>
+        </div>
+        <div class="card__content">
+            <h3 class="title">
+                <small>UX Design</small>
+
+                Make it easier to search and filter
+            </h3>
+
+            <button>Read More</button>
+        </div>
+    </div>
+
+</body>
+
+</html>
