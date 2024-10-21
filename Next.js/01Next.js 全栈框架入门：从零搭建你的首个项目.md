@@ -1,7 +1,9 @@
 大家好，我是长林啊！一个爱好 JavaScript、Go、Rust 的全栈开发者；致力于终身学习和技术分享。
 
 前面一系列文章，分别从 react 的环境搭建到项目的路由、状态管理等内容；接下我们进入一个新篇章，react 生态的的全栈框架之 Next.js。
+
 经过前面一系列文章的深入分享，我们已经从 React 环境的搭建到项目的路由、状态管理等内容进行了详细介绍。接下来，我们将开启一个新的篇章，聚焦于 React 生态中的全栈框架——Next.js，如果还不熟悉 React，没关系，还可以回顾一下：
+
 - [走进 React：打造交互式用户界面的第一步](https://mp.weixin.qq.com/s/s5moMIyYdCSe820C4yWQSw)
 - [深入学习 React：组件、状态与事件处理的完整指南](https://mp.weixin.qq.com/s/PFnnK9SoYURwuxMUwAlZqA)
 - [掌握 React Hooks：现代 React 开发的必备技能](https://mp.weixin.qq.com/s/6MFp1VnTQRxiX38Pm9ZZ_Q)
