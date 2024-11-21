@@ -9,15 +9,20 @@ Web 开发领域，选择合适的渲染策略对于提供出色的用户体验�
 ## 项目环境搭建
 
 在介绍这几种渲染模式时，我们还是要结合 Next.js 来理解，所以在进入正题之前，我们先来创建一个 Next.js 的项目！
+
 ### 创建项目
+
 使用 Next.js 的脚手架工具创建项目：
+
 ```sh
-$ npx create-next-app@latest nextjs-csr-ssr-ssg-isr --use-pnpm
+npx create-next-app@latest nextjs-csr-ssr-ssg-isr --use-pnpm
 ```
+
 具体配置选项如下：
 ![](./assets/19725f5b-2001-4c70-bfd5-591b8811caf0.png)
 
 ### 在 VS Code 中打开并运行
+
 使用自己熟悉的开发者工具打开项目，我这里就是用 VS Code IDE 工具打开，并使用命令 `pnpm dev` 启动项目后，如下所示：
 
 ![](./assets/83cbb94e-67e7-4917-a510-757f33bd39ab.png)
@@ -28,9 +33,11 @@ $ npx create-next-app@latest nextjs-csr-ssr-ssg-isr --use-pnpm
 环境我们搞定了，下面我就开始进入正题！
 
 ## CSR
+
 CSR（Client-side Rendering），客户端渲染；也就是渲染工作主要在客户端执行。
 
 在这种策略下，服务器仅发送包含一个空 `<div>` 标签的简单HTML页面，随后的数据请求、页面内容的生成以及路由处理等任务都由客户端（浏览器）中的 JavaScript（JS）来完成；如 React、Vue.js 或 Angular。下面的代码模板是一个 react 单页应用的 index.html 文件的内容：
+
 ```html
 <!DOCTYPE html>
 <html lang="en">
@@ -87,6 +94,7 @@ Next.js 也支持 CSR，在 Next.js Pages Router 中有两种方法可以实现�
     ![](./assets/d2415cb9-1387-49b0-97b7-02adc3881331.png)
 
     完整代码如下：
+
     ```jsx
     import React, { useState, useEffect } from 'react'
     
@@ -111,22 +119,23 @@ Next.js 也支持 CSR，在 Next.js Pages Router 中有两种方法可以实现�
         return <p>{data ? `Your data: ${JSON.stringify(data)}` : 'Loading...'}</p>
     }
     ```
-    在浏览器中访问的效果如下：
-    
-    ![](./assets/5e6f017f-3c83-426f-8b9f-e0fe74178ac6.gif)
-    
-    从上图可以看到，当客户端访问 `http://localhost:3000/todo` 时，界面出现的是一个 loading 的效果，等数据返回后，主要内容在客户端进行渲染。 loading 阶段所对应的 HTML 结构如下：
-    
-    ![](./assets/4e71f7bb-19f1-4172-b32e-4910384d5be5.png)
-    
-    当获取到数据之后，将页面更新为获取到的内容：
-    
-    ![](./assets/5622e6f1-b01c-489d-9e5a-0f62e6feb2de.png)
 
+    在浏览器中访问的效果如下：
+
+    ![](./assets/5e6f017f-3c83-426f-8b9f-e0fe74178ac6.gif)
+
+    从上图可以看到，当客户端访问 `http://localhost:3000/todo` 时，界面出现的是一个 loading 的效果，等数据返回后，主要内容在客户端进行渲染。 loading 阶段所对应的 HTML 结构如下：
+
+    ![](./assets/4e71f7bb-19f1-4172-b32e-4910384d5be5.png)
+
+    当获取到数据之后，将页面更新为获取到的内容：
+
+    ![](./assets/5622e6f1-b01c-489d-9e5a-0f62e6feb2de.png)
 
 2. 使用像 SWR 这样的数据获取库或 TanStack 查询在客户端获取数据（推荐）。
 
     虽然在较旧的 React 应用程序中可能会看到获取数据仍然在 useEffect Hook下，像 SWR 这样的数据获取库的出现，建议使用数据获取库来获得更好的性能、缓存、乐观更新等。下面是使用 SWR 将上面的示例在客户端获取数据的逻辑改下：
+
     ```jsx
     import useSWR from 'swr';
     import type { SWRResponse } from 'swr';
@@ -155,11 +164,13 @@ Next.js 也支持 CSR，在 Next.js Pages Router 中有两种方法可以实现�
         return data ? <p>Your Data: {data.title}</p> : <p>No data available.</p>;
     }
     ```
+
     效果如下：
 
     ![](./assets/3a221049-4fd4-4030-a9da-6946e96566a0.png)
 
 ### CSR 的优点
+
 1. **用户体验更好**
     - 页面交互流畅：通过局部更新页面内容而不是刷新整个页面（如 React、Vue 实现的单页应用），用户体验更接近桌面应用。
     - 动态效果丰富：借助 JavaScript，可以轻松实现复杂的动态交互效果。
@@ -171,7 +182,9 @@ Next.js 也支持 CSR，在 Next.js Pages Router 中有两种方法可以实现�
 4. **灵活性高**
     - 可以根据用户行为动态加载所需资源（如按需加载组件或路由），优化首屏加载时间。
     - 在现代框架（如 React 或 Vue）中，状态管理和路由控制变得更加容易。
+
 ### CSR 的缺点
+
 1. 首屏加载时间长
     - 浏览器必须先加载 HTML 和 JavaScript 文件，然后解析和执行 JavaScript 生成页面，导致首屏渲染速度慢，特别是在网络或设备性能较差时。
 2. SEO 不友好
@@ -183,8 +196,9 @@ Next.js 也支持 CSR，在 Next.js Pages Router 中有两种方法可以实现�
 4. 开发和调试复杂性
     - CSR 应用通常需要额外的工具链支持（如 Webpack、Vite）和状态管理库（如 Redux、Vuex），增加了开发复杂度。
     - 需要处理更多前端逻辑，如路由、数据获取和错误处理。
-    
+
 ### CSR 的使用场景
+
 - 复杂的单页应用（SPA），如后台管理系统或需要大量用户交互的前端应用。
 - 对 SEO 要求不高的场景，例如内部工具、用户需登录的应用。
 
@@ -200,6 +214,7 @@ Next.js 也支持 SSR，在 Next.js Pages Router 中来写一个示例，文件�
 
 ![](./assets/18b659d5-e159-45f8-8cec-2b260f870f49.png)
 完整代码：
+
 ```jsx
 interface Todo {
     userId: number;
@@ -219,6 +234,7 @@ export async function getServerSideProps() {
     return { props: { data } }
 }
 ```
+
 效果如下：
 
 ![](./assets/200aac83-4e74-4115-988d-3ddc482efc60.png)
@@ -227,8 +243,8 @@ export async function getServerSideProps() {
 
 ![](./assets/fb98c8e3-bdb4-44bf-88c8-4506d04317de.png)
 
-
 ### SSR 优点
+
 1. **更好的 SEO**
    - 服务器生成的 HTML 是完整的页面内容，搜索引擎爬虫可以直接抓取，从而提升页面的 SEO 表现。
    - 特别适合需要高排名的内容型网站（如博客、资讯站）。
@@ -243,6 +259,7 @@ export async function getServerSideProps() {
    - SSR 能快速生成动态内容页面，无需等待客户端获取和渲染数据。
 
 ### SSR 缺点
+
 1. **服务器压力增加**
    - 每次请求都需要服务端生成完整的 HTML 页面，增加了服务器的计算负担，特别是在高并发场景下。
 2. **响应速度依赖网络和服务器性能**
@@ -256,6 +273,7 @@ export async function getServerSideProps() {
    - SSR 通常需要支持 Node.js 环境，增加了部署和运维的复杂性。
 
 ### SSR 的使用场景
+
 - **SEO 要求高的场景**：如新闻资讯网站、电子商务平台的商品详情页。
 - **首屏渲染要求高**：如用户首次访问的营销页面或首页。
 - **动态内容较多的场景**：如需要根据用户请求生成页面的社交平台。
@@ -274,6 +292,7 @@ SSG（Static Site Generation），静态站点生成；SSG 是在构建阶段将
 ![文件结构](./assets/af0aceaf-0edb-45b6-b68c-a4ead52c22bc.png)
 
 完整代码如下：
+
 ```jsx
 function About() {
     return <div>About</div>
@@ -281,9 +300,11 @@ function About() {
 
 export default About
 ```
+
 在这种没有数据请求的页面，Next.js 会在构建时为每个页面生成一个 HTML 文件。
 
 不过 Next.js 默认没有导出该文件。如果你想看到构建生成的 HTML 文件，修改 next.config.ts 文件：
+
 ```js
 import type { NextConfig } from "next";
 
@@ -297,7 +318,7 @@ export default nextConfig;
 
 然后再项目的根目录下执行 `pnpm build` 后，项目的根目录就会生成一个 `out` 的文件夹，里面是就是构建时生成的 HTML 文件。
 
-> 按照上面的示例，运行 `pnpm build` 肯定是会失败的，会报一个 “pages with \`getServerSideProps\` can not be exported. See more info here: https://nextjs.org/docs/messages/gssp-export” 的错误；[官方](https://nextjs.org/docs/messages/gssp-export)也提供了解决方案。我们就根据官方的建议将 `getServerSideProps`（每次请求时被调用） 换成 `getStaticProps`（每次构建时被调用），它两是有一些区别的，后面的文章再介绍，这里先解决构建问题！
+> 按照上面的示例，运行 `pnpm build` 肯定是会失败的，会报一个 “pages with \`getServerSideProps\` can not be exported. See more info here: <https://nextjs.org/docs/messages/gssp-export”> 的错误；[官方](https://nextjs.org/docs/messages/gssp-export)也提供了解决方案。我们就根据官方的建议将 `getServerSideProps`（每次请求时被调用） 换成 `getStaticProps`（每次构建时被调用），它两是有一些区别的，后面的文章再介绍，这里先解决构建问题！
 
 ![](./assets/afc3f241-d879-4016-ab9c-d6a7312dd0bf.png)
 
@@ -308,8 +329,11 @@ export default nextConfig;
 ![](./assets/be78dddd-9f26-4274-8bda-f912d73d5bf8.png)
 
 ### 带数据的静态生成
+
 上面演示了无数据的静态生成，下面我们来看看带数据的静态生成，带数据的分为两种：根据页面内容获取数据和根据页面路径获取数据。
+
 #### 根据页面内容获取数据
+
 举个例子解释下，比如博客页面可能需要从 CMS（内容管理系统）获取博客文章列表，在 Next.js 中，提供了 `getStaticProps` 方法。
 
 ```jsx
@@ -349,6 +373,7 @@ export async function getStaticProps() {
 `getStaticProps` 会在构建的时候被调用，并将数据通过 `props` 属性传递给页面。
 
 #### 根据页面路径获取数据
+
 什么意思呢，比如数据库中有 100 篇文章，我们不可能手动为每一篇文章定义 100 个路由并预渲染 100 个 HTML 文件。为了解决这个问题，Next.js 提供了 `getStaticPaths` 函数，用于动态定义需要预渲染的路径；这个功能通常与动态路由一起使用。
 
 ```jsx
@@ -403,6 +428,7 @@ export default function Post({ post }: { post: Post }) {
 我们可以看到博客列表和 100 个博客文章详情页都使用了 SSG，所有文件都在 out 目录下，每个页面都有构建时间。这样访问的时候就会快不少了，再配上 CDN，速度直接起飞！
 
 ### SSG 的优点
+
 1. **极快的页面加载速度**
    - 静态 HTML 文件可以直接通过 CDN 分发，无需服务器端处理，显著缩短响应时间，提升用户体验。
 2. **服务器压力低**
@@ -417,6 +443,7 @@ export default function Post({ post }: { post: Post }) {
    - 像 Next.js、Gatsby 等框架支持 SSG，提供增量静态生成（ISR）等功能，使其能够处理更动态的内容。
 
 ### SSG 的缺点
+
 1. **构建时间较长**
    - 构建时需要生成所有页面，当页面数量巨大时，构建时间会显著增加。
 2. **缺乏实时动态性**
@@ -429,6 +456,7 @@ export default function Post({ post }: { post: Post }) {
    - 对于需要大量内容且需要动态功能的项目，可能需要结合其他渲染模式（如 CSR 或 SSR），从而增加开发和部署复杂度。
 
 ### SSG 的使用场景
+
 - **内容相对静态的站点**：如博客、文档网站、营销页面等。
 - **高流量网站**：需要通过 CDN 分发页面的高并发访问场景。
 - **对 SEO 要求高的场景**：如企业官网、静态电商页面等。
@@ -442,6 +470,7 @@ ISR（Incremental Static Regeneration），增量静态再生。增量静态再�
 Next.js v9.5 就发布了稳定的 ISR 功能，当时提供了一个 demo（[https://reactions-demo.vercel.app/](https://reactions-demo.vercel.app/)）用于演示效果，但是现在已经失效了，不过有一个新的 demo（[https://on-demand-isr.vercel.app/](https://on-demand-isr.vercel.app/)） 站点可以测试。
 
 Next.js 支持 ISR，并且使用的方式很简单。你只用在 `getStaticProps` 中添加一个 `revalidate` 属性即可。我们基于上面 SSG 的示例代码上进行修改：
+
 ```jsx
 interface Post {
     // ...
@@ -464,16 +493,19 @@ export default function Post({ post }: { post: Post }) {
     // ...
 }
 ```
+
 `revalidate` 表示当发生请求的时候，至少间隔多少**秒**才更新页面。
 
 当你在本地使用 next dev运行的时候，`getStaticProps` 会在每次请求的时候被调用。所以如果你要测试 ISR 功能，先构建出生产版本，再运行生产服务。也就是说，测试 ISR 效果，使用 `pnpm build` 和 `pnpm start` 就可以了。
 
 > **注意**：
+>
 > - ISR 只能在 Node.js 环境下使用（这是默认环境）。
-> - 在创建[静态导出（Static Exports）](https://nextjs.org/docs/app/building-your-application/deploying/static-exports)时，不支持 ISR。 
+> - 在创建[静态导出（Static Exports）](https://nextjs.org/docs/app/building-your-application/deploying/static-exports)时，不支持 ISR。
 > - 对于按需 ISR 请求，中间件不会被执行，这意味着中间件中的任何路径重写或逻辑都不会被应用。
 
 ### ISR 的优点
+
 1. **快速的首屏加载**
    - 初次访问时，用户可以直接加载预先生成的静态页面，页面加载速度与 SSG 相当。
 2. **支持动态内容**
@@ -487,8 +519,8 @@ export default function Post({ post }: { post: Post }) {
 6. **与 CDN 集成良好**
    - 更新后的页面可以自动分发到 CDN，确保高并发下的快速访问。
 
-
 ### ISR 的缺点
+
 1. **复杂性增加**
    - 相比纯 SSG 或 SSR，ISR 的实现和调试更复杂，需要处理缓存失效、再验证等逻辑。
 2. **更新延迟**
@@ -499,14 +531,14 @@ export default function Post({ post }: { post: Post }) {
    - 如果页面尚未生成，首次请求时需要动态生成页面，可能会导致较高的响应时间。
 5. **缓存一致性问题**
    - 需要确保在重新验证和增量更新时缓存一致性，不然可能出现用户访问到过期内容的情况。
-   
+
 ### ISR 的适用场景
+
 - **内容更新频率适中**：如新闻网站、博客文章、商品展示等需要定期更新的页面。
 - **高流量站点**：同时需要支持高并发和较高的动态内容需求。
 - **兼顾性能与灵活性**：适合既有静态内容又需要动态更新的场景。
 
 上面内容所有的演示代码都可以在 [https://github.com/clin211/react-awesome/tree/nextjs-csr-ssr-ssg-isr](https://github.com/clin211/react-awesome/tree/nextjs-csr-ssr-ssg-isr) 中找到！
-
 
 ## 总结
 
@@ -518,10 +550,10 @@ export default function Post({ post }: { post: Post }) {
 
 - 增量静态再生 (ISR)是 SSG 的一种变体，允许按需更新部分页面。它结合了静态站点生成的性能优势和动态页面的实时性，适用于内容有一定更新频率，但对性能和 SEO 有较高要求的场景。
 
-
 「参考资源」：
-- [Client-side Rendering (CSR)](https://nextjs.org/docs/pages/building-your-application/rendering/client-side-rendering)：https://nextjs.org/docs/pages/building-your-application/rendering/client-side-rendering
-- [Server-side Rendering (SSR)](https://nextjs.org/docs/pages/building-your-application/rendering/server-side-rendering)：https://nextjs.org/docs/pages/building-your-application/rendering/server-side-rendering
-- [Static Site Generation (SSG)](https://nextjs.org/docs/pages/building-your-application/rendering/static-site-generation)：https://nextjs.org/docs/pages/building-your-application/rendering/static-site-generation
-- [Incremental Static Regeneration (ISR)](https://nextjs.org/docs/pages/building-your-application/data-fetching/incremental-static-regeneration)：https://nextjs.org/docs/pages/building-your-application/data-fetching/incremental-static-regeneration
-- [Rendering strategies: CSR, SSR, SSG, ISR](https://blog.devgenius.io/rendering-strategies-csr-ssr-ssg-isr-a3a203778a96)：https://blog.devgenius.io/rendering-strategies-csr-ssr-ssg-isr-a3a203778a96
+
+- [Client-side Rendering (CSR)](https://nextjs.org/docs/pages/building-your-application/rendering/client-side-rendering)：<https://nextjs.org/docs/pages/building-your-application/rendering/client-side-rendering>
+- [Server-side Rendering (SSR)](https://nextjs.org/docs/pages/building-your-application/rendering/server-side-rendering)：<https://nextjs.org/docs/pages/building-your-application/rendering/server-side-rendering>
+- [Static Site Generation (SSG)](https://nextjs.org/docs/pages/building-your-application/rendering/static-site-generation)：<https://nextjs.org/docs/pages/building-your-application/rendering/static-site-generation>
+- [Incremental Static Regeneration (ISR)](https://nextjs.org/docs/pages/building-your-application/data-fetching/incremental-static-regeneration)：<https://nextjs.org/docs/pages/building-your-application/data-fetching/incremental-static-regeneration>
+- [Rendering strategies: CSR, SSR, SSG, ISR](https://blog.devgenius.io/rendering-strategies-csr-ssr-ssg-isr-a3a203778a96)：<https://blog.devgenius.io/rendering-strategies-csr-ssr-ssg-isr-a3a203778a96>
