@@ -41,7 +41,7 @@ $ npx create-next-app@latest
 > - bun：`bunx create-next-app`
 > 运行命令后如下图：
 
-![](https://files.mdnice.com/user/8213/155c9827-65a2-45cd-91b8-92013609dcc8.png)
+![](assets/155c9827-65a2-45cd-91b8-92013609dcc8.png)
 
 按照提示，[`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app) 工具会创建一个以你的项目名称命名的文件夹，并安装所需的依赖项。
 
