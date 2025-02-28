@@ -1,5 +1,6 @@
 1. 如何实现一个元素的水平垂直居中
     - 绝对定位方法
+
         ```css
         .box {
           position: absolute;
@@ -10,6 +11,7 @@
           transform: translate(-50%, -50%);
         }
         ```
+
     - flex
     - grid
   
@@ -29,6 +31,7 @@
    - 跨组件通信 - context。使用 context API，可以在组件中向其子孙级组件进行信息传递。
 
 5. 如何使用 react hooks 实现一个计数器的组件？
+
 ```js
 const useCountDown = (num) => {
     const [seconds, setSecond] = useState(num)
@@ -44,13 +47,16 @@ const useCountDown = (num) => {
     return [seconds, setSecond]
 }
 ```
+
 6. React 中如何实现路由懒加载？
+
 - 使用 React.lazy 和 Suspense
 
 7. React 的生命周期函数都有哪些，分别有什么作用？
 React 的生命周期已经经历了 3 次改动，推荐查看《[深入学习 React：组件、状态与事件处理的完整指南](https://mp.weixin.qq.com/s/PFnnK9SoYURwuxMUwAlZqA)》，这篇文章中对 react 生命周期有详细的讲解！
 
 8. 说一下 React Hooks 在平时开发中需要注意的问题和原因?
+
 - 不要在循环，条件或嵌套函数中调用 Hook，必须始终在 React 函数的顶层使用 Hook
 - 使用 useState 时候，使用 push，pop，splice 等直接更改数组对象的坑
 - 不要滥用 useContext
@@ -58,6 +64,7 @@ React 的生命周期已经经历了 3 次改动，推荐查看《[深入学习 
 
 9. useEffect 中如何使用 async/await?
     可以选择再包装一层 async 函数，置于 useEffect 的回调函数中，变相使用 `async/await`:
+
     ```jsx
     async function fetchMyAPI() {
       let response = await fetch('api/data')
@@ -69,6 +76,7 @@ React 的生命周期已经经历了 3 次改动，推荐查看《[深入学习 
       fetchMyAPI();
     }, []);
     ```
+
 10. React 中，`cloneElement` 与 `createElement` 各是什么，有什么区别?
     1. createElement：
 
@@ -83,7 +91,7 @@ React 的生命周期已经经历了 3 次改动，推荐查看《[深入学习 
     更深一点的原因在于，React 元素是 不可变对象 例如 `props.children` 获取到的只是一个 描述符，不能直接修改它的任何属性，只能读取他的信息。 所以我们可以选择拷贝它们，然后再修改、添加
 
 11. 如何使用 react hooks 实现 useFetch 请求数据?
-    可以参考 https://www.robinwieruch.de/react-hooks-fetch-data/
+    可以参考 <https://www.robinwieruch.de/react-hooks-fetch-data/>
 
 12. 有使用过vue吗？说说你对vue的理解?
     这个问题至少要包含以下几个方面：
@@ -100,17 +108,16 @@ React 的生命周期已经经历了 3 次改动，推荐查看《[深入学习 
     `v-show` 总是会进行编译和渲染的工作 - 它只是简单的在元素上添加了 `display: none;` 的样式。`v-show` 具有较高的初始化性能成本上的消耗，但是使得转换状态变得很容易。
 
     相比之下，`v-if` 才是真正「有条件」的：它的加载是惰性的，因此，若它的初始条件是 `false`，它就不会做任何事情。这对于初始加载时间来说是有益的，当条件为 `true` 时，`v-if` 才会编译并渲染其内容。切换 `v-if` 下的块儿内容实际上时销毁了其内部的所有元素，比如说处于 `v-if` 下的组件实际上在切换状态时会被销毁并重新生成，因此，切换一个较大 `v-if` 块儿时会比`v-show` 消耗的性能多。
-    
+
     如果需要非常频繁地切换，则使用 `v-show` 较好，如果在运行时条件很少改变，则使用 `v-if` 较好
 
 14. `v-if` 和 `v-for` 的优先级是什么？
 v-show 总是会进行编译和渲染的工作 - 它只是简单的在元素上添加了 display: none; 的样式。v-show 具有较高的初始化性能成本上的消耗，但是使得转换状态变得很容易。
 相比之下，v-if 才是真正「有条件」的：它的加载是惰性的，因此，若它的初始条件是 false，它就不会做任何事情。这对于初始加载时间来说是有益的，当条件为 true 时，v-if 才会编译并渲染其内容。切换 v-if 下的块儿内容实际上时销毁了其内部的所有元素，比如说处于v-if下的组件实际上在切换状态时会被销毁并重新生成，因此，切换一个较大v-if块儿时会比v-show消耗的性能多。
 
-1.  vue3.0 中为什么要使用 Proxy，它相比以前的实现方式有什么改进？
+1. vue3.0 中为什么要使用 Proxy，它相比以前的实现方式有什么改进？
     - 可以提高实例初始化启动速度，优化数据响应式系统，由全部监听改为惰性监听（lazy by default)。
     - 数据响应式系统全语言特性支持，添加数组索引修改监听，对象的属性增加和删除。
-
 
 16. 你对SPA单页面的理解，它的优缺点分别是什么？如何实现SPA应用呢?
     单页面应用（SPA，Single Page Application）是一种通过动态更新网页内容而不重新加载整个页面来创建应用程序的技术。SPA 的核心思想是将所有用户操作都在一个单独的 HTML 页面内进行，使用 JavaScript 和 AJAX 请求动态加载和显示内容。
@@ -187,6 +194,7 @@ v-show 总是会进行编译和渲染的工作 - 它只是简单的在元素上�
     - Fingerprintjs 是一种高级技术，通过收集浏览器和设备的各种信息（如屏幕分辨率、插件信息等）来生成唯一标识。可以结合 localStorage 和 sessionStorage 以及其他方法来增强唯一性。
 20. js 中什么是 softbind，如何实现?
     softBind 允许你将一个函数绑定到特定的对象，但它与 `Function.prototype.bind()` 不同。如果绑定后的函数是作为其他对象的方法调用的，softBind 会尊重该调用对象，而不会强制使用绑定对象。
+
     ```js
     if (!Function.prototype.softBind) {
         Function.prototype.softBind = function(obj, ...rest) {
@@ -200,8 +208,9 @@ v-show 总是会进行编译和渲染的工作 - 它只是简单的在元素上�
         }
     }
     ```
+
 21. http 状态码中 301，302和307有什么区别?
-    - 301 当网站的资源位置永久变更时，可以使用 301。比如，网站域名从 http://example.com 迁移到 http://new-example.com，应该使用 301。
+    - 301 当网站的资源位置永久变更时，可以使用 301。比如，网站域名从 <http://example.com> 迁移到 <http://new-example.com，应该使用> 301。
     - 302 当资源的地址只是临时变化时，使用 302。比如，某个页面的临时维护期间跳转到另一个页面，维护结束后又恢复到原来的 URL。
     - 307 与 302 类似，表示资源临时移动，但 307 确保请求方法不会改变，因此在处理非 GET 请求（如 POST）时，307 更加安全。
 22. http2 与 http1.1 有什么改进?
@@ -223,11 +232,10 @@ v-show 总是会进行编译和渲染的工作 - 它只是简单的在元素上�
        - package-lock.json：如果在安装依赖的过程中有新依赖或者版本变化，npm install 会更新 package-lock.json 文件。
        - 新增依赖：运行 npm install <package> 可以新增一个依赖，并自动更新 package.json 和 package-lock.json。
        - 不存在 package-lock.json 时：会根据 package.json 中的版本范围来安装符合条件的最新依赖版本，生成新的 package-lock.json。
-      
+
     适用场景：
        - 开发中使用频繁，特别是在你可能新增、更新或删除依赖时。
        - 如果你需要在开发过程中手动管理或调整依赖项的版本。
-
 
     `npm ci` 是用于持续集成（CI）场景的命令，专注于快速、确定性地安装依赖，确保开发环境和生产环境之间的一致性。
 
@@ -257,7 +265,6 @@ v-show 总是会进行编译和渲染的工作 - 它只是简单的在元素上�
     - 版本更新（版本号规范）
     - 取消发布
   
-
 27. 在 Node 应用中如何利用多核心 CPU 的优势?
     - Cluster: Node.js 是单线程的，但是可以通过 Cluster 模块来创建多个子进程，每个进程可以共享同一个端口，从而实现多核心的负载均衡。
     - Worker Threads: 对于需要在应用程序中执行 CPU 密集型任务时，可以使用 Worker Threads 模块。它允许在不同的线程中运行 JavaScript 代码，从而避免阻塞主线程。
@@ -275,7 +282,7 @@ v-show 总是会进行编译和渲染的工作 - 它只是简单的在元素上�
     - SplitChunksPlugin： Webpack 内置了 SplitChunksPlugin，它可以自动将重复的依赖或较大的第三方库（如 react, lodash）提取到单独的文件中，避免在多个 bundle 中重复加载相同的代码。
 
 30. 你使用过哪些前端性能分析工具?
-    
+
     最常见且实用的性能工具有两个：
     - lighthouse: 可在 chrome devtools 直接使用，根据个人设备及网络对目标网站进行分析，并提供各种建议
     - webpagetest: 分布式的性能分析工具，可在全球多个区域的服务器资源为你的网站进行分析，并生成相应的报告
