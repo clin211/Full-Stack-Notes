@@ -553,7 +553,7 @@ router.GET("/detail", func(c *gin.Context) {
 3. 在 pages 中添加 products.html 文件。
 4. 在 main.go 中添加 products 路由。
 5. 做页面效果的 UI 开发（UI 是我通过 cursor 生成的）。
-6. 使用 axios 请求产品信息，接口地址：[https://fakestoreapi.com/products](https://fakestoreapi.com/products)；并做分页相关逻辑。
+6. 使用 axios 请求产品信息，接口地址：<https://fakestoreapi.com/products>；并做分页相关逻辑。
 7. 在浏览器中访问 `http://localhost:8080/products`。
 
 因为篇幅原因，这里就不一一贴代码演示了，就将第二步和第四步的核心代码展示出来：
@@ -568,7 +568,7 @@ router.GET("/products", func(c *gin.Context) {
 })
 ```
 
-可以在 [https://github.com/clin211/gin-learn/tree/main/05-template](https://github.com/clin211/gin-learn/tree/main/05-template) 中获取所有源码！
+可以在 <https://github.com/clin211/gin-learn/tree/main/05-template> 中获取所有源码！
 
 ## 总结
 
