@@ -1066,7 +1066,7 @@ message ExtensibleMessage {
 }
 ```
 
-## 5. 枚举类型 (Enum)
+## 五、枚举类型 (Enum)
 
 ### 5.1 枚举定义
 
@@ -3555,33 +3555,6 @@ message UserAnalytics {
 
 > ⚠️ **注意**：`weak import` 是一个高级特性，大多数情况下不需要使用。只有在处理复杂的依赖关系时才考虑使用。
 
-### 9.3 实战技巧：包和导入最佳实践
-
-#### **项目结构组织**
-
-```
-项目根目录/
-├── api/
-│   ├── common/
-│   │   └── v1/
-│   │       ├── common.proto          // 通用类型定义
-│   │       ├── error.proto           // 错误定义
-│   │       └── pagination.proto      // 分页相关
-│   ├── user/
-│   │   └── v1/
-│   │       ├── user.proto           // 用户相关定义
-│   │       └── user_service.proto   // 用户服务定义
-│   ├── order/
-│   │   └── v1/
-│   │       ├── order.proto          // 订单相关定义
-│   │       └── order_service.proto  // 订单服务定义
-│   └── payment/
-│       └── v1/
-│           ├── payment.proto        // 支付相关定义
-│           └── payment_service.proto // 支付服务定义
-└── protoc.sh                       // 编译脚本
-```
-
 #### **编译脚本示例**
 
 ```bash
@@ -3713,3 +3686,5 @@ Protocol Buffers（protobuf）是一种语言中性、平台中性的可扩展�
 - protobuf 还支持高级特性，如 Any 类型、Well-Known Types 和 oneof 等。
 
 总之，protobuf 是一种灵活、高效的数据序列化格式，适用于各种场景和应用。
+
+> 文中的代码都可在 <https://github.com/clin211/grpc/tree/main/05proto-syntax> 中找到！
