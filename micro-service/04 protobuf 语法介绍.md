@@ -144,7 +144,7 @@ message HelloReply {
 // 2. 语法版本声明（必须）
 syntax = "proto3";
 
-// 3. 包声明
+// 3. 声明包
 package user.v1;
 
 // 4. 导入语句（需要则导入）
@@ -152,7 +152,7 @@ import "google/protobuf/timestamp.proto";
 import "google/protobuf/empty.proto";
 
 // 5. 选项设置（根据对应语言声明）
-option go_package = "github.com/example/user/v1;userv1";
+option go_package = "github.com/clin211/grpc/user/v1;userv1";
 option java_package = "com.example.user.v1";
 option java_outer_classname = "UserProtos";
 
@@ -400,14 +400,15 @@ protobuf 有一套推荐的命名约定，遵循这些约定可以提高代码�
   user_service.proto           // 服务定义
   common_types.proto           // 通用类型定义
   api/v1/user.proto           // 带版本的 API 定义
-
+  
   // ❌ 错误的文件命名
   User.proto                   // 不要使用大写
   userService.proto           // 不要使用 camelCase
   user-service.proto          // 不要使用连字符
   ```
 
-![](https://files.mdnice.com/user/8213/4e80e487-c1a4-4b27-8f76-523057d2763f.png)
+user.v1`,`com.example.api` |
+  | 文件 (File)         | snake_case.proto            | `user.proto`,`user_service.proto` |
 
 遵循这些命名约定不仅能提高代码可读性，还能确保生成的代码在不同编程语言中都保持一致的风格。
 
@@ -421,12 +422,12 @@ protobuf 提供了丰富的标量数据类型，每种类型都有其特定的�
 
 - `int32`：使用变长编码，对负数编码效率较低
 - `int64`：使用变长编码，对负数编码效率较低  
-- `sint32`：使用 `ZigZag` 编码，对负数编码更高效
-- `sint64`：使用 `ZigZag` 编码，对负数编码更高效
+- `sint32`：使用 ZigZag 编码，对负数编码更高效
+- `sint64`：使用 ZigZag 编码，对负数编码更高效
 - `uint32`：无符号 32 位整数，使用变长编码
 - `uint64`：无符号 64 位整数，使用变长编码
-- `fixed32`：总是 4 字节，当值经常大于 `2^28` 时比 `uint32` 更高效
-- `fixed64`：总是 8 字节，当值经常大于 `2^56` 时比 `uint64` 更高效
+- `fixed32`：总是 4 字节，当值经常大于 2^28 时比 uint32 更高效
+- `fixed64`：总是 8 字节，当值经常大于 2^56 时比 uint64 更高效
 - `sfixed32`：总是 4 字节，有符号固定长度整数
 - `sfixed64`：总是 8 字节，有符号固定长度整数
 
@@ -746,30 +747,35 @@ message OptimizedMessage {
   示例：
 
   ```proto
-  syntax = "proto3";
+syntax = "proto3";
 
-  message UserAccount {
-    // Singular 字段 - 总是有值（或默认值）
-    int32 user_id = 1;
-    string username = 2;
-    
-    // Optional 字段 - 可以检测是否设置
-    optional string full_name = 3;
-    optional string phone = 4;
-    optional int32 birth_year = 5;
-    
-    // Repeated 字段 - 数组/列表
-    repeated string email_addresses = 6;
-    repeated int32 favorite_categories = 7;
-    repeated Address addresses = 8;
-  }
+package user.v1;
 
-  message Address {
-    string street = 1;
-    string city = 2;
-    string country = 3;
-    optional string postal_code = 4;
-  }
+option go_package = "github.com/clin211/grpc/user/v1;userv1";
+
+message UserAccount {
+  // Singular 字段 - 总是有值（或默认值）
+  int32 user_id = 1;
+  string username = 2;
+
+  // Optional 字段 - 可以检测是否设置
+  optional string full_name = 3;
+  optional string phone = 4;
+  optional int32 birth_year = 5;
+
+  // Repeated 字段 - 数组/列表
+  repeated string email_addresses = 6;
+  repeated int32 favorite_categories = 7;
+  repeated Address addresses = 8;
+}
+
+message Address {
+  string street = 1;
+  string city = 2;
+  string country = 3;
+  optional string postal_code = 4;
+}
+
   ```
 
 ### 4.2 嵌套 Message
@@ -1060,7 +1066,7 @@ message ExtensibleMessage {
 }
 ```
 
-## 五、枚举类型 (Enum)
+## 5. 枚举类型 (Enum)
 
 ### 5.1 枚举定义
 
@@ -1080,6 +1086,10 @@ enum EnumName {
 
 ```proto
 syntax = "proto3";
+
+package enum.v1;
+
+option go_package = "github.com/clin211/grpc/proto/v1;enumv1";
 
 // 用户状态枚举
 enum UserStatus {
@@ -1164,9 +1174,15 @@ enum BadExample {
 当需要为同一个数值定义多个名称时，可以使用 `allow_alias` 选项：
 
 ```proto
+syntax = "proto3";
+
+package allow_alias.v1;
+
+option go_package = "github.com/clin211/grpc/proto/v1;allowaliasv1";
+
 enum Status {
   option allow_alias = true;
-  
+
   STATUS_UNSPECIFIED = 0;
   STATUS_STARTED = 1;
   STATUS_RUNNING = 1;          // 别名：与 STARTED 值相同
@@ -1177,7 +1193,7 @@ enum Status {
 // 实际使用场景示例
 enum HttpStatusCode {
   option allow_alias = true;
-  
+
   HTTP_STATUS_UNSPECIFIED = 0;
   HTTP_STATUS_OK = 200;
   HTTP_STATUS_SUCCESS = 200;   // 别名：成功的另一种表示
@@ -1347,6 +1363,12 @@ enum Color_V2 {
 使用 `deprecated` 选项标记废弃的枚举值：
 
 ```proto
+syntax = "proto3";
+
+package allow_alias.v1;
+
+option go_package = "github.com/clin211/grpc/proto/v1;allowaliasv1";
+
 enum APIVersion {
   API_VERSION_UNSPECIFIED = 0;
   API_VERSION_V1 = 1 [deprecated = true];  // 标记为废弃
@@ -1423,7 +1445,7 @@ message LogEntry {
       .setMessage("Application started")
       .setLevel(LogLevel.LOG_LEVEL_INFO)
       .build();
-
+  
   // 处理未知枚举值
   if (entry.getLevel() == LogLevel.UNRECOGNIZED) {
       // 处理未知的枚举值
@@ -1513,7 +1535,7 @@ message LogEntry {
     FEATURE_TOGGLE_ENABLED_FOR_BETA = 4;     // Beta用户启用
     FEATURE_TOGGLE_ENABLED_FOR_ALL = 5;      // 全部用户启用
   }
-
+  
   message SystemConfig {
     map<string, FeatureToggle> features = 1;  // 特性名到开关状态的映射
   }
@@ -1530,15 +1552,19 @@ message LogEntry {
 ```proto
 syntax = "proto3";
 
+package repeated.v1;
+
+option go_package = "github.com/clin211/grpc/proto/v1;repeatedv1";
+
 message BasicRepeatedExample {
   // 标量类型的 repeated 字段
   repeated string tags = 1;           // 字符串数组
   repeated int32 scores = 2;          // 整数数组
   repeated bool flags = 3;            // 布尔值数组
-  
+
   // 枚举类型的 repeated 字段
   repeated Priority priorities = 4;   // 枚举数组
-  
+
   // Message 类型的 repeated 字段
   repeated Address addresses = 5;     // Message 数组
 }
@@ -1556,23 +1582,29 @@ message Address {
 }
 ```
 
-💡 **实际使用示例**
+**实际使用示例**:
 
 ```proto
+syntax = "proto3";
+
+package userprofile.v1;
+
+option go_package = "github.com/clin211/grpc/proto/v1;userprofilev1";
+
 // 用户配置 Message
 message UserProfile {
   string username = 1;
   string email = 2;
-  
+
   // 用户的多个角色
   repeated string roles = 3;
-  
+
   // 用户的多个联系地址
   repeated ContactAddress addresses = 4;
-  
+
   // 用户的兴趣标签
   repeated string interests = 5;
-  
+
   // 用户的历史登录记录
   repeated LoginRecord login_history = 6;
 }
@@ -1591,6 +1623,7 @@ message LoginRecord {
   string user_agent = 3;
   bool success = 4;
 }
+
 ```
 
 #### **packed 优化**
@@ -1676,6 +1709,10 @@ message PaginationInfo {
 ```proto
 syntax = "proto3";
 
+package map.v1;
+
+option go_package = "github.com/clin211/grpc/proto/v1;mapv1";
+
 message MapExample {
   // 基本语法：map<key_type, value_type> map_name = field_number;
   map<string, string> attributes = 1;      // 字符串到字符串的映射
@@ -1709,20 +1746,26 @@ message UserInfo {
 **实际应用示例**:
 
 ```proto
+syntax = "proto3";
+
+package systemconfigration.v1;
+
+option go_package = "github.com/clin211/grpc/proto/v1;systemconfigrationv1";
+
 // 配置管理系统
 message SystemConfiguration {
   // 字符串配置项
   map<string, string> string_configs = 1;
-  
-  // 数值配置项  
+
+  // 数值配置项
   map<string, int32> int_configs = 2;
-  
+
   // 布尔配置项
   map<string, bool> bool_configs = 3;
-  
+
   // 复杂配置项
   map<string, ConfigValue> advanced_configs = 4;
-  
+
   // 环境相关配置
   map<string, EnvironmentConfig> environments = 5;
 }
@@ -1747,10 +1790,10 @@ message EnvironmentConfig {
 // 用户权限系统
 message UserPermissions {
   string user_id = 1;
-  
+
   // 资源ID到权限级别的映射
   map<string, PermissionLevel> resource_permissions = 2;
-  
+
   // 角色到权限的映射
   map<string, RolePermission> role_permissions = 3;
 }
@@ -2016,7 +2059,7 @@ case nil:
       OrderFilter order_filter = 5;
     }
   }
-
+  
   // 模式2：配置的多种来源
   message ConfigSource {
     oneof source {
@@ -2026,7 +2069,7 @@ case nil:
       EnvironmentConfig environment = 4;
     }
   }
-
+  
   // 模式3：状态机的状态表示
   message TaskState {
     string task_id = 1;
@@ -2110,7 +2153,7 @@ if container.Payload.MessageIs(&extractedUser) {
 
 #### **实际应用场景**
 
-💡 **插件系统设计**
+**插件系统设计**
 
 ```proto
 // 插件配置系统
@@ -2144,7 +2187,7 @@ message LoggingPluginSettings {
 }
 ```
 
-💡 **事件溯源系统**
+ **事件溯源系统**
 
 ```proto
 // 事件存储
@@ -2264,7 +2307,7 @@ Protobuf 提供了一系列预定义的标准类型，用于处理常见的数�
 
   ```proto
   import "google/protobuf/duration.proto";
-
+  
   message TaskExecution {
     string task_id = 1;
     string status = 2;
@@ -2280,16 +2323,16 @@ Protobuf 提供了一系列预定义的标准类型，用于处理常见的数�
       "time"
       "google.golang.org/protobuf/types/known/durationpb"
   )
-
+  
   // 创建 Duration
   duration := durationpb.New(5 * time.Minute)
-
+  
   task := &TaskExecution{
       TaskId: "task123",
       Status: "completed",
       ExecutionTime: duration,
   }
-
+  
   // 转换回 Go time.Duration
   goDuration := task.ExecutionTime.AsDuration()
   ```
@@ -2311,7 +2354,7 @@ Protobuf 提供了一系列预定义的标准类型，用于处理常见的数�
 
   ```proto
   import "google/protobuf/struct.proto";
-
+  
   message KeyValuePair {
     string key = 1;
     google.protobuf.Value value = 2;  // 可以是任意 JSON 值类型
@@ -2332,7 +2375,7 @@ Protobuf 提供了一系列预定义的标准类型，用于处理常见的数�
     // 使用 Value 存储动态值
     map<string, google.protobuf.Value> feature_flags = 4;
   }
-
+  
   // API 响应中的动态数据
   message APIResponse {
     int32 status_code = 1;
@@ -2394,7 +2437,7 @@ message UserProfile {
 
   ```proto
   import "google/protobuf/field_mask.proto";
-
+  
   message UpdateUserRequest {
     string user_id = 1;
     UserProfile user_profile = 2;
@@ -2402,7 +2445,7 @@ message UserProfile {
     // 指定要更新的字段
     google.protobuf.FieldMask update_mask = 3;
   }
-
+  
   service UserService {
     rpc UpdateUser(UpdateUserRequest) returns (UserProfile);
   }
@@ -2415,7 +2458,7 @@ message UserProfile {
   updateMask := &fieldmaskpb.FieldMask{
       Paths: []string{"nickname", "age"},
   }
-
+  
   request := &UpdateUserRequest{
       UserId: "user123",
       UserProfile: &UserProfile{
@@ -3660,9 +3703,13 @@ service UserMigrationService {
 Protocol Buffers（protobuf）是一种语言中性、平台中性的可扩展序列化结构数据格式，广泛应用于数据存储、通信协议和服务接口定义等场景。它具有更高的序列化性能、更小的数据体积和更强的类型安全性。protobuf 的核心概念包括 Message、字段、字段编号、选项等。
 
 - Message 是 protobuf 中的核心概念，它定义了数据的结构和格式。
+
 - 字段是 Message 中的基本元素，包括标量类型、复合类型和特殊类型。
+
 - 字段编号是 protobuf 中最重要的概念之一，它们在二进制编码中用于标识字段。
+
 - 选项允许为字段添加元数据和行为控制。
+
 - protobuf 还支持高级特性，如 Any 类型、Well-Known Types 和 oneof 等。
 
 总之，protobuf 是一种灵活、高效的数据序列化格式，适用于各种场景和应用。
