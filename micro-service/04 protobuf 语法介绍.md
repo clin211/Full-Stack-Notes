@@ -45,21 +45,9 @@ message HelloReply {
 }
 ```
 
-### 1.2 protobuf 的优势
+![](https://files.mdnice.com/user/8213/97327301-1717-4f5a-8735-281fd3035db8.png)
 
-- protobuf：基于二进制格式，序列化速度比 JSON 快 3-10 倍
-- JSON：文本格式，需要字符串解析，速度相对较慢
-- XML：最慢，包含大量标签信息
-- protobuf 使用 varint 编码和字段标识符，显著减少内存占用。
-- 编译时类型检查，减少运行时错误
-- 自动生成类型安全的代码
-- 支持复杂数据结构验证
-- 自动生成多种语言的数据访问类
-- 生成序列化/反序列化方法
-- 提供类型安全的 API
-- 集成 IDE 支持和调试功能
-
-### 1.3 应用场景
+### 1.2 应用场景
 
 - **微服务间通信**
 
@@ -419,18 +407,7 @@ protobuf 有一套推荐的命名约定，遵循这些约定可以提高代码�
   user-service.proto          // 不要使用连字符
   ```
 
-- **命名约定总结表**
-
-  | 元素类型            | 命名规范                    | 示例                               |
-  | ------------------- | --------------------------- | ---------------------------------- |
-  | Message (Message)   | PascalCase                  | `User`, `CreateUserRequest`        |
-  | 字段 (Field)        | snake_case                  | `user_id`, `first_name`            |
-  | 枚举类型 (Enum)     | PascalCase                  | `UserStatus`, `OrderType`          |
-  | 枚举值 (Enum Value) | SCREAMING_SNAKE_CASE + 前缀 | `USER_STATUS_ACTIVE`               |
-  | 服务 (Service)      | PascalCase                  | `UserService`                      |
-  | 方法 (RPC)          | PascalCase                  | `GetUser`, `CreateUser`            |
-  | 包 (Package)        | lowercase with dots         | `user.v1`, `com.example.api`       |
-  | 文件 (File)         | snake_case.proto            | `user.proto`, `user_service.proto` |
+![](https://files.mdnice.com/user/8213/4e80e487-c1a4-4b27-8f76-523057d2763f.png)
 
 遵循这些命名约定不仅能提高代码可读性，还能确保生成的代码在不同编程语言中都保持一致的风格。
 
@@ -444,12 +421,12 @@ protobuf 提供了丰富的标量数据类型，每种类型都有其特定的�
 
 - `int32`：使用变长编码，对负数编码效率较低
 - `int64`：使用变长编码，对负数编码效率较低  
-- `sint32`：使用 ZigZag 编码，对负数编码更高效
-- `sint64`：使用 ZigZag 编码，对负数编码更高效
+- `sint32`：使用 `ZigZag` 编码，对负数编码更高效
+- `sint64`：使用 `ZigZag` 编码，对负数编码更高效
 - `uint32`：无符号 32 位整数，使用变长编码
 - `uint64`：无符号 64 位整数，使用变长编码
-- `fixed32`：总是 4 字节，当值经常大于 2^28 时比 uint32 更高效
-- `fixed64`：总是 8 字节，当值经常大于 2^56 时比 uint64 更高效
+- `fixed32`：总是 4 字节，当值经常大于 `2^28` 时比 `uint32` 更高效
+- `fixed64`：总是 8 字节，当值经常大于 `2^56` 时比 `uint64` 更高效
 - `sfixed32`：总是 4 字节，有符号固定长度整数
 - `sfixed64`：总是 8 字节，有符号固定长度整数
 
@@ -1083,7 +1060,7 @@ message ExtensibleMessage {
 }
 ```
 
-## 5. 枚举类型 (Enum)
+## 五、枚举类型 (Enum)
 
 ### 5.1 枚举定义
 
@@ -1446,7 +1423,7 @@ message LogEntry {
       .setMessage("Application started")
       .setLevel(LogLevel.LOG_LEVEL_INFO)
       .build();
-  
+
   // 处理未知枚举值
   if (entry.getLevel() == LogLevel.UNRECOGNIZED) {
       // 处理未知的枚举值
@@ -1536,7 +1513,7 @@ message LogEntry {
     FEATURE_TOGGLE_ENABLED_FOR_BETA = 4;     // Beta用户启用
     FEATURE_TOGGLE_ENABLED_FOR_ALL = 5;      // 全部用户启用
   }
-  
+
   message SystemConfig {
     map<string, FeatureToggle> features = 1;  // 特性名到开关状态的映射
   }
@@ -2039,7 +2016,7 @@ case nil:
       OrderFilter order_filter = 5;
     }
   }
-  
+
   // 模式2：配置的多种来源
   message ConfigSource {
     oneof source {
@@ -2049,7 +2026,7 @@ case nil:
       EnvironmentConfig environment = 4;
     }
   }
-  
+
   // 模式3：状态机的状态表示
   message TaskState {
     string task_id = 1;
@@ -2287,7 +2264,7 @@ Protobuf 提供了一系列预定义的标准类型，用于处理常见的数�
 
   ```proto
   import "google/protobuf/duration.proto";
-  
+
   message TaskExecution {
     string task_id = 1;
     string status = 2;
@@ -2303,16 +2280,16 @@ Protobuf 提供了一系列预定义的标准类型，用于处理常见的数�
       "time"
       "google.golang.org/protobuf/types/known/durationpb"
   )
-  
+
   // 创建 Duration
   duration := durationpb.New(5 * time.Minute)
-  
+
   task := &TaskExecution{
       TaskId: "task123",
       Status: "completed",
       ExecutionTime: duration,
   }
-  
+
   // 转换回 Go time.Duration
   goDuration := task.ExecutionTime.AsDuration()
   ```
@@ -2334,7 +2311,7 @@ Protobuf 提供了一系列预定义的标准类型，用于处理常见的数�
 
   ```proto
   import "google/protobuf/struct.proto";
-  
+
   message KeyValuePair {
     string key = 1;
     google.protobuf.Value value = 2;  // 可以是任意 JSON 值类型
@@ -2355,7 +2332,7 @@ Protobuf 提供了一系列预定义的标准类型，用于处理常见的数�
     // 使用 Value 存储动态值
     map<string, google.protobuf.Value> feature_flags = 4;
   }
-  
+
   // API 响应中的动态数据
   message APIResponse {
     int32 status_code = 1;
@@ -2417,7 +2394,7 @@ message UserProfile {
 
   ```proto
   import "google/protobuf/field_mask.proto";
-  
+
   message UpdateUserRequest {
     string user_id = 1;
     UserProfile user_profile = 2;
@@ -2425,7 +2402,7 @@ message UserProfile {
     // 指定要更新的字段
     google.protobuf.FieldMask update_mask = 3;
   }
-  
+
   service UserService {
     rpc UpdateUser(UpdateUserRequest) returns (UserProfile);
   }
@@ -2438,7 +2415,7 @@ message UserProfile {
   updateMask := &fieldmaskpb.FieldMask{
       Paths: []string{"nickname", "age"},
   }
-  
+
   request := &UpdateUserRequest{
       UserId: "user123",
       UserProfile: &UserProfile{
@@ -3683,13 +3660,9 @@ service UserMigrationService {
 Protocol Buffers（protobuf）是一种语言中性、平台中性的可扩展序列化结构数据格式，广泛应用于数据存储、通信协议和服务接口定义等场景。它具有更高的序列化性能、更小的数据体积和更强的类型安全性。protobuf 的核心概念包括 Message、字段、字段编号、选项等。
 
 - Message 是 protobuf 中的核心概念，它定义了数据的结构和格式。
-
 - 字段是 Message 中的基本元素，包括标量类型、复合类型和特殊类型。
-
 - 字段编号是 protobuf 中最重要的概念之一，它们在二进制编码中用于标识字段。
-
 - 选项允许为字段添加元数据和行为控制。
-
 - protobuf 还支持高级特性，如 Any 类型、Well-Known Types 和 oneof 等。
 
 总之，protobuf 是一种灵活、高效的数据序列化格式，适用于各种场景和应用。
