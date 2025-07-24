@@ -10,7 +10,7 @@ gRPC 的由来可以追溯到 Google 内部的 Stubby 系统。Stubby 是 Google
 
 gRPC 的调用如下图（图片来自官方文档）所示：
 
-![来自 https://grpc.io/docs/what-is-grpc/introduction/](./assets/d20110cf-d565-4820-b768-531cf1ffa279.png)
+![来自 https://grpc.io/docs/what-is-grpc/introduction/](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/2TCmEu-d20110cf-d565-4820-b768-531cf1ffa279.png)
 
 上图中的调用流程如下：
 
@@ -90,11 +90,11 @@ gRPC API 接口通常使用的数据传输格式是 [Protocol Buffers](https://p
 
 我这里就不一一列举具体的系统或者具体的语言区安装，就以 Go 语言为例，其它语言官方也提供了具体的安装方式 [https://grpc.io/docs/languages/](https://grpc.io/docs/languages/)，或者手动安装，官方地址：
 
-![](./assets/422b946d-ef59-4c3d-9d2a-3b5e8f7c6021.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/M44GY1-422b946d-ef59-4c3d-9d2a-3b5e8f7c6021.png)
 
 选择对应的系统后，解压文件，将可执行没文件添加到系统的环境变量中：
 
-![](./assets/b054522f-82d6-4c05-b2ac-ba77cb2ee642.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/x8beJB-b054522f-82d6-4c05-b2ac-ba77cb2ee642.png)
 
 官方还提供了其他的安装方式：
 - Windows 使用 Winget 安装：
@@ -115,7 +115,7 @@ gRPC API 接口通常使用的数据传输格式是 [Protocol Buffers](https://p
 $ protoc --version
 libprotoc 30.0
 ```
-![](./assets/be4484cb-dc27-4955-9fb0-73dfa49ad4e4.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/FDkn1x-be4484cb-dc27-4955-9fb0-73dfa49ad4e4.png)
 
 上面安装了 Protocol Buffer 的编译器，接着就安装 gRPC 相关的 Go 依赖：
 ```sh
@@ -127,7 +127,7 @@ go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
 $ protoc-gen-go --version && protoc-gen-go-grpc --version
 
 ```
-![](./assets/0aba8d06-a307-4d94-8398-273572d7389b.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/VDt2u4-0aba8d06-a307-4d94-8398-273572d7389b.png)
 
 这两个工具的作用：
 - `protoc-gen-go`：用于生成 Go 结构体代码（message 解析）。
@@ -203,7 +203,7 @@ proto/
 └── helloworld_grpc.pb.go   # 处理 gRPC 服务的 Go 代码
 ```
 完整目录如下：
-![](./assets/8ba396f4-c6ad-48be-a9e8-3eb17959ab97.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/TbQ30X-8ba396f4-c6ad-48be-a9e8-3eb17959ab97.png)
 
 ### 实现 gRPC 服务器
 到这里，我们已经成功生成了 gRPC Go 代码。下一步，我们将实现 GreeterServer，并启动 gRPC 服务器。
@@ -273,7 +273,7 @@ go run server/main.go
 ```
 效果如下：
 
-![](./assets/d1594848-3fe9-4ad6-ac4c-028bf7fed5bd.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/dFtL7X-d1594848-3fe9-4ad6-ac4c-028bf7fed5bd.png)
 
 ### 实现 gRPC 客户端
 我们已经成功启动了 gRPC 服务器，现在我们需要实现一个客户端，来调用 `Greeter` 服务的 `SayHello` 和 `SayHelloAgain` 方法，并获取返回结果。
@@ -354,7 +354,7 @@ func main() {
 $ go run client/main.go
 ```
 
-![](./assets/df00ecea-1b2a-4372-b18b-b2e290d66422.jpg)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/euIvHn-df00ecea-1b2a-4372-b18b-b2e290d66422.jpg)
 
 > 当然也可以使用 [grpcurl](https://github.com/fullstorydev/grpcurl)，使用 `go install` 安装，完整命令：`go install github.com/fullstorydev/grpcurl/cmd/grpcurl@latest`
 

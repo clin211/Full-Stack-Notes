@@ -56,10 +56,10 @@ GoFrame 框架中的 gvalid 组件是一款功能强大而灵活的数据/表单
   ```
   运行命令 `gf run main.go` 如下：
   
-  <img src="assets/346e5a19-ecf1-4d3a-9e7b-13ac4a1f2b02.png" />
+  <img src="https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/czySCM-346e5a19-ecf1-4d3a-9e7b-13ac4a1f2b02.png" />
   
   在浏览器中访问 [http://localhost:8199/?account=cLin&password=Password123456&password2=password123456](http://localhost:8199/?account=cLin&password=Password123456&password2=password123456) 效果如下：
-  <img src="assets/11bb0dd1-53ea-4acb-8c4d-9b7c478698ce.png" />
+  <img src="https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/iPI69e-11bb0dd1-53ea-4acb-8c4d-9b7c478698ce.png" />
   
 - bail 只要后续的多个校验中有一个规则校验失败则停止校验并立即返回校验结果。在框架的 HTTP Server 组件中，如果采用规范路由注册方式，在其自动校验特性中将会自动开启bail修饰规则。
 
@@ -102,7 +102,7 @@ GoFrame 框架中的 gvalid 组件是一款功能强大而灵活的数据/表单
   }
   ```
 
-  ![](assets/b6b22988-578f-43fb-ad31-a450c534207a.png)
+  ![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/Ollc3e-b6b22988-578f-43fb-ad31-a450c534207a.png)
 
 - foreach 用于数组参数，将待检验的参数作为数组遍历，并将后一个校验规则应用于数组中的每一项。
 
@@ -138,7 +138,7 @@ GoFrame 框架中的 gvalid 组件是一款功能强大而灵活的数据/表单
   ```
   
   运行上面的代码，结果如下：
-  <img src="assets/a115391d-7669-41fe-848a-4aeaac782298.png" />
+  <img src="https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/sxvD4U-a115391d-7669-41fe-848a-4aeaac782298.png" />
   
 #### 功能规则
 - required：**必需参数**，除了支持常见的字符串，**也支持 slice/map 类型**
@@ -400,7 +400,7 @@ func (v *Validator) checkRuleRequired(rule string) bool {}
   ```
   执行后打印的结果如下：
 
-  ![](assets/f17f5b13-c0c9-458e-8dae-a21805cb3d8d.png)
+  ![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/hZiBMl-f17f5b13-c0c9-458e-8dae-a21805cb3d8d.png)
 
 ### 校验结果
 校验结果为一个 error 错误对象，内部使用 `gvalid.Error` 对象实现。当数据规则校验成功时，校验方法返回的结果为 `nil`。当数据规则校验失败时，返回的该对象是包含结构化的层级 map，包含多个字段及其规则及对应错误信息，以便于接收端能够准确定位错误规则。
@@ -464,7 +464,7 @@ func main() {
 ```
 执行后，终端输出如下图：
 
-![](assets/621fbefc-333e-4e30-8aa8-e34eec329101.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/L1DSZ0-621fbefc-333e-4e30-8aa8-e34eec329101.png)
 
 ### 参数类型
 
@@ -495,7 +495,7 @@ func main() {
   }
   ```
   执行后，终端输出：
-  ![image](assets/8c92e5d5-3f5e-45f6-868a-7150ae9769d7.png)
+  ![image](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/5D3VEH-8c92e5d5-3f5e-45f6-868a-7150ae9769d7.png)
 - 校验数据类型及大小，并且使用自定义的错误提示
   ```go
   package main
@@ -519,7 +519,7 @@ func main() {
   }
   ```
   
-  ![image](assets/bbc2ac3e-b6e9-400f-98e9-60ca52db74d4.png)
+  ![image](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/KvoUUE-bbc2ac3e-b6e9-400f-98e9-60ca52db74d4.png)
 
   多个规则以及多个自定义错误提示之间使用英文 `|` 号进行分割，注意自定义错误提示的顺序和多规则的顺序一一对应。messages参数除了支持 `string` 类型以外，还支持 `map[string]string` 类型，请看以下例子：
   ```go
@@ -545,7 +545,7 @@ func main() {
       }
   }
   ```
-  ![image](assets/08113d1d-8ac9-43d1-9a90-2d9a2598ac86.png)
+  ![image](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/EHhhG9-08113d1d-8ac9-43d1-9a90-2d9a2598ac86.png)
 
 - 使用自定义正则校验数据格式，使用默认错误提示
   ```go
@@ -575,7 +575,7 @@ func main() {
   ```
 
   执行后，效果如下图：
-  ![image](assets/a92395a0-8284-4fee-8bed-d0a9e2e97c37.png)
+  ![image](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/u7Lj3x-a92395a0-8284-4fee-8bed-d0a9e2e97c37.png)
 
 ### struct 和 map 的数据校验
 
@@ -625,7 +625,7 @@ g.Validator().Data(object).Run(ctx)
   }
   ```
   执行后，效果如下：
-  ![](assets/e97b5672-32b4-4afa-a063-469da0d6634a.png)
+  ![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/fsRYi7-e97b5672-32b4-4afa-a063-469da0d6634a.png)
 
 - 使用map指定校验规则
   ```go
@@ -665,7 +665,7 @@ g.Validator().Data(object).Run(ctx)
   ```
   执行后，结果如下：
 
-  ![](assets/d594acea-0ee4-4794-8837-ea076c7327dd.png)
+  ![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/8qr1NQ-d594acea-0ee4-4794-8837-ea076c7327dd.png)
 
 - 结构体递归校验（嵌套校验）
   支持递归的结构体校验（嵌套校验），即如果属性也是结构体（也支持嵌套结构体（embedded）），那么将会自动将该属性执行递归校验。
@@ -703,7 +703,7 @@ g.Validator().Data(object).Run(ctx)
   }
   ```
   执行后，效果如下：
-  ![image](assets/03eeed13-635c-42f8-828b-6cd5e9281bbc.png)
+  ![image](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/Ryu5Xu-03eeed13-635c-42f8-828b-6cd5e9281bbc.png)
 
 #### Map 校验
 - 默认错误提示
@@ -736,7 +736,7 @@ g.Validator().Data(object).Run(ctx)
   }
   ```
   执行后，效果如下图：
-  ![image](assets/b6841ab5-e02b-41b9-a2aa-adb55ad97497.png)
+  ![image](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/esPfJ2-b6841ab5-e02b-41b9-a2aa-adb55ad97497.png)
 
 - 自定义错误提示
   ```go
@@ -777,7 +777,7 @@ g.Validator().Data(object).Run(ctx)
   ```
   执行后，效果如下图：
 
-  ![image](assets/3b5ecd49-b705-46b5-9fa2-ab8c63c2b63b.png)
+  ![image](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/7lsUMN-3b5ecd49-b705-46b5-9fa2-ab8c63c2b63b.png)
   
   - 校验顺序性
   
@@ -815,7 +815,7 @@ g.Validator().Data(object).Run(ctx)
   }
   ```
   执行后结果如下：
-  ![](assets/9e7fc7c2-bfb5-4775-a497-b8f63c31f126.png)
+  ![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/mJjPkW-9e7fc7c2-bfb5-4775-a497-b8f63c31f126.png)
   只需要将 rules 参数的类型修改为 `[]string`，按照一定的规则设定即可，并且 msgs 参数既可以定义到 rules 参数中，也可以分开传入（使用第三个参数)
 
 
@@ -1263,7 +1263,7 @@ services:
     command: ["redis-server", "--requirepass", "123456"]
 ```
 使用 `docker-compose up` 就可以启动 Redis 服务啦！然后再运行上面的代码，效果如下：
-![image](assets/e8fa1305-62ac-475e-925e-2c2c4355a27a.png)
+![image](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/xEqVpQ-e8fa1305-62ac-475e-925e-2c2c4355a27a.png)
 
 在使用 `gcache.Cache` 连接到 Redis 时：
 - 同样的配置 会连接到 同一个 Redis 数据库。

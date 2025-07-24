@@ -13,11 +13,11 @@ Next.js 作为一个强大的 React 全栈框架。引入了更高效的 Loading
 - 使用生成的 HTML 和 CSS 显示非交互式用户界面。
 - 最后，React对界面进行[水合（hydrate）](https://react.dev/reference/react-dom/client/hydrateRoot#hydrating-server-rendered-html)，使其具有交互性。
 
-![](./assets/37646afd-4c51-4f7f-9c17-450a85d485d3-20241209232950014.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/kc7HII-37646afd-4c51-4f7f-9c17-450a85d485d3-20241209232950014.png)
 
 这些步骤是连续的、阻塞的。也就是服务器需等所有数据获取完成后才能渲染 HTML，客户端也需等所有组件代码加载完毕后才能对 UI 进行水合：
 
-![](./assets/5b433ffb-393a-4597-b856-1da4a7cf512b-20241209232950006.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/Gc4wgd-5b433ffb-393a-4597-b856-1da4a7cf512b-20241209232950006.png)
 
 React 18 为了解决上面这些问题，引入了 [Suspense](https://react.dev/reference/react/Suspense) 组件。
 
@@ -76,7 +76,7 @@ export default function App() {
 ```
 效果如下：
 
-![](./assets/fee6e138-1f24-401b-a089-8e7561d069c0-20241209232949993.gif)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/BjSWd1-fee6e138-1f24-401b-a089-8e7561d069c0-20241209232949993.gif)
 
 完整代码可以查看 [https://github.com/clin211/react-awesome/tree/react19-use-suspense](https://github.com/clin211/react-awesome/tree/react19-use-suspense)。
 
@@ -87,7 +87,7 @@ export default function App() {
 > npx create-next-app@latest --use-pnpm
 > ```
 > 配置如下图：
-> ![创建项目配置选项](./assets/fdcacd9d-b6ae-4459-9d4d-eaed3a4040f2-20241209232950013.png)
+> ![创建项目配置选项](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/cViN7J-fdcacd9d-b6ae-4459-9d4d-eaed3a4040f2-20241209232950013.png)
 
 我们以电商系统的产品详情的产品信息、用户评论和产品推荐等功能模块为例：
 
@@ -126,19 +126,19 @@ export default function page() {
 ```
 上面这段代码，通过模拟不同的加载时间，可以看到不同的加载状态，确保用户在等待时得到反馈。通过 `Suspense` 实现了异步组件加载时的过渡效果，每个异步组件都有独立的加载指示器。当每个组件的数据或内容加载完成后，相应的组件将被渲染。
 
-![](./assets/60442c32-6aa5-4f9e-b103-b76ee26834f0-20241209232950121.gif)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/kbPWPV-60442c32-6aa5-4f9e-b103-b76ee26834f0-20241209232950121.gif)
 
 从上面的 GIF 图中，可以看出 `/product` 路由的加载时间变化，从一开始的 2.08s 到最后的 5.07s，上面的代码中，我们设置的最长时间就是 5s，然后查看网络面板查看 `/product` 路由的详细请求情况如下图：
 
-![](./assets/1ae94cb0-3b5a-4550-bc7c-60ab29d3fe8e-20241209232950110.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/trqs0w-1ae94cb0-3b5a-4550-bc7c-60ab29d3fe8e-20241209232950110.png)
 
 其中最关键的就是响应头中 `transfer-encoding: chunked`，表示数据将以一系列分块的形式进行发送。
 
-![来自 MDN 截图](./assets/1703aa6b-4d14-4188-9a87-2d10c54c6cff-20241209232949994.png)
+![来自 MDN 截图](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/kefqGx-1703aa6b-4d14-4188-9a87-2d10c54c6cff-20241209232949994.png)
 
 分块传输编码只在 HTTP 协议1.1版本（HTTP/1.1）中提供！
 
-![来自 MDN 截图](./assets/6917e87c-fa95-46f3-8018-365826ac7999-20241209232950115.png)
+![来自 MDN 截图](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/mlCuNB-6917e87c-fa95-46f3-8018-365826ac7999-20241209232950115.png)
 
 通过使用 `Suspense`，可以获得以下好处：
 - Streaming Server Rendering（流式渲染）：从服务器到客户端渐进式渲染 HTML
@@ -164,17 +164,17 @@ export default function page() {
 
 在 Next.js 中，Suspense 被称为 Streaming，也就是将页面的 HTML 拆分成多个 chunks，然后逐步将这些块从服务端发送到客户端。 
 
-![](./assets/70e5c5b6-98c0-4084-8bce-da50c10eb334-20241209232950107.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/GAWLA8-70e5c5b6-98c0-4084-8bce-da50c10eb334-20241209232950107.png)
 
 这样就可以更快的展现出页面的某些内容，而无需在渲染 UI 之前等待加载所有数据。提前发送的组件可以提前开始水合，这样当其他部分还在加载的时候，用户可以和已完成水合的组件进行交互，有效改善用户体验。
 
 Streaming 可以有效的阻止耗时长的数据请求阻塞整个页面加载的情况。它还可以减少加载[第一个字节所需时间（TTFB）](https://web.dev/articles/ttfb)和[首次内容绘制（FCP）](https://developer.chrome.com/docs/lighthouse/performance/first-contentful-paint)，有助于缩短[交互时间（TTI）](https://developer.chrome.com/docs/lighthouse/performance/interactive)，尤其在速度慢的设备上。
 
 传统的 SSR 的输出执行过程：
-![](./assets/c7846641-ca59-48fe-b406-d423bf72b39b-20241209232950088.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/ITtx8p-c7846641-ca59-48fe-b406-d423bf72b39b-20241209232950088.png)
 
 使用 Streaming 后的执行过程：
-![](./assets/a4b5d741-9982-4332-bafc-f4f4d6b0b506-20241209232950098.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/SDWg6E-a4b5d741-9982-4332-bafc-f4f4d6b0b506-20241209232950098.png)
 
 在 Next.js 中有两种实现 Streaming 的方法：使用页面级别 `Loading File` 和 `<Suspense>`。
 

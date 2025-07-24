@@ -34,21 +34,21 @@ Next.js 中的中间件是在请求完成之前执行的函数。它允许你在
 
 使用命令 `npx creact-next-app@latest nextjs-middleware --use-pnpm`；选择的配置如下：
 
-![](./assets/74a47590-ca8c-455b-b8cc-fdbfdab23fe8.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/0x3QfE-74a47590-ca8c-455b-b8cc-fdbfdab23fe8.png)
 
 用自己熟悉的编辑器打开创建的项目，如下图：
 
-![](./assets/bd140d0a-ec7f-4980-b054-ce574cf3f3d3.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/1hMBC5-bd140d0a-ec7f-4980-b054-ce574cf3f3d3.png)
 
 ### 启动项目
 
 1. 在终端中输入 `pnpm dev` 运行项目
 
-  ![](./assets/8327d4fb-8f96-4704-951c-798b35c1d909.png)
+  ![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/ILijNR-8327d4fb-8f96-4704-951c-798b35c1d909.png)
 
 2. 在浏览器中访问 `http://localhost:3000`，效果如下：
 
-  ![](./assets/cf3581b9-f927-4265-acb3-8bb0b002592a.png)
+  ![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/4kOibl-cf3581b9-f927-4265-acb3-8bb0b002592a.png)
 
 
 ## 基本使用
@@ -72,13 +72,13 @@ export const config = {
 
 注意文件结构：
 
-![](./assets/f497ab74-fe03-4f97-a921-7f2f64a69cf4.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/qCwWzn-f497ab74-fe03-4f97-a921-7f2f64a69cf4.png)
 
 这个中间件的逻辑用途，就是将所有与 `/about` 相关的路由都重定向到 `/` 的路由页面；它的匹配规则是根据 `config` 的 `matcher` 属性来设置的。
 
 下图就是访问的 `/about`、`/about/111`、`/about/1/1/1` 的路由，全部都重定向到了 `/`路由；效果如下：
 
-![](./assets/8af2c5c5-bb35-40ba-bba3-ec2e694f2217.gif)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/kKW8X4-8af2c5c5-bb35-40ba-bba3-ec2e694f2217.gif)
 
 ## 中间件中的匹配路径
 
@@ -203,7 +203,7 @@ export function middleware(request: NextRequest) {
 跨源 HTTP 请求的一个例子：运行在 https://domain-a.com 的 JavaScript 代码使用 XMLHttpRequest 来发起一个到 https://domain-b.com/data.json 的请求。
 
 出于安全性，浏览器限制脚本内发起的跨源 HTTP 请求。例如，XMLHttpRequest 和 Fetch API 遵循同源策略。这意味着使用这些 API 的 Web 应用程序只能从加载应用程序的同一个域请求 HTTP 资源，除非响应报文包含了正确 CORS 响应头。如下图：
-![](./assets/70851598-5313-4326-940c-0f935ddd9e03.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/jMoItx-70851598-5313-4326-940c-0f935ddd9e03.png)
 
 在 Next.js 中，如何通过中间件配置 CORS？
 ```js
@@ -382,7 +382,7 @@ export const config = {
 ```
 然后再浏览器中访问，执行后的打印结果也如我们写的顺序的一样：
 
-![](./assets/37b4279f-7a0a-4ed8-9d58-b6d3ebea84de.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/PybI5F-37b4279f-7a0a-4ed8-9d58-b6d3ebea84de.png)
 
 这样写没什么问题，但是项目的规模一旦扩大，这么写的维护难度就会上升，怎么处理呢？其实很简单，要么自己造轮子，要么用别人造好的轮子！我在 GitHub 上一番折腾，发现一个还不错的库——[@rescale/nemo](https://github.com/z4nr34l/nemo)，它有以下特点：
 - 基于配置。
@@ -393,7 +393,7 @@ export const config = {
 
 nemo 中间件可以很方便、清晰的管理各个中间件，及各个中间件的作用范围，如下图：
 
-![](./assets/d197faff-2a20-466e-9d8c-ba82df81224b.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/7DDqEq-d197faff-2a20-466e-9d8c-ba82df81224b.png)
 
 定义方式：
 ```js

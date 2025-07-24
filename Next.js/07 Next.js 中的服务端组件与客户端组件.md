@@ -106,7 +106,7 @@ export default function Counter () {
 - 动态交互能力：允许使用状态管理（如 `useState`）和副作用（如 `useEffect`）来处理用户交互。
 
 在 App Router 中，默认所有组件都是 Server 组件；`"use client";` 用于声明服务端和客户端组件的边界，定义后，文件及其导入的模块（包括子组件）都会成为客户端 bundle 的一部分。
-![](assets/465bfe49-7d4a-4071-aabf-55535705ff3f.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/djUzPf-465bfe49-7d4a-4071-aabf-55535705ff3f.png)
 上图显示，如果在嵌套组件（如 toggle.js)中使用 `onClick` 和 `useState`，但未定义 `"use client";` 指令，会导致错误。解决办法就是在 toggle.js 文件的顶部声明 `"use client";`。
 
 
@@ -151,7 +151,7 @@ export default function Counter () {
 下面我们来做一个验证；在 `/home` 路由中引入一个客户端组件，在客户端组件中引入服务端组件，看看会是什么样的效果：
 > 在演示之前先创建一个 Next.js 的项目，命令 `npx create-next-app@latest`，选择配置如下图：
 >
-> ![](assets/ed961f96-be8e-40c2-867f-12af1d8321ed.png)
+> ![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/n4udp1-ed961f96-be8e-40c2-867f-12af1d8321ed.png)
 > package.json 的内容如下：
 > ```json
 > {
@@ -242,7 +242,7 @@ export default function Counter () {
   ```
 - 在浏览器中访问 `/home` 路由；如下图：
 
-![](assets/63d1a613-d215-42b3-a622-cbb0f0a8d209.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/5qrofP-63d1a613-d215-42b3-a622-cbb0f0a8d209.png)
 > 上面的代码可以在 [https://github.com/clin211/next-awesome/commit/b79c11507aae174319e5d04158d369b216ac417d](https://github.com/clin211/next-awesome/commit/b79c11507aae174319e5d04158d369b216ac417d) 中找到！
 
 **虽然 Next.js 不支持客户端组件中使用服务端组件，但支持将服务器组件作为 Props 传递给客户端组件**。
@@ -293,7 +293,7 @@ export default HomePage
 
 在浏览器中访问 [http://localhost:3000/home](http://localhost:3000/home) 效果如下：
 
-![](assets/3ea33b2e-6692-4138-877c-5a7cba0b5d5e.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/zvFoQ6-3ea33b2e-6692-4138-877c-5a7cba0b5d5e.png)
 
 
 ### 服务端组件是怎么渲染的
@@ -320,7 +320,7 @@ export default HomePage
 
 当在服务端获取数据的时候，有可能出现多个组件共用同一个数据的情况。这种情况下，你不需要使用 React Context（因为服务端组件用不了），也不需要通过 props 传递数据，直接在需要的组件中请求数据即可。这是因为 React 拓展了 fetch 的功能，添加了[记忆缓存功能](https://nextjs.org/docs/app/building-your-application/caching#request-memoization)，相同的请求和参数，返回的数据会做缓存。如下图：
 
-![](assets/1319c447-170f-4eb3-99be-6c9ce8631f9e.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/J68Ylm-1319c447-170f-4eb3-99be-6c9ce8631f9e.png)
 
 看一个官方的例子：
 ```jsx
@@ -453,7 +453,7 @@ export default function RootLayout({ children }) {
 ```
 写入上面的代码，IDE 就提示：
 
-![](assets/37bf8185-1433-4c3e-87e6-cfe68dadc99f.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/IEBFNx-37bf8185-1433-4c3e-87e6-cfe68dadc99f.png)
 
 修复这个问题也比较简单，那就是在客户端组件中进行渲染这对逻辑：
 ```jsx

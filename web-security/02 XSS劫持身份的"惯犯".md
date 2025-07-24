@@ -15,9 +15,9 @@ XSS 漏洞，通常指的是网站对用户输入数据未做有效过滤，攻�
 
 Samy 感染的用户呈指数倍增长，最终，超过 100 万用户被感染，作者也因事态发展失控而入狱，并被禁止 3 年内接触计算机，外加 90 小时的社区服务。
 
-![受 Samy 蠕虫攻击后，作者粉丝暴涨](assets/QQ_1731295456435.png)
+![受 Samy 蠕虫攻击后，作者粉丝暴涨](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/szrfcN-QQ_1731295456435.png)
 
-![受 Samy 蠕虫攻击后，受害者的用户页面被篡改](assets/QQ_1731295501072.png)
+![受 Samy 蠕虫攻击后，受害者的用户页面被篡改](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/M15Quk-QQ_1731295501072.png)
 
 Samy 蠕虫是现实世界中 XSS 攻击的经典案例，除了蠕虫攻击外还有很多其他危害：盗号、钓鱼欺诈、篡改页面、刷广告流量、内网扫描、网页挂马、挖矿、键盘监听、窃取用户隐私等等。
 
@@ -39,11 +39,11 @@ Samy 蠕虫是现实世界中 XSS 攻击的经典案例，除了蠕虫攻击外�
 <script>alert(1)</script>
 ```
 
-![](assets/QQ_1731308046836.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/Y35cEQ-QQ_1731308046836.png)
 
 在 Chrome 浏览器中，用“检查”功能看下网页源码，可以发现我们输入的代码被解析并执行了：
 
-![](assets/QQ_1731308105296.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/cL1gOq-QQ_1731308105296.png)
 
 其漏洞代码也非常简单。从 GET 参数 name 获取用户输入后，未经过滤就直接调用 echo 函数输出到页面，最终导致 XSS 的产生。漏洞代码如下：
 
@@ -64,7 +64,7 @@ if( array_key_exists( "name", $_GET ) && $_GET[ 'name' ] != NULL ) {
 
 在 DVWA 靶场中就有一个存储型 XSS 案例，它是个留言本的功能，支持用户发表评论，然后将用户输入的数据直接存储到数据库，并输出到页面上。这个过程中因为未做任何的过滤，导致了 XSS 漏洞的产生。
 
-![](assets/QQ_1731308221067.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/tmpHqu-QQ_1731308221067.png)
 
 **存储型 XSS 的特点就是不需要在诱使用户访问的URL中包含攻击代码**，因为它已经存储到了服务器中，只需要让用户访问包含输出攻击代码的页面即可，漏洞代码如下：
 
@@ -91,11 +91,11 @@ if( isset( $_POST[ 'btnSign' ] ) ) {
 
 从 POST 参数中获取 mtxMessage 和 txtName 参数后，虽然经过一定过滤才插入到数据库中，但是中括号不会被过滤，在其他地方将其输出到页面后就会被解析（如图 5）。我们在 Message 中输入`<script>alert(1)</script>`，点击“Sign Guestbook”提交，即可触发漏洞。
 
-![](assets/QQ_1731308384215.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/K0G9h0-QQ_1731308384215.png)
 
 利用 Chrome 浏览器的“检查”功能查看网页源码，可以发现刚才输入消息中的`<script>`标签被解析了：
 
-![](assets/QQ_1731308406354.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/MjDcEF-QQ_1731308406354.png)
 
 ### DOM 型 XSS
 
@@ -105,7 +105,7 @@ DOM 型 XSS 漏洞，它是基于文档对象模型（Document Object Model，DO
 
 以 [Pikachu](https://github.com/zhuifengshaonianhanlu/pikachu) 漏洞练习平台中的“DOM 型 XSS”题目为例：它只有一个文本输入框，外加一个“click me!”的按钮。我们先看下网页源码，看点击按钮后的回调函数。
 
-![](assets/QQ_1731309093561.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/I79T3M-QQ_1731309093561.png)
 
 `domxss` 函数就 2 行代码，第一行代码先通过 `document.getElementById("text").value` 获取 ID 为 `"text"`的元素内容。其实这就是输入框的内容，输入框的 ID就叫“text”。
 
@@ -115,7 +115,7 @@ DOM 型 XSS 漏洞，它是基于文档对象模型（Document Object Model，DO
 
 第二行代码是将获取的输入框内容传递给 ID 为 `"dom"` 的元素，并将其写入 `innerHTML`，也就是输出到 HTML 页面中，整个过程对用户输入数据都未做任何过滤。直接输入 `test` 看下：
 
-![](assets/QQ_1731309552201.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/9p7dhJ-QQ_1731309552201.png)
 
 可以看到，输入框的内容输出到了 dom 元素中，作为 a 标签的链接地址。我们直接利用 JavaScript 伪协议来构造链接触发 JS 代码的执行，输入以下代码，然后点击“what do you see?”链接后即可触发漏洞：
 
@@ -123,7 +123,7 @@ DOM 型 XSS 漏洞，它是基于文档对象模型（Document Object Model，DO
 javascript:alert(1)
 ```
 
-![利用 javascript 伪协议触发漏洞](assets/2024-11-11 15.21.20.gif)
+![利用 javascript 伪协议触发漏洞](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/kbtJ5m-2024-11-11%2015.21.20.gif)
 
 导致 DOM 型 XSS 的相关 DOM 操作函数有很多，这里我只是举了比较常见的 `innerHTML` 属性设置导致的漏洞为例子，其他的还有像 `eval`、`document.write` 等可触发漏洞的数据输出位置。
 
@@ -137,17 +137,17 @@ Cookie 是由服务器提供的存储在客户端的数据，允许 JavaScript �
 
 通过 document.cookie 就可以访问到 Cookie。以掘金为例
 
-![](assets/QQ_1731310699887.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/7s0LdT-QQ_1731310699887.png)
 
 当一个网站存在 XSS 时，我们就可以通过执行 document.cookie 获取当前受害者的 cookie，前提是要先诱使受害者访问特定的 URL。
 
 以 Pikachu 中的反射型 XSS(Get) 题目为例，正常使用如下:
 
-![](assets/QQ_1731310798483.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/Cqwo6d-QQ_1731310798483.png)
 
 可以看到地址栏里的链接是 `http://localhost:8765/vul/xss/xss_reflected_get.php?message=kobe&submit=submit`；因为输入框有限制，直接将 kobe 改成 `<script>alert(document.cookie)</script>`，然后在键盘上按回车，效果如下：
 
-![](assets/QQ_1731311108519.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/3Vhtxf-QQ_1731311108519.png)
 
 这样就成功通过 JS 读取里用户的 cookie。
 

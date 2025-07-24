@@ -64,7 +64,7 @@ $ pnpm add -D tailwindcss postcss autoprefixer
   export default App
   ```
 - 在终端中执行 `pnpm dev`，在浏览器中访问 `localhost:5173`，效果如下：
-<img src="assets/40593189-d8c4-47b1-ad1d-214a4cf018f1.png" />
+<img src="https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/bvW2nN-40593189-d8c4-47b1-ad1d-214a4cf018f1.png" />
 
 
 
@@ -236,7 +236,7 @@ const RegistrationForm = () => {
 export default RegistrationForm;
 ```
 效果如下：
-<img src="assets/00535ab5-618e-44f3-8270-8596a7c9936f.png" />
+<img src="https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/iDWx4Z-00535ab5-618e-44f3-8270-8596a7c9936f.png" />
 
 
 上面的例子通过 `useState` 钩子定义和初始化表单的状态对象 form，其中包含字段：`nickname`、`age`、`password`、`sex`、`hobby`、`city`。
@@ -371,7 +371,7 @@ export default RegistrationFormUncontrolled;
 ```
 效果也是一样的：
 
-![QQ_1721729411124](assets/668c460b-1cdd-4df0-bd28-252a1e4a6192.png)
+![QQ_1721729411124](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/FElCnP-668c460b-1cdd-4df0-bd28-252a1e4a6192.png)
 
 不过获取数据的方式不太一样，使用非受控表单获取数据的几种方法：
 - 使用 ref 获取表单数据

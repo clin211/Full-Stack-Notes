@@ -23,7 +23,7 @@
 
 **互斥锁是并发控制的一个基本手段**，是为了避免竞争而建立的一种并发控制机制。
 
-<img src="assets/54171de9-47d2-4f2f-8532-098a031333dc.png" width="60%" alt="mutex" />
+<img src="https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/XZSOYv-54171de9-47d2-4f2f-8532-098a031333dc.png" width="60%" alt="mutex" />
 
 Mutex 是使用最广泛的同步原语,同步原语的适用场景:
 - **共享资源**。并发地读写共享资源，会出现数据竞争（data race）的问题，所以需要 Mutex、RWMutex 这样的并发原语来保护。
@@ -96,7 +96,7 @@ func main() {
 }
 ```
 执行结果如下：
-![image](assets/347ea684-2927-4266-817d-872174186a4e.png)
+![image](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/q6YgxS-347ea684-2927-4266-817d-872174186a4e.png)
 
 每次运行，你都可能得到不同的结果，这是为什么呢？因为 `count++` 不是一个原子操作，它至少包含几个步骤:
 - 读取变量 count 的当前值
@@ -114,7 +114,7 @@ func main() {
 这其实就是并发访问共享数据的常见错误，单纯这个问题，有经验的开发者很快就能能 Debug 出来，很多时候，并发问题隐藏得非常深，即使是有经验的人，也不太容易发现或者 Debug 出来。
 
 针对这个问题，Go 官方提供了一个检测并发访问共享资源是否有问题的工具： [race detector](https://go.dev/doc/articles/race_detector)，它可以帮助我们自动发现程序有没有 data race 的问题。在代码运行的时候，race detector 就能监控到对共享变量的非同步访问，出现 race 的时候，就会打印出警告信息。这个工具使用也比较简单，运行程序是在命令行中添加 `--race` 就好了，比如：`go run --race mutex.go` 就会看到输出的警告信息：
-![data race warning](assets/b773b148-bae6-4009-aaa8-e8f6266bacb5.png)
+![data race warning](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/WZ1JbA-b773b148-bae6-4009-aaa8-e8f6266bacb5.png)
 
 这个警告不但会告诉你有并发问题，而且还会告诉你哪个 goroutine 在哪一行对哪个变量有写操作，同时，哪个 goroutine 在哪一行对哪个变量有读操作；在上面这个例子中，数据竞争发生在 `main.main` 函数中，对应的代码位于 `/xxxx/learn/mutex.go:30`，而引发数据竞争的 goroutine 是在 `/xxxx/learn/mutex.go:22` 这个位置创建的。
 
@@ -175,7 +175,7 @@ func main() {
 ```
 
 这行后的结果如下：
-![](assets/5771c09b-a151-4e92-9326-65759b5b8ccc.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/dB1Gpw-5771c09b-a151-4e92-9326-65759b5b8ccc.png)
 
 > Mutex 的零值是还没有 goroutine 等待的未加锁的状态，所以你不需要额外的初始化，直接声明变量（如 `var mu sync.Mutex`）即可。
 
@@ -579,7 +579,7 @@ type Mutex struct {
   - 第二位（倒数第二位）表示是**否有唤醒的 goroutine**；
   - 第三位（倒数第三位）表示**当前的互斥锁进入饥饿状态**；
   - 剩余的 29 位数代表的是**当前的互斥锁进入饥饿状态**；
-    <img src="assets/f63137f1-cb83-490e-88e3-02ffd037679c.png" width="75%" style="display:block" alt="Mutex state" />
+    <img src="https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/9tgvXk-f63137f1-cb83-490e-88e3-02ffd037679c.png" width="75%" style="display:block" alt="Mutex state" />
 
   Mutex 有两种模式：
   - 正常模式
@@ -864,7 +864,7 @@ func (m *Mutex) TryLock() bool {
   }
   ```
   直接 Unlock 一个未加锁的 Mutex 会 panic，运行效果如下：
-  ![](assets/7c02f392-6aec-426c-95ed-79f8952380ef.png)
+  ![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/EpaiXk-7c02f392-6aec-426c-95ed-79f8952380ef.png)
 
 - **Copy 已使用的 Mutex**
 
@@ -899,12 +899,12 @@ func (m *Mutex) TryLock() bool {
   }
   ```
   运行上面的代码后，会遇到下面的报错信息：
-  ![image](assets/1a36e425-88f3-4a50-b3a5-df279604d227.png)
+  ![image](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/B8k7YE-1a36e425-88f3-4a50-b3a5-df279604d227.png)
   
   > sync 的同步原语在使用后是不能复制的，是因为 **Mutex 是一个有状态的对象，它的 state 字段记录这个锁的状态**
   
   这类问题怎么及时发现呢？可以使用 vet 工具检查：
-  ![image](assets/44473544-5e4c-43fb-943b-f69f33ea13da.png)
+  ![image](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/dchEdw-44473544-5e4c-43fb-943b-f69f33ea13da.png)
   使用这个工具就可以发现 Mutex 复制的问题，错误信息提示很清楚，是在调用 foo 函数的时候发生了 lock value 复制的情况，还告诉我们出问题的代码行数以及 copy lock 导致的错误。
 
 - **锁重入**
@@ -939,7 +939,7 @@ func (m *Mutex) TryLock() bool {
   }
   ```
   运行结果如下：
-  ![image](assets/fad1700e-0594-4dc4-9d32-0cfc13b01920.png)
+  ![image](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/mJAzi4-fad1700e-0594-4dc4-9d32-0cfc13b01920.png)
 
 - **死锁**
   
@@ -951,7 +951,7 @@ func (m *Mutex) TryLock() bool {
   2. goroutine 持有一个资源，并且还在请求其它 goroutine 持有的资源。
   3. 资源只能由持有它的 goroutine 来释放——**谁持有谁释放**。
   4. **环路等待**；A 进程等待 B 进程所占用的资源，B 进程等待 C 进程所占用的资源，C 进程等待 A 进程所占用的资源，就形成了一个环路，这样就会发生环路等待。
-  <img src="assets/68868d3d-d712-4227-868a-46229375c066.png" width="50%" alt="reentrant lock" />
+  <img src="https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/0mexPE-68868d3d-d712-4227-868a-46229375c066.png" width="50%" alt="reentrant lock" />
 
 ## 总结
 

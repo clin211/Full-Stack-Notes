@@ -52,7 +52,7 @@ ORM（Object-Relational Mapping，对象关系映射）是一种编程技术，�
 
 在 Go 语言中，GORM 是最流行的 ORM 框架之一，它提供了简洁的 API 来执行数据库操作，如创建、查询、更新和删除记录。
 
-![](./assets/98f3c49e-a1d1-4421-bd19-3e9d6acf138a.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/jRj9yg-98f3c49e-a1d1-4421-bd19-3e9d6acf138a.png)
 
 
 使用 ORM 的主要优势包括：
@@ -105,7 +105,7 @@ user, err := query.User.Where(query.User.Name.Eq(userName)).First()
 ```
 
 
-![](./assets/edf78226-582e-4f4c-8102-9487a3086ebe.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/cOTTc0-edf78226-582e-4f4c-8102-9487a3086ebe.png)
 
 ### 3. Gorm Gen 核心特性一览
 
@@ -248,7 +248,7 @@ Gorm Gen 巧妙地在 GORM 之上构建了一层类型安全的抽象，同时�
 
 项目开发过程中频繁的修改就会频繁的重启服务，这里为了解决这个问题，我们使用 air 工具来使服务热重载！在项目的根目录执行 `air init` 后，项目根目录会自动创建 `.air.toml` 文件，如下图：
 
-![](./assets/4f6ec840-52e1-49d5-bf96-f38c42489fcf.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/8ONKiF-4f6ec840-52e1-49d5-bf96-f38c42489fcf.png)
 
 配置完热重载配置文件后搭建数据库环境！在项目的根目录创建一个 `docker-compose.yml` 文件，配置 Go 热重载和 MySQL 数据库：
 
@@ -297,7 +297,7 @@ networks:
 
 在终端中进入项目的根目录，然后执行 `docker compose up` 命令后，效果如下：
 
-![](./assets/87098476-5665-44be-8afe-4203e4e68048.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/NYYiOk-87098476-5665-44be-8afe-4203e4e68048.png)
 
 创建 `scripts/init.sql` 文件，用于初始化数据库表：
 
@@ -860,7 +860,7 @@ docker-compose up -d  # 启动 MySQL 服务
 ```
 服务启动成功后，在项目的根目录下运行 `go run cmd/gen/generate.go` 命令，这将在 `dal` 目录下生成 `query` 和 `model` 子目录，包含生成的模型和查询代码。
 
-![](./assets/73532991-a8a3-464c-af93-af3feb479382.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/VM2mXr-73532991-a8a3-464c-af93-af3feb479382.png)
 
 接着项目的根目录中运行命令 `air`，这会启动开发服务器并启用热加载，每次代码修改后服务会自动重新编译。
 

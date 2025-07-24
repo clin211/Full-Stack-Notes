@@ -1,6 +1,6 @@
 在开发过程中，调试无疑是我们解决疑难杂症的手段之一，但调试不仅仅是在解决 Bug 的时候才能应用的技能，当拿到一个新的项目时，我们也可以通过调试的方法，去快速了解代码、熟悉业务。
 
-![React调试不求人：VS Code 与 Chrome 的终极指南](assets/46c6cea0-ce28-4d12-adad-a0e4a5bc329f.png)
+![React调试不求人：VS Code 与 Chrome 的终极指南](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/pHDzhi-46c6cea0-ce28-4d12-adad-a0e4a5bc329f.png)
 
 > **本文工具及代码环境**：
 > 1. Visual Studio Code Version: *1.92.1*
@@ -49,10 +49,10 @@
 访问DevTools，首先用 Chrome 打开一个 web 页面或 web 应用，也可以通过下面的方式：
 
 - 在浏览器窗口的右上方选择 Chrome 菜单, 然后选择 `更多工具 > 开发者工具`。
-  ![](assets/67fc12af-0990-443c-acc0-2b4e58d1cd66.png)
+  ![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/8KHAPL-67fc12af-0990-443c-acc0-2b4e58d1cd66.png)
 
 - 在页面上任意元素上右键，然后选择审查元素。
-  ![](assets/01a46f4a-4af4-4791-b317-4917ca2f5e19.png)
+  ![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/f97Uwt-01a46f4a-4af4-4791-b317-4917ca2f5e19.png)
 
 
 DevTools 窗口会在 Chrome 浏览器的底部（默认是在底部）打开。
@@ -70,7 +70,7 @@ DevTools 在窗口顶部的工具栏对不同的任务功能进行分组。在�
 
 DevTools 目前主要包括以下八个主要功能组：
 - Device Mode：模拟移动设备。
-  ![image](assets/5f3e8999-b58a-4255-824c-f27c9e8ee324.png)
+  ![image](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/TuAvfi-5f3e8999-b58a-4255-824c-f27c9e8ee324.png)
 - Elements：查看和更改 DOM 和 CSS。
   - 开始查看和更改 DOM
   - 开始查看和更改 CSS
@@ -82,12 +82,12 @@ DevTools 目前主要包括以下八个主要功能组：
   - 查找未使用的 CSS
   - 检查动画
   
-  ![](assets/8171f00d-622b-4ffa-9ecc-f77a920d0ba9.png)
+  ![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/njMmAO-8171f00d-622b-4ffa-9ecc-f77a920d0ba9.png)
 - Console：通过控制台查看消息并运行 JavaScript。
   - 开始使用控制台
   - 控制台实用程序 API 参考文档
   - Console API 参考文档
-  ![](assets/d5cb9546-cdd2-4628-a9fc-2b46af6a9f82.png)
+  ![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/QNdX1e-d5cb9546-cdd2-4628-a9fc-2b46af6a9f82.png)
 - Sources：调试 JavaScript，在页面重新加载时保留在开发者工具中所做的更改，保存和运行 JavaScript 代码段，并将在开发者工具中所做的更改保存到本地源代码中。
   - 开始调试 JavaScript
   - 使用断点暂停代码
@@ -96,34 +96,34 @@ DevTools 目前主要包括以下八个主要功能组：
   - JavaScript 调试参考文档
   - 在本地替换 Web 内容和 HTTP 响应标头
   
-  ![](assets/0918a79a-0462-4301-90c2-bc494ff49698.png)
+  ![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/0eJ1rX-0918a79a-0462-4301-90c2-bc494ff49698.png)
 - Network：查看和调试网络活动。
   - 检查网络活动
   - 网络功能参考
   - 查看网页资源
-  ![](assets/946b55dd-51be-4e9c-9e35-799fc964f686.png)
+  ![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/rnBMcs-946b55dd-51be-4e9c-9e35-799fc964f686.png)
 - Recorder：录制、重放和衡量用户流。
   - 录制、重放和衡量用户流
   - 使用扩展程序自定义“录音机”应用
   - 录音机功能参考
-  ![](assets/0a87dc14-e574-4081-ba52-188fe05a4ca0.png)
+  ![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/wV2zQ9-0a87dc14-e574-4081-ba52-188fe05a4ca0.png)
 - Performance：找到提高加载和运行时性能的方法。
   - 优化网站速度
   - 分析运行时性能
   - 性能功能参考
-  ![](assets/023f7f9d-8d99-4b55-8a1b-987df3e32e07.png)
+  ![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/OjLmFr-023f7f9d-8d99-4b55-8a1b-987df3e32e07.png)
 - Memory：查找并修复影响页面性能的内存问题，例如内存泄漏。
   - 解决内存问题
-  ![](assets/06bec354-9737-4ec6-9ffa-5e765e1ac846.png)
+  ![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/sN7rzY-06bec354-9737-4ec6-9ffa-5e765e1ac846.png)
 - Application：检查已加载的所有资源，包括 IndexedDB 或 Web SQL 数据库、本地和会话存储、Cookie、应用缓存、图片、字体和样式表。
   - 调试渐进式 Web 应用
   - 查看和修改本地存储空间
   - 查看、添加、修改和删除 Cookie
   - 查看源试用信息
-  ![](assets/a4c625de-fe22-4414-89c7-193d9128f6f5.png)
+  ![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/X9ImjK-a4c625de-fe22-4414-89c7-193d9128f6f5.png)
 - Security：调试混合内容问题、证书问题等。
   - 了解安全问题
-  ![image](assets/09bccdc9-0ace-4b02-b699-ff2267d5907a.png)
+  ![image](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/4O3NLP-09bccdc9-0ace-4b02-b699-ff2267d5907a.png)
 
 你可以通过 `Ctrl+[` 和 `Ctrl+]` 快捷键在不同面板之间进行切换。
 
@@ -140,14 +140,14 @@ DevTools 目前主要包括以下八个主要功能组：
 
 面板包含三个部分：
 
-![](assets/4526ebb8-e04e-4b04-a60a-6508a1185057.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/Otd1Ky-4526ebb8-e04e-4b04-a60a-6508a1185057.png)
 1. 包含文件树的页面标签页。此处列出了页面请求的每个文件。
 2. 代码编辑器部分。在 Page 标签页中选择文件后，该文件的内容会显示在此处。
 3. Debugger 部分。用于检查网页 JavaScript 的各种工具。
 
 如果开发者工具窗口较宽，默认情况下，Debugger 位于代码编辑器的右侧。在这种情况下，Scope 和 Watch 标签页会将 Breakpoints、Call stack 和其他作为可收起的部分联接。如下图：
 
-![](assets/91606e81-f2ff-4859-9504-0a0f382e99cd.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/7E32yQ-91606e81-f2ff-4859-9504-0a0f382e99cd.png)
 
 更多信息可以查看 [Chrome 开发者文档](https://developer.chrome.com/docs/devtools/javascript?hl=zh-cn)！
 
@@ -183,17 +183,17 @@ VS Code 是免费的，[官网下载地址](https://code.visualstudio.com/downlo
   ```sh
   $ yarn create vite
   ```
-  ![](assets/a5b6558a-18ec-4d1d-b523-dfd9a6e6dd06.png)
+  ![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/zgZiZa-a5b6558a-18ec-4d1d-b523-dfd9a6e6dd06.png)
 
 - 用 vscode 打开项目，并安装依赖
-  ![](assets/63d1ad32-86f0-4bd9-9cb8-ba81e1bcde30.png)
+  ![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/Abb6Rm-63d1ad32-86f0-4bd9-9cb8-ba81e1bcde30.png)
   
 - 使用命令 `yarn dev` 运行项目并在浏览器中访问
 
-  ![](assets/3e6c2c6d-e537-4ef3-ae3b-e5ec1ef1fd8d.png)
+  ![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/Y4yn2r-3e6c2c6d-e537-4ef3-ae3b-e5ec1ef1fd8d.png)
   
   运行效果：
-  ![](assets/cb1f31b3-f976-41e0-9e9b-472dea493294.gif)
+  ![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/f5GXTc-cb1f31b3-f976-41e0-9e9b-472dea493294.gif)
 
 以上代码可以在 [clin211/react-awesome/tree/debug-react-project](https://github.com/clin211/react-awesome/tree/debug-react-project) 中获取到！
 
@@ -202,7 +202,7 @@ VS Code 是免费的，[官网下载地址](https://code.visualstudio.com/downlo
 > 打开 chrome 网上商店可能需要科学上网，firefox 和 microsoft edge 不需要科学上网也可正常安装插件，使用上并无区别。
 
 - [chrome](https://chromewebstore.google.com/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi?hl=en) 中安装：右上角三个点 -> 扩展程序 -> 访问 chrome 应用商店 -> 然后搜索 **React DevTools** -> 安装，如下图：
-  <img src="assets/e1ae16f5-3290-402a-9010-c518ece70699.png" />
+  <img src="https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/oi4RvW-e1ae16f5-3290-402a-9010-c518ece70699.png" />
   
 - [Firefox](https://addons.mozilla.org/en-US/firefox/addon/react-devtools/) 中安装：打开菜单 -> Web开发者 -> 获取更多工具 -> 搜索 **React Developer Tools** -> 安装。
 
@@ -225,7 +225,7 @@ VS Code 是免费的，[官网下载地址](https://code.visualstudio.com/downlo
 
 chrome 中右键点击检查，打开调试器，然后发现在调试器的 tab 栏末尾有最后两栏比较特殊的tab，分别是 ⚛️Components 和 ⚛️Profiler，这两个就是 react devtools 的功能入口了，下面会来介绍各自的功能。
 
-![](assets/d77153c8-37b9-4f0d-ae94-e250103238b7.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/S2q44n-d77153c8-37b9-4f0d-ae94-e250103238b7.png)
 
 #### **Components 面板功能说明**
 
@@ -277,7 +277,7 @@ export default App
 ```
 这段代码中，`<App/>` 组件中有两个 `<Logo />` 组件和一个 `<Counter />` 组件，我们看看浏览器中 Components 面板有啥变化，如下图：
 
-![](assets/2b2be26b-17c4-45a9-8ccc-7c7cf90bb3b3.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/NvCXWA-2b2be26b-17c4-45a9-8ccc-7c7cf90bb3b3.png)
 
 还可以看到组件中的 `props`，如 `<Logo />` 组件中的 props：
 ```jsx
@@ -287,7 +287,7 @@ function Logo(props) {
   </a>
 }
 ```
-![](assets/d222c09a-4122-4aa0-b564-fbee34405bc4.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/rd1BhM-d222c09a-4122-4aa0-b564-fbee34405bc4.png)
 
 
 当然也能看到相关 Hooks，比如 Counter 组件中的 state count：
@@ -304,15 +304,15 @@ function Counter() {
   </div>
 }
 ```
-![](assets/11c5b699-3954-48f7-90a8-6e865c21e9b9.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/cHoZ0W-11c5b699-3954-48f7-90a8-6e865c21e9b9.png)
 
 在项目中用了一些 [react-router](https://reactrouter.com/en/main) ， [redux](https://redux.js.org/) 等工具后，虚拟 Dom 树可能会受到一些侵入，比如 Dom 树中多了一些 Conext.Consumer 的结构，这些是 context 的语法，不管这些结构，双击目标组件就可以展开当前组件下的所有子组件，这种方式有个弊端就是在组件层级很深的情况下，一层一层的找，效率太低了，当然 React Devtools 开发者也想到了，那就是 Components 中的**过滤器**！
 
-![](assets/90cc9632-fabd-4c8a-becd-7f40f18ddc01.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/wdw3GH-90cc9632-fabd-4c8a-becd-7f40f18ddc01.png)
 
 使用过滤器可以轻松过滤掉一些不想要展示 Dom ，点开 setting 小图标的下拉框里，有一栏是组件的设置，然后找到 "Hide components where"，在这里可以添加过滤器，从而进行过滤的设置，下面列出了各个配置代表什么含义。
 
-![](assets/0d361a3c-753e-4981-82c7-37a728ff83ca.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/wXec3L-0d361a3c-753e-4981-82c7-37a728ff83ca.png)
 
 下拉框选择过滤类型：
 | 名称       | 含义                             |
@@ -326,7 +326,7 @@ function Counter() {
 
 如果过滤类型选择 `type` 的话，匹配模式就有9种，如下：
 
-![](assets/d45eaf76-6948-43b4-81c1-9003976b7d50.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/BTQdDy-d45eaf76-6948-43b4-81c1-9003976b7d50.png)
 
 | 名称          | 含义                             |
 | ------------- | -------------------------------- |
@@ -343,10 +343,10 @@ function Counter() {
 #### **单组件调试**
 
 当我们找到目标组件后，双击目标组件，右侧就会出现(从上往下)工具栏、`props`、`hooks`、`rendered by`、`source`
-![](assets/8aead021-5abe-4548-96e8-2317ab31ba6f.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/aWBgrY-8aead021-5abe-4548-96e8-2317ab31ba6f.png)
 
 我们重点来看看第一行出现的那些 icon 分别是些什么(从左往右)：
-![](assets/11dac6b6-753d-4f46-bb84-8e78319ccd75.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/foBuM6-11dac6b6-753d-4f46-bb84-8e78319ccd75.png)
 
 #### **显示懒加载的 fallback 状态**
 
@@ -369,7 +369,7 @@ function App () {
   )
 }
 ```
-![](assets/408c408e-26d2-4c37-a8ca-22c4423afb01.gif)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/b8m5UB-408c408e-26d2-4c37-a8ca-22c4423afb01.gif)
 
 小图标高亮就说明处于 loading 的状态调试。这里演示用的 loading 的文字，也可以写成骨架屏的方式，体验可能更佳！
 
@@ -377,19 +377,19 @@ function App () {
 
 在 React 中写的 JSX 代码渲染出来的组件树其实都不是真实的 DOM 树，*所有调试样式、修改文案、直接操作 DOM 的需求，还是需要回到 chrome devtools 的 Element 面板进行调试* ，这里仍然会面临 DOM 层级很深的情况，可以通过“小箭头”直接在页面上点击你要调试的 DOM。如下：
 
-![](assets/09f51ce1-7e53-4135-ab66-8f115173b263.gif)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/r70Y8m-09f51ce1-7e53-4135-ab66-8f115173b263.gif)
 
 上面图中这种也是调试真是 DOM 的一种方式，还有就一种方式就是 Components 中工具栏的第二个**小眼睛**的按钮，点击它之后，它会直接切到 element 面板下且聚焦在对应的 DOM 上，如下：
 
-![](assets/699fb33a-4875-4e94-82ee-daf4cd1d0313.gif)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/tL23Xc-699fb33a-4875-4e94-82ee-daf4cd1d0313.gif)
 
 #### **Debug 信息**
 
 也就是第三个“小虫子”的图标，在最开始用的时候会挺懵逼的，点了以后好像没有什么作用，然后悬停一会会有一段文字：log this component data to the console（将组件数据记录在console中）；然后切换到 chrome devtools 的 console 就能发现端倪了，这里出现了和 `<Counter />` 相关的组件信息：
-![](assets/226540e7-652a-4758-9f71-c858bb1eeb94.gif)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/M5GQyI-226540e7-652a-4758-9f71-c858bb1eeb94.gif)
 
 打印的信息如下：
-![](assets/953a0288-bd00-45a6-999b-aabb9c150db9.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/LEvEK8-953a0288-bd00-45a6-999b-aabb9c150db9.png)
 
 #### **定位 Source-map 信息**
 最后一个按钮很熟悉，平时都会在一些组件库文档中的代码案例中看到，比如 mui 等UI组件库，用来作为展开代码的调试入口， react devtools 的功能也是类似，这里是定位该组件对应的 Source 文件，这里我就切换到了 `<Counter />` 组件对应的 App.jsx 文件中，在开发环境中配置好 source-map ，定位组件就能直接显示源码。
@@ -445,7 +445,7 @@ function List () {
 }
 ```
 
-<img src="assets/bf8e0872-80e3-416b-a899-6f6b44d2c98b.png" />
+<img src="https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/TjSvIS-bf8e0872-80e3-416b-a899-6f6b44d2c98b.png" />
 
 这里是一个典型的性能分析火焰图，展示的是当前这个页面中，各个组件的耗时情况，**如果是有耗时比较长的异常组件，横向柱状图会显示成黄色，甚至更严重的红色**。从实际效果来看，`<List />` 组件的耗能更高。
 
@@ -501,11 +501,11 @@ React 项目归根到底也是 JS，调试网页的 JS，除了 Chrome DevTools 
 > <img src="https://files.mdnice.com/user/8213/bcd7828e-126a-4d78-8ebb-856585e80905.png" />
 > 点击右下角的 Add Configuration... 按钮，
 
-![](assets/24400393-17ff-4f17-8d4a-1fea216be7c6.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/LnXCSM-24400393-17ff-4f17-8d4a-1fea216be7c6.png)
 
 点击后，选择 `Chrome: Launch`，文件中就会出现一段 json 配置：
 
-![](assets/686c12ce-db26-4477-a057-86fe6f2414b2.gif)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/rVD1WZ-686c12ce-db26-4477-a057-86fe6f2414b2.gif)
 
 把访问的 url 改为开发服务器启动的地址：
 

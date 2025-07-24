@@ -10,7 +10,7 @@
 
 ## 目录分析
 
-![](assets/QQ_1726629453169.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/sceDvw-QQ_1726629453169.png)
 
 从上面的图中，我们可以看到以下主要的文件和目录：
 
@@ -70,7 +70,7 @@ export const create = (<T>(createState: StateCreator<T, [], []> | undefined) =>
   createState ? createImpl(createState) : createImpl) as Create
 ```
 
-![QQ_1726640266185](assets/QQ_1726640266185.png)
+![QQ_1726640266185](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/69clpM-QQ_1726640266185.png)
 
 这个方法就是用来创建一个 store 的，在使用 `create` 方法的时候，如果有 `createState` 参数，就调用 `createImpl` 方法，否则就返回 `createImp` 方法。`createState` 是一个回调函数，里面包含我们定义的状态和更改函数。
 
@@ -378,7 +378,7 @@ export const combine: Combine =
 
 提供与 Redux DevTools 进行交互的功能，便于调试状态变化。`devtools` 中间件允许开发者通过 Redux DevTools 工具监控状态变化和调试。核心实现是对 `setState` 方法进行包装，并在每次状态更新时向 Redux DevTools 发送状态变化的通知。
 
-![](./assets/QQ_1726662430600.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/MvZRaS-QQ_1726662430600.png)
 
 这一部分代码尝试在浏览器中获取 Redux DevTools 扩展，如果未安装则会输出警告信息。：
 
@@ -586,7 +586,7 @@ let isRecording = true
 
 `immer` 中间件允许我们使用 Immer 库来管理不可变状态。`immer` 接受一个状态创建函数，并在内部通过 `produce` 函数生成不可变的新状态。
 
-![](./assets/QQ_1726666404826.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/EjvaCC-QQ_1726666404826.png)
 
 使用也很方便：
 

@@ -1,4 +1,4 @@
-![来自官网 gorm.io 截图](./assets/93d5406f-39cd-4d47-82d2-408232ee9468.png)
+![来自官网 gorm.io 截图](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/a0Rr9C-93d5406f-39cd-4d47-82d2-408232ee9468.png)
 
 项目开发过程中，免不了要跟数据库打交道，Gorm 作为 Go 语言生态中最受欢迎的 ORM 框架，通过简洁优雅的 API 设计和强大的功能特性，为开发者提供了一种既保持 Go 语言简洁性又能高效处理复杂数据库操作的解决方案。
 
@@ -108,7 +108,7 @@ docker-compose up -d
 docker-compose ps
 ```
 效果如下图：
-![](./assets/98fed16d-b0db-43ca-8797-d21498ccc06b.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/Hz8lDj-98fed16d-b0db-43ca-8797-d21498ccc06b.png)
 
 
 ### 2.2 安装 Gorm
@@ -122,7 +122,7 @@ go mod init gorm-demo
 ```
 
 命令执行后如下图：
-![](./assets/1032e05d-a77c-4508-a808-1f9cb5c8e9bd.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/EnderV-1032e05d-a77c-4508-a808-1f9cb5c8e9bd.png)
 
 执行后，在项目的根目录就会出现一个 `go.mod` 的文件，内容如下：
 ```go

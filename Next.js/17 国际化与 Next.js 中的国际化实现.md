@@ -78,7 +78,7 @@
 
 ### 2. next-i18next
 
-![](./assets/3dc8b386-c043-4068-9922-909293089e5f.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/LOew3I-3dc8b386-c043-4068-9922-909293089e5f.png)
 
 `next-i18next` 是一个为 Next.js 优化的国际化库，基于 `i18next` 和 `react-i18next`。它提供了翻译内容管理、组件和钩子，支持服务端渲染（SSR）和静态生成（SSG）。
 
@@ -95,7 +95,7 @@
 
 ### 3. next-intl
 
-![](./assets/7cf3b771-c0f3-483e-9d6a-56bdf3e1e1ff.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/jV1MFC-7cf3b771-c0f3-483e-9d6a-56bdf3e1e1ff.png)
 
 `next-intl` 是专为 Next.js 设计的国际化库，支持 ICU 消息语法、日期、时间和数字的本地化格式化，具备类型安全特性，并提供基于 hooks 的 API。它与 Next.js 原生集成，兼容 App Router、服务器组件和静态渲染，同时支持国际化路由。
 
@@ -112,7 +112,7 @@
 
 ### 4. next-international
 
-![](./assets/f6668021-8a40-467b-afdd-7ba2a47615fb.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/GEcJ9G-f6668021-8a40-467b-afdd-7ba2a47615fb.png)
 
 `next-international` 是一个为 Next.js 提供类型安全的国际化（i18n）解决方案的库。它旨在简化国际化过程，同时确保开发体验的流畅性和代码的可维护性。
 
@@ -128,7 +128,7 @@
 
 ### 5. Intlayer
 
-![](./assets/7aafcc24-186d-4487-bed3-7afe721d82fb.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/72HvgD-7aafcc24-186d-4487-bed3-7afe721d82fb.png)
 
 [`Intlayer`](https://intlayer.org/doc/environment/nextjs) 是一个现代的开源国际化库，专为 Next.js 的 App Router 设计，内置支持服务器组件和 Turbopack。它提供了组件级别的内容声明、类型安全、缺失翻译管理和可视化编辑器等功能。
 
@@ -147,7 +147,7 @@
 
 ### 6. next-i18n-router
 
-![](./assets/ee2915bc-f9d9-4390-9a07-bbeaec694521.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/S9YoyC-ee2915bc-f9d9-4390-9a07-bbeaec694521.png)
 
 `next-i18n-router` 为 Next.js 的 App Router 提供了国际化路由和语言检测功能。它允许在应用中轻松实现基于路径的语言切换，并支持自动检测用户的首选语言。
 
@@ -164,7 +164,7 @@
 
 ### 7. paraglide-next
 
-![](./assets/acb2f0e2-2734-423a-8b57-9cec8c3e09b4.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/CEc830-acb2f0e2-2734-423a-8b57-9cec8c3e09b4.png)
 
 `paraglide-next` 是一个为 Next.js 提供国际化支持的库，旨在简化翻译字符串的管理、i18n 路由和其他相关功能。它支持树摇优化，确保仅将当前页面所需的翻译包含在 JS 包中，从而提高性能。
 
@@ -181,7 +181,7 @@
 
 ### 8. `@formatjs/intl-localematcher`
 
-![](./assets/158d21fc-194b-4072-b576-5930c5292e9f.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/WwO51a-158d21fc-194b-4072-b576-5930c5292e9f.png)
 
 `@formatjs/intl-localematcher` 是一个用于在服务器端根据请求的 `Accept-Language` 头部进行语言匹配的工具。它帮助确定用户首选的语言，以便在应用中提供适当的本地化内容。
 
@@ -197,7 +197,7 @@
 
 > 官方文档中就使用了 `@formatjs/intl-localematcher` 和 `negotiator` 配合实现国际化的功能
 
-![](./assets/93c90a0a-bc7e-4d0c-b15d-f3cb5ab27e3c.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/VuYEhl-93c90a0a-bc7e-4d0c-b15d-f3cb5ab27e3c.png)
 
 `negotiator` 是一个用于在服务器端解析和匹配 HTTP 请求头部（如 `Accept-Language`）的库。它帮助确定客户端首选的语言、编码、类型等，以便在服务器端做出相应的处理。
 
@@ -231,15 +231,15 @@
 
 使用命令 `npx create-next-app@latest --use-pnpm` 创建一个新的项目；具体的项目配置选项如下：
 
-![](./assets/05ac1b6f-8b82-4dc3-842c-f8cde1bd915a.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/nYvat7-05ac1b6f-8b82-4dc3-842c-f8cde1bd915a.png)
 
 在 VS Code 打开以后，项目的依赖如下图，然后在终端里运行 `pnpm dev` 启动服务：
 
-![](./assets/c6c0ab28-14b3-41f8-a63f-dc1c139ebcde.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/qTXtLt-c6c0ab28-14b3-41f8-a63f-dc1c139ebcde.png)
 
 在浏览器里访问如下：
 
-![](./assets/9e2db709-aa01-440f-a4b3-a777f6a4e8e0.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/OkbeVs-9e2db709-aa01-440f-a4b3-a777f6a4e8e0.png)
 
 ### 集成 next-international
 上面把环境准备好之后，我们就来集成 next-international！并在 App Router 中来演示国际化功能。
@@ -249,7 +249,7 @@
 ```sh
 pnpm install next-international
 ```
-![](./assets/12c72e34-8bfb-4c33-a915-764da471d9fd.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/4KWJCX-12c72e34-8bfb-4c33-a915-764da471d9fd.png)
 
 > 官方建议在 tsconfig.json 中将 `strict` 设置为 `true` 以确保提供最佳的开发体验！如果没有改动的话，next 脚手架初始化时是将其 `strict` 属性设置为 `true` 的。
 
@@ -507,7 +507,7 @@ export const config = {
   ```
   效果如下：
 
-![](./assets/f949da7f-8988-4493-8378-30589268f35e.gif)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/YJAxm9-f949da7f-8988-4493-8378-30589268f35e.gif)
 
 ## next-international 高阶使用
 
@@ -515,7 +515,7 @@ export const config = {
 
 复数翻译无需任何外部依赖即可开箱即用，它使用了浏览器和 Node.js 中都支持的 [`Intl.PluralRules API`](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Intl/PluralRules)。兼容性如下：
 
-![](./assets/80e82f70-699f-474d-92c0-c005838c5238.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/c0jPPK-80e82f70-699f-474d-92c0-c005838c5238.png)
 
 
 要声明复数翻译，在键名后添加 # 并跟上 `zero`、`one`、`two`、`few`、`many` 或 `other`：

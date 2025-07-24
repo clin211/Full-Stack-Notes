@@ -725,7 +725,7 @@ curl -X POST "http://localhost:8080/register" \
         }'
 ```
 请求结果如下：
-![json 请求结果](./assets/7ff57cfe-c3cf-403b-8b01-639a75204147.png)
+![json 请求结果](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/d6M6ZO-7ff57cfe-c3cf-403b-8b01-639a75204147.png)
 
 
 > 其它两种格式读者就自己在 postman、apifox 或者 curl 中进行测试了，因为篇幅原因，我这里就不在赘述！

@@ -4,14 +4,14 @@
 
 使用命令 `npx create-next-app@latest --use-pnpm` 创建一个新的项目；具体的项目配置选项如下：
 
-![](assets/9c23010d-02a5-4c06-83d4-74316f7b3286.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/BDrWmf-9c23010d-02a5-4c06-83d4-74316f7b3286.png)
 
 使用自己熟悉的开发者工具打开，并在终端中运行 `pnpm dev` 的命令行，如下：
 
-![](assets/b6c766d2-475f-40c3-a1bd-ef5cfc891c8d.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/cyc5TF-b6c766d2-475f-40c3-a1bd-ef5cfc891c8d.png)
 
 在浏览器中访问 [http://localhost:3000/](http://localhost:3000/) 效果如下：
-![](assets/60a7a8ec-502b-48cb-9a34-e455794d27da.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/daf2kC-60a7a8ec-502b-48cb-9a34-e455794d27da.png)
 
 
 ## 基本使用
@@ -125,7 +125,7 @@ export default function page() {
 ```
 效果如下：
 
-![](assets/06d7fe1c-012d-4959-a85e-61b52515377b.gif)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/Tq3DAc-06d7fe1c-012d-4959-a85e-61b52515377b.gif)
 
 可以看到上面代码中 `<Script>` 组件上分配了一个 `id`，它是用来做性能优化的，当使用内联脚本的时候，必须使用分配一个 `id`。
 
@@ -203,7 +203,7 @@ export default function RootLayout({
 ```
 上面代码中，虽然将 `Script` 组件写在 `body` 标签最后，但编译后依然被注入到 `head` 标签中；如下图：
 
-![](assets/9cad3c0c-f5f9-4c9e-802b-63cb26fbbbc4.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/TZ0eFa-9cad3c0c-f5f9-4c9e-802b-63cb26fbbbc4.png)
 
 #### **afterInteractive**
 在页面可交互后（不一定是完全可交互）后加载，这是 `Script` 组件默认的加载策略，适用于需要尽快加载的脚本。`afterInteractive` 脚本可以写在任何页面或者布局中，并且只有当浏览器中打开该页面的时候才会加载和执行。
@@ -268,7 +268,7 @@ export default function Page() {
 
 效果如下：
 
-![](assets/3b01cb04-fe23-4507-90d4-91e9f1c8410e.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/6TwYtH-3b01cb04-fe23-4507-90d4-91e9f1c8410e.png)
 
 >`onLoad` 不能在服务端组件中使用，只能在客户端中使用。而且 `onLoad` 不能和 `beforeInteractive` 一起使用，使用 `onReady` 代替。
 
@@ -310,7 +310,7 @@ export default function Page() {
 
 效果如下图：
 
-![](assets/8f697d2f-d22f-4b3e-a967-285f4ddedabd.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/XlDY7q-8f697d2f-d22f-4b3e-a967-285f4ddedabd.png)
 
 `onReady` 也不能在服务端组件中使用，只能在客户端中使用。
 
@@ -336,7 +336,7 @@ export default function Page() {
 ```
 效果如下：
 
-![](assets/903b19ca-cd62-4852-8505-59b0097291a9.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/Gp1Sts-903b19ca-cd62-4852-8505-59b0097291a9.png)
 
 `onError` 不能在服务端组件中使用，只能在客户端中使用。而且 `onError` 也不能和 `beforeInteractive` 一起使用。
 

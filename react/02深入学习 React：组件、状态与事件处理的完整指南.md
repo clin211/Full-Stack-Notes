@@ -41,7 +41,7 @@ const ele = React.createElement('div', null, 'hello, world')
 </html>
 ```
 
-<img src="assets/24448249-f7a9-4f8d-804e-9b893fd3f4be.png" style="border:1px solid rgb(222, 198, 251);border-radius: 8px" />
+<img src="https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/0IUvx8-24448249-f7a9-4f8d-804e-9b893fd3f4be.png" style="border:1px solid rgb(222, 198, 251);border-radius: 8px" />
 
 ### 什么是JSX
 **JSX（JavaScript XML），即在 JavaScript 语言里加入类 XML 的语法扩展**。在 React 中，JSX 是一种 JavaScript 的语法扩展。它看起来很像 HTML，允许你在 JavaScript 中直接写 HTML 代码。JSX 能提高代码的可读性，使得你的代码更加直观和易于维护。实际上，**JSX 只是提供了一种创建 React 元素的语法糖**，它最终会被转换到普通的 JavaScript 函数调用和对象。因此，JSX 既是 React 的一个重要特性，也是编写 React 应用的一种推荐方式。有不少初学者对 React 的第一印象就是 JSX 语法，以至于会有这样的误解：
@@ -199,7 +199,7 @@ export default App;
 React 组件层次结构从一个根部组件开始，一层层加入子组件，最终形成一棵组件树。
 
 
-![来自官网](assets/ca8fc01c-f019-4a33-b841-ef55787ac026.png)
+![来自官网](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/Hm4WE0-ca8fc01c-f019-4a33-b841-ef55787ac026.png)
 
 这棵树由节点组成，每个节点代表一个组件。例如，App、FancyText、Copyright 等都是树中的节点。
 
@@ -286,7 +286,7 @@ function App() {
 export default App;
 ```
 运行效果如下：
-<img src="assets/851d1ca0-4de7-4210-b141-98eb73520839.png" style="border:1px solid rgb(222, 198, 251);border-radius: 16px" />
+<img src="https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/x0CxJc-851d1ca0-4de7-4210-b141-98eb73520839.png" style="border:1px solid rgb(222, 198, 251);border-radius: 16px" />
 
 类组件还可以跟踪它们的状态（state），并使用状态更新来触发重新渲染。这使得类组件非常适合用于需要内部状态管理的复杂组件。
 
@@ -340,7 +340,7 @@ export default App;
 ```
 
 效果图如下：
-<img src="assets/db0f49de-8589-4479-afcd-3c204a8d01c7.png" style="border:1px solid rgb(222, 198, 251);border-radius: 16px" />
+<img src="https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/JaE8EU-db0f49de-8589-4479-afcd-3c204a8d01c7.png" style="border:1px solid rgb(222, 198, 251);border-radius: 16px" />
 
 函数组件在某些方面可以替代类组件，它们的语法更为简洁明了。然而，函数组件面临着两个主要的挑战：
 
@@ -432,7 +432,7 @@ class Profile extends Component {
             />
         );
     }
-   
+      
     export default function Profile() {
         return (
             <div>
@@ -460,7 +460,7 @@ class Profile extends Component {
             </div>
         );
     }
-   
+      
     function getImageUrl(person, size = 's') {
         return 'https://i.imgur.com/' + person.imageId + size + '.jpg';
     }
@@ -481,7 +481,7 @@ class Profile extends Component {
             );
         }
     }
-   
+      
     export default class Profile extends Component {
         render() {
             return (
@@ -511,13 +511,13 @@ class Profile extends Component {
             );
         }
     }
-   
+      
     function getImageUrl(person, size = 's') {
         return 'https://i.imgur.com/' + person.imageId + size + '.jpg';
     }
     ```
     效果图如下：
-   <img src="assets/50e2b49c-a67a-46a1-b216-dcea49383564.png" style="border:1px solid rgb(222, 198, 251);border-radius: 16px" />
+   <img src="https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/V8FyUX-50e2b49c-a67a-46a1-b216-dcea49383564.png" style="border:1px solid rgb(222, 198, 251);border-radius: 16px" />
    
     完整代码可访问：[github 中查看源码](https://github.com/clin211/react-awesome/commit/e7df0a7ef6adb9849d9307e203f0ddc8beff8965)，[函数组件的源文件](https://github.com/clin211/react-awesome/commit/e7df0a7ef6adb9849d9307e203f0ddc8beff8965#diff-5b783b9bfb89dcb91609726ee01eae5e6a7c66aba62839bd382e5d5f79a34d57)、[类组件的源文件](https://github.com/clin211/react-awesome/commit/e7df0a7ef6adb9849d9307e203f0ddc8beff8965#diff-0ad684c92858f8c01de1987e72caa21ff4988c01070a24042fb20d38df57b767)。
    
@@ -591,7 +591,7 @@ function getImageUrl(person, size = 's') {
 }
 ```
 效果如下图：
-<img src="assets/83b5f1fd-cfb4-4693-9341-38e434a6ea09.png" style="border:1px solid rgb(222, 198, 251);border-radius: 16px" />
+<img src="https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/mdChDJ-83b5f1fd-cfb4-4693-9341-38e434a6ea09.png" style="border:1px solid rgb(222, 198, 251);border-radius: 16px" />
 
 ### state
 在 React 中，state 是组件内部管理和存储数据的一种机制。理解 React 中的 state 非常重要，因为它决定了组件的状态和行为，直接影响到组件的渲染和交互。
@@ -702,12 +702,12 @@ state 是一个 JavaScript 对象，用于存储组件的内部数据；每个�
 
 **16.3 版本之前**：
 
-![](assets/c719e682-5932-4485-9420-056416597019.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/doicJn-c719e682-5932-4485-9420-056416597019.png)
 
 **16.3 版本**：
-![](assets/223d7432-b19a-4a29-bd94-3dc5494ffd68.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/QUqflJ-223d7432-b19a-4a29-bd94-3dc5494ffd68.png)
 **16.4 及之后**：
-![](assets/543d879e-4acb-40d3-8b1a-85dee3f8438e.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/dYSi5o-543d879e-4acb-40d3-8b1a-85dee3f8438e.png)
 
 通过上面的图片，我们可以看到 getDerivedStateFromProps 在 React v16.4 中有一定的改动，这个函数会在每次 render 之前被调用，也就意味着即使你的 props 没有任何变化，由父组件的 state 的改动导致的 render，这个生命周期依然会被调用，使用的时候需要注意。
 
@@ -820,7 +820,7 @@ export default class GetDerivedStateFromProps extends React.Component {
 }
 ```
 效果如下：
-<img src="assets/552d9455-7fcc-4e64-90fe-749520ef5718.gif" style="border:1px solid rgb(222, 198, 251);border-radius: 16px" />
+<img src="https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/PVQ8tn-552d9455-7fcc-4e64-90fe-749520ef5718.gif" style="border:1px solid rgb(222, 198, 251);border-radius: 16px" />
 
 上面示例完整代码请访问 github 的 getDerivedStateFromProps 实践 [github lifecycle](https://github.com/clin211/react-awesome/commit/8215e2944038bc2e4b040c089f0f10789be11daf)
 
@@ -891,7 +891,7 @@ export default class ComponentDidMount extends React.Component {
 ```
 
 可以看到 counter 的值变为了 10：
-<img src="assets/97ccaaa7-610e-448b-99d8-5fede41c90e8.png" style="border:1px solid rgb(222, 198, 251);border-radius: 16px" />
+<img src="https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/IGhbpL-97ccaaa7-610e-448b-99d8-5fede41c90e8.png" style="border:1px solid rgb(222, 198, 251);border-radius: 16px" />
 
 ### 更新阶段
 
@@ -978,7 +978,7 @@ React 通过以下机制来优化和控制组件的重新渲染：
   export default ShallowCompare;
   ```
   上面代码中，每次执行 `render` 和 `componentDidMount` 中都打印了一句调试代码，但是从执行结果来看，每次setState 执行了，但是 `render` 和 `componentDidMount` 中的打印都没有执行，效果如下图：
-  ![](assets/3bc6e0c6-b6c9-4b45-8ace-32bf9d2b74b9.gif)
+  ![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/HCBz4Z-3bc6e0c6-b6c9-4b45-8ace-32bf9d2b74b9.gif)
 
 - **React.PureComponent**：
 
@@ -1014,7 +1014,7 @@ React 通过以下机制来优化和控制组件的重新渲染：
   export default PureComponent;
   ```
   同样是在 `setState` 和 `render` 中打印了调试代码，然后点击按钮后，每次都执行了 `setState`，但是 `render` 却没有重新渲染，效果图如下：
-  ![](assets/8df7a72a-ab99-4f27-893e-5705165d67a1.gif)
+  ![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/0Y9Pi1-8df7a72a-ab99-4f27-893e-5705165d67a1.gif)
 
 
 - **函数组件和 React.memo**
@@ -1453,7 +1453,7 @@ const TodoApp = props => {
 export default TodoApp;
 ```
 效果如下图：
-<img src="assets/12074937-0d35-4244-900c-d7b9238e8378.png" style="border:1px solid rgb(222, 198, 251);border-radius: 16px" />
+<img src="https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/65iOtM-12074937-0d35-4244-900c-d7b9238e8378.png" style="border:1px solid rgb(222, 198, 251);border-radius: 16px" />
 
 ## 总结
 首先介绍了 JSX 的重要性和背景，它简化了在 JavaScript 中构建 UI 的过程。接着，我们深入探讨了 React 组件的核心概念：类组件和函数组件。类组件通过 ES6 类定义，具有状态管理和生命周期方法；函数组件更简洁，适合于无状态或纯展示组件。

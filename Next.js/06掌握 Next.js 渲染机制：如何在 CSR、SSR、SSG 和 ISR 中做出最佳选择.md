@@ -4,7 +4,7 @@
 
 Web 开发领域，选择合适的渲染策略对于提供出色的用户体验和实现业务目标至关重要。主要方法包括客户端渲染 (CSR)、服务器端渲染 (SSR)、静态站点生成 (SSG) 和增量静态再生 (ISR)，每种方法都有独特的优势和注意事项。此外，探索混合方法和新兴趋势可以进一步增强现代 Web 应用程序的多功能性和性能。
 
-![](./assets/085e8184-2b1f-4e9f-b1a8-f515ad70ef64.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/pnzvKV-085e8184-2b1f-4e9f-b1a8-f515ad70ef64.png)
 
 ## 项目环境搭建
 
@@ -19,16 +19,16 @@ npx create-next-app@latest nextjs-csr-ssr-ssg-isr --use-pnpm
 ```
 
 具体配置选项如下：
-![](./assets/19725f5b-2001-4c70-bfd5-591b8811caf0.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/B4P6IE-19725f5b-2001-4c70-bfd5-591b8811caf0.png)
 
 ### 在 VS Code 中打开并运行
 
 使用自己熟悉的开发者工具打开项目，我这里就是用 VS Code IDE 工具打开，并使用命令 `pnpm dev` 启动项目后，如下所示：
 
-![](./assets/83cbb94e-67e7-4917-a510-757f33bd39ab.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/WuSnXL-83cbb94e-67e7-4917-a510-757f33bd39ab.png)
 根据终端中的提示，在浏览器中访问 `http://localhost:3000/` 如下：
 
-![](./assets/d6ef1c1f-b947-47e6-9417-d2062b4d5315.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/XBqyfD-d6ef1c1f-b947-47e6-9417-d2062b4d5315.png)
 
 环境我们搞定了，下面我就开始进入正题！
 
@@ -84,14 +84,14 @@ CSR（Client-side Rendering），客户端渲染；也就是渲染工作主要�
 </html>
 ```
 
-![](./assets/293778e0-c229-4ce2-bfeb-944424773bb8.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/QMNhPO-293778e0-c229-4ce2-bfeb-944424773bb8.png)
 
 Next.js 也支持 CSR，在 Next.js Pages Router 中有两种方法可以实现客户端渲染：
 
 1. 在页面内部使用 React 的 `useEffect()` 钩子，而不是服务器端渲染方法（`getStaticProps` 和 `getServerSideProps`）。
 
     举个例子，在 pages 路由下创建一个 `todo.tsx` 的文件，项目结构如下：
-    ![](./assets/d2415cb9-1387-49b0-97b7-02adc3881331.png)
+    ![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/k0tPvt-d2415cb9-1387-49b0-97b7-02adc3881331.png)
 
     完整代码如下：
 
@@ -122,15 +122,15 @@ Next.js 也支持 CSR，在 Next.js Pages Router 中有两种方法可以实现�
 
     在浏览器中访问的效果如下：
 
-    ![](./assets/5e6f017f-3c83-426f-8b9f-e0fe74178ac6.gif)
+    ![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/Swe8sx-5e6f017f-3c83-426f-8b9f-e0fe74178ac6.gif)
 
     从上图可以看到，当客户端访问 `http://localhost:3000/todo` 时，界面出现的是一个 loading 的效果，等数据返回后，主要内容在客户端进行渲染。 loading 阶段所对应的 HTML 结构如下：
 
-    ![](./assets/4e71f7bb-19f1-4172-b32e-4910384d5be5.png)
+    ![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/GDrc2S-4e71f7bb-19f1-4172-b32e-4910384d5be5.png)
 
     当获取到数据之后，将页面更新为获取到的内容：
 
-    ![](./assets/5622e6f1-b01c-489d-9e5a-0f62e6feb2de.png)
+    ![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/aqr9OT-5622e6f1-b01c-489d-9e5a-0f62e6feb2de.png)
 
 2. 使用像 SWR 这样的数据获取库或 TanStack 查询在客户端获取数据（推荐）。
 
@@ -167,7 +167,7 @@ Next.js 也支持 CSR，在 Next.js Pages Router 中有两种方法可以实现�
 
     效果如下：
 
-    ![](./assets/3a221049-4fd4-4030-a9da-6946e96566a0.png)
+    ![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/Jrwwcm-3a221049-4fd4-4030-a9da-6946e96566a0.png)
 
 ### CSR 的优点
 
@@ -208,11 +208,11 @@ SSR（Server-side Rendering），服务端渲染；也就是渲染工作主要�
 
 对于服务器渲染的页面，服务器将渲染后的非交互式 HTML 发送到客户端，然后客户端下载 JS 包以进行水合或通过添加事件监听器使页面具有交互性。此过程称为**水合**。
 
-![使用 SSR 生成页面的步骤](./assets/c9c7947f-b040-4516-af44-d69306b817cf.png)
+![使用 SSR 生成页面的步骤](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/6m3S5s-c9c7947f-b040-4516-af44-d69306b817cf.png)
 
 Next.js 也支持 SSR，在 Next.js Pages Router 中来写一个示例，文件结构如下：
 
-![](./assets/18b659d5-e159-45f8-8cec-2b260f870f49.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/g8tLEh-18b659d5-e159-45f8-8cec-2b260f870f49.png)
 完整代码：
 
 ```jsx
@@ -237,11 +237,11 @@ export async function getServerSideProps() {
 
 效果如下：
 
-![](./assets/200aac83-4e74-4115-988d-3ddc482efc60.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/2QrJe3-200aac83-4e74-4115-988d-3ddc482efc60.png)
 
 使用 SSR，需要导出一个名为 `getServerSideProps` 的 `async` 函数。`getServerSideProps` 函数会在**每次请求的时候被调用**；返回的数据会通过 `props` 属性传递给组件。服务端会在每次请求响应前生成好静态的 HTML 返回给浏览器，生成后的数据可以直接在浏览器的 Element 面板看到，如下图：
 
-![](./assets/fb98c8e3-bdb4-44bf-88c8-4506d04317de.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/HJM0pR-fb98c8e3-bdb4-44bf-88c8-4506d04317de.png)
 
 ### SSR 优点
 
@@ -282,14 +282,14 @@ export async function getServerSideProps() {
 
 SSG（Static Site Generation），静态站点生成；SSG 是在构建阶段将页面编译成静态的 HTML 文件。通过这种方式，服务器无需渲染页面，客户端也只需要最少的 JS 即可使页面具有交互性，从而提高 TTFB（Time To First Byte）、FCP（First Contentful Paint）和 TTI（Time to Interactive）的速度。比如在博客文章、作品集、电商的产品列表、文档之类的场景应用 SSG。
 
-![使用 SSG 生成页面的步骤](./assets/e86163be-c5f4-40d4-afd3-b01458443a5f.png)
+![使用 SSG 生成页面的步骤](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/vl75Nh-e86163be-c5f4-40d4-afd3-b01458443a5f.png)
 
 在 Next.js 中，SSG 生成时可以带数据也可以不带数据；
 
 ### 无数据的静态生成
 
 当不获取数据的时候，默认使用的就是 SSG，在 Pages Router 中的示例如下：
-![文件结构](./assets/af0aceaf-0edb-45b6-b68c-a4ead52c22bc.png)
+![文件结构](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/0Qe2hA-af0aceaf-0edb-45b6-b68c-a4ead52c22bc.png)
 
 完整代码如下：
 
@@ -320,13 +320,13 @@ export default nextConfig;
 
 > 按照上面的示例，运行 `pnpm build` 肯定是会失败的，会报一个 “pages with \`getServerSideProps\` can not be exported. See more info here: <https://nextjs.org/docs/messages/gssp-export”> 的错误；[官方](https://nextjs.org/docs/messages/gssp-export)也提供了解决方案。我们就根据官方的建议将 `getServerSideProps`（每次请求时被调用） 换成 `getStaticProps`（每次构建时被调用），它两是有一些区别的，后面的文章再介绍，这里先解决构建问题！
 
-![](./assets/afc3f241-d879-4016-ab9c-d6a7312dd0bf.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/7F8Qg9-afc3f241-d879-4016-ab9c-d6a7312dd0bf.png)
 
 然后用 `npx serve@latest out` 命令就能运行 out 目录下的文件；效果如下所示：
 
-![](./assets/80895ba0-5c12-4ea6-b941-331c24d53f3b.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/n92bJF-80895ba0-5c12-4ea6-b941-331c24d53f3b.png)
 
-![](./assets/be78dddd-9f26-4274-8bda-f912d73d5bf8.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/RwCIRZ-be78dddd-9f26-4274-8bda-f912d73d5bf8.png)
 
 ### 带数据的静态生成
 
@@ -417,13 +417,13 @@ export default function Post({ post }: { post: Post }) {
 
 效果如下：
 
-![QQ_1731397246883](./assets/32973e59-3c99-4c9e-aae7-0bfda2f374d5.png)
+![QQ_1731397246883](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/x4Nyxk-32973e59-3c99-4c9e-aae7-0bfda2f374d5.png)
 
 其中，`getStaticPaths` 和 `getStaticProps` 都会在构建的时候被调用，`getStaticPaths` 定义了哪些路径被预渲染，`getStaticProps` 获取路径参数，请求数据传给页面。`fallback: false` 表示如果用户尝试访问不存在的页面时，就响应 404 页面。
 
 我们使用 `pnpm build` 来构建一下看看：
 
-![](./assets/e7003dd4-e50c-43a2-9dc2-c0ae0ed1adbf.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/8JSEEk-e7003dd4-e50c-43a2-9dc2-c0ae0ed1adbf.png)
 
 我们可以看到博客列表和 100 个博客文章详情页都使用了 SSG，所有文件都在 out 目录下，每个页面都有构建时间。这样访问的时候就会快不少了，再配上 CDN，速度直接起飞！
 
@@ -465,7 +465,7 @@ export default function Post({ post }: { post: Post }) {
 
 ISR（Incremental Static Regeneration），增量静态再生。增量静态再生考虑到 SSG 和 CSR 的利弊，旨在兼顾两者的优点。它会定期选择性地再生可缓存的静态页面，并在数据更新时快速重建新页面。
 
-![使用 ISR 生成页面的步骤](./assets/3d79989d-2e78-433c-94cf-39fdf80a027c.png)
+![使用 ISR 生成页面的步骤](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/I5K5Fa-3d79989d-2e78-433c-94cf-39fdf80a027c.png)
 
 Next.js v9.5 就发布了稳定的 ISR 功能，当时提供了一个 demo（[https://reactions-demo.vercel.app/](https://reactions-demo.vercel.app/)）用于演示效果，但是现在已经失效了，不过有一个新的 demo（[https://on-demand-isr.vercel.app/](https://on-demand-isr.vercel.app/)） 站点可以测试。
 

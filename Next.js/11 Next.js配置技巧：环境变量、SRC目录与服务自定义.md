@@ -6,7 +6,7 @@
 ### Node.js 加载环境变量
 Node.js 的核心 `process` 模块提供了属性 `env`，它提供进程启动时设置的所有环境变量。所以获取也很简单，如下图（红色框中的代码）：
 
-![](./assets/5dda282d-c499-4a71-8855-d3ae534a48b0.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/7RYj2S-5dda282d-c499-4a71-8855-d3ae534a48b0.png)
 
 还可以在运行项目或单个文件的时候，设置单独的环境变量，比如：
 - 在当前目录下创建一个 `main.js` 的文件，文件中就只是打印 `ENV` 这个环境变量。
@@ -16,7 +16,7 @@ Node.js 的核心 `process` 模块提供了属性 `env`，它提供进程启动�
 
 - 运行时根据不同的值获取到的结果如下：
 
-  ![](./assets/16e0c8f9-8d83-4d22-9790-a545df64f45e.png)
+  ![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/mssRcY-16e0c8f9-8d83-4d22-9790-a545df64f45e.png)
 
 
 ### Next.js 中使用环境变量
@@ -28,10 +28,10 @@ Next.js 内置了对环境变量的支持，因为 Next.js 是一个全栈框架
 
 在进入正式的内容之前，我们先来准备一下相关的环境，创建一个项目便于演示后面的内容。使用命令 `npx create-next-app@latest --use-pnpm` 创建一个新的项目；具体的项目配置选项如下：
 
-![](./assets/ecd69846-9717-425a-84e7-0c38bcd6425a.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/M4RkAr-ecd69846-9717-425a-84e7-0c38bcd6425a.png)
 
 然后使用自己熟悉的开发者工具打开项目，这里我就使用 VS Code 打开，如下：
-![](./assets/cde90d33-a4b1-4a6e-860e-90c849ceae88.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/aduDa8-cde90d33-a4b1-4a6e-860e-90c849ceae88.png)
 
 #### `.env` 文件中加载环境变量
 
@@ -57,9 +57,9 @@ DB_PASS=mypassword
   }
   ```
   在浏览器中请求 `http://localhost:3000/api` 后，效果如下图：
-  ![](./assets/689c5698-60cc-4247-9e23-342b2d4d0dfd.png)
+  ![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/uxpTVP-689c5698-60cc-4247-9e23-342b2d4d0dfd.png)
   请求后就能看到终端打印的环境变量的结果（终端中的第一行）：
-  ![](./assets/6b5b0a80-dd1e-40e2-8044-d1c76ec049f1.png)
+  ![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/w3VMgA-6b5b0a80-dd1e-40e2-8044-d1c76ec049f1.png)
 
 - 服务端组件
 
@@ -71,7 +71,7 @@ DB_PASS=mypassword
   ```
   在浏览器访问 `http://localhost:3000/` 后，终端打印效果如下：
 
-  ![](./assets/83906636-a4d6-46db-b009-585c0e4ac69d.png)
+  ![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/fhTwT5-83906636-a4d6-46db-b009-585c0e4ac69d.png)
 
 > 如果 `.env` 文件不足以满足你的要求，Next.js 为了兼容其各场景的灵活性，提供了 [@next/env](https://www.npmjs.com/package/@next/env) 包来扩展！
 
@@ -106,7 +106,7 @@ export async function GET () {
 }
 ```
 请求 `http://localhost:3000/api` 后读取到的内容如下：
-![](./assets/13d104b9-379d-4ae7-b988-ca47ed6167a8.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/9Ss91B-13d104b9-379d-4ae7-b988-ca47ed6167a8.png)
 
 ### 浏览器中获取环境变量
 Next.js 是一个全栈框架，自然也考虑到了浏览器环境的时候如何获取环境变量，也没有过多的文件配置，就是使用 `NEXT_PUBLIC_` 为前缀的环境变量就是浏览器环境中可以使用的。
@@ -131,11 +131,11 @@ export default function Client() {
 ```
 在 `/app/page.tsx` 中引入 `<Client />` 组件，接着就运行 `pnpm build` 构建项目，构建完成之后使用命令 `pnpm start` 启动构建后的产物，如下：
 
-![](./assets/1a9e85f0-8b89-4f65-a70f-c7ea0de8a6b6.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/eu9S4r-1a9e85f0-8b89-4f65-a70f-c7ea0de8a6b6.png)
 
 启动之后，根据终端的信息，在浏览器中访问，看看是否打印了我们想要的环境变量：
 
-![](./assets/912ce29e-ca5a-4962-8a99-26c14d9c6ab4.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/pnXE4p-912ce29e-ca5a-4962-8a99-26c14d9c6ab4.png)
 
 从上面的图中可以看出，是打印出我们在客户端组件中获取的环境变量。但要注意！**动态查找的值是不会被内联**，比如：
 ```js
@@ -181,7 +181,7 @@ setupAnalyticsService(env.NEXT_PUBLIC_ANALYTICS_ID)
 本系列的文章中所使用的演示案例基本上都是基于 src 目录去做的，如果没有用 `src/` 目录应该怎么将其改造成 `src/` 目录的结构呢？将 `app/` 下或者 `pages/` 下的文件移动到 `src/app` 或 `src/pages` 即可，比如下图：
 
 
-![来自 Next.js 官网](./assets/c8d74b72-5235-4b10-91d5-872d836f6ad0.png)
+![来自 Next.js 官网](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/5aVEj4-c8d74b72-5235-4b10-91d5-872d836f6ad0.png)
 
 调整的时候注意：
 - `/public` 目录继续放在项目根目录
@@ -193,7 +193,7 @@ setupAnalyticsService(env.NEXT_PUBLIC_ANALYTICS_ID)
 - 如果使用中间件，确保将其放在 `src` 目录下
 - 如果使用 Tailwind CSS，请修改 `tailwind.config.js` 中的 `content` 配置项，添加 `./src/` 前缀
 
-![](./assets/87afc9a3-c117-44c4-91f0-8442bc1062a0.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/PFd8tH-87afc9a3-c117-44c4-91f0-8442bc1062a0.png)
 
 ## 自定义服务
 
@@ -277,11 +277,11 @@ pnpm add -D nodemon
 ```
 我们来看看最后的效果：
 
-![](./assets/a63cbd2c-33ec-4e16-843e-502170e1a315.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/JOjJ0S-a63cbd2c-33ec-4e16-843e-502170e1a315.png)
 
 浏览器访问 `http://localhost:3000` ：
 
-![](./assets/a11121d5-c454-4ba7-8f41-f8bb5cf1ce5d.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/UpQm2B-a11121d5-c454-4ba7-8f41-f8bb5cf1ce5d.png)
 
 #### 构建阶段的配置调整
 开发环境的配置构建好了，但是构建阶段的配置还没有调整，我们开发最后肯定是要上线项目的，有不是只在本地开发着玩的，接下来看看怎么配置？
@@ -295,21 +295,21 @@ pnpm add cross-env
 "build": "next build && tsc --project tsconfig.server.json",
 "start": "cross-env NODE_ENV=production node dist/server.js"
 ```
-![](./assets/dfd3d38c-ad57-477f-88d6-4e0cf43f6239.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/ONCsHA-dfd3d38c-ad57-477f-88d6-4e0cf43f6239.png)
 
 修改完命令之后，使用 `pnpm build` 命令看看构建效果，感觉一切都很顺利，结果：
 
-![](./assets/a0f81817-9c6f-4129-acd0-0bcfd6209dda.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/X8gwgU-a0f81817-9c6f-4129-acd0-0bcfd6209dda.png)
 
 从上图的报错信息可以看出是 tsconfig.server.json 文件出了问题，根据提示信息可以看出是 `moduleResolution` 配置的问题，但是在 tsconfig.server.json 文件并没有配置，而是直接继承的 tsconfig.json 文件的配置，尝试将 `moduleResolution` 改为 "node" 后再次运行构建命令 `pnpm build`：
 
-![](./assets/7feecd4f-9bcd-4446-bd69-342afbf2efa7.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/ZXekh7-7feecd4f-9bcd-4446-bd69-342afbf2efa7.png)
 
 然后在终端中启动生产服务后浏览器访问：
 
-![](./assets/9f3cbc05-afc0-4ea9-ab65-f774cb22e964.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/16rYCH-9f3cbc05-afc0-4ea9-ab65-f774cb22e964.png)
 
-![](./assets/a903b6f6-d9c5-48c8-a8cc-a4e9c6e70b80.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/SJKoBu-a903b6f6-d9c5-48c8-a8cc-a4e9c6e70b80.png)
 
 至此，开发阶段和构建阶段的配置都好了。本模块的代码可以 [https://github.com/clin211/next-awesome/tree/custom-server](https://github.com/clin211/next-awesome/tree/custom-server) 中找到。
 

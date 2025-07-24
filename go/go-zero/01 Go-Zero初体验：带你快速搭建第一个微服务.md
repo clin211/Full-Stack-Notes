@@ -197,7 +197,7 @@ go env -w GOPROXY=https://goproxy.cn,direct
 go install github.com/zeromicro/go-zero/tools/goctl@latest
 ```
 
-![](./assets/82942779-50f9-488c-b48a-13aff63af6d1.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/M1Gm4I-82942779-50f9-488c-b48a-13aff63af6d1.png)
 
 **安装过程详细说明：**
 
@@ -275,7 +275,7 @@ export PATH=$PATH:$GOBIN
 
 - Visual Studio Code
 
-  ![](./assets/07b0ccd6-b848-410d-9477-3b94a9413fd7.png)
+  ![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/CmRQDX-07b0ccd6-b848-410d-9477-3b94a9413fd7.png)
 
   VS Code是目前最受欢迎的Go开发工具，免费且功能强大。
 
@@ -287,7 +287,7 @@ export PATH=$PATH:$GOBIN
 
 - 次选：[GoLand](https://www.jetbrains.com/go/)
 
-  ![](./assets/b6b37152-e345-40a0-8e74-725134ae91af.jpg)
+  ![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/pQIN1w-b6b37152-e345-40a0-8e74-725134ae91af.jpg)
 
   JetBrains 出品的专业Go IDE，功能更强大但需要付费（学生可免费）。
 
@@ -301,7 +301,7 @@ export PATH=$PATH:$GOBIN
 
 1. **Go插件**
 
-    ![](./assets/233869e0-bf92-41c8-9d07-36d337a9bc0e.png)
+    ![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/dlygQP-233869e0-bf92-41c8-9d07-36d337a9bc0e.png)
 
    - 插件名称：Go (Google官方)
    - 功能：语法高亮、自动完成、调试支持
@@ -369,7 +369,7 @@ air -v
 ```
 
 效果如下：
-![](./assets/1f0e8d30-8578-44cb-84fc-e47bcf539f71.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/4MMr7V-1f0e8d30-8578-44cb-84fc-e47bcf539f71.png)
 
 #### Air工具的作用和优势
 
@@ -503,7 +503,7 @@ goctl api new user
 
 项目创建好之后，在 vscode（使用自己顺手的工具都 OK） 中打开，如下：
 
-![](./assets/8ed1f173-0ecb-4666-8ca3-13d4284b7bfc.jpg)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/MwrbjU-8ed1f173-0ecb-4666-8ca3-13d4284b7bfc.jpg)
 
 ### 项目结构解析
 
@@ -729,7 +729,7 @@ air
 
 效果如下：
 
-![](./assets/9c4149fc-96b3-47bc-a1f5-de5e3fdc85cb.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/lb7gsC-9c4149fc-96b3-47bc-a1f5-de5e3fdc85cb.png)
 
 #### 热重载的优势体验
 
@@ -766,7 +766,7 @@ Starting server at 0.0.0.0:8888...
 
 如下图：
 
-![](./assets/c4372a6b-e08f-4c41-83ce-69b7a114a8d9.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/sklsm9-c4372a6b-e08f-4c41-83ce-69b7a114a8d9.png)
 
 > 上面所有代码可以在 <https://github.com/clin211/Go/commit/8a085129c43f14b701a41ccff168555fe4dbd931> 查看！
 
@@ -864,7 +864,7 @@ goctl api go -api user.api -dir .
 
 执行后，你会看到goctl自动为我们生成了新的 `handler` 和 `logic` 文件：
 
-![](./assets/67b5a788-d598-4856-b2d7-6c4cb92b2a27.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/CFt9uN-67b5a788-d598-4856-b2d7-6c4cb92b2a27.png)
 
 ### 实现业务逻辑
 
@@ -982,7 +982,7 @@ curl -X POST http://localhost:8888/api/user/register \
 
 效果如下：
 
-![](./assets/449908bf-1144-493f-9ce1-b13cb6a38d83.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/OMi4wy-449908bf-1144-493f-9ce1-b13cb6a38d83.png)
 
 #### 2. 测试用户登录
 
@@ -1008,7 +1008,7 @@ curl -X POST http://localhost:8888/api/user/login \
 
 效果如下：
 
-![](./assets/ac9d7098-6fdb-4c72-91c1-d3429fc6dcfa.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/GjRtAb-ac9d7098-6fdb-4c72-91c1-d3429fc6dcfa.png)
 
 > 图中也是用了上面 testuser 的账户登录，为什么会报错呢？是因为上面注册的信息没有保存起来，后面可以使用数据库保存起来，然后将整个功能连通！
 
@@ -1030,7 +1030,7 @@ curl -X POST http://localhost:8888/api/user/login \
 ```
 
 下面框出来的日志就是上面注册、登录的相关日志！
-![](./assets/95afcc0a-5ffc-4c11-95ca-1e7017dbd384.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/X8QC5d-95afcc0a-5ffc-4c11-95ca-1e7017dbd384.png)
 
 ### 代码组织的优势
 

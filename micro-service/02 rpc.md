@@ -25,7 +25,7 @@ RPC（Remote Procedure Call，远程过程调用）是一种允许程序调用�
 
 ## 如何进行远程过程调用？
 
-![](./assets/image-20250302225340780.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/85ClAl-image-20250302225340780.png)
 
 > 上图源自 Bruce Jay Nelson 于 1984 年发表的经典论文《[Implementing Remote Procedure Calls](https://web.eecs.umich.edu/~mosharaf/Readings/RPC.pdf)》，该论文首次系统化定义了远程过程调用的核心设计范式，为现代分布式系统通信奠定了理论基础。尽管当前主流的 RPC 框架（如 gRPC、Dubbo 等）在协议实现、序列化方式和传输层优化等方面存在差异，但其核心设计思想——**通过抽象网络通信为本地方法调用，降低分布式系统开发复杂性**——仍与 Nelson 提出的原始模型一脉相承。
 
@@ -303,7 +303,7 @@ func main() {
 
 在终端中分别执行 `go run server/main.go` 和 `go run client/main.go` 两个命令，可以就可以看到 client 终端显示`Result: 50` 的结果:
 
-![](./assets/image-20250302233110724.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/tcxqxT-image-20250302233110724.png)
 
 ### 🔹基于 HTTP 的 JSON-RPC 实现
 
@@ -388,7 +388,7 @@ func main() {
 
 在对应的目录下面，执行 `go run server/main.go` 和 `go run client/main.go` 两个命令，如下图：
 
-![](./assets/image-20250302235136222.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/8jedup-image-20250302235136222.png)
 
 > 关键规则说明
 >

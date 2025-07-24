@@ -67,7 +67,7 @@ console.log(nickname); // 结果是什么？changlin 还是 forest ？
 ```
 分析一下上面的代码片段，首先声明了一个变量 `name` 保存的是字符串 `'changlin'`，然后又声明了一个变量 `nickname`，保存的是 `name` 的值 `'changlin'`，然后又给变量 `name` 重新赋值为 `forest`，此时变量 `name` 保存的是字符串 `forest`；在这段代码中，当 `nickname = name` 执行时，`nickname` 实际上指向的是存储 `'changlin'` 的内存位置。后续修改 `name` 的值为 `'forest'` 不会影响 `nickname`，因为它们实际上指向的是不同的内存位置。所以**最后打印的结果是 `'changlin'`。**
 
-![](assets/6fdb35e3-0b8c-409f-a769-f794503fe2a3.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/GYK1Oc-6fdb35e3-0b8c-409f-a769-f794503fe2a3.png)
 
 在把**引用值从一个变量赋给另一个变量时，存储在变量中的值也会被复制到新变量所在的位置**。区
 别在于，这里**复制的值实际上是一个指针，它指向存储在堆内存中的对象**。操作完成后，**两个变量实际上指向同一个对象，因此一个对象上面的变化会在另一个对象上反映出来**，如下面的例子所示：
@@ -80,7 +80,7 @@ console.log(obj2.name); // undefined or 'changlin'?
 这段代码中，首先创建了一个对象 `obj1`，然后将 `obj1` 的引用值赋给了 `obj2`，也就是它们指向同一个对象。接着给 `obj1` 添加了一个属性 `name` 并赋值为 `'changlin'`。由于 `obj1` 和 `obj2` 指向同一个对象，所以无论通过哪个变量访问对象的属性，都会得到相同的结果。因此最后会输出 `'changlin'`。
 
 
-![](assets/9559f942-f880-44ce-9c58-3543fb1aa9b7.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/BHG9vE-9559f942-f880-44ce-9c58-3543fb1aa9b7.png)
 
 ### 参数传递
 **ECMAScript 中所有函数的参数都是按值传递的**。也就是函数外的值会被复制到函数内部的参数
@@ -234,7 +234,7 @@ changeColor();
 全局上下文和 `changeColor()` 的局部上下文都无法访问到 `tempColor`。而在 `swapColors()` 中则可以访问全局上下文和 `changeColor` 上下文中的变量，因为它们都是**父级上下文**。
 
 
-![图示作用域](assets/ae936a49-a42a-44b0-ae8a-b13b778743e9.png)
+![图示作用域](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/FxRZOX-ae936a49-a42a-44b0-ae8a-b13b778743e9.png)
 
 > 内部上下文可以通过作用域链访问外部上下文中的一切，但外部上下文无法访问内部上下文中的任何东西。**上下文之间的连接是线性的、有序的**。每个上下文都可以到上一级上下文中去搜索变量和函数，但任何上下文都不能到下一级上下文中去搜索。函数参数被认为是当前上下文中的变量，因此也跟上下文中的其他变量遵循相同的
 > 访问规则。
@@ -425,7 +425,7 @@ window.test.a = new Uint16Array(100);
 
 当 JavaScript 执行这段代码的时候，会先为 `window` 对象添加一个 `test` 属性，并在堆中创建一个空对象，并将对象的地址指向 `window.test` 属性；随后又创建一个大小为 100 的数组，并将属性地地址指向了 `test.a` 的属性值。
 
-![内存分布图](assets/7dcd7b7c-bda3-4902-8b99-c4e451ae6c6b.png)
+![内存分布图](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/vIiaOu-7dcd7b7c-bda3-4902-8b99-c4e451ae6c6b.png)
 
 
 从上图中可以看到，栈中只保存了指向 `window` 对象的指针，通过栈中 `window` 的地址，我们可以到达 `window` 对象，通过 `window` 对象可以达到 `test` 对象，通过 `test` 对象还可以到达 `a` 对象。
@@ -436,7 +436,7 @@ window.test.a = new Object();
 ```
 此时的内存布局为：
 
-![内存分布图](assets/eadca339-c0d4-438c-b005-7e829355849f.png)
+![内存分布图](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/c54BZR-eadca339-c0d4-438c-b005-7e829355849f.png)
 
 上图可以看到，`a` 属性之前是指向堆中数组对象的，现在已经指向了另外一个空对象，那么此时堆中的数组对象就成为了垃圾数据，因为我们无法从一个更对象遍历到这个 `Array` 对象。
 
@@ -633,7 +633,7 @@ let obj4 = new Array(2000000);  // 尝试创建一个更大的数组
 
 归根结底，**标记清除算法的缺点在于清除之后剩余的对象位置不变而导致的空闲内存不连续**，所以只要解决这一点，两个缺点都可以完美解决了。而标记整理（Mark-Compact）算法就可以有效地解决，它的标记阶段和标记清除算法没有什么不同，只是标记结束后，标记整理算法会将活着的对象（即不需要清理的对象）向内存的一端移动，最后清理掉边界的内存
 
-![](assets/b34c77f8-98c9-43c7-95eb-820d6bfe9533.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/BI51Qy-b34c77f8-98c9-43c7-95eb-820d6bfe9533.png)
 
 
 ## 性能优化

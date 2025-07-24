@@ -227,26 +227,26 @@ func I18n(name ...string) *gi18n.Manager {
 
 - **golang 的配置方式**
   在运行模板中添加 GF_DEBUG 环境变量，然后开始调试程序。
-    ![](assets/9d450bd6-b912-465e-a618-0418ad88eeac.png)
+    ![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/bAUuW1-9d450bd6-b912-465e-a618-0418ad88eeac.png)
   
-    ![](assets/32ef80a2-b440-41f8-ab1e-24d14184e088.png)
+    ![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/xN9R2I-32ef80a2-b440-41f8-ab1e-24d14184e088.png)
   
-    ![](assets/73188d28-8fd9-44f1-bf99-18a5e1e81cf3.png)
+    ![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/vtypod-73188d28-8fd9-44f1-bf99-18a5e1e81cf3.png)
   
-    ![](assets/64fd2258-3fdf-437b-8780-5c17a54cecb8.png)
+    ![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/to6SqO-64fd2258-3fdf-437b-8780-5c17a54cecb8.png)
 
-    ![](assets/7811b005-d6c9-41d1-a157-3081182c8425.png)
+    ![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/iI9c25-7811b005-d6c9-41d1-a157-3081182c8425.png)
 
-    ![image](assets/69c337ef-9807-40f8-a2ff-ff868e6354f3.png)
+    ![image](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/xrHYQZ-69c337ef-9807-40f8-a2ff-ff868e6354f3.png)
 
 
 
 - **Visual Studio Code 的配置方式**
   1. 在 vscode 中打开项目，按照下图步骤进行操作
-  ![image](assets/ae99a400-8d84-4f3b-b500-c5d9316355c4.png)
+  ![image](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/mpj9iG-ae99a400-8d84-4f3b-b500-c5d9316355c4.png)
 
   2. 选择 Launch Package 项
-     ![image](assets/22f4b32b-9e97-42df-bfdc-02494fdbd6ea.png)
+     ![image](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/8WVdUj-22f4b32b-9e97-42df-bfdc-02494fdbd6ea.png)
   
       然后就在项目的根目录的 `.vscode/launch.json` 中自动添加如下内容：
       ```json
@@ -293,17 +293,17 @@ func I18n(name ...string) *gi18n.Manager {
       }
       ```
   3. 在程序中打断点，如下图：
-      ![](assets/984d6090-84c3-4a35-bf10-1353afc9cb04.png)
+      ![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/xUG11x-984d6090-84c3-4a35-bf10-1353afc9cb04.png)
 
   4. 开始运行刚刚配置的调试脚本
-      ![](assets/323fce40-4537-4e82-9e13-29a887b20f47.png)
+      ![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/3a4GLk-323fce40-4537-4e82-9e13-29a887b20f47.png)
           
       效果如下图：
       
-      ![](assets/9f731690-a7fb-4294-9ae7-9b6ce861e326.png)
+      ![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/wlvpEx-9f731690-a7fb-4294-9ae7-9b6ce861e326.png)
       
       在浏览器访问 `http://localhost:8000/hello` 后如下：
-      ![image](assets/c88e3387-8e42-4af9-ae8e-3c19e408019f.png)
+      ![image](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/Kih7zO-c88e3387-8e42-4af9-ae8e-3c19e408019f.png)
 
   
 
@@ -411,7 +411,7 @@ app:
   name: "myapp"
   version: "1.0.0"
 ```
-![项目配置信息](assets/ae69c077-fa97-436f-ad2c-2076ab14857d.png)
+![项目配置信息](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/b41hM5-ae69c077-fa97-436f-ad2c-2076ab14857d.png)
 
 
 创建项目的时候，CLI 工具为我们默认创建了一个 `/hello` 的路由，我们就在这个路由中来获取配置信息，在 `interal/controller/hello/hello_v1_hello.go` 文件中做如下调整：
@@ -507,7 +507,7 @@ func (c *ControllerV1) Hello(ctx context.Context, req *v1.HelloReq) (res *v1.Hel
       })
     ```
 
-    ![](assets/1b944a59-8a3b-4e8f-87ae-3169f8044b8e.png)
+    ![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/WHdL2f-1b944a59-8a3b-4e8f-87ae-3169f8044b8e.png)
 
 3. 在浏览器中访问 `http://localhost:8000/hello` 会得到如下信息：
     ```json
@@ -965,7 +965,7 @@ func main() {
 
 ```
 执行后效果如下图：
-![](assets/4aefecf2-ec72-4729-b21f-934db2b1c2a8.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/e4r3nn-4aefecf2-ec72-4729-b21f-934db2b1c2a8.png)
 
 #### 日志目录
 默认情况下，glog 将会输出日志内容到标准输出，我们可以通过 `SetPath()` 设置日志输出的目录路径，这样日志内容将会写入到日志文件中，并且由于其内部使用了 `gfpool` 文件指针池，文件写入的效率相当优秀。简单示例：
@@ -993,7 +993,7 @@ func main() {
 ```
 执行后效果如下图：
 
-![](assets/73ba755f-b302-440b-bbc1-950b8664b30d.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/Te7ryw-73ba755f-b302-440b-bbc1-950b8664b30d.png)
 
 
 ### 日志链式操作
@@ -1049,7 +1049,7 @@ func main() {
 }
 ```
 执行结果如下：
-![image](assets/852248b2-27f4-49cc-aae8-fc32b9856aee.png)
+![image](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/HvJbGX-852248b2-27f4-49cc-aae8-fc32b9856aee.png)
 
 #### 打印调用行号
 ```go
@@ -1068,7 +1068,7 @@ func main() {
 }
 ```
 执行后效果如下：
-![image](assets/22257201-daee-46a0-bb56-ef3e78be5790.png)
+![image](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/69TKvu-22257201-daee-46a0-bb56-ef3e78be5790.png)
 
 ### 日志颜色打印
 可以增加日志的可查看性，打印日志时，会将错误等级文字通过添加字体颜色的方式突出显示。
@@ -1094,7 +1094,7 @@ func main() {
 }
 ```
 执行后效果如下：
-![image](assets/91a5f9e2-da9c-41fd-a027-e3ec4cb57a51.png)
+![image](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/llaGAS-91a5f9e2-da9c-41fd-a027-e3ec4cb57a51.png)
 
 #### 使用配置
 
@@ -1180,7 +1180,7 @@ func main() {
 ```
 
 执行后效果如下：
-![image](assets/f7e21bc1-ca97-468e-bea9-1319fb2f8f0d.png)
+![image](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/pWhU1I-f7e21bc1-ca97-468e-bea9-1319fb2f8f0d.png)
 
 
 ### 日志的堆栈打印
@@ -1453,7 +1453,7 @@ var (
     }
     ```
 
-    ![image](assets/5e4b8d77-2f83-42f7-accd-8f6265d10141.png)
+    ![image](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/9ibNCU-5e4b8d77-2f83-42f7-accd-8f6265d10141.png)
     
   2. 正确的错误对象 Wrap 方式
   

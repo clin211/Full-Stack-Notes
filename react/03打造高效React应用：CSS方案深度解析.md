@@ -30,7 +30,7 @@ export default InlineStyles;
 
 效果如下：
 
-<img src="assets/24516572-c842-4d4f-8c16-8078892b9c4e.png" style="border:1px solid rgb(222, 198, 251);border-radius: 8px" />
+<img src="https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/fajsxc-24516572-c842-4d4f-8c16-8078892b9c4e.png" style="border:1px solid rgb(222, 198, 251);border-radius: 8px" />
 
 
 #### 样式属性的命名
@@ -70,7 +70,7 @@ export default DynamicStyles;
 ```
 在这个例子中，当点击 `div` 元素时会切换其文本颜色。效果图如下：
 
-<img src="assets/cee5817c-04da-4b6e-9852-e13bb05d2ce0.gif" style="border:1px solid rgb(222, 198, 251);border-radius: 8px" />
+<img src="https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/2FyOk7-cee5817c-04da-4b6e-9852-e13bb05d2ce0.gif" style="border:1px solid rgb(222, 198, 251);border-radius: 8px" />
 
 #### 样式合并
 React允许将多个样式对象合并为一个，这在需要应用多个条件样式时非常有用：
@@ -143,7 +143,7 @@ const finalStyle = { ...baseStyle, ...activeStyle };
   ```
   在这个示例中，我们使用[模板字符串（template literals）](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Template_literals)来动态添加或移除 CSS 类。效果如下：
   
-  <img src="assets/6e9433f3-653b-4701-b9ff-08989882f0d8.gif" style="border:1px solid rgb(222, 198, 251);border-radius: 8px" />
+  <img src="https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/OdMLMm-6e9433f3-653b-4701-b9ff-08989882f0d8.gif" style="border:1px solid rgb(222, 198, 251);border-radius: 8px" />
   
 #### 动态添加或移除 CSS 类
 可以使用条件渲染的方法动态添加或移除 CSS 类。例如，使用三元运算符或条件运算符：
@@ -180,7 +180,7 @@ export default ClassnamesStyles;
 ```
 然后在 App.jsx 中引入 ClassnamesStyles 组件；在这个示例中，classnames 库使得根据条件判断类名的处理更加简洁和易读。效果如下：
 
-<img src="assets/191cfe99-2cbd-43a1-b36a-93160f13b5d9.gif" style="border:1px solid rgb(222, 198, 251);border-radius: 8px" />
+<img src="https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/BpNLDc-191cfe99-2cbd-43a1-b36a-93160f13b5d9.gif" style="border:1px solid rgb(222, 198, 251);border-radius: 8px" />
 
 ### CSS Modules
 为了避免全局样式冲突，React 推荐使用 CSS 模块（CSS Modules），它允许你将 CSS 类名限定在本地作用域内。
@@ -295,7 +295,7 @@ export default StyledComponentsStyles;
 ```
 效果如下：
 
-<img src="assets/b3ac380e-1237-4434-a043-f2e1258e3f35.gif" style="border:1px solid rgb(222, 198, 251);border-radius: 8px" />
+<img src="https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/swU0Pt-b3ac380e-1237-4434-a043-f2e1258e3f35.gif" style="border:1px solid rgb(222, 198, 251);border-radius: 8px" />
 
 #### CSS-in-JS
 CSS-in-JS 是一种将 CSS 样式直接写在 JavaScript 文件中的技术。Styled Components 是 CSS-in-JS 的实现之一，但还有其他库和方法可以实现 CSS-in-JS，例如 emotion、styled-jsx 等。
@@ -348,7 +348,7 @@ export default EmotionStyles;
 ```
 效果如下：
 
-<img src="assets/a9fd13b0-5a57-4b32-b73a-9cafdb204ddf.gif" style="border:1px solid rgb(222, 198, 251);border-radius: 8px" />
+<img src="https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/NbXNmr-a9fd13b0-5a57-4b32-b73a-9cafdb204ddf.gif" style="border:1px solid rgb(222, 198, 251);border-radius: 8px" />
 
 
 emotion 也支持了 style-components 的方案，不过要安装一下依赖：`npm i @emotion/styled`，使用示例如下：
@@ -384,7 +384,7 @@ export default EmotionStyledStyles;
 
 效果如下：
 
-<img src="assets/4d0c16f4-0cdc-474a-ae35-fc55183b2bc1.gif" style="border:1px solid rgb(222, 198, 251);border-radius: 8px" />
+<img src="https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/H4zkSl-4d0c16f4-0cdc-474a-ae35-fc55183b2bc1.gif" style="border:1px solid rgb(222, 198, 251);border-radius: 8px" />
 
 Styled Components 和 CSS-in-JS 是现代 React 开发中非常流行的样式解决方案。它们提供了模块化、动态化和高可维护性的样式管理方式。根据项目需求选择合适的方案，可以显著提高开发效率和代码质量。
 

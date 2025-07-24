@@ -61,7 +61,7 @@ goframe 框架为开发者提供了便捷的开发指令简化开发工作，如
 ```
 #### 您可能会遇到以下常见问题：
 如果当前系统没有安装 wget 命令，使用 `brew install wget` 安装后继续执行该命令（若不想安装 wget，可以使用后面手动编译安装的方式）。
-![image](assets/699576b0-c47b-4eed-896b-bc7778b9a2dd.png)
+![image](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/etZjpb-699576b0-c47b-4eed-896b-bc7778b9a2dd.png)
 
 如果您使用的是 zsh 终端，可能会存在 gf 别名冲突（ git fetch 快捷指令），那么安装后（至少执行一次）请重启终端软件来继续使用。
 
@@ -76,7 +76,7 @@ goframe 框架为开发者提供了便捷的开发指令简化开发工作，如
   $ vi .zshrc
   ```
   在文件的结尾添加 `alias gf="gf"`，如下图：
-  ![image](assets/5ab7954f-7de3-4aea-a9d6-f1421a8da771.png)
+  ![image](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/JYqGX7-5ab7954f-7de3-4aea-a9d6-f1421a8da771.png)
   输入完成后，按 ESC 键，然后 `:wq` 保存并退出编辑状态，接着更新 .zshrc 文件使其配置生效或者重新打开一个终端；更新命令如下：
   ```sh
   $ resouce .zshrc
@@ -96,14 +96,14 @@ $ wget -O gf "https://github.com/gogf/gf/releases/latest/download/gf_$(go env GO
 #### Windows环境
 
   手动下载对应的二进制文件，双击按照终端指令安装即可。如果双击安装失败，请采用最后万能的手动编译安装方式。[github 链接](https://github.com/gogf/gf/releases)
-  ![image](assets/bd4ace12-875f-45f5-abc2-8636b2fed837.png)
+  ![image](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/1Dd1BB-bd4ace12-875f-45f5-abc2-8636b2fed837.png)
 
 #### 手动编译安装
 ```shell
 $ git clone https://github.com/gogf/gf && cd gf/cmd/gf && go install
 ```
 通过下载源码到本地编译生成二进制后安装到系统目录，这是万能的安装方式：
-![image](assets/ccb507b5-1ee4-475e-a7eb-dade515c61cb.png)
+![image](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/MfhUdD-ccb507b5-1ee4-475e-a7eb-dade515c61cb.png)
 
 #### 脚手架常用命令
 - **工具帮助 help**
@@ -321,7 +321,7 @@ you can now run "cd myapp && gf run main.go" to start your journey, enjoy!
 ```
 这个创建过程很快，如果看到的结果上面的内容一样，则说明创建成功了，可以使用自己比较熟悉的工具打开项目，然后运行项目，笔者比较熟悉 vscode，下面就是用 vscode 打开，并运行项目，效果图如下：
 
-![image](assets/fa2223ce-ab30-47be-834a-b14f10865e87.png)
+![image](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/UhGGJo-fa2223ce-ab30-47be-834a-b14f10865e87.png)
 
 运行 `gf run main.go` 命令后，在项目的根目录就会有一个 main 可执行文件，其实 gf 运行的就是这个文件；启动之后就可以在终端中查看到服务运行在哪个端口、有哪些路由：
 ```sh
@@ -347,11 +347,11 @@ build running pid: 26515
 ```
 
 可以打开浏览器请求 hello 服务： `http://localhost:8000/hello`
-![image](assets/f7aaab6a-d7b7-414f-af58-12d6ac37e38d.png)
+![image](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/pcxG6d-f7aaab6a-d7b7-414f-af58-12d6ac37e38d.png)
 
 在浏览器中查看 swagger 访问服务： `http://localhost:8000/swagger`
 
-![image](assets/d43377e2-7f55-4c82-a252-8b6e6381867a.png)
+![image](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/45i8tb-d43377e2-7f55-4c82-a252-8b6e6381867a.png)
 
 
 #### 项目目录

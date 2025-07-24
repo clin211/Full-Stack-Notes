@@ -97,13 +97,13 @@
 >- IDE：VS Code 1.99.3
 
 使用命令 `npx create-next-app@latest --use-pnpm` 创建一个新的项目；具体的项目配置选项如下：
-![](./assets/7fa4f636-5def-4127-858d-10a2f53f7949.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/ZfnIci-7fa4f636-5def-4127-858d-10a2f53f7949.png)
 
 在 VS Code 中打开后，并运行：
-![](./assets/27e48e52-2132-4015-8027-701a10eadc6d.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/QIiAjV-27e48e52-2132-4015-8027-701a10eadc6d.png)
 
 上图可以看到，服务运行在 3000 端口，然后再浏览器中访问 `http://localhost:3000`:
-![](./assets/da6bf97a-2727-46bb-bbc4-2a427a90323f.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/BydSco-da6bf97a-2727-46bb-bbc4-2a427a90323f.png)
 
 ### 依赖安装
 
@@ -112,7 +112,7 @@ pnpm add @tanstack/react-query zustand immer @tanstack/react-query-devtools
 ```
 
 版本信息如下：
-![](./assets/8ef40fa5-b28f-4416-a3f3-4a9481a37c4d.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/Bwbfu1-8ef40fa5-b28f-4416-a3f3-4a9481a37c4d.png)
 
 > 可能有小伙伴会疑惑，`@tanstack/react-query-devtools` 为什么不是安装开发环境依赖呢？原因是官方已经把这一块逻辑处理了，即使你安装成开发环境依赖也没问题！原文如下：  
 > By default, React Query Devtools are only included in bundles when `process.env.NODE_ENV === 'development'`, so you don't need to worry about excluding them during a production build.
@@ -410,10 +410,10 @@ export default async function RootLayout({
 ```
 
 配置完成后如下效果：
-![](./assets/5aba8df2-9adb-4396-b384-2917c535ba7d.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/Whh6j4-5aba8df2-9adb-4396-b384-2917c535ba7d.png)
 
 展开之后的样子(以后文的 /product 路由为例)：
-![](./assets/a6cfa955-849e-4a2d-861c-53af15d308aa.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/XnXZIU-a6cfa955-849e-4a2d-861c-53af15d308aa.png)
 
 
 ### 查询提供者配置 (src/app/providers.tsx)
@@ -788,7 +788,7 @@ export default function ProductList() {
 
 每个 tab 下的数据都有缓存，效果如下：
 
-![](./assets/7042909c-7b69-48f6-80f0-99e4924a913f.gif)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/7RrLp3-7042909c-7b69-48f6-80f0-99e4924a913f.gif)
 
 整个功能块包括以下内容：
 

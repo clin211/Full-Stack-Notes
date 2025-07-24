@@ -12,7 +12,7 @@ Gin 作为 Go 语言中最流行的 Web 框架之一，提供了一种轻量级�
 
 ### Gin 中间件的执行机制（洋葱模型）
 
-![](./assets/8c5f5236-e1c3-4f49-aa82-9550cd012e1d.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/A4ABwi-8c5f5236-e1c3-4f49-aa82-9550cd012e1d.png)
 
 Gin 采用 **“洋葱模型”（Onion Model）** 处理中间件，这意味着请求会按照注册的顺序进入中间件，执行 `Next()` 后进入下一个中间件或处理函数，返回时再按相反顺序依次执行剩余的逻辑。  
 

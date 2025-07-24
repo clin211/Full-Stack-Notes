@@ -148,7 +148,7 @@ Node.js 不仅在服务器端应用广泛，还成功拓展到桌面端。从 NW
   $ nvm ls
   ```
 
-  ![所有镜像源](assets/631de43e-8262-46f9-be7b-a73bd6b42718.png)
+  ![所有镜像源](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/WUFDcc-631de43e-8262-46f9-be7b-a73bd6b42718.png)
 
 - 切换镜像
 
@@ -158,7 +158,7 @@ Node.js 不仅在服务器端应用广泛，还成功拓展到桌面端。从 NW
 
   比如：切换到 npm 源
 
-  ![切换到 npm 源](assets/7baef6ea-0421-4efe-b713-e0b7a6315505.png)
+  ![切换到 npm 源](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/wyta8y-7baef6ea-0421-4efe-b713-e0b7a6315505.png)
 
 - 添加镜像源
 
@@ -217,18 +217,18 @@ Node.js 不仅在服务器端应用广泛，还成功拓展到桌面端。从 NW
 
 [vs code](https://code.visualstudio.com/) 是一个轻量级的开源代码编辑器，由微软开发。它具有丰富的插件生态系统和智能代码补全功能，同时提供语法高亮、代码导航、调试器和 Git 集成等特性，方便开发者进行代码编辑和调试。
 
-![截图于 vscode 官网](assets/b21b4ba3-9412-45cc-8982-2248a9dbbc8d.png)
+![截图于 vscode 官网](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/VrVNUX-b21b4ba3-9412-45cc-8982-2248a9dbbc8d.png)
 
 
 [WebStorm](https://www.jetbrains.com/zh-cn/webstorm/) 是一款由JetBrains开发的专注于Web开发的IDE。它支持多种前端技术和框架，提供智能代码补全、错误纠正、实时代码分析等功能。
 
-![截图于 webstorm 官网](assets/90a2d083-2ba1-42c4-bbfb-aeb9c9e66348.png)
+![截图于 webstorm 官网](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/aWR5L7-90a2d083-2ba1-42c4-bbfb-aeb9c9e66348.png)
 
 总而言之，它两都差不多，想定制化高一点就使用 vs code，不想折腾就是 webstorm，用着顺手就好，下文内容都是使用 vs code IDE（我个人比较喜欢使用 vs code）。
 
 ## 初识 React
 
-![官网](assets/adeb7f5e-a83c-4b49-a474-f21a8c3b85bb.png)
+![官网](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/qlDVJB-adeb7f5e-a83c-4b49-a474-f21a8c3b85bb.png)
 
 ### 什么是 React？
 
@@ -245,7 +245,7 @@ Node.js 不仅在服务器端应用广泛，还成功拓展到桌面端。从 NW
     这里的 "my-app" 是你的应用的名字，你可以选择你喜欢的名字。
     > 这里**项目名不能使用驼峰的形式**(即不能包含大写字母)，不然会有以下报错：`name can no longer contain capital letters`。
     
-    <img src="assets/1e1321af-a955-41b1-b2f9-b900b2bfab29.png" />
+    <img src="https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/CPJtRe-1e1321af-a955-41b1-b2f9-b900b2bfab29.png" />
 
 3. 创建完毕后，进入你的应用的目录：
     ```sh
@@ -257,7 +257,7 @@ Node.js 不仅在服务器端应用广泛，还成功拓展到桌面端。从 NW
     ```
     现在，你可以在浏览器中打开 "http://localhost:3000" 来查看你的 React 应用了！
 
-    ![](assets/5385716e-e1be-453f-ad51-a0851d043e87.gif)
+    ![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/TsISwu-5385716e-e1be-453f-ad51-a0851d043e87.gif)
     
 ### 文件结构
 接下来，我们看下安装好的 React 应用的文件结构。
@@ -331,6 +331,6 @@ export default App;
 可以看到上面代码中，我们将 header 中的内容换成了 `<p>hello world！！！</p>`，保存代码，浏览器会自动帮我们刷新，接着我们就能看到页面展示如下：
 
 
-![hello world 效果](assets/4e8013e8-84e4-4822-8020-5c775623677d.png)
+![hello world 效果](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/Z3TfH3-4e8013e8-84e4-4822-8020-5c775623677d.png)
 
 到此，我们已经完成了使用 React 的第一步。

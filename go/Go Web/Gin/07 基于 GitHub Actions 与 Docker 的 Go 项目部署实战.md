@@ -1070,7 +1070,7 @@ chown deploy:deploy /opt/go-app
 
     执行这行命令后，会生成两个文件：`deploy-go`（私钥）和 `deploy-go.pub`（公钥）。生成的密钥文件 `deploy-go` 和 `deploy-go.pub` 将会保存在当前工作目录中；如下图：
   
-   ![](./assets/bf0d233a-0aa8-4b63-b8ee-396db88b2116.png)
+   ![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/ojswCe-bf0d233a-0aa8-4b63-b8ee-396db88b2116.png)
 
 
 2. **将公钥添加到服务器的授权密钥**：
@@ -1338,19 +1338,19 @@ echo "[$(date)] Deployment completed successfully!"
 #### 创建容器实例
 这里创建个人版的实例，容器镜像服务ACR个人版面向个人开发者，提供基础的容器镜像服务，包括应用镜像托管能力、稳定的镜像构建服务以及便捷的镜像授权功能，方便进行镜像全生命周期管理。虽然受限，但也够用了。
 
-![](./assets/60d86e55-22f7-425c-84f7-673ff712c14a.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/Ip1MAo-60d86e55-22f7-425c-84f7-673ff712c14a.png)
 
-![](./assets/5444f4e3-4172-4b9d-a39d-2d4dd0007cdc.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/wK6Ycy-5444f4e3-4172-4b9d-a39d-2d4dd0007cdc.png)
 
-![](./assets/a8c297c6-4567-4353-bbea-22cfff6e9f38.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/ZHPvYP-a8c297c6-4567-4353-bbea-22cfff6e9f38.png)
 
-![](./assets/009e9785-a61f-403f-a720-09d712cd965b.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/dZn5GD-009e9785-a61f-403f-a720-09d712cd965b.png)
 
-![](./assets/1eec8bf5-66dc-4cd6-936b-93fa2cd743ed.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/tO6c3I-1eec8bf5-66dc-4cd6-936b-93fa2cd743ed.png)
 
-![](./assets/859968dc-e199-466e-8a49-100e75a5aec3.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/u4nOaz-859968dc-e199-466e-8a49-100e75a5aec3.png)
 
-![](./assets/4eca6117-3246-440f-8220-c426bfbcd37f.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/dFja06-4eca6117-3246-440f-8220-c426bfbcd37f.png)
 
 #### 认证配置
 
@@ -1363,14 +1363,14 @@ echo "[$(date)] Deployment completed successfully!"
    - `ALIYUN_REGISTRY`：阿里云容器镜像服务的注册表地址（如 `registry.cn-hangzhou.aliyuncs.com`）
    - `ALIYUN_NAMESPACE`：命名空间名称
    
-   ![](./assets/35ec4058-7f9e-42fa-a647-235188d8f316.png)
+   ![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/BjeMay-35ec4058-7f9e-42fa-a647-235188d8f316.png)
 
 
-   ![](./assets/9f25ff4f-4983-47ab-b385-c7ea92cd6bcb.png)
+   ![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/tdBvCH-9f25ff4f-4983-47ab-b385-c7ea92cd6bcb.png)
 
-   ![](./assets/48e0d577-1774-44b7-9047-cb5fa6b8c843.png)
+   ![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/p0MWzq-48e0d577-1774-44b7-9047-cb5fa6b8c843.png)
 
-   ![](./assets/3e355248-a9b3-46fd-8f8f-7baef65a25e1.png)
+   ![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/u3av6d-3e355248-a9b3-46fd-8f8f-7baef65a25e1.png)
 
 
 2. **配置 Docker 登录步骤**：

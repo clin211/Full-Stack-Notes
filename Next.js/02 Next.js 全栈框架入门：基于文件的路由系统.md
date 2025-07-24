@@ -31,7 +31,7 @@
 >   
 > - 在 App Router 中：
 >
->   ![](assets/d86d2e58-f9eb-480a-937e-37add03e58bd.png)
+>   ![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/wMob6i-d86d2e58-f9eb-480a-937e-37add03e58bd.png)
 >   
 >   上图展示了文件夹如何映射到 URL 片段；可以使用 `page.tsx` 文件为每个路由创建单独的用户界面。将上面 Pages Router 示例改成 App Router 后，目录结构如下：
 >   ```tree
@@ -75,10 +75,10 @@
 > - `not-found.js`（React 错误边界）
 > - `page.js` 或嵌套 `layout.js`
 >
-> ![](assets/9202acc2-da3d-435a-843e-d01ed5859282.png)
+> ![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/xV2wtk-9202acc2-da3d-435a-843e-d01ed5859282.png)
 > 在嵌套路由中，子片段的组件将嵌套在其父片段的组件内。
 >
-> ![](assets/41c04cd6-e747-4d63-8106-a58677977e69.png)
+> ![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/RprGED-41c04cd6-e747-4d63-8106-a58677977e69.png)
 >
 > ## 路由约定
 >
@@ -89,15 +89,15 @@
 > 在进入正题之前，我们先创建一个 Next.js 的项目，结合代码及浏览器效果能更好的理解各个路由规则！
 > 使用命令 `npx create-next-app@latest nextjs-app-router --use-pnpm` 创建项目(`--use-pnpm` 表示使用 pnpm 创建项目，如果没有 pnpm，也可以使用 npm 或者 yarn)；可以选择你自己喜欢的技术栈，我的配置如下图：
 >
-> ![](assets/d550f83b-a778-46af-834c-08bb918be791.png)
+> ![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/czGDWs-d550f83b-a778-46af-834c-08bb918be791.png)
 >
 > 在 VS Code 中打开后入下图：
 >
-> ![](assets/3c9be634-016c-4ced-8819-d63655d519a8.png)
+> ![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/7YF3KJ-3c9be634-016c-4ced-8819-d63655d519a8.png)
 >
 > 在浏览器中打开后如下图：
 >
-> ![](assets/d435452c-3e7b-446f-a2d1-8b1911b80b2a.png)
+> ![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/F1E0Hv-d435452c-3e7b-446f-a2d1-8b1911b80b2a.png)
 >
 >
 > ### 路由文件
@@ -119,7 +119,7 @@
 >
 > 在当前路由及所有子路由下共享的 UI。
 >
-> ![](assets/4ab2d145-56b4-4c76-a627-b61ff2c6dac8.png)
+> ![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/1hXocV-4ab2d145-56b4-4c76-a627-b61ff2c6dac8.png)
 >
 > 在上图的目录结构中，`dashboard/layout.tsx` 是 `/dashboard/settings` 和 `/dashboard/analytics` 两个路由的通用布局。
 >
@@ -170,19 +170,19 @@
 >   ```
 >
 > 当访问 `/dashboard` 时，效果如下：
-> ![](assets/3e0d255a-3ee4-457e-9ca2-5a7425e54837.png)
+> ![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/jBDSAW-3e0d255a-3ee4-457e-9ca2-5a7425e54837.png)
 >
 > 当访问 `/dashboard/settings` 时，效果如下：
-> ![](assets/58144bce-b969-4964-add6-92d0a8a023cb.png)
+> ![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/PTScfi-58144bce-b969-4964-add6-92d0a8a023cb.png)
 >
 > 当访问 `/dashboard/analytics` 时，效果如下：
-> ![](assets/95780566-c125-4d35-b7c3-a29f1daaf074.png)
+> ![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/bD9h5m-95780566-c125-4d35-b7c3-a29f1daaf074.png)
 >
 > 根据上面效果，不难发现，同一个目录下，如果有 `layout` 和 `page`，`page` 会作为 `children` 参数传入 `layout` 中，也就是 `layout` 会包裹同层级的 `page`。
 >
 > #### **root layout**
 >
-> ![image](assets/64e9dcb6-40b2-4378-967a-1745832df461.png)
+> ![image](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/XSdrg2-64e9dcb6-40b2-4378-967a-1745832df461.png)
 >
 > layout 也是可以嵌套的！在我们创建项目的时候，Next.js 脚手架工具也会在 `app/` 目录下创建一个 `layout.tsx` 文件；也就是根布局，这个根布局还有一些特殊性需要注意：
 > - 在 app 目录下必须包含一个 `layout` 布局文件。
@@ -194,7 +194,7 @@
 >
 > 页面是用于呈现路由的用户界面的文件。
 >
-> ![](assets/ea223d06-b9b1-4b60-a06f-1a07cd3e3399.png)
+> ![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/CMXk3T-ea223d06-b9b1-4b60-a06f-1a07cd3e3399.png)
 >
 > 一个 page 对应一个路由；比如：`dashboard/page.tsx` 对应的是 `/dashboard` 路由，`/dashboard/settings/page.tsx` 对应的是 `/dashboard/settings` 路由。
 >
@@ -207,7 +207,7 @@
 > ```
 > 我们在 `app/dashboard` 目录下创建一个 `loading.tsx` 文件。目录结构如下：
 >
-> ![](assets/cf836fb3-0c49-45d6-99b6-df2e913ee018.png)
+> ![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/WbSjeU-cf836fb3-0c49-45d6-99b6-df2e913ee018.png)
 >
 > 然后写入如下代码：
 > ```jsx
@@ -231,14 +231,14 @@
 > ```
 > 当我输入 `http://localhost:3000/dashboard` 回车，能够直观看到页面有一个 loading 的文本（在真实业务场景中可以使用骨架屏等处理），效果如下：
 >
-> ![](assets/938db7e7-f41c-480b-9906-38852f7fc907.gif)
+> ![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/tFRG3B-938db7e7-f41c-480b-9906-38852f7fc907.gif)
 >
 > 上面这个例子我们是在 `/dashboard` 中写的，如果在 `/dashboard/settings` 中也需要特殊定制一个 loading 的页面，则可以在 `/dashboard/settings/loading.tsx` 中自定义加载页面的效果。
 >
 > #### **not-found**
 > 顾名思义，当该路由不存在的时候展示的内容。基于上面的路由系统，我来访问一下 `http://localhost:3000/dashboard/address` 时，会出现如下效果：
 >
-> ![](assets/b689f5e5-eb26-4038-a58f-7dc87f793b99.png)
+> ![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/UwaaSz-b689f5e5-eb26-4038-a58f-7dc87f793b99.png)
 >
 > 上面这个效果是 Next.js 提供的默认效果；当然也可以自定义这个效果，只需要在 app 目录下创建一个 `not-found.tsx` 的文件，然后就可以自定义效果了。
 >
@@ -251,11 +251,11 @@
 > #### **error**
 > 这个文件用于捕获服务器组件和客户端组件中发生的意外错误时展示的 UI；也就是当发生错误时的展示 UI。其实它借助了 React 的 [`Error Boundary`](https://react.dev/reference/react/Component#catching-rendering-errors-with-an-error-boundary) 功能。简单来说，就是给 page.js 和 children 包了一层 `ErrorBoundary`。
 >
-> ![](assets/12bceaef-4d4d-4e73-bed5-577b36315cc8.png)
+> ![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/xaJcaF-12bceaef-4d4d-4e73-bed5-577b36315cc8.png)
 >
 > 我们在 `/dashboard` 中来演示一下 error 的效果，在 dashboard 目录下新建一个 error.tsx 文件，目录效果如下：
 >
-> ![](assets/adfa8a1a-b599-4c0c-abe6-dcaee725ea41.png)
+> ![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/UIlQ61-adfa8a1a-b599-4c0c-abe6-dcaee725ea41.png)
 >
 > `dashboard/error.tsx` 代码如下：
 > ```jsx
@@ -314,13 +314,13 @@
 > ```
 > 效果如下：
 >
-> ![](assets/bbe0b9fd-c809-46d7-ba13-32d8e1b8cbf9.gif)
+> ![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/IMMjyb-bbe0b9fd-c809-46d7-ba13-32d8e1b8cbf9.gif)
 >
 > 有时错误是暂时的，只需要重试就可以解决问题。所以 Next.js 会在 `error.js` 导出的组件中，传入 `reset()` 函数，帮助尝试从错误中恢复。该函数会触发重新渲染错误边界里的内容。如果成功，会替换展示重新渲染的内容。
 >
 > #### **global-error**
 > 这个是用来专门处理根目录中的错误，也就是跟根目录 layout 同级的一个错误处理文件。
-> ![](assets/9202acc2-da3d-435a-843e-d01ed5859282.png)
+> ![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/xV2wtk-9202acc2-da3d-435a-843e-d01ed5859282.png)
 >
 > 从图中也可以看出，`Layout` 和 `Template` 在 `ErrorBoundary` 的外面，如果 `Layout` 或者 `Template` 发生了错误，那就需要在父级的 `error.tsx` 中捕获错误。如果在顶层的话，Next.js 就提供了 `global-error` 的方案。 `global-error.tsx` 会包裹整个应用，而且当它触发的时候，它会替换掉根布局的内容。所以，`global-error.tsx` 中也要定义 `<html>` 和 `<body>` 标签。
 >
@@ -352,7 +352,7 @@
 >
 > 在 Next.js 中，写路由处理程序，文件名必须是 `route.ts` 或者 `route.js`，且必须在 `app/` 目录下，还不能与 `page.tsx` 同级存在。
 >
-> ![](assets/7affac4e-a58c-4ee2-a27d-2c39bda51b37.png)
+> ![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/Vn97Bb-7affac4e-a58c-4ee2-a27d-2c39bda51b37.png)
 >
 > 支持 `GET`、`POST`、`PUT`、`PATCH`、和 `DELETE` 方法；如果调用不受支持的方法，Next.js 将返回 `405 Method Not Allowed` 的响应。
 > ```ts
@@ -390,7 +390,7 @@
 >   ```
 >   在浏览器访问 `http://localhost:3000/api/posts` 效果如下：
 >
->   ![](assets/efa158e3-cad4-4c77-a2d8-4ec2c72041fe.png)
+>   ![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/WS4mLx-efa158e3-cad4-4c77-a2d8-4ec2c72041fe.png)
 >
 > - **POST**
 >
@@ -414,7 +414,7 @@
 >   }
 >   ```
 >   在 postman 中请求 `http://localhost:3000/api/posts` 后效果如下：
->   ![](assets/57fcc147-78cd-4176-8c74-713d07b9d8a0.png)
+>   ![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/1eAUXj-57fcc147-78cd-4176-8c74-713d07b9d8a0.png)
 >
 > - **PUT**
 >
@@ -440,7 +440,7 @@
 >   ```
 >   在 postman 中请求 `http://localhost:3000/api/posts` 后效果如下：
 >
->   ![](assets/14f9de4a-e0b3-44a9-9dcf-018f15a0a33b.png)
+>   ![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/yZt1li-14f9de4a-e0b3-44a9-9dcf-018f15a0a33b.png)
 >
 > - **patch**
 >
@@ -466,7 +466,7 @@
 >   ```
 >   在 postman 中请求 `http://localhost:3000/api/posts` 后效果如下：
 >   
->   ![](assets/275456cd-52db-4b9a-9613-8042eb5aeb7b.png)
+>   ![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/0ZYMAK-275456cd-52db-4b9a-9613-8042eb5aeb7b.png)
 >
 > - **delete**
 >
@@ -476,20 +476,20 @@
 >       const res = await fetch('https://jsonplaceholder.typicode.com/posts/1', {
 >           method: 'DELETE',
 >       })
->   
+>     
 >       const data = await res.json()
 >       return NextResponse.json({ code: 200, data, message: 'success' })
 >   }
 >   ```
 >   在 postman 中请求 `http://localhost:3000/api/posts` 后效果如下：
 >   
->   ![](assets/d204e890-6f96-45dd-85c2-a4d175f92bb0.png)
+>   ![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/JXc5iy-d204e890-6f96-45dd-85c2-a4d175f92bb0.png)
 >
 > 如果还有想要了解 FormData 或者 Stream 等相关的内容，可以阅读官方[路由处理程序（Route Handlers）](https://nextjs.org/docs/app/building-your-application/routing/route-handlers)。
 > #### **template**
 > 模板类似于布局，它也会传入每个子布局或者页面。但不会像布局那样维持状态。也就是模板在路由切换时会为每一个 `children` 创建一个实例。这就意味着在多个路由中共享一个模板，各路由间跳转的时候，将会重新挂载组件实例，重新创建 DOM 元素，不会保留原来的状态。
 >
-> ![](assets/68ef50c9-ba63-4090-b0fe-add482ab31ed.png)
+> ![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/urWwef-68ef50c9-ba63-4090-b0fe-add482ab31ed.png)
 >
 > 定义一个模板，必须以 `template` 为文件名，且默认导出一个 React 组件，这个组件接收一个 `children` 参数。如上图，我们再 app 目录下创建一个模板，并写入如下代码：
 > ```jsx
@@ -604,10 +604,10 @@
 > export default page
 > ```
 > 文章列表效果如下：
-> ![](assets/9184d025-d2e8-4ce0-bad5-f4b29cb98878.png)
+> ![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/nd8BM8-9184d025-d2e8-4ce0-bad5-f4b29cb98878.png)
 >
 > 文章详情效果如下：
-> ![](assets/7894c90c-9846-48f0-8761-16a20d48e2df.png)
+> ![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/fLFwGK-7894c90c-9846-48f0-8761-16a20d48e2df.png)
 >
 > 路由与参数的对应关系：
 > | 路由                        | URL 示例      | 参数             |
@@ -630,7 +630,7 @@
 > ```
 > 效果如下：
 >
-> ![](assets/8ccadfc9-a4bb-48b0-816b-4acb9807d7be.png)
+> ![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/FKCDkB-8ccadfc9-a4bb-48b0-816b-4acb9807d7be.png)
 >
 > 路由与参数的对应关系：
 > | 路由                           | URL 示例          | 参数                         |
@@ -656,10 +656,10 @@
 > export default page
 > ```
 > 访问 `http://localhost:3000/shop` 效果如下：
-> ![](assets/bbbd397f-553e-4e83-aeaf-b6d3398431d4.png)
+> ![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/dQuJtE-bbbd397f-553e-4e83-aeaf-b6d3398431d4.png)
 >
 > 访问 `http://localhost:3000/shop/clothes/top` 效果如下：
-> ![](assets/c7b06163-976c-40fb-94ea-022f1f562a39.png)
+> ![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/ODDDSV-c7b06163-976c-40fb-94ea-022f1f562a39.png)
 > 路由与参数的对应关系：
 > | 路由                             | URL 示例         | 参数                         |
 > | -------------------------------- | ---------------- | ---------------------------- |
@@ -684,19 +684,19 @@
 >
 > **创建路由组就是把文件夹用括号括起来**就可以了；比如下图中的 `(marketing)` 和 `(shop)`：
 >
-> ![](assets/6448d900-3ca7-4474-a7cd-40921e9d82fe.png)
+> ![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/qzYvn1-6448d900-3ca7-4474-a7cd-40921e9d82fe.png)
 >
 >
 > #### 根据路由组创建单独的根布局
 > 要创建多个根布局，删除顶级 `layout.tsx` 文件，并在每个路由组内添加一个 `layout.tsx` 文件。这对于将应用程序划分为具有完全不同 UI 或体验的部分很有用。需要在每个根布局中添加 `<html>` 和 `<body>` 标签。
 >
-> ![](assets/9ba8d2ec-69bc-4ed2-bb36-41fd42563156.png)
+> ![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/1uGRu0-9ba8d2ec-69bc-4ed2-bb36-41fd42563156.png)
 >
 > #### 根据路由组创建单独的布局
 >
 > 在上图中，虽然 (marketing) 和 (shop) 内的路由共享相同的 URL 层级结构，但你可以通过在它们的文件夹中添加 layout 文件为每个路由组创建不同的布局。
 >
-> ![](assets/b4fc8ed1-af9e-4173-9d82-0e94397290ed.png)
+> ![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/oEuHfn-b4fc8ed1-af9e-4173-9d82-0e94397290ed.png)
 >
 > > Tips:
 > > - **路由组的命名除了标识为一个组之外没有特殊意义**；它们不会影响 URL 路径。
@@ -724,7 +724,7 @@
 >
 > 在一些后管理系统中，你可以通过使用平行路由基于某些条件 (如用户角色) 有条件地渲染路由。例如，为 `/admin` 或 `/user` 角色渲染不同的仪表盘页面：
 >
-> ![](assets/b5a115e1-0cb1-4f22-9d5d-41833399a778.png)
+> ![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/geArBq-b5a115e1-0cb1-4f22-9d5d-41833399a778.png)
 >
 > 在上图，插槽会通过 props 传入这个共享的 `layout` 中，然后 `layout` 从 `props` 中获取 `admin` 和 `user` 两个插槽的内容，并将其渲染。
 >
@@ -749,13 +749,13 @@
 > }
 > ```
 >
-> ![](assets/e58be249-8054-4887-94ec-c1aab7a7045b.png)
+> ![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/kVkSSY-e58be249-8054-4887-94ec-c1aab7a7045b.png)
 >
 > #### 标签组
 > 在插槽内添加一个 `layout`，允许用户独立导航该插槽。
 >
 > 例如，`@analytics` 插槽有两个子页面：`/page-views` 和 `/visitors`。结构如下图：
-> ![](assets/6f84f690-1552-4f5f-8d92-14393e6143e5.png)
+> ![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/XlNqeC-6f84f690-1552-4f5f-8d92-14393e6143e5.png)
 > 在 `@analytics` 内创建一个 `layout` 文件，在两个页面之间共享标签：
 > ```jsx
 > import Link from "next/link";
@@ -777,7 +777,7 @@
 >
 > 平行路由可以独立流式传输，允许开发者为个路由定义独立的错误和加载状态：
 >
-> ![](assets/8a31f06f-a6a5-46e9-9e30-3fce5c128345.png)
+> ![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/zTUauV-8a31f06f-a6a5-46e9-9e30-3fce5c128345.png)
 >
 >
 > #### 子导航
@@ -798,7 +798,7 @@
 > - `app/parallel-route/layout.tsx` 的代码如下：
 >   ```jsx
 >   import Link from "next/link";
->   
+>     
 >   export default function RootLayout({ analytics }: { children: React.ReactNode, analytics: React.ReactNode }) {
 >       return (
 >           <>
@@ -820,44 +820,44 @@
 > - `app/parallel-route/@analytics/page.tsx` 的代码如下：
 >   ```jsx
 >   import React from 'react'
->   
+>     
 >   const page = () => {
 >       return (
 >           <div>这里是 @analytics/page.tsx </div>
 >       )
 >   }
->   
+>     
 >   export default page
 >   ```
 > - `app/parallel-route/@analytics/page-views/page.tsx` 的代码如下：
 >   ```jsx
 >   import React from 'react'
->   
+>     
 >   const page = () => {
 >       return (
 >           <div>page-views page</div>
 >       )
 >   }
->   
+>     
 >   export default page
 >   ```
 > - `app/parallel-route/@analytics/visitors/page.tsx` 的代码如下：
 >   ```jsx
 >   import React from 'react'
->   
+>     
 >   const page = () => {
 >       return (
 >           <div>visitors page</div>
 >       )
 >   }
->   
+>     
 >   export default page
 >   ```
 >   
 >
 > 最后效果如下：
 >
-> ![](assets/373889b5-802c-4c31-b9f7-ae8cc993c6df.gif)
+> ![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/Oq2Oww-373889b5-802c-4c31-b9f7-ae8cc993c6df.gif)
 >
 >
 > ### 拦截路由
@@ -865,11 +865,11 @@
 >
 > 举个例子，在一个照片列表中，当点击信息流中的照片时，可以在模态框中显示该照片，覆盖在照片列表的上方。
 >
-> ![](assets/5875da16-4add-4d1b-8303-7dd26b86220e.png)
+> ![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/AJqA03-5875da16-4add-4d1b-8303-7dd26b86220e.png)
 >
 > 上图左侧就是在一个图片列表中，当点击一个图片信息 `/photo/123` 的时候，结果就是右边这种呈现形式。但当你将地址栏的链接分享出去的时候，就会得到下面的效果：
 >
-> ![](assets/3d459905-c8c1-4355-9993-ba4ff6eee667.png)
+> ![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/iHGutF-3d459905-c8c1-4355-9993-ba4ff6eee667.png)
 >
 > > 效果可以去 [https://dribbble.com/](https://dribbble.com/) 的 Explore inspiring designs 真实体验！
 >
@@ -885,7 +885,7 @@
 >
 > 例如下图，`/feed/(..)photo` 对应的路由是 `/feed/photo`，要拦截的路由是 `/photo`，两者只差了一个层级，所以使用 `(..)`。
 >
-> ![](assets/6602c8cf-b467-42f0-a370-ac41120a3cef.png)
+> ![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/b8HvuJ-6602c8cf-b467-42f0-a370-ac41120a3cef.png)
 >
 > ## 总结
 >

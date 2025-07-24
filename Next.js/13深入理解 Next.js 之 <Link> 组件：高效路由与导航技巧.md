@@ -132,14 +132,14 @@ export default function Page() {
 在进入正式的内容之前，我们先来准备一下相关的环境，创建一个项目便于演示后面的内容。
 
 使用命令 `npx create-next-app@latest --use-pnpm` 创建一个新的项目；具体的项目配置选项如下：
-![](assets/733dec44-0a5d-4638-a35a-2c4f79e8f681.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/iYSLrr-733dec44-0a5d-4638-a35a-2c4f79e8f681.png)
 
 依赖项：
-![](assets/d221f725-3ca0-4496-8945-522fce91ed47.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/6KJjNQ-d221f725-3ca0-4496-8945-522fce91ed47.png)
 
 在 VS Code 打开后运行 `pnpm dev` 后，在浏览器中效果如下：
 
-![](assets/c4135a97-17da-4e13-9133-95fe1802b691.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/Ehyaoy-c4135a97-17da-4e13-9133-95fe1802b691.png)
 
 
 ### 链接到动态路由段
@@ -148,7 +148,7 @@ export default function Page() {
 
 当链接到动态路由段时，可以使用模板字面量和插值来生成一系列链接。例如，生成一系列博客文章链接。如下图：
 
-![](assets/6bb58691-d13d-4491-8a25-05fee834c9d6.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/OnKa6E-6bb58691-d13d-4491-8a25-05fee834c9d6.png)
 
 ```jsx
 // src/app/blog/page.tsx
@@ -201,7 +201,7 @@ export default function page() {
 ```
 效果如下：
 
-![](assets/a32896c8-1b30-454c-a215-0e02cbefc6e7.jpg)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/8todfA-a32896c8-1b30-454c-a215-0e02cbefc6e7.jpg)
 
 点击 Read more 则跳转到 详情页！
 
@@ -282,7 +282,7 @@ export default HomePage;
 
 结果如下：
 
-![](assets/1484634a-2df7-46d2-9ea8-afabfa8e59c5.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/3LvakV-1484634a-2df7-46d2-9ea8-afabfa8e59c5.png)
 
 
 这种做法不正确，因为 `CustomLink` 是一个自定义组件，它的 `href` 并没有被传递到 `<a>` 标签。因此，`<Link>` 组件无法正常处理客户端路由导航。

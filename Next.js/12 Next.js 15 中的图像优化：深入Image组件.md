@@ -13,13 +13,13 @@
 
 使用命令 `npx create-next-app@latest --use-pnpm` 创建一个新的项目；具体的项目配置选项如下：
 
-![](./assets/35fef9b3-488b-4f04-92f6-7e30ac0a02d4.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/lu4kLe-35fef9b3-488b-4f04-92f6-7e30ac0a02d4.png)
 
 在 VS Code 打开后运行 `pnpm dev` 后，在浏览器中效果如下：
 
-![](./assets/d7235eed-636e-4f41-aca0-63b35161e556.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/5DO01N-d7235eed-636e-4f41-aca0-63b35161e556.png)
 
-![](./assets/bcb5ac73-0ddd-4237-a89f-f2430b8f56a2.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/kldONA-bcb5ac73-0ddd-4237-a89f-f2430b8f56a2.png)
 
 `<Image>` 组件是 Next.js 基于原生 HTML `<img>` 元素做了一些优化实现的：
 - 尺寸优化: 自动为每个设备提供正确尺寸的图片，使用现代图片格式如 WebP 和 AVIF。
@@ -75,7 +75,7 @@ Next.js 的 Image 组件是对原生 HTML 的 img 元素做了很多优化，也
 src 属性是 `<Image>` 组件必须传入的一个属性，它支持一个静态导入的图片文件（本地文件）或者一个路径字符串（远程文件路径）。
 
 本地导入如下：
-![](./assets/eeac322f-173a-4564-9ae4-50141c672f52.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/U9YzBb-eeac322f-173a-4564-9ae4-50141c672f52.png)
 
 ```jsx
 import Image from "next/image";
@@ -119,11 +119,11 @@ export default function page() {
 ```
 当你根据写好上面这段代码后，去浏览器查看效果时，应该会惊奇的发现报错，如下图：
 
-![](./assets/6b6cecba-5a19-47f4-bc05-6418a432c4f5.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/jgVec5-6b6cecba-5a19-47f4-bc05-6418a432c4f5.png)
 
 问题在报错信息中也有所提及，Next.js 要求在 `next.config.ts` 文件中定义支持的远程图片地址，这是为了防止一些恶意使用。配置方法如下：
 
-![](./assets/9caa96e7-fcde-4544-867c-098bf515c8d1.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/NLJJC6-9caa96e7-fcde-4544-867c-098bf515c8d1.png)
 
 ```ts
 images: {
@@ -140,7 +140,7 @@ images: {
 ```
 然后刷新浏览器就可以看到对应的效果啦！
 
-![](./assets/a1cde9d8-f5f7-4d04-9f4d-ad0ce6eab580.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/f2RvpG-a1cde9d8-f5f7-4d04-9f4d-ad0ce6eab580.png)
 
 > 如果还是有问题，可以重新运行下 Next.js 服务。关于静态资源的远程配置在后面的 `remotePatterns` 属性的时候在详细演示。
 
@@ -183,7 +183,7 @@ export default function Page() {
 ```
 效果如下：
 
-![](./assets/93c03be3-0954-4224-836f-c335e0901eab.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/RdJMA6-93c03be3-0954-4224-836f-c335e0901eab.png)
 
 > 由于 `loader` 属性传入的是一个函数，所以需要使用客户端组件，在这个例子中，顶部也是用的 `'use client'`。
 
@@ -249,7 +249,7 @@ export default function page() {
 ```
 效果：
 
-![](./assets/6733dd62-4cbc-4354-abbb-53f80c3e8d1e.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/IPiHDK-6733dd62-4cbc-4354-abbb-53f80c3e8d1e.png)
 
 ### sizes 属性
 
@@ -299,7 +299,7 @@ priority={false} // {false} | {true}
 
 运行 `next dev` 的时候，如果 LCP 元素是一个图片，且没有设置 `priority` 属性，控制台里会有警告：
 
-![](./assets/37e389ae-fed3-42e1-8178-4eac29751352.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/Nc4LCc-37e389ae-fed3-42e1-8178-4eac29751352.png)
 
 处理方式也很简单，就是在 Image 组件上添加 `priority` 属性，如下：
 ```jsx
@@ -342,7 +342,7 @@ placeholder = 'empty' // "empty" | "blur" | "data:image/..."
 
 还可以可以借助 [https://png-pixel.com](https://png-pixel.com) 快速获得一个纯色图片的 Data URL。如下：
 
-![](./assets/723bbdc1-2518-40e0-b95b-83c8ee377e20.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/7F6Oby-723bbdc1-2518-40e0-b95b-83c8ee377e20.png)
 
 ### style 属性
 
@@ -395,7 +395,7 @@ export default function Page() {
 
 效果如下：
 
-![](./assets/c226fbc4-c802-4a66-90a5-43a29dee6711.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/UPqSqR-c226fbc4-c802-4a66-90a5-43a29dee6711.png)
 
 > 注意：因为组件接收一个函数作为参数，需要使用客户端组件。
 
@@ -428,7 +428,7 @@ export default function Page() {
 ```
 效果如下：
 
-![](./assets/b712b10e-08ea-4616-9ed6-d6fca05d8487.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/YbEvVO-b712b10e-08ea-4616-9ed6-d6fca05d8487.png)
 
 ### loading 属性
 
@@ -506,7 +506,7 @@ Next.js 实际产出的结构：
 
 可以选择在 `next.config.ts` 文件中配置 `localPatterns`，以允许优化特定路径并阻止所有其他路径。
 
-![](./assets/399df5be-062a-45ee-9ea0-807061937c45.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/t5E6Zy-399df5be-062a-45ee-9ea0-807061937c45.png)
 
 配置项如下：
 ```ts
@@ -520,18 +520,18 @@ localPatterns: [
 
 使用路径也必须是配置时的路径为前缀：
 
-![](./assets/6c77a5b5-ac85-4698-8115-a64f2d9f8675.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/hzwvgl-6c77a5b5-ac85-4698-8115-a64f2d9f8675.png)
 
 在浏览器中的效果如下：
 
-![](./assets/6eea965c-faa9-4ea7-8966-fd8e8ca22983.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/6RFotR-6eea965c-faa9-4ea7-8966-fd8e8ca22983.png)
 
 
 ### remotePatterns
 
 这个属性在前面我们已经用过了，其主要目的是为了保护应用程序免受恶意用户的攻击，使用外部图像需要进行配置。这样可以确保只有来自你账户的外部图像才能通过 Next.js 图像优化API提供服务。这些外部图像可以在你的 `next.config.js` 文件中使用 `remotePatterns` 属性进行配置，如下所示：
 
-![](./assets/50565df1-b1fa-4fb6-b293-67a20731d836.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/O8AyQ2-50565df1-b1fa-4fb6-b293-67a20731d836.png)
 
 配置之后，在项目中所有的 `<Image>` 组件的 `src` 属性的值必须是 `https://images.pexels.com/photos/` 或者 `https://images.unsplash.com` 为开头，如果出现其他的协议、主机名、端口或者不匹配的路径都会返回 400 错误。
 
@@ -632,11 +632,11 @@ export default nextConfig;
 `imageSize` 和 `deviceSizes` 两个属性都会影响图片生成最终的 `srcset` 尺寸：
 如下图代码中使用 `sizes` 属性的配置：
 
-![](./assets/5b7b44e4-f4cf-4889-b0bc-9d018c07ca93.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/8NIPPP-5b7b44e4-f4cf-4889-b0bc-9d018c07ca93.png)
 
 浏览器中的查看最后生成的 scrset 就包含了 `deviceSizes` 和 `imageSizes` 配置的所有尺寸：
 
-![](./assets/0eda96d8-1973-41d0-a11c-3924deda355f.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/zfiysO-0eda96d8-1973-41d0-a11c-3924deda355f.png)
 
 
 当你使用了 `sizes` 属性的时候，说明图片的宽度是小于全屏宽度的。`imagesSizes` 的中的所有值应该都小于 `deviceSizes` 中的最小值。
@@ -647,7 +647,7 @@ export default nextConfig;
 
 如果 `Accept` 匹配多个配置的格式，将使用数组中的**第一个匹配项**。因此，数组的顺序很重要。如果没有匹配项（或源图像是动画），图像优化 API 将使用原始图像的格式。
 
-![](./assets/be696878-f89d-49ee-89d4-a0369a9e4e35.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/KedaWi-be696878-f89d-49ee-89d4-a0369a9e4e35.png)
 
 如果没有配置，则默认值是：
 ```ts
@@ -726,7 +726,7 @@ export default nextConfig;
 
 当开启上面的配置后，你会发现项目中会有一些报错：
 
-![](./assets/27f53b2a-22c0-4949-aff2-ea35f250ef48.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/tuAeqD-27f53b2a-22c0-4949-aff2-ea35f250ef48.png)
 
 ### dangerouslyAllowSVG
 默认 `loader` 不会优化 SVG 图片。首先，SVG 是一种矢量格式，这意味着它可以无损地调整大小。其次，SVG 具有许多与 HTML/CSS 相同的功能，如果没有适当的内容安全策略，这些功能可能会导致漏洞。除非使用了正确的内容安全策略（CSP）头部。
@@ -796,7 +796,7 @@ export default function Author() {
 ```
 官方也提供了对应的演示案例！[https://image-component.nextjs.gallery/responsive](https://image-component.nextjs.gallery/responsive)
 
-![](./assets/33134fc6-ae3c-4786-ade1-d43febdf1642.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/BAQ63a-33134fc6-ae3c-4786-ade1-d43febdf1642.png)
 
 ### 保持宽高比的响应式图片
 如果源图像是动态的或是一个远程 `URL`，您还需要提供 `width` 和 `height` 来设置响应式图像的正确宽高比：
@@ -952,7 +952,7 @@ export default function Home() {
 ### 通过 CSS 优化背景图
 将 `srcSet` 字符串转换为 [image-set()](https://developer.mozilla.org/en-US/docs/Web/CSS/image/image-set) CSS 函数，以优化背景图像。主流浏览器基本上都支持：
 
-![](./assets/91c6837e-8ed1-44c8-ba14-a6946db2a08d.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/JO9lcY-91c6837e-8ed1-44c8-ba14-a6946db2a08d.png)
 
 ```jsx
 import { getImageProps } from 'next/image'
@@ -985,7 +985,7 @@ export default function Home() {
 
 效果如下：
 
-![](./assets/6f2c3eff-9f1e-49bb-9b0f-ff98b332b588.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/XxSeHs-6f2c3eff-9f1e-49bb-9b0f-ff98b332b588.png)
 
 
 

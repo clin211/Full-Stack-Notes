@@ -133,13 +133,13 @@ Array 构造函数还有两个 ES6 新增的用于创建数组的静态方法：
       ```js
       // 创建一个新的 Map 对象，并添加两个键值对
       const m = new Map().set(1, 2).set(3, 4);
-    
+      
       // 创建一个新的 Set 对象，并添加四个元素
       const s = new Set().add(1).add(2).add(3).add(4);
-    
+      
       // 使用 Array.from() 方法从 Map 对象创建新的数组，每个键值对会被转换成一个子数组
       console.log(Array.from(m)); // [[1, 2], [3, 4]]
-    
+      
       // 使用 Array.from() 方法从 Set 对象创建新的数组
       console.log(Array.from(s)); // [1, 2, 3, 4]
       ```
@@ -1323,7 +1323,7 @@ JavaScript 类型化数组中的每一个元素都是以某种格式表示的原
 - 缓冲是一种表示了**数据块的对象，它没有格式可言，也没有提供访问其内容的机制**。为了访问缓冲中的内存，你需要使用视图。
 - 视图提供了上下文——即**数据类型、起始偏移量和元素数量**。
 
-![来自 MDN 类型化数组](assets/594caf23-20e4-4679-b1fd-056900055fe0.png)
+![来自 MDN 类型化数组](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/aZcAKQ-594caf23-20e4-4679-b1fd-056900055fe0.png)
 
 ### 缓冲
 有两种类型的缓冲：`ArrayBuffer` 和 `SharedArrayBuffer`。它们都是内存块的低级表示。它们名字中都含有 `“array”`，但是它们与数组并没有太多关系——你不能直接读写它们。相反，缓冲是通用的对象，它们只包含原始数据。为了访问缓冲所表示的内存，你需要使用视图。

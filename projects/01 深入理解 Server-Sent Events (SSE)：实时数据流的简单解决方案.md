@@ -154,7 +154,7 @@ EventSource 接口是 web 内容与服务器发送事件通信的接口。
 ### 兼容性
 从 [can i use](https://caniuse.com/?search=server%20sent%20event) 中可以看出 SSE 的兼容性还是很不错的，除了 IE 和 Opera Mini 外，其他都没问题
 
-![截图自 can i use](./assets/a6807628-3440-4ff0-b3f2-5f9db6f0a8b7.png)
+![截图自 can i use](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/2vliAD-a6807628-3440-4ff0-b3f2-5f9db6f0a8b7.png)
 
 在使用的时候也可以通过 in 操作符去检测当前浏览器是否支持 SSE：
 ```js
@@ -293,7 +293,7 @@ app.listen(PORT, () => {
 ### 处理服务端发送的多种事件类型
 下面就来模拟多种事件类型，服务端按照时间推送不同的事件类型：`custom1` 和 `custom2`，默认推送的事件类型为 `message`，具体代码如下：
 #### 服务端的代码
-![](./assets/a81fa038-e144-4fe9-b9d9-7a2cf78bc33f.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/7wcSyr-a81fa038-e144-4fe9-b9d9-7a2cf78bc33f.png)
 
 完整代码如下：
 
@@ -348,7 +348,7 @@ app.listen(PORT, () => {
 
 #### 客户端的代码（以浏览器为例）
 
-![](./assets/41896f78-d8ce-4010-8aeb-8be2435b9030.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/v5qUvm-41896f78-d8ce-4010-8aeb-8be2435b9030.png)
 
 完整代码如下：
 

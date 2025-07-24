@@ -6,11 +6,11 @@
 
 我们这里就不在做同样的赘述，而是看看 Next.js 生态中有哪些好用的 UI 库。
 
-![](./assets/4dd02440-61df-4c1c-acd6-c275d6d9fc9e.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/uW078Z-4dd02440-61df-4c1c-acd6-c275d6d9fc9e.png)
 
 ## 1. tailwindcss
 
-![](./assets/fa945fa5-cbda-4b5d-ba9c-3ed45304500d.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/PqbUiJ-fa945fa5-cbda-4b5d-ba9c-3ed45304500d.png)
 
 [Tailwind CSS](https://tailwindcss.com/) 改变了传统的 CSS 编写方式，使得开发者能够以更高效和灵活的方式构建用户界面，适合各种规模的项目。
 
@@ -24,7 +24,7 @@
 
 ## 2. shadcn ui
 
-![](./assets/0985b885-e51e-41ef-9f48-6eccff96941c.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/YQQwJB-0985b885-e51e-41ef-9f48-6eccff96941c.png)
 
 [shadcn/ui](https://ui.shadcn.com/) 是 2023 年在 GitHub 上星星数量增长最多的项目，总共获得了 39.5k 的 star，而且在 2023 年 1 月的时候才在 GitHub 发布，到目前为止（2024年11月4日）已经增长到 73.6K star；它是开源 UI 组件库；可以复制和粘贴到你的应用程序中的可访问且可自定义的组件。
 
@@ -37,7 +37,7 @@
 
 ## 3. chakra ui
 
-![](./assets/91302f34-6d28-4474-8df8-80ef52e33bc3.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/4zw677-91302f34-6d28-4474-8df8-80ef52e33bc3.png)
 [Chakra UI](https://www.chakra-ui.com/docs/get-started/installation) 是一个全面的可访问、可重用和可组合的 React 组件库，可简化现代网络应用程序和网站的开发。目前已经迭代到 v3 版本（2024年10月22日发布)，可轻松构建复杂的用户界面，同时遵循可访问性最佳实践。
 
 
@@ -50,7 +50,7 @@
 
 ## 4. MUI（material-ui）
 
-![](./assets/6116d54a-6738-4e8a-ae37-421da74f35ef.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/8FtJtr-6116d54a-6738-4e8a-ae37-421da74f35ef.png)
 
 [Material UI](https://mui.com/) 是一个开源的 React 组件库，基于 Google 的 Material Design 规范实现。它包含一个全面的预构建组件集合，开箱即可在生产中使用，并具有一套自定义选项，可以轻松地在我们的组件之上实现你自己的自定义设计系统。
 
@@ -64,7 +64,7 @@
 
 ## 5. NextUI
 
-![](./assets/76051d5d-9ccd-42cb-845b-e0a33d8c2926.gif)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/BqxHGm-76051d5d-9ccd-42cb-845b-e0a33d8c2926.gif)
 
 [NextUI](https://nextui.org/) 是基于 tailwindcss 和 react aria 的一个 React 组件库，旨在提供快速、简洁和美观的用户界面组件，特别适合与 Next.js 应用程序一起使用。
 
@@ -79,7 +79,7 @@
 
 ## 6. Ant Design
 
-![](./assets/afee75ef-b1aa-4310-a321-9a4075fec953.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/ji8Krd-afee75ef-b1aa-4310-a321-9a4075fec953.png)
 [Ant Design](https://ant-design.antgroup.com/index-cn) 是基于 Ant Design 设计体系的 React UI 组件库，适合企业级中后台产品与前台桌面网站。
 
 ### 主要特点
@@ -93,14 +93,14 @@
 
 ## 7. Flowbite
 
-![](./assets/25637cce-317d-43b0-bcaa-1cb9fb50d972.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/vnFjg9-25637cce-317d-43b0-bcaa-1cb9fb50d972.png)
 
 [Flowbite](https://flowbite.com/) 是一个开源组件库，使用 Tailwind CSS 实用程序类来创建组件。它提供 600 多个组件和交互元素，以及暗黑模式支持和 Figma 设计系统。它支持多种现代前端开发框架，包括 React、Vue、Svelte、Laravel 和 Rails。Flowbite 的专业版现已推出，其中包含基于 Tailwind CSS 实用程序类的 Figma 设计系统以及数百个开发的页面和组件，例如应用程序 UI、营销 UI 和电子商务布局。
 
 
 Flowbite 还可与 React、Vue、Angular 和 Svelte 配合使用。它还包括 Next.js、Nuxt、Gatsby、Astro、SolidJS、Remix 和 Meteor.js 等等的安装指南。
 
-![](./assets/374bc865-58e6-4daf-8f9b-d0842d2f97fd.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/VcVOga-374bc865-58e6-4daf-8f9b-d0842d2f97fd.png)
 
 ### 主要特点
 

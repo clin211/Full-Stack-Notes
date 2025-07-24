@@ -14,7 +14,7 @@ React 状态管理是指处理和更新 React 组件状态的过程。它涉及�
 
 截止今日(2024-09-04)各主流库的 [trends](https://npmtrends.com/jotai-vs-mobx-vs-react-query-vs-recoil-vs-redux-vs-swr-vs-valtio-vs-xstate-vs-zustand) 数据如下：
 
-![QQ_1725418264326](assets/QQ_1725418264326.png)
+![QQ_1725418264326](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/zKam2I-QQ_1725418264326.png)
 
 | 名称                                                     | star数 | 最新版本 | 创建时间 | 最近更新时间 |
 | -------------------------------------------------------- | ------ | -------- | -------- | ------------ |
@@ -30,7 +30,7 @@ React 状态管理是指处理和更新 React 组件状态的过程。它涉及�
 
 从上面的图中可以看到，可以看到 react-redux 无论 star 数还是流行度都遥遥领先，其次就是 Zustand。虽然 redux 作为老牌的状态管理库仍被用在大量项目中，但他的 Stars 上升排名仅仅只能排到第十位，而且其由于较高的上手难度以及较为繁琐的配置和模板代码，被很多人所诟病。下图就是2023年过去一年状态管理库 star 数的上升情况（https://risingstars.js.org/2023/en#section-statemanagement）:
 
-![QQ_1724312823400](assets/QQ_1724312823400.png)
+![QQ_1724312823400](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/X1VJLM-QQ_1724312823400.png)
 
 ## Redux
 
@@ -165,7 +165,7 @@ Redux 在以下情景中更有用：
 - store 通过执行 reducer 方法计算出一个新的 state
 - UI 读取最新的 state 来展示最新的值
 
-![图片来自官网](assets/ReduxDataFlowDiagram-49fa8c3968371d9ef6f2a1486bd40a26.gif)
+![图片来自官网](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/QWGsQ0-ReduxDataFlowDiagram-49fa8c3968371d9ef6f2a1486bd40a26.gif)
 
 ### 单向数据流
 
@@ -176,7 +176,7 @@ Redux 在以下情景中更有用：
 - 当发生某些事情时（例如用户单击 Increment/decrement 按钮），状态将根据发生的事情进行更新
 - UI 根据新状态重新渲染
 
-![单向数据流](assets/one-way-data-flow-04fe46332c1ccb3497ecb04b94e55b97.png)
+![单向数据流](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/va3pFC-one-way-data-flow-04fe46332c1ccb3497ecb04b94e55b97.png)
 
 
 
@@ -188,7 +188,7 @@ Redux 在以下情景中更有用：
 $ npx create-vite
 ```
 
-![QQ_1725432433311](assets/QQ_1725432433311.png)
+![QQ_1725432433311](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/7jugSI-QQ_1725432433311.png)
 
 然后进入 vite-react-redux 项目目录安装依赖，项目结构如下：
 
@@ -214,11 +214,11 @@ $ npx create-vite
 
 使用命令 `npm run  dev` 启动项目：
 
-![启动项目](assets/QQ_1725432723812.png)
+![启动项目](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/tTT0V1-QQ_1725432723812.png)
 
 启动后效果如下图：
 
-![效果图](assets/QQ_1725432771384.png)
+![效果图](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/1az3zj-QQ_1725432771384.png)
 
 在 React 中使用 redux，官方建议安装两个扩展库：
 
@@ -488,7 +488,7 @@ export default UseDispatch
 
 **缺点**:
   - 随着项目复杂度增加，thunk 的嵌套和管理可能变得繁琐。
-  适用场景:
+    适用场景:
   - 项目规模较小到中等。
   - 需要简单的异步数据获取或 API 调用。
 
@@ -531,6 +531,7 @@ export default UseDispatch
 - Redux Toolkit 内置的异步 action 处理工具，简化了异步操作的定义。
 - 通过 createAsyncThunk，你可以轻松创建一个支持异步操作的 thunk。
   
+
 **优点**:
 - 集成在 Redux Toolkit 中，使用简便，代码量少。
 - 自动处理异步请求的状态管理（如 pending、fulfilled、rejected）。

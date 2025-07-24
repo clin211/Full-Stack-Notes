@@ -41,13 +41,13 @@ $ npx create-next-app@latest
 > - bun：`bunx create-next-app`
 > 运行命令后如下图：
 
-![](assets/155c9827-65a2-45cd-91b8-92013609dcc8.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/zIe3Zj-155c9827-65a2-45cd-91b8-92013609dcc8.png)
 
 按照提示，[`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app) 工具会创建一个以你的项目名称命名的文件夹，并安装所需的依赖项。
 
 项目创建完成后，在 vs code 中打开如下图：
 
-![](./assets/af9e948c-97e0-4629-b485-02436768516f.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/AUVNjf-af9e948c-97e0-4629-b485-02436768516f.png)
 
 上图中也打开了 `package.json` 文件，能够看到 `scripts` 中分别有 `dev`、`build`、`start`、`lint`等配置；我们就用 `npm run  dev` 来启动项目，运行后如下图：
 > 这些脚本涉及开发应用程序的不同阶段：
@@ -57,9 +57,9 @@ $ npx create-next-app@latest
 > - `start`：运行 `next start` 以启动 Next.js 生产服务器。
 > - `lint`：运行 `next lint` 以设置 Next.js 的内置 ESLint 配置。
 
-![](./assets/ba4575f9-ba03-45cf-973a-b11756971c0f.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/QbJ69Q-ba4575f9-ba03-45cf-973a-b11756971c0f.png)
 
-![](./assets/74ef31fe-ade5-4dc6-bfa8-0710e51fad5f.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/eos3fa-74ef31fe-ade5-4dc6-bfa8-0710e51fad5f.png)
 
 上面就是使用脚手架工具创建项目的全过程，当然 Next.js 的代码库里还有很多不同类型的模版，我们上面只是选择一种最基本的方式创建项目，如果需要创建其他模板可以参考 [Next.js Examples](https://github.com/vercel/next.js/tree/canary/examples)
 
@@ -68,7 +68,7 @@ $ npx create-next-app@latest
 #### 创建项目目录并安装依赖
 先创建一个项目，项目名叫 `manual-create-nextjs-app`，然后再初始化一个 `package.json` 文件：
 
-![](./assets/1a912276-fbbd-4f34-86e1-d778d34ec689.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/HUyD5f-1a912276-fbbd-4f34-86e1-d778d34ec689.png)
 
 安装依赖：
 ```sh
@@ -85,7 +85,7 @@ $ npm install next@latest react@latest react-dom@latest
 },
 ```
 
-![](./assets/d2aba499-ded3-42ab-ada4-a5b3d29dff12.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/p15sN8-d2aba499-ded3-42ab-ada4-a5b3d29dff12.png)
 
 上面有过解释这些脚本的概念，这里就不再赘述了。
 
@@ -118,7 +118,7 @@ Next.js 使用文件系统路由，也就是应用程序中的路由由文件的
 
 1. 在项目的根目录创建一个 `src`，然后再 `src` 目录下创建 `app` 目录，然后在 `app` 目录下分别创建 `page.tsx` 和 `layout.tsx`；项目启动后，首先看到的就是这个 `page.tsx` 文件中的内容。
 
-    ![来自 Next.js 官网](./assets/3c67bcb0-c650-4972-8c5c-afb4cd6f4c75.png)
+    ![来自 Next.js 官网](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/pl6qmQ-3c67bcb0-c650-4972-8c5c-afb4cd6f4c75.png)
 
 2. 在里面创建一个根布局，`app/layout.tsx` 并添加所需的 `<html>` 和 `<body>` 标签：
     ```jsx
@@ -144,16 +144,16 @@ Next.js 使用文件系统路由，也就是应用程序中的路由由文件的
 
 整体的目录结构如下：
 
-![](./assets/541ea8ec-f3df-419f-aafd-80a3d62ad923.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/4NrpjI-541ea8ec-f3df-419f-aafd-80a3d62ad923.png)
 
 #### 启动项目
 1. 使用 `npm run dev` 运行项目
 
-    ![](./assets/1041c8f4-2854-4586-9645-ab7a959f5340.png)
+    ![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/BZcFrj-1041c8f4-2854-4586-9645-ab7a959f5340.png)
 
 2. 在浏览器中访问上图中显示的 `http://localhost:3000`：
 
-    ![](./assets/9333251c-a487-416d-b7d0-e869bc6fc7b3.png)
+    ![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/JSqZ4t-9333251c-a487-416d-b7d0-e869bc6fc7b3.png)
 
 
 ## 总结

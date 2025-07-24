@@ -38,11 +38,11 @@
 </html>
 ```
 效果如下：
-![](./assets/90860e94-1d90-407c-895d-ad7540ed5fe6-3293774.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/ZetVRx-90860e94-1d90-407c-895d-ad7540ed5fe6-3293774.png)
 
 ## 可变字体
 
-![来自iconfont的阿里妈妈灵动体](./assets/18ca4dcc-5ad1-4126-ac6e-9a7313bec7be-3293774.gif)
+![来自iconfont的阿里妈妈灵动体](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/YPLnPJ-18ca4dcc-5ad1-4126-ac6e-9a7313bec7be-3293774.gif)
 
 
 在可变字体出现之前，每个不同的字体风格都需要单独的文件，这限制了设计师在 Web 上使用丰富字体的能力。可变字体允许在一个单一的文件中包含多个字体风格（如上图），从而减少了文件大小和请求数量，提升了页面加载速度和性能。想了解更多的可变字体相关的内容，可以阅读《[Introducing OpenType Variable Fonts](https://medium.com/variable-fonts/https-medium-com-tiro-introducing-opentype-variable-fonts-12ba6cd2369)》；当然也可以看 [大漠_w3cpluscom](https://juejin.cn/user/1908407916041614/course) 大佬在掘进上的专栏《[现代 CSS](https://s.juejin.cn/ds/iP43u3L7/)》的 Web 上的可变字体。 
@@ -57,17 +57,17 @@
 - 步骤五：降级处理。
 
 在 Google Fonts 可以查看到很多可变字体，筛选条件也很简单（选中左侧的 Variable），如下图：
-![](./assets/bfdffed3-f7b0-4012-80eb-3a80f9acce6d-3293774.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/DDLgNX-bfdffed3-f7b0-4012-80eb-3a80f9acce6d-3293774.png)
 每个字体的右上角也可以区分哪些字体是可变字体：
-![](./assets/d7306a61-a331-4f88-b15e-ce24054c69f8-3293774.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/YJUAFI-d7306a61-a331-4f88-b15e-ce24054c69f8-3293774.png)
 选中一个可变字体之后，进去后可以调整可变字体的版本，然后点击右上角的 “Get font”按钮。如下图：
-![](./assets/5ab83dc0-41cb-4dc7-852e-1d0236870e30-3293774.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/eprfu3-5ab83dc0-41cb-4dc7-852e-1d0236870e30-3293774.png)
 
 可以直接获取代码或者下载字体文件：
-![](./assets/e5b7fdb5-e4ae-4c27-87ac-b27898ba92d8-3293774.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/EiNvTV-e5b7fdb5-e4ae-4c27-87ac-b27898ba92d8-3293774.png)
 
 如果选择以远程字体文件引入的方式，则点击 “Get Embed code”后，就可以选择对应的平台的引入代码，如下图：
-![QQ_1739785067108](./assets/c0e2b57b-4ebc-43ad-af3a-7419aa41db2a-3293774.png)
+![QQ_1739785067108](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/VzRPpB-c0e2b57b-4ebc-43ad-af3a-7419aa41db2a-3293774.png)
 
 整体示例如下：
 ```html
@@ -120,16 +120,16 @@
 </html>
 ```
 效果如下图：
-![](./assets/5856d675-0b82-45f9-89dd-dba97b8f1885-3293774.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/KgosrM-5856d675-0b82-45f9-89dd-dba97b8f1885-3293774.png)
 
 有了上面的理论基础后，按照前面的惯例，在进入正题之前，我们先来准备一下相关的环境，创建一个项目便于演示后面的内容。
 
 使用命令 `npx create-next-app@latest --use-pnpm` 创建一个新的项目；具体的项目配置选项如下：
 
-![](./assets/34f3ecd4-4317-492a-9246-63e67182829d-3293774.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/H4B0Ru-34f3ecd4-4317-492a-9246-63e67182829d-3293774.png)
 
 在 VS Code 打开以后，项目的依赖如下图：
-![](./assets/eda9c11c-3c33-45f8-9b04-0e87e84f6ab5-3293774.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/Zh770s-eda9c11c-3c33-45f8-9b04-0e87e84f6ab5-3293774.png)
 
 我们下面就来看看 Next.js 做了哪些优化？在 Next.js 中怎么用可变字体？
 
@@ -161,7 +161,7 @@ export const roboto_mono = Roboto_Mono({
 > 上面这段字体加载的代码中，需要注意的是：如果字体是多单词，使用下划线 `_` 连接，比如 `Roboto Mono`，导入的时候写成 `Roboto_Mono`。
 
 最终渲染后的效果如下：
-![QQ_1739788489179](./assets/b8318790-1e83-46ad-85e7-f1de7d168e18-3293774.png)
+![QQ_1739788489179](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/g2BnEw-b8318790-1e83-46ad-85e7-f1de7d168e18-3293774.png)
 Next.js 推荐使用可变字体来获得最佳的性能和灵活性。如果不能使用可变字体，你需要声明 `weight`（字重，是指字体的粗细程度):
 ```jsx
 import { Roboto } from 'next/font/google'
@@ -186,7 +186,7 @@ export default function RootLayout({
 ```
 上面这段代码中，需要注意 `subsets` 这个属性，谷歌的字体是可以指定子集（[subset](https://fonts.google.com/knowledge/glossary/subsetting)）的，目前 Next.js 官方网站上也没有具体指出哪些字体支持那些子集，可以通过 next.js 源码搜字体查看，在 [packages/font/src/google/index.ts](https://github.com/vercel/next.js/blob/canary/packages/font/src/google/index.ts) 中；还可以随便写一个，然后通过 TS 的类型推导校正，如下图：
 
-![](./assets/edb26982-e97f-46e0-a304-664644bba38a-3293774.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/UhRdHQ-edb26982-e97f-46e0-a304-664644bba38a-3293774.png)
 
 ### 本地字体
 - 多字体的加载方式
@@ -307,7 +307,7 @@ export default function RootLayout({
   比如，[Inter 字体](https://fonts.google.com/variablefonts?vfquery=inter#font-families)，不仅支持基础的「字重轴」（调节笔画粗细）和「字宽轴」（调节字符横向比例），还包含「倾斜轴」（Slant，模拟斜体效果）或「光学尺寸轴」（Optical Size，适配不同显示环境）等参数，从而通过多维度调整实现更灵活的排版表现。这种技术将传统静态字体的离散样式转化为连续可变的动态系统，显著提升了设计效率与视觉一致性。
   
   
-  ![](./assets/a283126b-42ad-48e7-a522-5157541ca813-3293774.png)
+  ![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/5Xgf9N-a283126b-42ad-48e7-a522-5157541ca813-3293774.png)
 
   上图的 `ital` 是斜体（italic）、`opsz` 是光学尺寸轴（Optical Size）、`wght` 是字重（wight）。
   
@@ -348,10 +348,10 @@ export default function RootLayout({
   一个字符串值，用于定义当通过 CSS 变量方式应用样式时所使用的 CSS 变量名称。在 Web CSS 中开发者自定义属性标记设定值，然后使用 CSS 的 `var()` 函数来获取值，比如：`.p {--primary-color: #f4500; background-color: var(--primary-color);}`，这里就不详细介绍这块的内容，如果不熟悉可以阅读 MDN 的《[使用 CSS 自定义属性（变量）](https://developer.mozilla.org/zh-CN/docs/Web/CSS/CSS_cascading_variables/Using_CSS_custom_properties)》。
 
   在 Next.js 中要怎么声明和使用一个 CSS 变量呢？就要借助 `variable` 属性。使用方式如下：
-  ![](./assets/bd2a2450-1cbc-4d8b-931f-c9943c203b75-3293774.png)
+  ![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/CJjLCy-bd2a2450-1cbc-4d8b-931f-c9943c203b75-3293774.png)
 
   在浏览器中解析后的效果如下图：
-  ![](./assets/35fb3e98-3229-4d9c-8ee8-831df8c5c9ba-3293774.png)
+  ![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/y4KbEy-35fb3e98-3229-4d9c-8ee8-831df8c5c9ba-3293774.png)
 
   上面只是声明了，如果我们要在 CSS 中使用还需要借助 `var()` 函数：
   ```css
@@ -362,13 +362,13 @@ export default function RootLayout({
   }
   ```
   效果如下：
-  ![](./assets/9d6c22b4-4759-4a81-b707-e7880f896e11-3293774.png)
+  ![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/X8ZmJt-9d6c22b4-4759-4a81-b707-e7880f896e11-3293774.png)
 
 - **declarations**
 
   进一步自定义 `@font-face` 内容的生成。
   
-  ![QQ_1739870131503](./assets/cafbe2df-f814-48b1-ad26-a75b681a052e-3293774.png)
+  ![QQ_1739870131503](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/TMjFZW-cafbe2df-f814-48b1-ad26-a75b681a052e-3293774.png)
 
   除了这些常用的属性外，还有不少我们开发中不是很常见的属性，比如 `font-variant-ligatures`、`font-variant-caps`、`font-variant-east-asian`、`font-variant-alternates`、`font-variant-numeric` 和 `font-variant-position` 等等；而 `declarations` 就是给你用来在 `next/font/local` 时自定义 `@font-face` 的生成，使用示例如下：
   ```jsx
@@ -497,7 +497,7 @@ export default function RootLayout({
   ```
   在浏览器渲染后的效果如下：
   
-  ![](./assets/681810ee-2210-49f9-9c29-6e287afe0351-3293775.png)
+  ![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/nPmuZp-681810ee-2210-49f9-9c29-6e287afe0351-3293775.png)
   
   从图中可以看到，声明了 `--font-geist-mono` 和 `--font-geist-sans` 两个 CSS 变量，当需要使用的地方时就可以通过 `var()` 的形式引用：
   ```css
@@ -553,25 +553,25 @@ export default function RootLayout({
   },
   ```
   具体配置如下图：
-  ![](./assets/467c0de7-66d3-401a-90a7-da0fb585d5d4-3293775.png)
+  ![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/ep2jn6-467c0de7-66d3-401a-90a7-da0fb585d5d4-3293775.png)
 - 在页面中使用
   > 在 [tailwindcss 中自定义字体](https://tailwindcss.com/docs/font-family)，需要通过 `font-` 为前缀来使用！
   ```jsx
   <li className='font-sans'>Save and see your changes instantly.</li>
   ```
-  ![](./assets/46c4466d-f4f7-467b-9d47-61e463ad4059-3293775.png)
+  ![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/1EXafX-46c4466d-f4f7-467b-9d47-61e463ad4059-3293775.png)
   
   浏览器的效果：
-  ![](./assets/fe5a3e07-4e8d-42e2-b042-48f3ea4f50cd-3293775.png)
+  ![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/dAYvNV-fe5a3e07-4e8d-42e2-b042-48f3ea4f50cd-3293775.png)
 
 ### iconfont 字体使用
 这里就引用[阿里妈妈方圆体](https://www.iconfont.cn/fonts/detail?spm=a313x.fonts_index.i1.d9df05512.dd413a81lyTTMF&cnid=pOvFIr086ADR)字体，如下图：
 
-![](./assets/424ad35a-3cde-4b5e-88bd-e1971e3e7216-3293775.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/aqx1Ti-424ad35a-3cde-4b5e-88bd-e1971e3e7216-3293775.png)
 > 因为篇幅的问题，就不一步步演示字体的下载，下载字体需要登录！
 
 下载字体后，将字体放入项目中并在 globals.css 中引入，然后创建 `alimama/page.tsx` 文件。 如下图：
-![](./assets/e9cabcf1-63f0-4ffe-bf4c-e788d55b806f-3293775.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/W6y8jH-e9cabcf1-63f0-4ffe-bf4c-e788d55b806f-3293775.png)
 
 引入字体的 CSS 代码：
 ```css
@@ -587,7 +587,7 @@ export default function RootLayout({
 alimama: ['alimama'],
 ```
 
-![](./assets/71b121bb-cb40-4a4d-b891-3480e5076599-3293775.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/I0pRB7-71b121bb-cb40-4a4d-b891-3480e5076599-3293775.png)
 
 下面是在 `app/alimama/page.tsx` 中的使用：
 ```jsx
@@ -600,11 +600,11 @@ const page = () => {
 export default page
 ```
 效果如下：
-![](./assets/fdd7aef7-6abf-4945-ae99-0cc2c99f85f8-3293775.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/8Ofzay-fdd7aef7-6abf-4945-ae99-0cc2c99f85f8-3293775.png)
 
 关于 iconfont 图标的使用，这里推荐一篇掘金社区的文章 [nextjs封装svgIcon，使用iconfont](https://juejin.cn/post/7326414660487512116)!
 > 上面引入阿里妈妈字体也可以通过 `localFont` 函数加载，因为篇幅太长，这里就不详细说明了，我在演示项目中完善了这一块的内容，可以通过 [https://github.com/clin211/next-awesome/commit/813b6c809ccd203051d0f6577f856acbb2c92218](https://github.com/clin211/next-awesome/commit/813b6c809ccd203051d0f6577f856acbb2c92218) 查看！
-> ![](./assets/1acdd8c2-6720-4e6f-a241-0d0c288b6e0a-3293775.png)
+> ![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/cD1zAW-1acdd8c2-6720-4e6f-a241-0d0c288b6e0a-3293775.png)
 
 
 ## 总结

@@ -13,15 +13,15 @@
 $ npx create-next-app@latest nextjs-navigate --use-pnpm
 ```
 选用配置如下图：
-![](assets/4e2fd4e4-2a9f-4f26-a134-7788def12755.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/h9TV99-4e2fd4e4-2a9f-4f26-a134-7788def12755.png)
 
 依赖的版本信息如下：
 
-![](assets/c14f5f41-6deb-4834-8973-4344f11c1d61.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/n3nt4T-c14f5f41-6deb-4834-8973-4344f11c1d61.png)
 
 运行 `pnpm dev` 运行后，访问 `http://localhost:3000/` 效果如下：
 
-![](assets/541a0af5-2390-49af-a93f-c332888119c4.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/9fKXva-541a0af5-2390-49af-a93f-c332888119c4.png)
 
 ## 实现导航的几种方式
 在 Next.js 中，有 4 种方式可以实现路由导航：
@@ -135,7 +135,7 @@ $ npx create-next-app@latest nextjs-navigate --use-pnpm
   ```
   效果如下：
 
-![](assets/db5a54d2-780f-4c37-86c2-4bc31b1b204b.gif)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/OjyI2g-db5a54d2-780f-4c37-86c2-4bc31b1b204b.gif)
 
 #### 支持动态渲染
 上一篇《Next.js 全栈框架入门：一文搞懂路由》中介绍了动态路由，我们也来看看链接的动态渲染是怎么回事。依然基于上面项目结构的基础上，使用 pixabay 接口来做 Photo 的内容源，在 photo 下创建 `[slug]/page.tsx`，用于承载文章的详情。
@@ -184,7 +184,7 @@ export default page
 ```
 效果如下：
 
-![](assets/5764410c-b94b-4070-b619-ab45c334608d.jpg)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/utBwyO-5764410c-b94b-4070-b619-ab45c334608d.jpg)
 
 上面的核心跳转代码就是 `/photo/${item.id}` 对应文件是 `/photo/[slug]/page.tsx`；关于 `[slug]` 这里就不再赘述了。
 
@@ -348,7 +348,7 @@ export default function Page() {
 - 临时重定向：这些重定向的 HTTP 状态代码为 `302` 或 `307`，表示页面已移动，但将来会返回到当前 URL。页面已重定向，但未缓存在浏览器中，因此可以快速恢复。
 
 
-![源自 https://www.contentful.com](assets/3adab00b-69e0-4353-a36f-91b3ae616dc2.png)
+![源自 https://www.contentful.com](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/mYXUCJ-3adab00b-69e0-4353-a36f-91b3ae616dc2.png)
 
 `307` 和 `308` 状态码与 `301` 和 `302` 状态码的[区别](https://www.seerinteractive.com/insights/307-and-308-response-codes)在于**它们保留了初始请求的原始 HTTP 方法**。Next.js 的重定向默认情况下会返回 `307` 或 `308` 响应。
 
@@ -478,7 +478,7 @@ export function middleware(request: NextRequest) {
   ```
   效果如下：
   
-  ![](assets/aa4ba44d-4aee-4b65-8a89-f64f053449b0.gif)
+  ![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/DLzmEj-aa4ba44d-4aee-4b65-8a89-f64f053449b0.gif)
 
 - `window.history.replaceState` 将其替换为浏览器历史记录栈中的当前条目。用户无法通过“后退”按钮返回到之前的状态。比如做国际化多语言的时候：
   ```jsx

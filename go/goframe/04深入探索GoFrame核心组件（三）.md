@@ -6,7 +6,7 @@
 ```sh
 gf init corex -u
 ```
-<img src="assets/9f32937b-4316-4c92-b7d2-a657ceaa5d89.png" />
+<img src="https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/TwdnkV-9f32937b-4316-4c92-b7d2-a657ceaa5d89.png" />
 
 > "corex" 可以被理解为核心组件的代号或项目名称。它传达了这个组件在整个系统中具有重要性和核心功能的意义。
 
@@ -249,11 +249,11 @@ var (
 
 使用命令 `gf run main.go` 运行项目：
 
-<img src="assets/36a67ff0-3142-4fd2-ab57-18ae5f947137.png" />
+<img src="https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/K4KRiq-36a67ff0-3142-4fd2-ab57-18ae5f947137.png" />
 
 在浏览器中访问 `loclahost:8000/index` 效果如下：
 
-<img src="assets/145d761d-1cdc-4be2-b080-2a449678f4a6.png" style="border-radius: 12px;border:1px solid rgba(145, 109, 213, 0.5);" />
+<img src="https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/aZjxeg-145d761d-1cdc-4be2-b080-2a449678f4a6.png" style="border-radius: 12px;border:1px solid rgba(145, 109, 213, 0.5);" />
 
 上面的示例代码可以在仓库 [clin211/goframe-practice/tree/template-config](https://github.com/clin211/goframe-practice/commit/4e19a65d380fb386d104b01607f7ee71764d2dd2) 中找到。
 
@@ -312,7 +312,7 @@ var (
 ```
 效果如下：
 
-<img src="assets/34004ac8-7040-44c5-83c9-5ed0e4ca5287.png" style="border-radius: 12px;border:1px solid rgba(145, 109, 213, 0.5);" />
+<img src="https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/6O9Yh5-34004ac8-7040-44c5-83c9-5ed0e4ca5287.png" style="border-radius: 12px;border:1px solid rgba(145, 109, 213, 0.5);" />
 
 #### 模板中的 pipeline
 可以是上下文的变量输出，也可以是函数通过管道传递的返回值。语法如下：
@@ -425,7 +425,7 @@ s.BindHandler("/template-tags", func(r *ghttp.Request) {
 ```
 效果如下：
 
-<img src="assets/a4f875c8-8e59-436d-a68e-cf734627be4e.png" style="border-radius: 12px;border:1px solid rgba(145, 109, 213, 0.5);" />
+<img src="https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/AqP2fc-a4f875c8-8e59-436d-a68e-cf734627be4e.png" style="border-radius: 12px;border:1px solid rgba(145, 109, 213, 0.5);" />
 
 #### with...end
 `with...end` 是 GoFrame 模板引擎提供的一种语法结构，用于简化模板中访问结构体字段的代码。它允许在一个块中指定一个对象，并在块内部直接访问该对象的字段，而不需要重复指定对象名称。
@@ -456,7 +456,7 @@ r.Response.WriteTpl("template-tags.html", g.Map{
 })
 ```
 效果如下：
-<img src="assets/1471d1c3-92fb-45f5-9f85-b5dd38d145e6.png" style="border-radius: 12px;border:1px solid rgba(145, 109, 213, 0.5);" />
+<img src="https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/le3WD3-1471d1c3-92fb-45f5-9f85-b5dd38d145e6.png" style="border-radius: 12px;border:1px solid rgba(145, 109, 213, 0.5);" />
 
 
 #### define
@@ -514,7 +514,7 @@ r.Response.WriteTpl("template-tags.html", g.Map{
 
 在浏览器中访问，效果如下：
 
-<img src="assets/ad002aa6-09ea-451a-85ef-5274664b8f2f.png" style="border-radius: 12px;border:1px solid rgba(145, 109, 213, 0.5);" />
+<img src="https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/nB0nti-ad002aa6-09ea-451a-85ef-5274664b8f2f.png" style="border-radius: 12px;border:1px solid rgba(145, 109, 213, 0.5);" />
 
 > **注意事项:**
 > - 模板块的作用域： **定义的模板块只在当前模板文件中有效**，除非使用**模板继承或包含的方式在其他模板中使用**。
@@ -598,7 +598,7 @@ s.BindHandler("/func", func(r *ghttp.Request) {
     ```
     效果如下：
     
-    <img src="assets/a3ad742b-2a8f-4dfe-a59c-7013a23e5940.png" style="border-radius: 12px;border:1px solid rgba(145, 109, 213, 0.5);" />  
+    <img src="https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/af13wf-a3ad742b-2a8f-4dfe-a59c-7013a23e5940.png" style="border-radius: 12px;border:1px solid rgba(145, 109, 213, 0.5);" />  
 
 
 2. `call`: 调用指定的模板函数。`call` 可以调用函数，并传入参数；调用的函数需要返回 1 个值或者 2 个值，返回两个值时，第二个值用于返回 `error` 类型的错误。返回的错误不等于 `nil` 时，执行将终止。
@@ -610,24 +610,24 @@ s.BindHandler("/func", func(r *ghttp.Request) {
     - 创建一个路由(examples/func/call/main.go)
       ```go
       package main
-  
+    
       import (
           "time"
-  
+    
           "github.com/gogf/gf/frame/g"
           "github.com/gogf/gf/net/ghttp"
       )
-  
+    
       // formatDate 函数用于将时间格式化为指定的字符串格式
       func formatDate(date time.Time) string {
           // 使用Format方法将时间格式化为"2006-01-02 15:04:05"的形式
           return date.Format("2006-01-02 15:04:05")
       }
-  
+    
       func main() {
           // 创建一个GoFrame的服务器实例
           s := g.Server()
-  
+    
           // 为服务器绑定一个处理根路径("/")的处理器
           s.BindHandler("/", func(r *ghttp.Request) {
               // 当请求根路径时，使用WriteTpl方法渲染模板并返回响应
@@ -637,10 +637,10 @@ s.BindHandler("/func", func(r *ghttp.Request) {
                   "formatDate": formatDate, // 将formatDate函数传递给模板
               })
           })
-  
+    
           // 设置服务器监听的端口号为 8199
           s.SetPort(8199)
-  
+    
           // 启动服务器，监听并处理HTTP请求
           s.Run()
       }
@@ -650,24 +650,24 @@ s.BindHandler("/func", func(r *ghttp.Request) {
       <!-- examples/func/call/template/cell.html -->
       <!DOCTYPE html>
       <html lang="en">
-  
+    
       <head>
           <meta charset="UTF-8">
           <title>Call Function Example</title>
       </head>
-  
+    
       <body>
           <div>
               <!-- 调用 formatDate 函数，并传递参数 "2024-07-10" -->
               <p>格式化后的日期：{{call .formatDate .date}}</p>
           </div>
       </body>
-  
+    
       </html>
       ```
     - 启动项目 `go run main.go`，然后在浏览器中访问 http://localhost:8199/ 查看效果
     
-      <img src="assets/29083c7f-bbdd-482a-8e14-524301021e65.png" style="border-radius: 12px;border:1px solid rgba(145, 109, 213, 0.5);" />
+      <img src="https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/PI6xV0-29083c7f-bbdd-482a-8e14-524301021e65.png" style="border-radius: 12px;border:1px solid rgba(145, 109, 213, 0.5);" />
 
 3. `index`：读取指定类型对应下标的值
     - 创建一个完整代码如下：
@@ -724,7 +724,7 @@ s.BindHandler("/func", func(r *ghttp.Request) {
       </html>
       ```
     - 运行项目 `go run main.go`，然后在浏览器中访问 http://localhost:8199/ 查看效果
-    <img src="assets/efd0175c-0334-42c2-9a51-3cf080611166.png" style="border-radius: 12px;border:1px solid rgba(145, 109, 213, 0.5);" />
+    <img src="https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/AP1d5B-efd0175c-0334-42c2-9a51-3cf080611166.png" style="border-radius: 12px;border:1px solid rgba(145, 109, 213, 0.5);" />
     
 4. `len`：返回对应类型的长度，支持类型：`map`, `slice`, `array`, `string`, `chan`。 
     - HTML 的内容
@@ -749,7 +749,7 @@ s.BindHandler("/func", func(r *ghttp.Request) {
       },
       ```
     - 效果如下
-      <img src="assets/ebf0751a-c3ff-4954-accb-2dbb16436ed6.png" />
+      <img src="https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/52Lve2-ebf0751a-c3ff-4954-accb-2dbb16436ed6.png" />
 
 5. `not`：返回输入参数的否定值。
     ```go
@@ -773,7 +773,7 @@ s.BindHandler("/func", func(r *ghttp.Request) {
     - 沿用上面 len 方法的数据
     - 查看效果
     
-    <img src="assets/ceb3be13-cdb1-4eed-92bb-6c73ca02f296.png" />
+    <img src="https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/XMDI54-ceb3be13-cdb1-4eed-92bb-6c73ca02f296.png" />
 
 6. `or`：会逐一判断每个参数，将返回第一个非空的参数，否则就返回最后一个参数。
     - HTML 代码
@@ -786,7 +786,7 @@ s.BindHandler("/func", func(r *ghttp.Request) {
     - 仍然沿用上面 len 方法的数据
     - 查看效果如下
     
-      <img src="assets/6f4a30e3-b31d-4e7e-83e5-3f378dd51a28.png" /> 
+      <img src="https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/aRgJR9-6f4a30e3-b31d-4e7e-83e5-3f378dd51a28.png" /> 
 
 7. `print` 同 `fmt.Sprint`、`printf` 同 `fmt.Sprintf`、`println` 同 `fmt.Sprintln`。
     - HTML 代码
@@ -801,7 +801,7 @@ s.BindHandler("/func", func(r *ghttp.Request) {
     - 仍然沿用上面 len 方法的数据
     - 查看效果
     
-    <img src="assets/ca678697-c7d5-49fb-ae0e-77e58304688d.png" />
+    <img src="https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/zVjzgQ-ca678697-c7d5-49fb-ae0e-77e58304688d.png" />
 
 8. `urlquery`：函数允许将 URL Query 文本转义成安全文本；`{{urlquery "http://johng.cn"}}` 将返回 `http%3A%2F%2Fjohng.cn`。
 9. 这类函数一般配合在if中使用的方法
@@ -907,7 +907,7 @@ s.BindHandler("/func", func(r *ghttp.Request) {
       ```
 
     - 查看效果
-      <img src="assets/150913f9-0e7b-4215-a773-eb484b3fa984.png" />
+      <img src="https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/KHgmLQ-150913f9-0e7b-4215-a773-eb484b3fa984.png" />
       
       
       
@@ -1205,7 +1205,7 @@ func main() {
 
 在终端中运行 `go run main.go`命令后，在浏览器中访问 `http://localhost:8199` 查看效果如下：
 
-<img src="assets/a9d4511b-4be1-4208-9e8f-80a3e66c6ba8.png" style="border-radius: 12px;border:1px solid rgba(145, 109, 213, 0.5);" />
+<img src="https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/o3aVJI-a9d4511b-4be1-4208-9e8f-80a3e66c6ba8.png" style="border-radius: 12px;border:1px solid rgba(145, 109, 213, 0.5);" />
 
 
 自定义函数使得模板不仅仅是简单的数据展示，而是可以进行复杂的数据处理和逻辑判断，从而创建更加动态和交互性强的 web 页面。
@@ -1450,17 +1450,17 @@ gi18n 默认已经集成到了 GoFrame 框架的视图引擎中，直接在模�
 
     在项目根目录下运行 `go run main.go` 命令启动服务器：
 
-    <img src="assets/958660be-d228-4290-a986-f77a176f7f22.png" /> 
+    <img src="https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/85wJfc-958660be-d228-4290-a986-f77a176f7f22.png" /> 
 
 7. 访问网页查看效果
 
     打开浏览器访问 `http://localhost:8199`，没有设置lang参数的时候，你将看到默认的语言内容:
 
-    <img src="assets/3d429dfb-cd82-4e60-848c-aca318f17a14.png" style="border-radius: 16px;border:1px solid rgba(145, 109, 213, 0.5);" />
+    <img src="https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/oZfikt-3d429dfb-cd82-4e60-848c-aca318f17a14.png" style="border-radius: 16px;border:1px solid rgba(145, 109, 213, 0.5);" />
 
     如果在访问的是 `http://localhost:8199/?lang=zh`，看到的内容则是中文:
 
-    <img src="assets/588de006-7b96-47e5-a9b6-4b3539da8a4a.png" style="border-radius: 16px;border:1px solid rgba(145, 109, 213, 0.5);" />
+    <img src="https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/tkK8eQ-588de006-7b96-47e5-a9b6-4b3539da8a4a.png" style="border-radius: 16px;border:1px solid rgba(145, 109, 213, 0.5);" />
 
 ## 总结
 
