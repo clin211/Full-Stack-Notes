@@ -45,7 +45,7 @@ message HelloReply {
 }
 ```
 
-![](https://files.mdnice.com/user/8213/97327301-1717-4f5a-8735-281fd3035db8.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/fSwvgS-97327301-1717-4f5a-8735-281fd3035db8.png)
 
 ### 1.2 应用场景
 
