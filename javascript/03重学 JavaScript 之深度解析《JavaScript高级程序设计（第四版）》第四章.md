@@ -255,9 +255,9 @@ changeColor();
     console.log(sum);         // Uncaught ReferenceError: sum is not defined
     ```
     在上面的代码中， 函数 `add` 定义了一个局部变量 `sum`，这个值作为函数的返回值，因为变量 `sum` 是在 `add` 函数的上下文中，根据前面介绍的作用域访问规则，父级上下文是不能访问子级上下文中的对象，所以打印 `sum` 时会报错；图示如下：
+    
+    <img src="https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/0BOC0n-041231b7-c03a-47d2-997b-5b28f38c054d.png" style="background: black;border-radius: 8px" />
 
-
-    <img src="https://files.mdnice.com/user/8213/041231b7-c03a-47d2-997b-5b28f38c054d.png" style="background: black;border-radius: 8px" />
     
     如果省略上面例子中的关键字 `var`，那么 `sum` 在 `add()` 被调用之后就变成可以访问的了；代码如下：
     ```js

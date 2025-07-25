@@ -105,7 +105,7 @@ func main() {
 > 忽略具体语法，先看效果，语法后面再详细介绍！
 
 启动服务后，在浏览访问 `http://localhost:8080/` 效果如下：
-![](https://files.mdnice.com/user/8213/f18a0fbd-e873-4599-9a1c-5317289e655f.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/RetKeP-f18a0fbd-e873-4599-9a1c-5317289e655f.png)
 
 ## 模板语法
 
@@ -208,7 +208,7 @@ router.GET("/", func(c *gin.Context) {
 
 渲染效果：
 
-![](https://files.mdnice.com/user/8213/7b89f8e9-5dac-4f7f-b791-c9b068bbeed0.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/ywZmHF-BwRTLb-7b89f8e9-5dac-4f7f-b791-c9b068bbeed0.png)
 
 ### 循环遍历——`range`
 
@@ -241,7 +241,7 @@ index.html 中的内容：
 
 效果如下：
 
-![](https://files.mdnice.com/user/8213/93414e9b-eca1-44ad-b13f-8575498e1f19.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/zMwKLw-93414e9b-eca1-44ad-b13f-8575498e1f19.png)
 
 在上面的例子中，`.skills` 是一个字符串数组，模板会遍历并输出每个元素。如果没有项，则输出“暂无技能”。
 
@@ -303,7 +303,7 @@ router.GET("/", func(c *gin.Context) {
 
 效果如下：
 
-![](https://files.mdnice.com/user/8213/8821eeb4-ddcf-4e5b-b430-eab299b8c84c.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/LNrtc5-8821eeb4-ddcf-4e5b-b430-eab299b8c84c.png)
 
 ### 转义与安全输出
 
@@ -419,7 +419,7 @@ func main() {
 
 比如：
 
-![](https://files.mdnice.com/user/8213/d555aa58-3730-48c9-9956-1a66969e3dc5.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/cxn7l1-d555aa58-3730-48c9-9956-1a66969e3dc5.png)
 通过这种方式，你可以在 Gin 模板中轻松使用 `samber/lo` 强大的功能，大大提升了模板的表达能力。
 
 ### 模板继承与嵌套
@@ -513,7 +513,7 @@ router.GET("/detail", func(c *gin.Context) {
 
 在浏览器中访问 `http://localhost:8080/detail` 效果如下：
 
-![](https://files.mdnice.com/user/8213/70d66d1c-d7c8-4cd6-aee0-88ecdfd2eb03.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/SvJF1L-70d66d1c-d7c8-4cd6-aee0-88ecdfd2eb03.png)
 
 ## 实战演练
 
@@ -542,9 +542,9 @@ router.GET("/detail", func(c *gin.Context) {
 最后的效果如下：
 
 - 列表页
-![](https://files.mdnice.com/user/8213/b3536490-a49b-420b-99eb-3e538ad6dc27.jpg)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/1aQp2K-b3536490-a49b-420b-99eb-3e538ad6dc27.jpg)
 - 点击产品后的效果：
-![](https://files.mdnice.com/user/8213/8f84e166-4f3c-41de-a3a9-866ab1f0e5da.jpg)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/tgf9EI-8f84e166-4f3c-41de-a3a9-866ab1f0e5da.jpg)
 
 知道最终要做一个什么东西后，我们先理一下具体实施步骤：
 

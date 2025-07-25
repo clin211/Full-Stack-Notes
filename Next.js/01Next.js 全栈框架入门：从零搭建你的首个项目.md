@@ -98,7 +98,7 @@ $ npm install next@latest react@latest react-dom@latest
     ```sh
     $ npx tsx --init
     ```
-    ![](https://files.mdnice.com/user/8213/2ebcec76-5891-48b8-942b-2dc373b994cf.png)
+    ![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/tcR16r-2ebcec76-5891-48b8-942b-2dc373b994cf.png)
 
 3. 修改 `tsconfig.json` 文件
     - 将 `"jsx": "preserve",` 的注释取消掉

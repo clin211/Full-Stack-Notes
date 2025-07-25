@@ -1,18 +1,14 @@
 Go 并没有使用操作系统线程作为承载分解后的代码片段（模块）的基本执行单元，而是实现了 `goroutine` 这一由 **Go 运行时（runtime）负责调度的、轻量的用户级线程**，为并发程序设计提供原生支持。
 
 ## 进程与线程
-在计算机科学中，**线程是可以有调度程序独立管理的最小程序指令集，而进程是程序运行的实例**。
+在计算机科学中，**线程是可以有调度程序独立管理的最小程序指令集，而进程是程序运行的实例**    。  
 
-<div style="width:100%;display:flex;justify-content:space-evenly;">
-  <div style="width:45%;display:flex;justify-content:cneter;flex-direction:column;">
-    <img src="https://files.mdnice.com/user/8213/b2128624-2438-49d0-acfd-dab7e8d03325.png" />
-    <p style="text-align:center;color:f08c00;">单进程应用</p>
-  </div>
-  <div style="width:45%;display:flex;justify-content:center;flex-direction:column;">
-    <img src="https://files.mdnice.com/user/8213/0fc27ac0-5dd9-4e22-9344-77e9fce0d5e8.png" />
-    <p style="text-align:center;color:f08c00;">多进程应用</p>
-  </div>
-</div>
+  <img src="https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/iAJFyi-b2128624-2438-49d0-acfd-dab7e8d03325.png" />
+
+<img src="https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/4FSedv-0fc27ac0-5dd9-4e22-9344-77e9fce0d5e8.png" />
+
+
+
 
 
 

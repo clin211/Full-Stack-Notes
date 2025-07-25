@@ -215,12 +215,16 @@ VS Code 是免费的，[官网下载地址](https://code.visualstudio.com/downlo
 
 #### **工具入口**
 如果检测到当前web是 react 项目，右上角的工具小图标（地址栏右侧）会发生改变，分别对应着：
+
+
+
 <ul>
-  <li style="display:flex;align-items:center;justify-content:flex-start;text-align:left"><img src="https://files.mdnice.com/user/8213/be276e20-aedf-4bf7-b221-0c9c26ba37d0.png" width="40px" height="40px" style="width:40px;height:40px" /><p style="flex:1;margin-left:8px;">debug版本 的 react 项目，正在 coding。</p></li>
-  <li style="display:flex;align-items:center;justify-content:flex-start;"><img src="https://files.mdnice.com/user/8213/db9a028f-4ae8-423b-8222-3e88a58fa818.png" width="40px" height="40px" style="width:40px;height:40px;margin-left:-2px" /><p style="flex:1;margin-left:8px">生产版本的 react，说明已经打包发布了。</p></li>
-  <li style="display:flex;align-items:center;justify-content:flex-start;"><img src="https://files.mdnice.com/user/8213/a05da0a2-b829-459d-a53f-385ef60d96ee.png" width="40px" height="40px" style="width:40px;height:40px" /><p style="flex:1;margin-left:8px">表示当前依赖的 react 版本比较老，一般会在 react15 以及更早的版本出现。</p></li>
-  <li style="display:flex;align-items:center;justify-content:flex-start;"><img src="https://files.mdnice.com/user/8213/f46453ee-cd32-483e-b8d8-72bf1e68a47f.png" width="40px" height="40px" style="width:40px;height:40px" /><p style="flex:1;margin-left:8px">Web中并没有检测到有 react 的依赖。</p></li>
+  <li style="display:flex;align-items:center;justify-content:flex-start;text-align:left"><img src="https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/9UjZm5-be276e20-aedf-4bf7-b221-0c9c26ba37d0.png" width="40px" height="40px" style="width:40px;height:40px" /><p style="flex:1;margin-left:8px;">debug版本 的 react 项目，正在 coding。</p></li>
+  <li style="display:flex;align-items:center;justify-content:flex-start;"><img src="https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/EmSgsK-db9a028f-4ae8-423b-8222-3e88a58fa818.png" width="40px" height="40px" style="width:40px;height:40px;margin-left:-2px" /><p style="flex:1;margin-left:8px">生产版本的 react，说明已经打包发布了。</p></li>
+  <li style="display:flex;align-items:center;justify-content:flex-start;"><img src="https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/eZd6zm-a05da0a2-b829-459d-a53f-385ef60d96ee.png" width="40px" height="40px" style="width:40px;height:40px" /><p style="flex:1;margin-left:8px">表示当前依赖的 react 版本比较老，一般会在 react15 以及更早的版本出现。</p></li>
+  <li style="display:flex;align-items:center;justify-content:flex-start;"><img src="https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/qR4Vhb-f46453ee-cd32-483e-b8d8-72bf1e68a47f.png" width="40px" height="40px" style="width:40px;height:40px" /><p style="flex:1;margin-left:8px">Web中并没有检测到有 react 的依赖。</p></li>
 </ul>
+
 
 
 chrome 中右键点击检查，打开调试器，然后发现在调试器的 tab 栏末尾有最后两栏比较特殊的tab，分别是 ⚛️Components 和 ⚛️Profiler，这两个就是 react devtools 的功能入口了，下面会来介绍各自的功能。
@@ -406,7 +410,7 @@ export default defineConfig({
 })
 ```
 
-![](https://files.mdnice.com/user/8213/48fdddda-4ffb-4581-81e9-28bb1c969e87.gif)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/rGPgwt-48fdddda-4ffb-4581-81e9-28bb1c969e87.gif)
 
 这个 source 面板的功能就非常强大了，可以打断点、单步调试、调用栈、查看上下文对象等等，这一块的内容在下面的内容中介绍！
 
@@ -450,12 +454,12 @@ function List () {
 这里是一个典型的性能分析火焰图，展示的是当前这个页面中，各个组件的耗时情况，**如果是有耗时比较长的异常组件，横向柱状图会显示成黄色，甚至更严重的红色**。从实际效果来看，`<List />` 组件的耗能更高。
 
 在 profiler 的系统设置中，还能打开组件何时渲染的开关，以及隐藏固定渲染时间以下的组件；
-![](https://files.mdnice.com/user/8213/51ff2d6c-c436-4c62-a759-6b179f3bee55.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/TfZOec-51ff2d6c-c436-4c62-a759-6b179f3bee55.png)
 比如，我们把低于 16ms 的组件就在火焰图中隐藏渲染；设置如下：
-![](https://files.mdnice.com/user/8213/08129d9a-6569-42b6-b86f-e294d05a0f76.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/AcAF8Q-08129d9a-6569-42b6-b86f-e294d05a0f76.png)
 
 分析性能：
-![](https://files.mdnice.com/user/8213/9ddd0d0d-0559-4719-832f-de56aa1ee5f2.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/yhT3gC-9ddd0d0d-0559-4719-832f-de56aa1ee5f2.png)
 
 这里 "Why did this render" 就说明了 `<List />` 组件是第一次渲染，渲染了171.6毫秒
 
@@ -463,18 +467,18 @@ function List () {
 ## 在 Chrome 中调试 React 项目
 有了上面的基础，接下来我们看看在 Chrome 中如何调试 React 项目，首先要将项目运行起来，然后打开 Chrome DevTools，在 Sources 面板找到 `src/main.jsx`，打上个断点（就是对应文件的代码行的地方，鼠标左击就添加一个断点）：
 
-![](https://files.mdnice.com/user/8213/99cb1076-49a5-4efd-9c33-a3c78ac3b1e3.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/NfWUvQ-99cb1076-49a5-4efd-9c33-a3c78ac3b1e3.png)
 
 添加断点之后，刷新页面就可以进入调试流程了，如下图：
 
-![](https://files.mdnice.com/user/8213/05596c37-d830-409f-a843-f26b1b6dbabc.gif)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/qjkTrG-05596c37-d830-409f-a843-f26b1b6dbabc.gif)
 代码会在断点处断住，右边会显示当前  watch 监听变量，breakpoints 断点，scope 作用域，call stack 调用栈。还可以给请求和 DOM 打断点。
 
-![](https://files.mdnice.com/user/8213/dddc5aed-eb48-4ffc-b954-e23ba16eddaa.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/9ntx1e-dddc5aed-eb48-4ffc-b954-e23ba16eddaa.png)
 
 下图箭头所指的这行按钮就是控制执行行为的（[Chrome 详细说明](https://developer.chrome.com/docs/devtools/javascript/breakpoints?hl=zh-cn)）：
 
-![](https://files.mdnice.com/user/8213/2503a504-ef5c-4014-b767-cf0ee379c340.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/ewAWyi-2503a504-ef5c-4014-b767-cf0ee379c340.png)
 
 从左往右分别是：
 - 恢复执行
@@ -494,11 +498,11 @@ React 项目归根到底也是 JS，调试网页的 JS，除了 Chrome DevTools 
 
 用 VSCode 打开项目目录，在项目的根目录创建 `.vscode/launch.json` 文件：
 
-![](https://files.mdnice.com/user/8213/bfcab976-0063-4b6a-8da6-11d08dc3d55c.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/g4Htew-bfcab976-0063-4b6a-8da6-11d08dc3d55c.png)
 > **自动创建：**  
 > 打开 Debug 窗口，然后点击 create a launch.josn，如下图：
 >
-> <img src="https://files.mdnice.com/user/8213/bcd7828e-126a-4d78-8ebb-856585e80905.png" />
+> <img src="https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/LyAUyn-bcd7828e-126a-4d78-8ebb-856585e80905.png" />
 > 点击右下角的 Add Configuration... 按钮，
 
 ![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/LnXCSM-24400393-17ff-4f17-8d4a-1fea216be7c6.png)
@@ -509,29 +513,29 @@ React 项目归根到底也是 JS，调试网页的 JS，除了 Chrome DevTools 
 
 把访问的 url 改为开发服务器启动的地址：
 
-![](https://files.mdnice.com/user/8213/c1570c4c-85ed-4294-8b10-279015f2cabc.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/MRkcUN-c1570c4c-85ed-4294-8b10-279015f2cabc.png)
 
 然后进入 Debug 窗口，点击启动：
 
-![](https://files.mdnice.com/user/8213/90bc2c38-1dfa-462b-b4e8-1fc38196266e.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/iAgkSC-90bc2c38-1dfa-462b-b4e8-1fc38196266e.png)
 
 点击按钮之后，你会发现它启动了浏览器，并打开了配置中的 url：
 
-![](https://files.mdnice.com/user/8213/9758987d-2334-4a33-ba20-dd1f2de7d0db.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/MS8TMq-9758987d-2334-4a33-ba20-dd1f2de7d0db.png)
 
 VS Code 中还会有一排控制执行的按钮：
 
-![](https://files.mdnice.com/user/8213/f7e34a5f-b50d-40e8-aaaf-522e00c3fa1e.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/kUB7G6-f7e34a5f-b50d-40e8-aaaf-522e00c3fa1e.png)
 
 上面的控制按钮分别对应恢复执行、单步执行、进入函数调用、跳出函数调用，这个和 Chrome DevTools 一样的；还多了刷新和停止的按钮。
 
 在代码打个断点，然后点击右边第二个按钮刷新，代码会执行到断点处断住，本地和全局作用域的变量，调用栈等都会展示在左边；浏览器也会刷新。
 
-![](https://files.mdnice.com/user/8213/b6bb854e-4b50-4208-8d03-cdce57e9fc33.gif)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/wU5HKc-b6bb854e-4b50-4208-8d03-cdce57e9fc33.gif)
 
 下面是各个功能的介绍：
 
-![](https://files.mdnice.com/user/8213/08de4186-7c17-49ea-a1eb-dcea551b7be1.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/vIxLXZ-08de4186-7c17-49ea-a1eb-dcea551b7be1.png)
 
 看起来和 Chrome DevTools 里调试差不多，在 VSCode Debugger 里调试有啥好处呢？
 
@@ -539,7 +543,7 @@ VS Code 中还会有一排控制执行的按钮：
 
 相比于 Chrome DevTools 的异常断点的设置，VS Code 表现形式略有不同，如下图：
 
-![](https://files.mdnice.com/user/8213/1796fd48-e2f5-4697-9cd9-e249150edd15.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/u3w9Bg-1796fd48-e2f5-4697-9cd9-e249150edd15.png)
     
 
 ### 配置说明
@@ -548,7 +552,7 @@ VS Code 中还会有一排控制执行的按钮：
 
 无论自动创建还是手动创建，都会选择 launch 还是 attach 模式！
 
-![](https://files.mdnice.com/user/8213/72e03ba7-3546-47f0-9276-05660cb4b164.png)
+![](https://static-hub.oss-cn-chengdu.aliyuncs.com/notes-assets/d57u0n-72e03ba7-3546-47f0-9276-05660cb4b164.png)
 
 先引入一段配置，它们只是 request 的配置不同，然后 `attach` 模式有 `port`，`launch` 模式有 `url`：
 ```json
