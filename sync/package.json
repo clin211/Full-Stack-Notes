@@ -1,0 +1,32 @@
+{
+  "name": "markdown-sync",
+  "version": "1.0.0",
+  "description": "同步MD文件到API服务",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "ts-node src/index.ts",
+    "sync": "ts-node src/index.ts sync",
+    "batch": "ts-node src/index.ts batch",
+    "retry": "ts-node src/index.ts retry",
+    "list-logs": "ts-node src/index.ts list-logs"
+  },
+  "keywords": [
+    "markdown",
+    "api",
+    "sync"
+  ],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.12.4",
+  "dependencies": {
+    "node-fetch": "^3.3.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.1.0",
+    "@types/node-fetch": "^2.6.0",
+    "typescript": "^5.8.3",
+    "ts-node": "^10.9.0"
+  }
+}
