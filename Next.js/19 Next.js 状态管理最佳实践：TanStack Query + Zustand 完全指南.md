@@ -90,11 +90,11 @@
 ## 二、项目设置与环境配置
 
 按照本系列文章的惯例，在进入正题之前，我们先来准备一下相关的环境，创建一个项目便于演示后面的内容。
->
->- Node.js：v20.10.0
->- pnpm：10.4.1
->- OS：MacBook Pro
->- IDE：VS Code 1.99.3
+
+> - Node.js：v20.10.0
+> - pnpm：10.4.1
+> - OS：MacBook Pro
+> - IDE：VS Code 1.99.3
 
 使用命令 `npx create-next-app@latest --use-pnpm` 创建一个新的项目；具体的项目配置选项如下：
 ![](./assets/7fa4f636-5def-4127-858d-10a2f53f7949.png)
@@ -119,7 +119,7 @@ pnpm add @tanstack/react-query zustand immer @tanstack/react-query-devtools
 
 ### 最终项目结构
 
-```
+```text
 .
 ├── README.md
 ├── eslint.config.mjs
@@ -140,7 +140,7 @@ pnpm add @tanstack/react-query zustand immer @tanstack/react-query-devtools
 └── tsconfig.json
 ```
 
-最终项目地址：[https://github.com/clin211/react-next-hub/tree/main/nextjs-tanstack-query-zustand](https://github.com/clin211/react-next-hub/tree/main/nextjs-tanstack-query-zustand)
+最终项目地址：<https://github.com/clin211/react-next-hub/tree/main/nextjs-tanstack-query-zustand>
 
 ## 三、TanStack Query 基础使用
 
@@ -148,8 +148,8 @@ QueryClient 是 TanStack Query 的核心，它负责管理所有查询的缓存�
 
 ```jsx
 // src/lib/query-client.ts
-import { cache } from 'react';
-import { QueryClient } from '@tanstack/react-query';
+import { cache } from 'react'
+import { QueryClient } from '@tanstack/react-query'
 
 export const queryClient = new QueryClient({
     defaultOptions: {
@@ -173,80 +173,83 @@ export const queryClient = new QueryClient({
             refetchOnWindowFocus: 'always',
 
             // 组件挂载时是否重新获取数据（即使数据是新鲜的）
-            refetchOnMount: false,
+            refetchOnMount: false
         },
         mutations: {
             // 失败时重试次数
             retry: 2,
 
             // 当页面离开后是否继续进行变更操作
-            throwOnError: true,
-        },
-    },
-});
+            throwOnError: true
+        }
+    }
+})
 
 // 为特定类型的查询定义默认行为
 export const configureQueryClient = () => {
     // 为所有用户相关查询设置特殊缓存策略
     queryClient.setQueryDefaults(['users'], {
         staleTime: 1000 * 60 * 30, // 30分钟
-        gcTime: 1000 * 60 * 60, // 1小时
-    });
+        gcTime: 1000 * 60 * 60 // 1小时
+    })
 
     // 为实时性要求高的数据配置更短的保鲜时间
     queryClient.setQueryDefaults(['notifications'], {
         staleTime: 1000 * 30, // 30秒
-        refetchInterval: 1000 * 60, // 每分钟自动刷新
-    });
+        refetchInterval: 1000 * 60 // 每分钟自动刷新
+    })
 
-    return queryClient;
-};
+    return queryClient
+}
 
 // 使用 React 的 cache 函数确保在 RSC 中创建单例
-export const getQueryClient = cache(() => new QueryClient({
-    defaultOptions: {
-        queries: {
-            // SSR友好的配置
-            staleTime: 5 * 1000, // 5秒
-            gcTime: 10 * 60 * 1000, // 10分钟
+export const getQueryClient = cache(
+    () =>
+        new QueryClient({
+            defaultOptions: {
+                queries: {
+                    // SSR友好的配置
+                    staleTime: 5 * 1000, // 5秒
+                    gcTime: 10 * 60 * 1000, // 10分钟
 
-            // 在服务器端渲染时，我们通常不希望重试，因为它会延迟页面渲染
-            retry: process.env.NODE_ENV === 'production' ? 3 : 0,
+                    // 在服务器端渲染时，我们通常不希望重试，因为它会延迟页面渲染
+                    retry: process.env.NODE_ENV === 'production' ? 3 : 0,
 
-            // 对于 SSR 和 SSG，通常需要禁用这些自动刷新选项
-            refetchOnWindowFocus: false,
-            refetchOnReconnect: false,
-        },
-    },
-}));
+                    // 对于 SSR 和 SSG，通常需要禁用这些自动刷新选项
+                    refetchOnWindowFocus: false,
+                    refetchOnReconnect: false
+                }
+            }
+        })
+)
 
 // 添加自定义请求去重逻辑
-const originalFetch = window.fetch;
+const originalFetch = window.fetch
 window.fetch = async (...args) => {
-    const [url, config] = args;
+    const [url, config] = args
 
     // 对于特定接口实现自定义缓存策略
     if (url.toString().includes('/api/frequently-accessed')) {
-        const cacheKey = `${url}${config?.method || 'GET'}`;
-        const cachedResponse = sessionStorage.getItem(cacheKey);
+        const cacheKey = `${url}${config?.method || 'GET'}`
+        const cachedResponse = sessionStorage.getItem(cacheKey)
 
         if (cachedResponse) {
             return new Response(cachedResponse, {
                 status: 200,
                 headers: { 'Content-Type': 'application/json' }
-            });
+            })
         }
 
-        const response = await originalFetch(...args);
-        const responseClone = response.clone();
-        const responseBody = await responseClone.text();
+        const response = await originalFetch(...args)
+        const responseClone = response.clone()
+        const responseBody = await responseClone.text()
 
-        sessionStorage.setItem(cacheKey, responseBody);
-        return response;
+        sessionStorage.setItem(cacheKey, responseBody)
+        return response
     }
 
-    return originalFetch(...args);
-};
+    return originalFetch(...args)
+}
 ```
 
 下面是对其代码做解释！
@@ -254,12 +257,12 @@ window.fetch = async (...args) => {
 ### 缓存策略说明
 
 - **staleTime vs gcTime**：
-  - `staleTime`：控制数据何时被认为是过时的。新鲜数据不会自动重新获取。
-  - `gcTime`：控制未使用的数据何时从缓存中移除。通常设置为比 `staleTime` 长。
+    - `staleTime`：控制数据何时被认为是过时的。新鲜数据不会自动重新获取。
+    - `gcTime`：控制未使用的数据何时从缓存中移除。通常设置为比 `staleTime` 长。
 
 - **重试策略**：
-  - 默认重试 3 次，使用指数退避算法（exponential backoff）增加重试间隔。
-  - 最长延迟时间设为 30 秒，防止无限增长。
+    - 默认重试 3 次，使用指数退避算法（exponential backoff）增加重试间隔。
+    - 最长延迟时间设为 30 秒，防止无限增长。
 
 ### Next.js 特定考虑
 
@@ -267,26 +270,29 @@ window.fetch = async (...args) => {
 
 ```js
 // src/lib/query-client.ts
-import { cache } from 'react';
+import { cache } from 'react'
 // ...其他代码
 
 // 使用 React 的 cache 函数确保在 RSC 中创建单例
-export const getQueryClient = cache(() => new QueryClient({
-    defaultOptions: {
-        queries: {
-            // SSR友好的配置
-            staleTime: 5 * 1000, // 5秒
-            gcTime: 10 * 60 * 1000, // 10分钟
+export const getQueryClient = cache(
+    () =>
+        new QueryClient({
+            defaultOptions: {
+                queries: {
+                    // SSR友好的配置
+                    staleTime: 5 * 1000, // 5秒
+                    gcTime: 10 * 60 * 1000, // 10分钟
 
-            // 在服务器端渲染时，我们通常不希望重试，因为它会延迟页面渲染
-            retry: process.env.NODE_ENV === 'production' ? 3 : 0,
+                    // 在服务器端渲染时，我们通常不希望重试，因为它会延迟页面渲染
+                    retry: process.env.NODE_ENV === 'production' ? 3 : 0,
 
-            // 对于 SSR 和 SSG，通常需要禁用这些自动刷新选项
-            refetchOnWindowFocus: false,
-            refetchOnReconnect: false,
-        },
-    },
-}));
+                    // 对于 SSR 和 SSG，通常需要禁用这些自动刷新选项
+                    refetchOnWindowFocus: false,
+                    refetchOnReconnect: false
+                }
+            }
+        })
+)
 ```
 
 #### **处理并发和请求重复**
@@ -305,41 +311,41 @@ export const queryClient = new QueryClient({
 
             // 启用查询重复数据消除
             // 当多个组件请求相同数据时，只发送一个网络请求
-            networkMode: 'offlineFirst',
-        },
-    },
-});
+            networkMode: 'offlineFirst'
+        }
+    }
+})
 
 // 添加自定义请求去重逻辑
-const originalFetch = window.fetch;
+const originalFetch = window.fetch
 window.fetch = async (...args) => {
-    const [url, config] = args;
+    const [url, config] = args
 
     // 对于特定接口实现自定义缓存策略
     if (url.toString().includes('/api/xxx')) {
-        const cacheKey = `${url}${config?.method || 'GET'}`;
-        const cachedResponse = sessionStorage.getItem(cacheKey);
+        const cacheKey = `${url}${config?.method || 'GET'}`
+        const cachedResponse = sessionStorage.getItem(cacheKey)
 
         if (cachedResponse) {
             return new Response(cachedResponse, {
                 status: 200,
                 headers: { 'Content-Type': 'application/json' }
-            });
+            })
         }
 
-        const response = await originalFetch(...args);
-        const responseClone = response.clone();
-        const responseBody = await responseClone.text();
+        const response = await originalFetch(...args)
+        const responseClone = response.clone()
+        const responseBody = await responseClone.text()
 
-        sessionStorage.setItem(cacheKey, responseBody);
-        return response;
+        sessionStorage.setItem(cacheKey, responseBody)
+        return response
     }
 
-    return originalFetch(...args);
-};
+    return originalFetch(...args)
+}
 ```
 
-> 更多 DevTools 的配置，可以查看 [https://tanstack.com/query/v4/docs/framework/react/devtools](https://tanstack.com/query/v4/docs/framework/react/devtools)！
+> 更多 DevTools 的配置，可以查看 <https://tanstack.com/query/v4/docs/framework/react/devtools>！
 
 #### 查询客户端与开发工具集成
 
@@ -414,7 +420,6 @@ export default async function RootLayout({
 
 展开之后的样子(以后文的 /product 路由为例)：
 ![](./assets/a6cfa955-849e-4a2d-861c-53af15d308aa.png)
-
 
 ### 查询提供者配置 (src/app/providers.tsx)
 
@@ -492,109 +497,109 @@ export default async function WithHydration({
 
 ```ts
 // src/utils/fetch.ts
-import axios from 'axios';
+import axios from 'axios'
 
 // 创建 axios 实例
 export const apiClient = axios.create({
     baseURL: 'https://fakestoreapi.com',
     headers: {
-        'Content-Type': 'application/json',
-    },
-});
+        'Content-Type': 'application/json'
+    }
+})
 
 // 产品相关 API
 export const productsApi = {
     // 获取所有产品
     getAll: async () => {
-        const { data } = await apiClient.get('/products');
-        return data;
+        const { data } = await apiClient.get('/products')
+        return data
     },
 
     // 获取单个产品
     getById: async (id: number) => {
-        const { data } = await apiClient.get(`/products/${id}`);
-        return data;
+        const { data } = await apiClient.get(`/products/${id}`)
+        return data
     },
 
     // 获取产品分类
     getCategories: async () => {
-        const { data } = await apiClient.get('/products/categories');
-        return data;
+        const { data } = await apiClient.get('/products/categories')
+        return data
     },
 
     // 获取特定分类的产品
     getByCategory: async (category: string) => {
-        const { data } = await apiClient.get(`/products/category/${category}`);
-        return data;
+        const { data } = await apiClient.get(`/products/category/${category}`)
+        return data
     },
 
     // 添加新产品
     create: async (product: any) => {
-        const { data } = await apiClient.post('/products', product);
-        return data;
+        const { data } = await apiClient.post('/products', product)
+        return data
     },
 
     // 更新产品
     update: async (id: number, product: any) => {
-        const { data } = await apiClient.put(`/products/${id}`, product);
-        return data;
+        const { data } = await apiClient.put(`/products/${id}`, product)
+        return data
     },
 
     // 删除产品
     delete: async (id: number) => {
-        const { data } = await apiClient.delete(`/products/${id}`);
-        return data;
-    },
-};
+        const { data } = await apiClient.delete(`/products/${id}`)
+        return data
+    }
+}
 
 // 购物车相关 API
 export const cartApi = {
     // 获取用户购物车
     getUserCart: async (userId: number) => {
-        const { data } = await apiClient.get(`/carts/user/${userId}`);
-        return data;
+        const { data } = await apiClient.get(`/carts/user/${userId}`)
+        return data
     },
 
     // 添加商品到购物车
     addToCart: async (cartItem: any) => {
-        const { data } = await apiClient.post('/carts', cartItem);
-        return data;
+        const { data } = await apiClient.post('/carts', cartItem)
+        return data
     },
 
     // 更新购物车
     updateCart: async (id: number, cart: any) => {
-        const { data } = await apiClient.put(`/carts/${id}`, cart);
-        return data;
-    },
-};
+        const { data } = await apiClient.put(`/carts/${id}`, cart)
+        return data
+    }
+}
 
 // 用户相关 API
 export const userApi = {
     // 获取所有用户
     getAll: async () => {
-        const { data } = await apiClient.get('/users');
-        return data;
+        const { data } = await apiClient.get('/users')
+        return data
     },
 
     // 获取单个用户
     getById: async (id: number) => {
-        const { data } = await apiClient.get(`/users/${id}`);
-        return data;
+        const { data } = await apiClient.get(`/users/${id}`)
+        return data
     },
 
     // 用户登录
     login: async (credentials: { username: string; password: string }) => {
-        const { data } = await apiClient.post('/auth/login', credentials);
-        return data;
-    },
-};
+        const { data } = await apiClient.post('/auth/login', credentials)
+        return data
+    }
+}
 
 // 导出所有 API
 export const api = {
     products: productsApi,
     cart: cartApi,
-    user: userApi,
-};
+    user: userApi
+}
 ```
 
 #### **使用 useQuery 获取数据**
@@ -673,34 +678,23 @@ export function useProductsByCategory(category: string) {
 
 ```jsx
 // src/components/ProductList.tsx
-'use client';
+'use client'
 
-import { useState } from 'react';
-import { useProducts, useProductCategories, useProductsByCategory } from '@/hooks/queries/useProducts';
+import { useState } from 'react'
+import { useProducts, useProductCategories, useProductsByCategory } from '@/hooks/queries/useProducts'
 
 export default function ProductList() {
-    const [selectedCategory, setSelectedCategory] = useState<string>('');
+    const [selectedCategory, setSelectedCategory] = useState < string > ''
 
     // 获取产品分类
-    const {
-        data: categories,
-        isLoading: isCategoriesLoading,
-        error: categoriesError
-    } = useProductCategories();
+    const { data: categories, isLoading: isCategoriesLoading, error: categoriesError } = useProductCategories()
 
     // 根据是否选择分类决定使用哪个查询
-    const {
-        data: products,
-        isLoading: isProductsLoading,
-        error: productsError,
-        isRefetching,
-    } = selectedCategory
-            ? useProductsByCategory(selectedCategory)
-            : useProducts();
+    const { data: products, isLoading: isProductsLoading, error: productsError, isRefetching } = selectedCategory ? useProductsByCategory(selectedCategory) : useProducts()
 
     // 加载状态处理
     if (isCategoriesLoading || isProductsLoading) {
-        return <div className="p-4">正在加载产品数据...</div>;
+        return <div className="p-4">正在加载产品数据...</div>
     }
 
     // 错误状态处理
@@ -710,7 +704,7 @@ export default function ProductList() {
                 加载数据时出错：
                 {categoriesError?.message || productsError?.message}
             </div>
-        );
+        )
     }
 
     return (
@@ -721,18 +715,11 @@ export default function ProductList() {
             <div className="mb-6">
                 <h2 className="text-lg font-semibold mb-2">按分类筛选</h2>
                 <div className="flex flex-wrap gap-2">
-                    <button
-                        className={`px-4 py-2 rounded ${!selectedCategory ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
-                        onClick={() => setSelectedCategory('')}
-                    >
+                    <button className={`px-4 py-2 rounded ${!selectedCategory ? 'bg-blue-500 text-white' : 'bg-gray-200'}`} onClick={() => setSelectedCategory('')}>
                         全部
                     </button>
                     {categories?.map((category) => (
-                        <button
-                            key={category}
-                            className={`px-4 py-2 rounded ${selectedCategory === category ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
-                            onClick={() => setSelectedCategory(category)}
-                        >
+                        <button key={category} className={`px-4 py-2 rounded ${selectedCategory === category ? 'bg-blue-500 text-white' : 'bg-gray-200'}`} onClick={() => setSelectedCategory(category)}>
                             {category}
                         </button>
                     ))}
@@ -740,20 +727,14 @@ export default function ProductList() {
             </div>
 
             {/* 正在刷新的指示器 */}
-            {isRefetching && (
-                <div className="mb-4 text-blue-500">正在更新数据...</div>
-            )}
+            {isRefetching && <div className="mb-4 text-blue-500">正在更新数据...</div>}
 
             {/* 产品网格 */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                 {products?.map((product) => (
                     <div key={product.id} className="border rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
                         <div className="h-48 overflow-hidden bg-gray-100 flex items-center justify-center">
-                            <img
-                                src={product.image}
-                                alt={product.title}
-                                className="object-contain h-40"
-                            />
+                            <img src={product.image} alt={product.title} className="object-contain h-40" />
                         </div>
                         <div className="p-4">
                             <h3 className="font-semibold text-lg mb-1 line-clamp-2" title={product.title}>
@@ -776,13 +757,9 @@ export default function ProductList() {
             </div>
 
             {/* 无数据状态 */}
-            {products?.length === 0 && (
-                <div className="text-center py-8 text-gray-500">
-                    没有找到相关产品
-                </div>
-            )}
+            {products?.length === 0 && <div className="text-center py-8 text-gray-500">没有找到相关产品</div>}
         </div>
-    );
+    )
 }
 ```
 
@@ -1702,40 +1679,31 @@ Zustand 的使用非常简单，但有几种模式可以优化性能和可维护
 
 ```jsx
 // src/components/Counter.tsx
-'use client';
+'use client'
 
-import useCounterStore from '@/stores/useCounterStore';
+import useCounterStore from '@/stores/useCounterStore'
 
 export default function Counter() {
     // 直接从存储中获取状态和方法
-    const { count, increment, decrement, reset } = useCounterStore();
+    const { count, increment, decrement, reset } = useCounterStore()
 
     return (
         <div className="p-4 border rounded-lg">
             <h2 className="text-xl font-bold mb-4">计数器</h2>
             <p className="text-3xl text-center mb-4">{count}</p>
             <div className="flex gap-2 justify-center">
-                <button
-                    onClick={decrement}
-                    className="px-4 py-2 bg-red-500 text-white rounded"
-                >
+                <button onClick={decrement} className="px-4 py-2 bg-red-500 text-white rounded">
                     减少
                 </button>
-                <button
-                    onClick={reset}
-                    className="px-4 py-2 bg-gray-500 text-white rounded"
-                >
+                <button onClick={reset} className="px-4 py-2 bg-gray-500 text-white rounded">
                     重置
                 </button>
-                <button
-                    onClick={increment}
-                    className="px-4 py-2 bg-green-500 text-white rounded"
-                >
+                <button onClick={increment} className="px-4 py-2 bg-green-500 text-white rounded">
                     增加
                 </button>
             </div>
         </div>
-    );
+    )
 }
 ```
 
@@ -1745,29 +1713,35 @@ export default function Counter() {
 
 ```jsx
 // src/components/UserProfile.tsx
-'use client';
+'use client'
 
-import useUserStore from '@/stores/useUserStore';
+import useUserStore from '@/stores/useUserStore'
 
 export default function UserProfile() {
     // 使用选择器只获取需要的状态，避免不必要的重渲染
-    const user = useUserStore((state) => state.user);
-    const isLoading = useUserStore((state) => state.isLoading);
-    const error = useUserStore((state) => state.error);
-    const logout = useUserStore((state) => state.logout);
-    const updatePreferences = useUserStore((state) => state.updatePreferences);
+    const user = useUserStore((state) => state.user)
+    const isLoading = useUserStore((state) => state.isLoading)
+    const error = useUserStore((state) => state.error)
+    const logout = useUserStore((state) => state.logout)
+    const updatePreferences = useUserStore((state) => state.updatePreferences)
 
-    if (isLoading) return <div>加载中...</div>;
-    if (error) return <div className="text-red-500">错误: {error}</div>;
-    if (!user) return <div>未登录</div>;
+    if (isLoading) return <div>加载中...</div>
+    if (error) return <div className="text-red-500">错误: {error}</div>
+    if (!user) return <div>未登录</div>
 
     return (
         <div className="p-4 border rounded-lg">
             <h2 className="text-xl font-bold mb-4">用户资料</h2>
             <div className="mb-4">
-                <p><strong>名称:</strong> {user.name}</p>
-                <p><strong>邮箱:</strong> {user.email}</p>
-                <p><strong>角色:</strong> {user.role}</p>
+                <p>
+                    <strong>名称:</strong> {user.name}
+                </p>
+                <p>
+                    <strong>邮箱:</strong> {user.email}
+                </p>
+                <p>
+                    <strong>角色:</strong> {user.role}
+                </p>
             </div>
 
             <h3 className="text-lg font-semibold mb-2">偏好设置</h3>
@@ -1777,9 +1751,11 @@ export default function UserProfile() {
                     <input
                         type="checkbox"
                         checked={user.preferences.theme === 'dark'}
-                        onChange={(e) => updatePreferences({
-                            theme: e.target.checked ? 'dark' : 'light'
-                        })}
+                        onChange={(e) =>
+                            updatePreferences({
+                                theme: e.target.checked ? 'dark' : 'light'
+                            })
+                        }
                     />
                 </div>
                 <div className="flex items-center">
@@ -1787,21 +1763,20 @@ export default function UserProfile() {
                     <input
                         type="checkbox"
                         checked={user.preferences.notifications}
-                        onChange={(e) => updatePreferences({
-                            notifications: e.target.checked
-                        })}
+                        onChange={(e) =>
+                            updatePreferences({
+                                notifications: e.target.checked
+                            })
+                        }
                     />
                 </div>
             </div>
 
-            <button
-                onClick={logout}
-                className="px-4 py-2 bg-red-500 text-white rounded"
-            >
+            <button onClick={logout} className="px-4 py-2 bg-red-500 text-white rounded">
                 退出登录
             </button>
         </div>
-    );
+    )
 }
 ```
 
@@ -1833,35 +1808,35 @@ Zustand 提供了几种更新状态的模式：
 
 1. **直接替换**：最简单的方式，适用于简单状态
 
-   ```jsx
-   set({ count: 0 })
-   ```
+    ```jsx
+    set({ count: 0 })
+    ```
 
 2. **基于当前状态更新**：使用函数形式，可以访问当前状态
 
-   ```jsx
-   set((state) => ({ count: state.count + 1 }))
-   ```
+    ```jsx
+    set((state) => ({ count: state.count + 1 }))
+    ```
 
 3. **部分更新**：只更新特定字段，保留其他字段
 
-   ```jsx
-   set((state) => ({ ...state, onlyThisFieldChanges: true }))
-   ```
+    ```jsx
+    set((state) => ({ ...state, onlyThisFieldChanges: true }))
+    ```
 
 4. **深层嵌套更新**：使用展开语法更新嵌套状态
 
-   ```jsx
-   set((state) => ({
-       user: {
-           ...state.user,
-           preferences: {
-               ...state.user?.preferences,
-               theme: 'dark'
-           }
-       }
-   }))
-   ```
+    ```jsx
+    set((state) => ({
+        user: {
+            ...state.user,
+            preferences: {
+                ...state.user?.preferences,
+                theme: 'dark'
+            }
+        }
+    }))
+    ```
 
 #### 避免不必要渲染的高级技巧
 
@@ -1869,14 +1844,14 @@ Zustand 提供了几种更新状态的模式：
 
     ```jsx
     // src/hooks/useTheme.ts
-    import useAppStore from '@/stores/useAppStore';
+    import useAppStore from '@/stores/useAppStore'
 
     export function useTheme() {
-        const theme = useAppStore((state) => state.theme);
-        const toggleTheme = useAppStore((state) => state.toggleTheme);
-        const setTheme = useAppStore((state) => state.setTheme);
+        const theme = useAppStore((state) => state.theme)
+        const toggleTheme = useAppStore((state) => state.toggleTheme)
+        const setTheme = useAppStore((state) => state.setTheme)
 
-        return { theme, toggleTheme, setTheme };
+        return { theme, toggleTheme, setTheme }
     }
     ```
 
@@ -1885,15 +1860,15 @@ Zustand 提供了几种更新状态的模式：
     ```jsx
     // src/components/OptimizedComponent.tsx
     'use client';
-    
+
     import { useCallback } from 'react';
     import { useAppStore } from '@/stores/useAppStore';
-    
+
     export default function OptimizedComponent() {
         // 使用 useCallback 创建稳定的选择器
         const selectUser = useCallback((state: any) => state.user, []);
         const user = useAppStore(selectUser);
-    
+
         // 组件内容...
     }
     ```
@@ -1908,85 +1883,91 @@ Zustand 中间件系统允许扩展存储功能，添加持久化、日志、不
 
 ```ts
 // src/stores/useTaskStore.ts
-import { create } from 'zustand';
-import { immer } from 'zustand/middleware/immer';
+import { create } from 'zustand'
+import { immer } from 'zustand/middleware/immer'
 
 interface Task {
-    id: string;
-    title: string;
-    completed: boolean;
-    tags: string[];
+    id: string
+    title: string
+    completed: boolean
+    tags: string[]
     subtasks: {
-        id: string;
-        title: string;
-        completed: boolean;
-    }[];
+        id: string
+        title: string
+        completed: boolean
+    }[]
 }
 
 interface TaskState {
-    tasks: Task[];
-    addTask: (task: Omit<Task, 'id'>) => void;
-    removeTask: (id: string) => void;
-    toggleTaskCompleted: (id: string) => void;
-    addSubtask: (taskId: string, subtaskTitle: string) => void;
-    toggleSubtaskCompleted: (taskId: string, subtaskId: string) => void;
-    addTagToTask: (taskId: string, tag: string) => void;
+    tasks: Task[]
+    addTask: (task: Omit<Task, 'id'>) => void
+    removeTask: (id: string) => void
+    toggleTaskCompleted: (id: string) => void
+    addSubtask: (taskId: string, subtaskTitle: string) => void
+    toggleSubtaskCompleted: (taskId: string, subtaskId: string) => void
+    addTagToTask: (taskId: string, tag: string) => void
 }
 
 export const useTaskStore = create<TaskState>()(
     immer((set) => ({
         tasks: [],
 
-        addTask: (taskData) => set((state) => {
-            state.tasks.push({
-                ...taskData,
-                id: Date.now().toString(),
-            });
-        }),
+        addTask: (taskData) =>
+            set((state) => {
+                state.tasks.push({
+                    ...taskData,
+                    id: Date.now().toString()
+                })
+            }),
 
-        removeTask: (id) => set((state) => {
-            const index = state.tasks.findIndex(task => task.id === id);
-            if (index !== -1) {
-                state.tasks.splice(index, 1);
-            }
-        }),
-
-        toggleTaskCompleted: (id) => set((state) => {
-            const task = state.tasks.find(t => t.id === id);
-            if (task) {
-                task.completed = !task.completed;
-            }
-        }),
-
-        addSubtask: (taskId, subtaskTitle) => set((state) => {
-            const task = state.tasks.find(t => t.id === taskId);
-            if (task) {
-                task.subtasks.push({
-                    id: Date.now().toString(),
-                    title: subtaskTitle,
-                    completed: false,
-                });
-            }
-        }),
-
-        toggleSubtaskCompleted: (taskId, subtaskId) => set((state) => {
-            const task = state.tasks.find(t => t.id === taskId);
-            if (task) {
-                const subtask = task.subtasks.find(st => st.id === subtaskId);
-                if (subtask) {
-                    subtask.completed = !subtask.completed;
+        removeTask: (id) =>
+            set((state) => {
+                const index = state.tasks.findIndex((task) => task.id === id)
+                if (index !== -1) {
+                    state.tasks.splice(index, 1)
                 }
-            }
-        }),
+            }),
 
-        addTagToTask: (taskId, tag) => set((state) => {
-            const task = state.tasks.find(t => t.id === taskId);
-            if (task && !task.tags.includes(tag)) {
-                task.tags.push(tag);
-            }
-        }),
+        toggleTaskCompleted: (id) =>
+            set((state) => {
+                const task = state.tasks.find((t) => t.id === id)
+                if (task) {
+                    task.completed = !task.completed
+                }
+            }),
+
+        addSubtask: (taskId, subtaskTitle) =>
+            set((state) => {
+                const task = state.tasks.find((t) => t.id === taskId)
+                if (task) {
+                    task.subtasks.push({
+                        id: Date.now().toString(),
+                        title: subtaskTitle,
+                        completed: false
+                    })
+                }
+            }),
+
+        toggleSubtaskCompleted: (taskId, subtaskId) =>
+            set((state) => {
+                const task = state.tasks.find((t) => t.id === taskId)
+                if (task) {
+                    const subtask = task.subtasks.find((st) => st.id === subtaskId)
+                    if (subtask) {
+                        subtask.completed = !subtask.completed
+                    }
+                }
+            }),
+
+        addTagToTask: (taskId, tag) =>
+            set((state) => {
+                const task = state.tasks.find((t) => t.id === taskId)
+                if (task && !task.tags.includes(tag)) {
+                    task.tags.push(tag)
+                }
+            })
     }))
-);
+)
 ```
 
 使用 Immer，我们可以直接修改状态，而不需要手动处理不可变更新。这使得代码更简洁、更直观，特别是对于深层嵌套的状态对象。
@@ -1997,27 +1978,27 @@ persist 中间件可以将状态保存到浏览器存储（localStorage、sessio
 
 ```ts
 // src/stores/useCartStore.ts
-import { create } from 'zustand';
-import { persist, createJSONStorage } from 'zustand/middleware';
+import { create } from 'zustand'
+import { persist, createJSONStorage } from 'zustand/middleware'
 
 interface CartItem {
-    id: number;
-    name: string;
-    price: number;
-    quantity: number;
+    id: number
+    name: string
+    price: number
+    quantity: number
 }
 
 interface CartState {
-    items: CartItem[];
+    items: CartItem[]
 
-    addItem: (item: Omit<CartItem, 'quantity'>) => void;
-    removeItem: (id: number) => void;
-    updateQuantity: (id: number, quantity: number) => void;
-    clearCart: () => void;
+    addItem: (item: Omit<CartItem, 'quantity'>) => void
+    removeItem: (id: number) => void
+    updateQuantity: (id: number, quantity: number) => void
+    clearCart: () => void
 
     // 计算值
-    totalItems: () => number;
-    totalPrice: () => number;
+    totalItems: () => number
+    totalPrice: () => number
 }
 
 export const useCartStore = create<CartState>()(
@@ -2025,42 +2006,36 @@ export const useCartStore = create<CartState>()(
         (set, get) => ({
             items: [],
 
-            addItem: (newItem) => set((state) => {
-                const existingItem = state.items.find(item => item.id === newItem.id);
+            addItem: (newItem) =>
+                set((state) => {
+                    const existingItem = state.items.find((item) => item.id === newItem.id)
 
-                if (existingItem) {
+                    if (existingItem) {
+                        return {
+                            items: state.items.map((item) => (item.id === newItem.id ? { ...item, quantity: item.quantity + 1 } : item))
+                        }
+                    }
+
                     return {
-                        items: state.items.map(item =>
-                            item.id === newItem.id
-                                ? { ...item, quantity: item.quantity + 1 }
-                                : item
-                        )
-                    };
-                }
+                        items: [...state.items, { ...newItem, quantity: 1 }]
+                    }
+                }),
 
-                return {
-                    items: [...state.items, { ...newItem, quantity: 1 }]
-                };
-            }),
+            removeItem: (id) =>
+                set((state) => ({
+                    items: state.items.filter((item) => item.id !== id)
+                })),
 
-            removeItem: (id) => set((state) => ({
-                items: state.items.filter(item => item.id !== id)
-            })),
-
-            updateQuantity: (id, quantity) => set((state) => ({
-                items: state.items.map(item =>
-                    item.id === id ? { ...item, quantity } : item
-                )
-            })),
+            updateQuantity: (id, quantity) =>
+                set((state) => ({
+                    items: state.items.map((item) => (item.id === id ? { ...item, quantity } : item))
+                })),
 
             clearCart: () => set({ items: [] }),
 
             totalItems: () => get().items.reduce((sum, item) => sum + item.quantity, 0),
 
-            totalPrice: () => get().items.reduce(
-                (sum, item) => sum + (item.price * item.quantity),
-                0
-            ),
+            totalPrice: () => get().items.reduce((sum, item) => sum + item.price * item.quantity, 0)
         }),
         {
             name: 'shopping-cart', // 存储键名
@@ -2070,16 +2045,16 @@ export const useCartStore = create<CartState>()(
             // 版本控制和迁移
             version: 1,
             onRehydrateStorage: (state) => {
-                console.log('状态已从存储还原', state);
+                console.log('状态已从存储还原', state)
                 return (state, error) => {
                     if (error) {
-                        console.error('恢复状态时出错:', error);
+                        console.error('恢复状态时出错:', error)
                     }
-                };
-            },
+                }
+            }
         }
     )
-);
+)
 ```
 
 ## 五、总结
@@ -2089,50 +2064,50 @@ export const useCartStore = create<CartState>()(
 ### 核心优势回顾
 
 1. **TanStack Query 的价值**
-   - 简化了服务器状态管理，自动处理缓存、重试和同步
-   - 提供了直观的 API，降低了异步数据获取的复杂度
-   - 内置的乐观更新和错误处理机制提升了用户体验
-   - 强大的开发工具支持，便于调试和监控
+    - 简化了服务器状态管理，自动处理缓存、重试和同步
+    - 提供了直观的 API，降低了异步数据获取的复杂度
+    - 内置的乐观更新和错误处理机制提升了用户体验
+    - 强大的开发工具支持，便于调试和监控
 
 2. **Zustand 的独特优势**
-   - 极简的 API 设计，几乎没有样板代码
-   - 灵活的状态组织方式，支持模块化和组合
-   - 优秀的性能表现，避免不必要的重渲染
-   - 丰富的中间件生态系统，满足各种扩展需求
+    - 极简的 API 设计，几乎没有样板代码
+    - 灵活的状态组织方式，支持模块化和组合
+    - 优秀的性能表现，避免不必要的重渲染
+    - 丰富的中间件生态系统，满足各种扩展需求
 
 ### 最佳实践要点
 
 1. **状态管理策略**
-   - 清晰区分服务器状态和客户端状态
-   - 合理设计状态结构，避免过度嵌套
-   - 使用选择器优化性能，减少不必要的重渲染
-   - 实现适当的缓存策略，平衡数据新鲜度和性能
+    - 清晰区分服务器状态和客户端状态
+    - 合理设计状态结构，避免过度嵌套
+    - 使用选择器优化性能，减少不必要的重渲染
+    - 实现适当的缓存策略，平衡数据新鲜度和性能
 
 2. **开发体验优化**
-   - 利用 TypeScript 提供类型安全
-   - 采用模块化设计，提高代码可维护性
-   - 使用中间件增强功能，如持久化和不可变更新
-   - 实现优雅的错误处理和加载状态管理
+    - 利用 TypeScript 提供类型安全
+    - 采用模块化设计，提高代码可维护性
+    - 使用中间件增强功能，如持久化和不可变更新
+    - 实现优雅的错误处理和加载状态管理
 
 3. **性能考虑**
-   - 合理使用查询缓存和失效策略
-   - 优化组件重渲染逻辑
-   - 实现高效的乐观更新
-   - 注意内存管理和垃圾回收
+    - 合理使用查询缓存和失效策略
+    - 优化组件重渲染逻辑
+    - 实现高效的乐观更新
+    - 注意内存管理和垃圾回收
 
 ### 应用场景
 
 1. **适合使用 TanStack Query 的场景**
-   - 需要频繁与后端 API 交互的应用
-   - 需要复杂缓存策略的数据密集型应用
-   - 需要实时数据同步的场景
-   - 需要处理复杂异步状态的应用
+    - 需要频繁与后端 API 交互的应用
+    - 需要复杂缓存策略的数据密集型应用
+    - 需要实时数据同步的场景
+    - 需要处理复杂异步状态的应用
 
 2. **适合使用 Zustand 的场景**
-   - 需要简单全局状态管理的应用
-   - 需要模块化状态组织的复杂应用
-   - 需要高性能状态更新的场景
-   - 需要持久化状态的应用
+    - 需要简单全局状态管理的应用
+    - 需要模块化状态组织的复杂应用
+    - 需要高性能状态更新的场景
+    - 需要持久化状态的应用
 
 ### 未来展望
 

@@ -35,7 +35,7 @@ Zustand 是一个为 React 应用程序提供状态管理的库，它旨在简�
 
 - **轻量级** ：Zustand 的整个代码库非常小巧，gzip 压缩后仅有 1KB，对项目性能影响极小。
 
-- **简洁的 API** ：Zustand 提供了简洁明了的 API，能够快速上手并使用它来管理项目状态。   
+- **简洁的 API** ：Zustand 提供了简洁明了的 API，能够快速上手并使用它来管理项目状态。
 - **基于 React Hooks**: Zustand 使用 React 的 Hooks 机制作为状态管理的基础。它通过创建自定义 Hook 来提供对状态的访问和更新。这种方式与函数式组件和钩子的编程模型紧密配合，使得状态管理变得非常自然和无缝。
 
 - **易于集成** ：Zustand 可以轻松地与其他 React 库（如 Redux、MobX 等）共存，方便逐步迁移项目状态管理。
@@ -54,124 +54,123 @@ Zustand 是一个为 React 应用程序提供状态管理的库，它旨在简�
 
 - redux
 
-  ```tsx
-  // redux-toolkit
-  import { useSelector } from 'react-redux'
-  import type { TypedUseSelectorHook } from 'react-redux'
-  import { createSlice, configureStore } from '@reduxjs/toolkit'
-  
-  const countSlice = createSlice({
+    ```tsx
+    // redux-toolkit
+    import { useSelector } from 'react-redux'
+    import type { TypedUseSelectorHook } from 'react-redux'
+    import { createSlice, configureStore } from '@reduxjs/toolkit'
+
+    const countSlice = createSlice({
         name: 'count',
         initialState: { value: 0 },
         reducers: {
-              incremented: (state, qty: number) => {
+            incremented: (state, qty: number) => {
                 // Redux Toolkit does not mutate the state, it uses the Immer library
                 // behind scenes, allowing us to have something called "draft state".
                 state.value += qty
-              },
-              decremented: (state, qty: number) => {
+            },
+            decremented: (state, qty: number) => {
                 state.value -= qty
-              },
-        },
-  })
-  
-  const countStore = configureStore({ reducer: countSlice.reducer })
-  
-  const useAppSelector: TypedUseSelectorHook<typeof countStore.getState> = useSelector
-  
-  const useAppDispatch: () => typeof countStore.dispatch = useDispatch
-  
-  const Component = () => {
+            }
+        }
+    })
+
+    const countStore = configureStore({ reducer: countSlice.reducer })
+
+    const useAppSelector: TypedUseSelectorHook<typeof countStore.getState> = useSelector
+
+    const useAppDispatch: () => typeof countStore.dispatch = useDispatch
+
+    const Component = () => {
         const count = useAppSelector((state) => state.count.value)
         const dispatch = useAppDispatch()
         // ...
-  }
-  ```
+    }
+    ```
 
-  ```ts
-  // redux
-  import { createStore } from 'redux'
-  import { useSelector, useDispatch } from 'react-redux'
-  
-  type State = {
-    	count: number
-  }
-  
-  type Action = {
+    ```ts
+    // redux
+    import { createStore } from 'redux'
+    import { useSelector, useDispatch } from 'react-redux'
+
+    type State = {
+        count: number
+    }
+
+    type Action = {
         type: 'increment' | 'decrement'
         qty: number
-  }
-  
-  const countReducer = (state: State, action: Action) => {
+    }
+
+    const countReducer = (state: State, action: Action) => {
         switch (action.type) {
-              case 'increment':
-                	return { count: state.count + action.qty }
-              case 'decrement':
-                	return { count: state.count - action.qty }
-              default:
-                	return state
+            case 'increment':
+                return { count: state.count + action.qty }
+            case 'decrement':
+                return { count: state.count - action.qty }
+            default:
+                return state
         }
-  }
-  
-  const countStore = createStore(countReducer)
-  
-  const Component = () => {
+    }
+
+    const countStore = createStore(countReducer)
+
+    const Component = () => {
         const count = useSelector((state) => state.count)
         const dispatch = useDispatch()
         // ...
-  }
-  ```
+    }
+    ```
 
 - zustand
 
-  ```tsx
-  import { create } from 'zustand'
-  
-  type State = {
-    	count: number
-  }
-  
-  type Actions = {
+    ```tsx
+    import { create } from 'zustand'
+
+    type State = {
+        count: number
+    }
+
+    type Actions = {
         increment: (qty: number) => void
         decrement: (qty: number) => void
-  }
-  
-  const useCountStore = create<State & Actions>((set) => ({
+    }
+
+    const useCountStore = create<State & Actions>((set) => ({
         count: 0,
         increment: (qty: number) => set((state) => ({ count: state.count + qty })),
-        decrement: (qty: number) => set((state) => ({ count: state.count - qty })),
-  }))
-  
-  const Component = () => {
+        decrement: (qty: number) => set((state) => ({ count: state.count - qty }))
+    }))
+
+    const Component = () => {
         const count = useCountStore((state) => state.count)
         const increment = useCountStore((state) => state.increment)
         const decrement = useCountStore((state) => state.decrement)
         // ...
-  }
-  ```
+    }
+    ```
 
-  ![image-20240909145946338](assets/image-20240909145946338.png)
+    ![image-20240909145946338](assets/image-20240909145946338.png)
 
-  ![image-20240909145851733](assets/image-20240909145851733.png)
+    ![image-20240909145851733](assets/image-20240909145851733.png)
 
 ### 对比分析
 
 1. 状态定义：
-   - Zustand：使用 `create` 函数直接定义状态和操作。
-   - Redux：需要定义初始状态和 reducer 函数。
+    - Zustand：使用 `create` 函数直接定义状态和操作。
+    - Redux：需要定义初始状态和 reducer 函数。
 
 2. 状态更新：
-   - Zustand：通过 `set` 方法直接更新状态，使用函数式更新。
-   - Redux：通过 dispatching action 来更新状态，涉及 action 类型和 reducer。
+    - Zustand：通过 `set` 方法直接更新状态，使用函数式更新。
+    - Redux：通过 dispatching action 来更新状态，涉及 action 类型和 reducer。
 
 3. 组件连接：
-   - Zustand：直接在组件中使用 `useCountStore` 获取状态和操作。
-   - Redux：使用 `useSelector` 获取状态，使用 `useDispatch` 调用操作。
+    - Zustand：直接在组件中使用 `useCountStore` 获取状态和操作。
+    - Redux：使用 `useSelector` 获取状态，使用 `useDispatch` 调用操作。
 
 4. 代码复杂性：
-   - Zustand：代码结构简单，聚焦于状态和操作的定义。
-   - Redux：需要定义多个部分（reducer、action、store），代码量较大。
-
+    - Zustand：代码结构简单，聚焦于状态和操作的定义。
+    - Redux：需要定义多个部分（reducer、action、store），代码量较大。
 
 ## zustand 的使用
 
@@ -181,31 +180,29 @@ Zustand 是一个为 React 应用程序提供状态管理的库，它旨在简�
 
 - 使用 vite 创建项目
 
-  ```sh
-  $ npx create-vite
-  ```
+    ```sh
+    npx create-vite
+    ```
 
-  ![QQ_1725867113285](assets/QQ_1725867113285.png)
+    ![QQ_1725867113285](assets/QQ_1725867113285.png)
 
 - 在 IDE 中打开并安装依赖并启动
 
-  在 vscode 中打开并安装依赖，如下图：
+    在 vscode 中打开并安装依赖，如下图：
 
-  ![QQ_1725867303615](assets/QQ_1725867303615.png)
+    ![QQ_1725867303615](assets/QQ_1725867303615.png)
 
 - 使用命令 `pnpm dev`，在浏览器中查看效果图如下图：
 
-  ![QQ_1725867504024](assets/QQ_1725867504024.png)
+    ![QQ_1725867504024](assets/QQ_1725867504024.png)
 
-  ![QQ_1725867542270](assets/QQ_1725867542270.png)
+    ![QQ_1725867542270](assets/QQ_1725867542270.png)
 
 - 安装 zustand
 
-  ```sh
-  $ pnpm add zustand
-  ```
-
-  
+    ```sh
+    pnpm add zustand
+    ```
 
 在刚创建的项目中添加一个计数器的应用；其中显示数字和操作数字的按钮放在两个不同的组件中！具体操作步骤如下：
 
@@ -214,98 +211,95 @@ Zustand 是一个为 React 应用程序提供状态管理的库，它旨在简�
 2. 在 store 目录中，创建一个 useCounter 的 ts 文件
 
 3. 在这个 ts 文件中写入如下代码：
-  ```ts
-  import { create } from 'zustand'
-  
-  type State = {
-      count: number
-  }
-  
-  type Action = {
-      increment: () => void
-      decrement: () => void
-  }
-  
-  const useCounter = create<State & Action>((set) => ({
-      count: 0,
-      increment: () => set((state) => ({ count: state.count + 1 })),
-      decrement: () => set((state) => ({ count: state.count - 1 })),
-  }))
-  
-  
-  export default useCounter
-  ```
 
-4. 在项目的 src 目录下创建 components/CounterButton.tsx 文件，代码如下：
-  ```tsx
-  import React from 'react'
-  import useCounter from '../store/useCounter'
-  
-  interface Props {
-      type: 'increment' | 'decrement'
-  }
-  export default function CounterButton(props: Props) {
-      const increment = useCounter(state => state.increment)
-      const decrement = useCounter(state => state.decrement)
-      
-      const handleClick = () => {
-          if (props.type === 'increment') {
-              increment()
-          } else {
-              decrement()
-          }
-      }
-      
-      return (
-          <button onClick={handleClick}>{props.type === 'increment' ? 'increment' : 'decrement'}</button>
-      )
-  }
-  ```
+```ts
+import { create } from 'zustand'
 
-5. 在 App.tsx 中将原来 count 的逻辑替换成如下代码：
+type State = {
+    count: number
+}
 
-  ```tsx
-  import reactLogo from './assets/react.svg'
-  import viteLogo from '/vite.svg'
-  import './App.css'
-  import useCounter from './store/useCounter'
-  import CounterButton from './assets/components/CounterButton'
-  
-  function App() {
-    const count = useCounter(state => state.count)
-  
+type Action = {
+    increment: () => void
+    decrement: () => void
+}
+
+const useCounter = create<State & Action>((set) => ({
+    count: 0,
+    increment: () => set((state) => ({ count: state.count + 1 })),
+    decrement: () => set((state) => ({ count: state.count - 1 }))
+}))
+
+export default useCounter
+```
+
+1. 在项目的 src 目录下创建 components/CounterButton.tsx 文件，代码如下：
+
+```tsx
+import React from 'react'
+import useCounter from '../store/useCounter'
+
+interface Props {
+    type: 'increment' | 'decrement'
+}
+export default function CounterButton(props: Props) {
+    const increment = useCounter((state) => state.increment)
+    const decrement = useCounter((state) => state.decrement)
+
+    const handleClick = () => {
+        if (props.type === 'increment') {
+            increment()
+        } else {
+            decrement()
+        }
+    }
+
+    return <button onClick={handleClick}>{props.type === 'increment' ? 'increment' : 'decrement'}</button>
+}
+```
+
+1. 在 App.tsx 中将原来 count 的逻辑替换成如下代码：
+
+```tsx
+import reactLogo from './assets/react.svg'
+import viteLogo from '/vite.svg'
+import './App.css'
+import useCounter from './store/useCounter'
+import CounterButton from './assets/components/CounterButton'
+
+function App() {
+    const count = useCounter((state) => state.count)
+
     return (
-      <>
-        <div>
-          <a href="https://vitejs.dev" target="_blank">
-            <img src={viteLogo} className="logo" alt="Vite logo" />
-          </a>
-          <a href="https://react.dev" target="_blank">
-            <img src={reactLogo} className="logo react" alt="React logo" />
-          </a>
-        </div>
-        <h1>Vite + React</h1>
-        <div className="card">
-          <CounterButton type='decrement' />
-          <p>{count}</p>
-          <CounterButton type='increment' />
-          <p>
-            Edit <code>src/App.tsx</code> and save to test HMR
-          </p>
-        </div>
-        <p className="read-the-docs">
-          Click on the Vite and React logos to learn more
-        </p>
-      </>
+        <>
+            <div>
+                <a href="https://vitejs.dev" target="_blank">
+                    <img src={viteLogo} className="logo" alt="Vite logo" />
+                </a>
+                <a href="https://react.dev" target="_blank">
+                    <img src={reactLogo} className="logo react" alt="React logo" />
+                </a>
+            </div>
+            <h1>Vite + React</h1>
+            <div className="card">
+                <CounterButton type="decrement" />
+                <p>{count}</p>
+                <CounterButton type="increment" />
+                <p>
+                    Edit <code>src/App.tsx</code> and save to test HMR
+                </p>
+            </div>
+            <p className="read-the-docs">Click on the Vite and React logos to learn more</p>
+        </>
     )
-  }
-  
-  export default App
-  ```
+}
 
-  效果如下：
+export default App
+```
 
-  ![2024-09-09 16.46.42](assets/2024-09-09 16.46.42.gif)
+效果如下：
+
+![2024-09-09 16.46.42](assets/2024-09-09 16.46.42.gif)
 
 上面就是用 zustand 简单实现了一个跨组件计数的功能，接着我们看看 zustand 中的中间件的使用（这里不会去一一介绍中间件怎么使用）。
 
@@ -322,11 +316,11 @@ const nestedObject = {
     a: {
         b: {
             c: {
-                d: 0,
-            },
-        },
-    },
-};
+                d: 0
+            }
+        }
+    }
+}
 ```
 
 如果我们想要更新这个状态，应该怎么做？
@@ -334,8 +328,8 @@ const nestedObject = {
 ```js
 const useStore = create((set) => ({
     nestedObject,
-    updateState () {
-        set(prevState => ({
+    updateState() {
+        set((prevState) => ({
             nestedObject: {
                 ...prevState.nestedObject,
                 a: {
@@ -344,14 +338,14 @@ const useStore = create((set) => ({
                         ...prevState.nestedObject.a.b,
                         c: {
                             ...prevState.nestedObject.a.b.c,
-                            d: ++prevState.nestedObject.a.b.c.d,
-                        },
-                    },
-                },
-            },
-        }));
-    },
-}));
+                            d: ++prevState.nestedObject.a.b.c.d
+                        }
+                    }
+                }
+            }
+        }))
+    }
+}))
 ```
 
 这段代码中，不难发现以下问题：
@@ -363,16 +357,18 @@ const useStore = create((set) => ({
 修改四层就如此麻烦，那要是修改个七八层的数据，稍有不慎就搞错了，排查问题也极为头痛。其实，我们可以借助 [immer](https://immerjs.github.io/immer/zh-CN/) 来优化这个问题，最终上面的代码被优化后的为：
 
 ```js
-import produce from 'immer';
+import produce from 'immer'
 
 const useStore = create((set) => ({
     nestedObject,
-    updateState () {
-        set(produce(draft => {
-            ++draft.nestedObject.a.b.c.d;
-        }));
-    },
-}));
+    updateState() {
+        set(
+            produce((draft) => {
+                ++draft.nestedObject.a.b.c.d
+            })
+        )
+    }
+}))
 ```
 
 代码一下子就干净、整洁多了，可读性也高了不少，但也增加了额外的理解成本，本阶不做 immer 的讲解，如果读者不熟悉的话，可以去官 [immer 官网](https://immerjs.github.io/immer/zh-CN/)查看，官网也有中文！
@@ -392,7 +388,7 @@ type Actions = {
     decrement: (qty: number) => void
 }
 
-export const useCountStore = create<State & Actions> ()(
+export const useCountStore = create<State & Actions>()(
     immer((set) => ({
         count: 0,
         increment: (qty: number) =>
@@ -402,8 +398,8 @@ export const useCountStore = create<State & Actions> ()(
         decrement: (qty: number) =>
             set((state) => {
                 state.count -= qty
-            }),
-    })),
+            })
+    }))
 )
 ```
 
@@ -427,41 +423,42 @@ type Actions = {
     toggleTodo: (todoId: string) => void
 }
 
-export const useTodoStore = create<State & Actions> (immer((set) => ({
-    todos: {
-        '82471c5f-4207-4b1d-abcb-b98547e01a3e': {
-            id: '82471c5f-4207-4b1d-abcb-b98547e01a3e',
-            title: 'Learn Zustand',
-            done: false,
+export const useTodoStore = create<State & Actions>(
+    immer((set) => ({
+        todos: {
+            '82471c5f-4207-4b1d-abcb-b98547e01a3e': {
+                id: '82471c5f-4207-4b1d-abcb-b98547e01a3e',
+                title: 'Learn Zustand',
+                done: false
+            },
+            '354ee16c-bfdd-44d3-afa9-e93679bda367': {
+                id: '354ee16c-bfdd-44d3-afa9-e93679bda367',
+                title: 'Learn Jotai',
+                done: false
+            },
+            '771c85c5-46ea-4a11-8fed-36cc2c7be344': {
+                id: '771c85c5-46ea-4a11-8fed-36cc2c7be344',
+                title: 'Learn Valtio',
+                done: false
+            },
+            '363a4bac-083f-47f7-a0a2-aeeee153a99c': {
+                id: '363a4bac-083f-47f7-a0a2-aeeee153a99c',
+                title: 'Learn Signals',
+                done: false
+            }
         },
-        '354ee16c-bfdd-44d3-afa9-e93679bda367': {
-            id: '354ee16c-bfdd-44d3-afa9-e93679bda367',
-            title: 'Learn Jotai',
-            done: false,
-        },
-        '771c85c5-46ea-4a11-8fed-36cc2c7be344': {
-            id: '771c85c5-46ea-4a11-8fed-36cc2c7be344',
-            title: 'Learn Valtio',
-            done: false,
-        },
-        '363a4bac-083f-47f7-a0a2-aeeee153a99c': {
-            id: '363a4bac-083f-47f7-a0a2-aeeee153a99c',
-            title: 'Learn Signals',
-            done: false,
-        },
-    },
-    toggleTodo: (todoId: string) =>
-        set((state) => {
-            state.todos[todoId].done = !state.todos[todoId].done
-        }),
-})))
+        toggleTodo: (todoId: string) =>
+            set((state) => {
+                state.todos[todoId].done = !state.todos[todoId].done
+            })
+    }))
+)
 ```
 
 ### zustand 中异步请求
 
 ```ts
-
-import { create } from 'zustand';
+import { create } from 'zustand'
 
 interface User {
     userId: number
@@ -485,120 +482,110 @@ const useUserStore = create<State & Actions>((set) => ({
     loading: false,
     error: null,
     fetchUser: async (id) => {
-        set({ loading: true });
+        set({ loading: true })
         try {
-            const response = await fetch(`https://jsonplaceholder.typicode.com/todos/${id}`);
-            if (!response.ok || response.status !== 200) return;
-            const data = await response.json();
-            set({ user: data, loading: false });
+            const response = await fetch(`https://jsonplaceholder.typicode.com/todos/${id}`)
+            if (!response.ok || response.status !== 200) return
+            const data = await response.json()
+            set({ user: data, loading: false })
         } catch (error) {
-            set({ error: error.message || '', loading: false });
+            set({ error: error.message || '', loading: false })
         }
-    },
-}));
+    }
+}))
 
-export default useUserStore;
+export default useUserStore
 ```
 
 在 react 中使用：
 
 ```tsx
-import { useEffect } from 'react';
-import useUserStore from './store/useUserStore';
+import { useEffect } from 'react'
+import useUserStore from './store/useUserStore'
 
 function Sync() {
-    const user = useUserStore(state => state.user);
-    const fetchUser = useUserStore(state => state.fetchUser);
+    const user = useUserStore((state) => state.user)
+    const fetchUser = useUserStore((state) => state.fetchUser)
 
     useEffect(() => {
-        fetchUser('1');
-    }, []);
+        fetchUser('1')
+    }, [])
 
-    return (
-        <div>
-            {JSON.stringify(user, null, 4)}
-        </div>
-    );
+    return <div>{JSON.stringify(user, null, 4)}</div>
 }
 
-export default Sync;
+export default Sync
 ```
 
 在这个组件中，我们使用 `useEffect` hook 在组件挂载时调用 `fetchItems` 函数。当 `fetchItems` 函数完成时，它会更新 `user` 状态，这将触发组件重新渲染。
 
 ## shallow
 
-细心的小伙伴可能发现了，上面的代码中写了两遍 `useUserStore`，如果有100个属性或方法，那是不是要写100次 `useUserStore` 呢？如果写成 `const {user, fetchUser} = useUserStore()`，会有什么问题呢？ 
+细心的小伙伴可能发现了，上面的代码中写了两遍 `useUserStore`，如果有100个属性或方法，那是不是要写100次 `useUserStore` 呢？如果写成 `const {user, fetchUser} = useUserStore()`，会有什么问题呢？
 
 我们先用一个设置主题和语言的例子来看看写成对象解构的方式有什么问题。
 
 创建一个存放主题和语言类型的store：
 
 ```ts
-import { create } from 'zustand';
+import { create } from 'zustand'
 
 interface State {
-    theme: string;
-    lang: string;
+    theme: string
+    lang: string
 }
 
 interface Action {
-    setTheme: (theme: string) => void;
-    setLang: (lang: string) => void;
+    setTheme: (theme: string) => void
+    setLang: (lang: string) => void
 }
 
 const useConfigStore = create<State & Action>((set) => ({
     theme: 'light',
     lang: 'zh-CN',
     setLang: (lang: string) => set({ lang }),
-    setTheme: (theme: string) => set({ theme }),
-}));
+    setTheme: (theme: string) => set({ theme })
+}))
 
-export default useConfigStore;
+export default useConfigStore
 ```
 
 分别创建两个组件，主题组件和语言类型组件：
 
-````tsx
-import useConfigureStore from '../store/useConfigureStore';
+```tsx
+import useConfigureStore from '../store/useConfigureStore'
 
 const Theme = () => {
-    const { theme, setTheme } = useConfigureStore();
-    console.log('theme render', theme);
+    const { theme, setTheme } = useConfigureStore()
+    console.log('theme render', theme)
 
     return (
         <div>
             <div>{theme}</div>
-            <button
-                onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}>
-                切换主题
-            </button>
+            <button onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}>切换主题</button>
         </div>
-    );
-};
+    )
+}
 
-export default Theme;
-````
+export default Theme
+```
 
-````tsx
-import useConfigStore from '../store/useConfigureStore';
+```tsx
+import useConfigStore from '../store/useConfigureStore'
 
 const Language = () => {
-    const { lang, setLang } = useConfigStore();
-    console.log('lang render', lang);
+    const { lang, setLang } = useConfigStore()
+    console.log('lang render', lang)
     return (
         <div>
             <div>{lang}</div>
-            <button
-                onClick={() => setLang(lang === 'zh-CN' ? 'en-US' : 'zh-CN')}>
-                切换语言
-            </button>
+            <button onClick={() => setLang(lang === 'zh-CN' ? 'en-US' : 'zh-CN')}>切换语言</button>
         </div>
-    );
-};
+    )
+}
 
-export default Language;
-````
+export default Language
+```
 
 查看下面效果：
 
@@ -618,22 +605,22 @@ export default Language;
 
 ```ts
 // Theme.tsx
-const { theme, setTheme } = useConfigureStore();
+const { theme, setTheme } = useConfigureStore()
 
 // Language.tsx
-const { lang, setLang } = useConfigureStore();
+const { lang, setLang } = useConfigureStore()
 ```
 
 替换成：
 
 ```ts
 // Theme.tsx
-const theme = useConfigureStore(state => state.theme);
-const setTheme = useConfigureStore(state => state.setTheme);
+const theme = useConfigureStore((state) => state.theme)
+const setTheme = useConfigureStore((state) => state.setTheme)
 
 // Language.tsx
-const lang = useConfigureStore(state => state.lang);
-const setLang = useConfigureStore(state => state.setLang);
+const lang = useConfigureStore((state) => state.lang)
+const setLang = useConfigureStore((state) => state.setLang)
 ```
 
 优化之后就不会出现上面的问题了，如下图：
@@ -644,74 +631,67 @@ const setLang = useConfigureStore(state => state.setLang);
 
 ```ts
 // Theme.tsx
-const { theme, setTheme } = useConfigureStore(state => ({
+const { theme, setTheme } = useConfigureStore((state) => ({
     theme: state.theme,
-    setTheme: state.setTheme,
-}));
+    setTheme: state.setTheme
+}))
 
 // Language.tsx
-const { lang, setLang } = useConfigStore(state => ({
+const { lang, setLang } = useConfigStore((state) => ({
     lang: state.lang,
-    setLang: state.setLang,
-}));
+    setLang: state.setLang
+}))
 ```
 
 这种写法仍然有个问题：任意属性改变之后都会返回一个新的对象，zustand 内部拿到返回值后与上次比较，发现每次都是一个新对象，然后就重新渲染。好在 zustand 提供了解决方案，对外暴露了一个 useShallow 方法，可以浅比较两个对象；我们把上面的对象改写一下，完整代码如下：
 
 ```tsx
-import { useShallow } from 'zustand/react/shallow';
-import useConfigureStore from '../store/useConfigureStore';
+import { useShallow } from 'zustand/react/shallow'
+import useConfigureStore from '../store/useConfigureStore'
 
 const Theme = () => {
     const { theme, setTheme } = useConfigureStore(
-        useShallow(state => ({
+        useShallow((state) => ({
             theme: state.theme,
-            setTheme: state.setTheme,
+            setTheme: state.setTheme
         }))
-    );
-    console.log('theme render', theme);
+    )
+    console.log('theme render', theme)
 
     return (
         <div>
             <div>{theme}</div>
-            <button
-                onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}>
-                切换主题
-            </button>
+            <button onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}>切换主题</button>
         </div>
-    );
-};
+    )
+}
 
-export default Theme;
+export default Theme
 ```
 
 ```tsx
-import { useShallow } from 'zustand/react/shallow';
-import useConfigStore from '../store/useConfigureStore';
+import { useShallow } from 'zustand/react/shallow'
+import useConfigStore from '../store/useConfigureStore'
 
 const Language = () => {
     const { lang, setLang } = useConfigStore(
-        useShallow(state => ({
+        useShallow((state) => ({
             lang: state.lang,
-            setLang: state.setLang,
+            setLang: state.setLang
         }))
-    );
-    console.log('lang render', lang);
+    )
+    console.log('lang render', lang)
     return (
         <div>
             <div>{lang}</div>
-            <button
-                onClick={() => setLang(lang === 'zh-CN' ? 'en-US' : 'zh-CN')}>
-                切换语言
-            </button>
+            <button onClick={() => setLang(lang === 'zh-CN' ? 'en-US' : 'zh-CN')}>切换语言</button>
         </div>
-    );
-};
+    )
+}
 
-export default Language;
+export default Language
 ```
 
 优化之后看看效果：
 
 ![2024-09-11 14.26.52](assets/2024-09-11 14.26.52.gif)
-

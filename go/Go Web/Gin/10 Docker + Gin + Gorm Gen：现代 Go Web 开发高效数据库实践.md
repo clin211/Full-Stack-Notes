@@ -23,6 +23,7 @@ Gorm Gen 由字节跳动无恒实验室与 GORM 作者（Jinzhu）联合研发�
 为了解决这些痛点，两个团队共同打造了 Gorm Gen 这一工具，将 GORM 的易用性与代码生成技术相结合，创造了一个能够生成类型安全的 DAO 层代码、自动同步数据库模型结构体、支持自定义 SQL 的安全框架。
 
 ### 3. 为什么选择使用 Gorm Gen
+
 Gorm Gen 相比传统 GORM 操作，具有以下几个显著优势：
 
 **自动同步库表，省去繁琐复制** - Gorm Gen 能够根据数据库表结构自动生成对应的 Go 结构体模型，避免了手动编写和维护模型的繁琐工作。即使数据库字段信息发生变化，也可以一键同步，极大提高了开发效率。
@@ -54,8 +55,8 @@ ORM（Object-Relational Mapping，对象关系映射）是一种编程技术，�
 
 ![](./assets/98f3c49e-a1d1-4421-bd19-3e9d6acf138a.png)
 
-
 使用 ORM 的主要优势包括：
+
 - **简化数据库操作**：不需要手写复杂的 SQL 语句
 - **提高代码可读性**：使用面向对象的方式处理数据
 - **增强可移植性**：一套代码可以适用于多种数据库
@@ -104,7 +105,6 @@ Gorm Gen 并不是替代 GORM，而是建立在 GORM 基础上的代码生成工
 user, err := query.User.Where(query.User.Name.Eq(userName)).First()
 ```
 
-
 ![](./assets/edf78226-582e-4f4c-8102-9487a3086ebe.png)
 
 ### 3. Gorm Gen 核心特性一览
@@ -115,7 +115,7 @@ Gorm Gen 可以连接到数据库，自动读取表结构信息，并生成对�
 
 ```go
 g := gen.NewGenerator(gen.Config{
-    OutPath: "../dal/query",
+	OutPath: "../dal/query",
 })
 
 g.UseDB(db) // 传入数据库连接
@@ -159,17 +159,17 @@ Gorm Gen 生成的查询代码是完全类型安全的，这意味着：
 ```go
 // 类型安全的查询示例
 users, err := query.User.
-    Where(query.User.Age.Gt(18)).
-    Order(query.User.CreatedAt.Desc()).
-    Find()
+	Where(query.User.Age.Gt(18)).
+	Order(query.User.CreatedAt.Desc()).
+	Find()
 ```
 
 对于自定义 SQL，Gorm Gen 通过模板注释方式支持，同时保证安全：
 
 ```go
 type Querier interface {
-    // SELECT * FROM @@table WHERE id = @id
-    FindByID(id int) (gen.T, error)
+	// SELECT * FROM @@table WHERE id = @id
+	FindByID(id int) (gen.T, error)
 }
 ```
 
@@ -254,43 +254,43 @@ Gorm Gen 巧妙地在 GORM 之上构建了一层类型安全的抽象，同时�
 
 ```yaml
 services:
-  app:
-    image: cosmtrek/air
-    working_dir: /app
-    volumes:
-      - .:/app
-    ports:
-      - "8080:8080"
-    depends_on:
-      - db
-    networks:
-      - gorm-network
+    app:
+        image: cosmtrek/air
+        working_dir: /app
+        volumes:
+            - .:/app
+        ports:
+            - '8080:8080'
+        depends_on:
+            - db
+        networks:
+            - gorm-network
 
-  db:
-    image: mysql:8.0
-    container_name: gormgen-mysql
-    restart: always
-    environment:
-      MYSQL_DATABASE: gormgen
-      MYSQL_USER: gorm
-      MYSQL_PASSWORD: gorm123456
-      MYSQL_ROOT_PASSWORD: root123456
-    ports:
-      - "3306:3306"
-    volumes:
-      - mysql_data:/var/lib/mysql
-      - ./scripts/init.sql:/docker-entrypoint-initdb.d/init.sql
-    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
-    networks:
-      - gorm-network
+    db:
+        image: mysql:8.0
+        container_name: gormgen-mysql
+        restart: always
+        environment:
+            MYSQL_DATABASE: gormgen
+            MYSQL_USER: gorm
+            MYSQL_PASSWORD: gorm123456
+            MYSQL_ROOT_PASSWORD: root123456
+        ports:
+            - '3306:3306'
+        volumes:
+            - mysql_data:/var/lib/mysql
+            - ./scripts/init.sql:/docker-entrypoint-initdb.d/init.sql
+        command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+        networks:
+            - gorm-network
 
 volumes:
-  mysql_data:
-    driver: local
+    mysql_data:
+        driver: local
 
 networks:
-  gorm-network:
-    driver: bridge
+    gorm-network:
+        driver: bridge
 ```
 
 这个配置使用了 `cosmtrek/air` 官方镜像，其中已经包含了完整的 Go 开发环境和 `air` 热重载工具，无需额外的配置。我们通过环境变量配置了 Go 模块管理和代理设置，并设置了数据库连接信息。
@@ -311,7 +311,7 @@ CREATE TABLE IF NOT EXISTS users (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
-INSERT INTO users (name, email, age) VALUES 
+INSERT INTO users (name, email, age) VALUES
 ('张三', 'zhangsan@example.com', 25),
 ('李四', 'lisi@example.com', 30);
 ```
@@ -341,11 +341,11 @@ go get -u github.com/gin-gonic/gin
 
 ```go
 require (
-	github.com/gin-gonic/gin v1.10.0
-	github.com/spf13/viper v1.20.1
-	gorm.io/driver/mysql v1.5.7
-	gorm.io/gen v0.3.27
-	gorm.io/gorm v1.26.1
+ github.com/gin-gonic/gin v1.10.0
+ github.com/spf13/viper v1.20.1
+ gorm.io/driver/mysql v1.5.7
+ gorm.io/gen v0.3.27
+ gorm.io/gorm v1.26.1
 )
 ```
 
@@ -355,7 +355,7 @@ require (
 
 按照 Standard Go Project Layout 标准创建项目结构：
 
-```
+```text
 .
 ├── Dockerfile.dev
 ├── docker-compose.yml
@@ -450,14 +450,14 @@ tmp_dir = "tmp"
 ```yml
 # 08-gorm-gen/config/config.yml
 app:
-  port: ":8080"
-  mode: "debug"
+    port: ':8080'
+    mode: 'debug'
 mysql:
-  host: "localhost" # 数据库地址，如果使用 Docker，请使用 "db"
-  port: 3306 # 数据库端口
-  user: "gorm" # 数据库用户名
-  password: "gorm123456" # 数据库密码
-  dbname: "gormgen" # 数据库名称
+    host: 'localhost' # 数据库地址，如果使用 Docker，请使用 "db"
+    port: 3306 # 数据库端口
+    user: 'gorm' # 数据库用户名
+    password: 'gorm123456' # 数据库密码
+    dbname: 'gormgen' # 数据库名称
 ```
 
 创建 `internal/config/config.go` 文件，用于管理数据库连接配置，这里读取配置文件使用 是 `viper`：
@@ -858,6 +858,7 @@ func initDB() (*gorm.DB, error) {
 # 在 Docker 容器中执行
 docker-compose up -d  # 启动 MySQL 服务
 ```
+
 服务启动成功后，在项目的根目录下运行 `go run cmd/gen/generate.go` 命令，这将在 `dal` 目录下生成 `query` 和 `model` 子目录，包含生成的模型和查询代码。
 
 ![](./assets/73532991-a8a3-464c-af93-af3feb479382.png)
@@ -889,4 +890,4 @@ curl -X DELETE http://localhost:8080/api/v1/users/4
 
 通过以上步骤，我们已经基于 Docker、air 热加载并基于 Standard Go Project Layout 风格使用 Gin 框架搭建了一个完整的 Gorm Gen 开发环境，并创建了一个包含完整 CRUD 功能的用户管理 API 示例项目。
 
-> 上面所有代码都在 [https://github.com/clin211/gin-learn/commit/7882fc7d696eb9389ac159c0f72d7de9cddddd76](https://github.com/clin211/gin-learn/commit/7882fc7d696eb9389ac159c0f72d7de9cddddd76) commit 上！
+> 上面所有代码都在 <https://github.com/clin211/gin-learn/commit/7882fc7d696eb9389ac159c0f72d7de9cddddd76> commit 上！

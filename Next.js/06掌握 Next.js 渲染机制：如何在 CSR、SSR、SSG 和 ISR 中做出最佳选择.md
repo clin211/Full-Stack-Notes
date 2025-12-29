@@ -41,20 +41,19 @@ CSR（Client-side Rendering），客户端渲染；也就是渲染工作主要�
 ```html
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-  <meta charset="utf-8" />
-  <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="theme-color" content="#000000" />
-  <meta name="description" content="Web site created using create-react-app" />
-  <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
-  <!--
+    <head>
+        <meta charset="utf-8" />
+        <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="theme-color" content="#000000" />
+        <meta name="description" content="Web site created using create-react-app" />
+        <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+        <!--
       manifest.json provides metadata used when your web app is installed on a
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
     -->
-  <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-  <!--
+        <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+        <!--
       Notice the use of %PUBLIC_URL% in the tags above.
       It will be replaced with the URL of the `public` folder during the build.
       Only files inside the `public` folder can be referenced from the HTML.
@@ -63,13 +62,13 @@ CSR（Client-side Rendering），客户端渲染；也就是渲染工作主要�
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-  <title>React App</title>
-</head>
+        <title>React App</title>
+    </head>
 
-<body>
-  <noscript>You need to enable JavaScript to run this app.</noscript>
-  <div id="root"></div>
-  <!--
+    <body>
+        <noscript>You need to enable JavaScript to run this app.</noscript>
+        <div id="root"></div>
+        <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
 
@@ -78,9 +77,7 @@ CSR（Client-side Rendering），客户端渲染；也就是渲染工作主要�
 
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
-    -->
-</body>
-
+    --></body>
 </html>
 ```
 
@@ -97,10 +94,10 @@ Next.js 也支持 CSR，在 Next.js Pages Router 中有两种方法可以实现�
 
     ```jsx
     import React, { useState, useEffect } from 'react'
-    
+
     export default function Page() {
         const [data, setData] = useState(null)
-    
+
         useEffect(() => {
             const fetchData = async () => {
                 const response = await fetch('https://jsonplaceholder.typicode.com/todos/1')
@@ -110,12 +107,12 @@ Next.js 也支持 CSR，在 Next.js Pages Router 中有两种方法可以实现�
                 const result = await response.json()
                 setData(result)
             }
-    
+
             fetchData().catch((e) => {
                 console.error('An error occurred while fetching the data: ', e)
             })
         }, [])
-    
+
         return <p>{data ? `Your data: ${JSON.stringify(data)}` : 'Loading...'}</p>
     }
     ```
@@ -139,10 +136,10 @@ Next.js 也支持 CSR，在 Next.js Pages Router 中有两种方法可以实现�
     ```jsx
     import useSWR from 'swr';
     import type { SWRResponse } from 'swr';
-    
+
     // 定义fetcher函数，它接受fetch的参数并返回一个Promise，该Promise解析为JSON
     const fetcher = (...args: Parameters<typeof fetch>): Promise<any> => fetch(...args).then((res) => res.json());
-    
+
     // 定义接口来描述API响应的数据结构
     interface Todo {
         userId: number;
@@ -150,16 +147,16 @@ Next.js 也支持 CSR，在 Next.js Pages Router 中有两种方法可以实现�
         title: string;
         completed?: boolean;
     }
-    
+
     export default function Page() {
         const { data, error, isLoading }: SWRResponse<Todo | null, Error> = useSWR<Todo | null>(
             'https://jsonplaceholder.typicode.com/todos/1',
             fetcher
         );
-    
+
         if (error) return <p>Failed to load.</p>;
         if (isLoading) return <p>Loading...</p>;
-    
+
         // 由于 data 可能是null，我们需要检查它是否存在
         return data ? <p>Your Data: {data.title}</p> : <p>No data available.</p>;
     }
@@ -246,31 +243,31 @@ export async function getServerSideProps() {
 ### SSR 优点
 
 1. **更好的 SEO**
-   - 服务器生成的 HTML 是完整的页面内容，搜索引擎爬虫可以直接抓取，从而提升页面的 SEO 表现。
-   - 特别适合需要高排名的内容型网站（如博客、资讯站）。
+    - 服务器生成的 HTML 是完整的页面内容，搜索引擎爬虫可以直接抓取，从而提升页面的 SEO 表现。
+    - 特别适合需要高排名的内容型网站（如博客、资讯站）。
 2. **更快的首屏渲染**
-   - 服务器生成的 HTML 可以直接呈现给用户，无需等待浏览器下载和执行 JavaScript 后再生成内容。
-   - 对于网络条件较差或设备性能较低的用户，这种方式显著提升用户体验。
+    - 服务器生成的 HTML 可以直接呈现给用户，无需等待浏览器下载和执行 JavaScript 后再生成内容。
+    - 对于网络条件较差或设备性能较低的用户，这种方式显著提升用户体验。
 3. **增强的性能感知**
-   - 即使 JavaScript 加载较慢，用户也能立即看到内容，不会出现“白屏”问题。
+    - 即使 JavaScript 加载较慢，用户也能立即看到内容，不会出现“白屏”问题。
 4. **减少客户端计算压力**
-   - HTML 在服务端生成，客户端只需负责渲染和交互逻辑，适合低性能设备。
+    - HTML 在服务端生成，客户端只需负责渲染和交互逻辑，适合低性能设备。
 5. **对动态内容支持较好**
-   - SSR 能快速生成动态内容页面，无需等待客户端获取和渲染数据。
+    - SSR 能快速生成动态内容页面，无需等待客户端获取和渲染数据。
 
 ### SSR 缺点
 
 1. **服务器压力增加**
-   - 每次请求都需要服务端生成完整的 HTML 页面，增加了服务器的计算负担，特别是在高并发场景下。
+    - 每次请求都需要服务端生成完整的 HTML 页面，增加了服务器的计算负担，特别是在高并发场景下。
 2. **响应速度依赖网络和服务器性能**
-   - 页面生成时间与网络延迟和服务器性能直接相关。如果服务器响应慢，会导致用户看到页面的时间延迟。
+    - 页面生成时间与网络延迟和服务器性能直接相关。如果服务器响应慢，会导致用户看到页面的时间延迟。
 3. **开发复杂度较高**
-   - 需要为服务端和客户端分别设计代码逻辑（如路由、数据获取），增加了开发难度。
-   - 需要处理更多边界情况，例如如何在服务端正确初始化全局状态。
+    - 需要为服务端和客户端分别设计代码逻辑（如路由、数据获取），增加了开发难度。
+    - 需要处理更多边界情况，例如如何在服务端正确初始化全局状态。
 4. **页面交互体验可能较差**
-   - 页面加载完成后仍需客户端激活（hydration）JavaScript，以实现动态交互功能。Hydration 过程可能导致短暂的延迟或性能问题。
+    - 页面加载完成后仍需客户端激活（hydration）JavaScript，以实现动态交互功能。Hydration 过程可能导致短暂的延迟或性能问题。
 5. **构建和部署成本较高**
-   - SSR 通常需要支持 Node.js 环境，增加了部署和运维的复杂性。
+    - SSR 通常需要支持 Node.js 环境，增加了部署和运维的复杂性。
 
 ### SSR 的使用场景
 
@@ -430,30 +427,30 @@ export default function Post({ post }: { post: Post }) {
 ### SSG 的优点
 
 1. **极快的页面加载速度**
-   - 静态 HTML 文件可以直接通过 CDN 分发，无需服务器端处理，显著缩短响应时间，提升用户体验。
+    - 静态 HTML 文件可以直接通过 CDN 分发，无需服务器端处理，显著缩短响应时间，提升用户体验。
 2. **服务器压力低**
-   - 页面在构建时生成，无需运行时动态生成 HTML，从而降低服务器资源占用，尤其适合高并发场景。
+    - 页面在构建时生成，无需运行时动态生成 HTML，从而降低服务器资源占用，尤其适合高并发场景。
 3. **良好的 SEO**
-   - 静态 HTML 包含完整内容，搜索引擎爬虫可以轻松抓取页面内容，有利于搜索引擎优化（SEO）。
+    - 静态 HTML 包含完整内容，搜索引擎爬虫可以轻松抓取页面内容，有利于搜索引擎优化（SEO）。
 4. **高安全性**
-   - 没有运行时动态生成逻辑，避免了常见的服务器端漏洞（如 SQL 注入和代码注入）。
+    - 没有运行时动态生成逻辑，避免了常见的服务器端漏洞（如 SQL 注入和代码注入）。
 5. **易于部署**
-   - 生成的静态文件可以托管在任意静态文件服务器或 CDN 上，无需复杂的服务器配置。
+    - 生成的静态文件可以托管在任意静态文件服务器或 CDN 上，无需复杂的服务器配置。
 6. **与现代框架集成良好**
-   - 像 Next.js、Gatsby 等框架支持 SSG，提供增量静态生成（ISR）等功能，使其能够处理更动态的内容。
+    - 像 Next.js、Gatsby 等框架支持 SSG，提供增量静态生成（ISR）等功能，使其能够处理更动态的内容。
 
 ### SSG 的缺点
 
 1. **构建时间较长**
-   - 构建时需要生成所有页面，当页面数量巨大时，构建时间会显著增加。
+    - 构建时需要生成所有页面，当页面数量巨大时，构建时间会显著增加。
 2. **缺乏实时动态性**
-   - 页面内容在构建时生成，运行时无法实时更新内容。如果数据需要频繁更新，可能需要配合额外的动态机制（如增量静态生成或客户端渲染）。
+    - 页面内容在构建时生成，运行时无法实时更新内容。如果数据需要频繁更新，可能需要配合额外的动态机制（如增量静态生成或客户端渲染）。
 3. **内容更新延迟**
-   - 页面内容的更新依赖于重新构建和部署，难以实时反映数据的变化。
+    - 页面内容的更新依赖于重新构建和部署，难以实时反映数据的变化。
 4. **不适合个性化内容**
-   - 由于页面是静态生成的，难以根据用户的身份或行为显示个性化内容。
+    - 由于页面是静态生成的，难以根据用户的身份或行为显示个性化内容。
 5. **复杂性可能增加**
-   - 对于需要大量内容且需要动态功能的项目，可能需要结合其他渲染模式（如 CSR 或 SSR），从而增加开发和部署复杂度。
+    - 对于需要大量内容且需要动态功能的项目，可能需要结合其他渲染模式（如 CSR 或 SSR），从而增加开发和部署复杂度。
 
 ### SSG 的使用场景
 
@@ -467,7 +464,7 @@ ISR（Incremental Static Regeneration），增量静态再生。增量静态再�
 
 ![使用 ISR 生成页面的步骤](./assets/3d79989d-2e78-433c-94cf-39fdf80a027c.png)
 
-Next.js v9.5 就发布了稳定的 ISR 功能，当时提供了一个 demo（[https://reactions-demo.vercel.app/](https://reactions-demo.vercel.app/)）用于演示效果，但是现在已经失效了，不过有一个新的 demo（[https://on-demand-isr.vercel.app/](https://on-demand-isr.vercel.app/)） 站点可以测试。
+Next.js v9.5 就发布了稳定的 ISR 功能，当时提供了一个 demo（<https://reactions-demo.vercel.app/>）用于演示效果，但是现在已经失效了，不过有一个新的 demo（<https://on-demand-isr.vercel.app/>） 站点可以测试。
 
 Next.js 支持 ISR，并且使用的方式很简单。你只用在 `getStaticProps` 中添加一个 `revalidate` 属性即可。我们基于上面 SSG 的示例代码上进行修改：
 
@@ -507,30 +504,30 @@ export default function Post({ post }: { post: Post }) {
 ### ISR 的优点
 
 1. **快速的首屏加载**
-   - 初次访问时，用户可以直接加载预先生成的静态页面，页面加载速度与 SSG 相当。
+    - 初次访问时，用户可以直接加载预先生成的静态页面，页面加载速度与 SSG 相当。
 2. **支持动态内容**
-   - 页面内容可以通过预设的重新验证周期（`revalidation`）在运行时动态更新，而无需重新构建整个站点。
+    - 页面内容可以通过预设的重新验证周期（`revalidation`）在运行时动态更新，而无需重新构建整个站点。
 3. **降低构建时间**
-   - 只生成常用或关键页面的静态内容，其他页面可在首次请求时生成并缓存，减少构建时间。
+    - 只生成常用或关键页面的静态内容，其他页面可在首次请求时生成并缓存，减少构建时间。
 4. **优化资源利用**
-   - 页面更新通过运行时触发，不需要每次内容更改都重新部署整个站点，提升开发和运营效率。
+    - 页面更新通过运行时触发，不需要每次内容更改都重新部署整个站点，提升开发和运营效率。
 5. **兼顾 SEO 和实时性**
-   - 初次加载时提供完整的静态 HTML 页面，提升 SEO 性能，同时支持定期更新以保证内容的实时性。
+    - 初次加载时提供完整的静态 HTML 页面，提升 SEO 性能，同时支持定期更新以保证内容的实时性。
 6. **与 CDN 集成良好**
-   - 更新后的页面可以自动分发到 CDN，确保高并发下的快速访问。
+    - 更新后的页面可以自动分发到 CDN，确保高并发下的快速访问。
 
 ### ISR 的缺点
 
 1. **复杂性增加**
-   - 相比纯 SSG 或 SSR，ISR 的实现和调试更复杂，需要处理缓存失效、再验证等逻辑。
+    - 相比纯 SSG 或 SSR，ISR 的实现和调试更复杂，需要处理缓存失效、再验证等逻辑。
 2. **更新延迟**
-   - 页面内容的更新依赖于重新验证周期，更新内容可能会有短暂的延迟。
+    - 页面内容的更新依赖于重新验证周期，更新内容可能会有短暂的延迟。
 3. **需要运行时环境支持**
-   - 需要服务器或托管平台支持 ISR 的运行时逻辑（如 Next.js 的 revalidate 功能），增加了部署的技术要求。
+    - 需要服务器或托管平台支持 ISR 的运行时逻辑（如 Next.js 的 revalidate 功能），增加了部署的技术要求。
 4. **首次访问延迟**
-   - 如果页面尚未生成，首次请求时需要动态生成页面，可能会导致较高的响应时间。
+    - 如果页面尚未生成，首次请求时需要动态生成页面，可能会导致较高的响应时间。
 5. **缓存一致性问题**
-   - 需要确保在重新验证和增量更新时缓存一致性，不然可能出现用户访问到过期内容的情况。
+    - 需要确保在重新验证和增量更新时缓存一致性，不然可能出现用户访问到过期内容的情况。
 
 ### ISR 的适用场景
 
@@ -538,7 +535,7 @@ export default function Post({ post }: { post: Post }) {
 - **高流量站点**：同时需要支持高并发和较高的动态内容需求。
 - **兼顾性能与灵活性**：适合既有静态内容又需要动态更新的场景。
 
-上面内容所有的演示代码都可以在 [https://github.com/clin211/react-awesome/tree/nextjs-csr-ssr-ssg-isr](https://github.com/clin211/react-awesome/tree/nextjs-csr-ssr-ssg-isr) 中找到！
+上面内容所有的演示代码都可以在 <https://github.com/clin211/react-awesome/tree/nextjs-csr-ssr-ssg-isr> 中找到！
 
 ## 总结
 

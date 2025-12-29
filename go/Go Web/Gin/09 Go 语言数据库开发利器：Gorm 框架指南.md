@@ -19,11 +19,11 @@ Gorm 支持多种主流数据库，包括 `MySQL`、`PostgreSQL`、`SQLite`、`S
 1. **简洁优雅的 API 设计**：Gorm 的 API 设计遵循 Go 语言的简洁哲学，提供了直观易用的接口，使开发者能够快速上手并高效开发。
 
 2. **强大的功能特性**：
-   - 自动迁移：根据模型定义自动创建和更新数据库表结构
-   - 关联关系：支持一对一、一对多、多对多等复杂关联关系
-   - 钩子函数：提供 BeforeSave、AfterFind 等生命周期钩子，方便在数据操作前后执行自定义逻辑
-   - 事务支持：完整的事务管理功能，包括手动和自动事务
-   - 预加载：通过预加载机制解决 N+1 查询问题，提高查询效率
+    - 自动迁移：根据模型定义自动创建和更新数据库表结构
+    - 关联关系：支持一对一、一对多、多对多等复杂关联关系
+    - 钩子函数：提供 BeforeSave、AfterFind 等生命周期钩子，方便在数据操作前后执行自定义逻辑
+    - 事务支持：完整的事务管理功能，包括手动和自动事务
+    - 预加载：通过预加载机制解决 N+1 查询问题，提高查询效率
 
 3. **高性能**：Gorm 在保持易用性的同时，也注重性能优化，支持连接池、批量操作等特性，能够满足高并发场景的需求。
 
@@ -53,7 +53,6 @@ Gorm 支持多种主流数据库，包括 `MySQL`、`PostgreSQL`、`SQLite`、`S
 - Gorm 更通用，适用于传统关系型数据库
 - Gorm 的 API 更符合 Go 语言习惯，而 Ent 的 API 风格更接近 GraphQL
 
-
 ## 二. 安装与配置
 
 ### 2.1 环境准备
@@ -68,30 +67,30 @@ Gorm 支持多种主流数据库，包括 `MySQL`、`PostgreSQL`、`SQLite`、`S
 version: '3.8'
 
 services:
-  mysql:
-    image: mysql:8.0
-    container_name: gorm-mysql
-    restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: root123456
-      MYSQL_DATABASE: gorm_demo
-      MYSQL_USER: gorm
-      MYSQL_PASSWORD: gorm123456
-    ports:
-      - "3306:3306"
-    volumes:
-      - mysql_data:/var/lib/mysql
-    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
-    networks:
-      - gorm-network
+    mysql:
+        image: mysql:8.0
+        container_name: gorm-mysql
+        restart: always
+        environment:
+            MYSQL_ROOT_PASSWORD: root123456
+            MYSQL_DATABASE: gorm_demo
+            MYSQL_USER: gorm
+            MYSQL_PASSWORD: gorm123456
+        ports:
+            - '3306:3306'
+        volumes:
+            - mysql_data:/var/lib/mysql
+        command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+        networks:
+            - gorm-network
 
 volumes:
-  mysql_data:
-    driver: local
+    mysql_data:
+        driver: local
 
 networks:
-  gorm-network:
-    driver: bridge
+    gorm-network:
+        driver: bridge
 ```
 
 #### 2.1.2 启动 MySQL 服务
@@ -107,15 +106,16 @@ docker-compose up -d
 ```bash
 docker-compose ps
 ```
+
 效果如下图：
 ![](./assets/98fed16d-b0db-43ca-8797-d21498ccc06b.png)
-
 
 ### 2.2 安装 Gorm
 
 #### 2.2.1 创建 Go 项目
 
 进入项目根目录后初始化项目：
+
 ```bash
 cd 07-gorm
 go mod init gorm-demo
@@ -125,6 +125,7 @@ go mod init gorm-demo
 ![](./assets/1032e05d-a77c-4508-a808-1f9cb5c8e9bd.png)
 
 执行后，在项目的根目录就会出现一个 `go.mod` 的文件，内容如下：
+
 ```go
 module gorm-demo
 
@@ -150,28 +151,30 @@ go get -u gorm.io/driver/mysql
 package main
 
 import (
-    "fmt"
-    "log"
-    "gorm.io/gorm"
-    "gorm.io/driver/mysql"
+	"fmt"
+	"gorm.io/driver/mysql"
+	"gorm.io/gorm"
+	"log"
 )
 
 func main() {
-    dsn := "gorm:gorm123456@tcp(127.0.0.1:3306)/gorm_demo?charset=utf8mb4&parseTime=True&loc=Local"
-    db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
-    if err != nil {
-        log.Fatal("Failed to connect to database:", err)
-    }
-    fmt.Println("Successfully connected to database!")
+	dsn := "gorm:gorm123456@tcp(127.0.0.1:3306)/gorm_demo?charset=utf8mb4&parseTime=True&loc=Local"
+	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
+	if err != nil {
+		log.Fatal("Failed to connect to database:", err)
+	}
+	fmt.Println("Successfully connected to database!")
 }
 ```
+
 这段代码是使用 Gorm 连接 MySQL 数据库的基本示例。它展示了如何：
+
 - 配置数据库连接参数
 - 建立数据库连接
 - 处理连接错误
 - 验证连接是否成功
 
-其中最主要的还是链接数据库的 `DSN (Data Source Name)`，其格式是 `[username[:password]@][protocol[(address)]]/dbname[?param1=value1&...&paramN=valueN]`；注意参数的大小写。更多参数相关的详细解释可以查看 [https://github.com/go-sql-driver/mysql#dsn-data-source-name](https://github.com/go-sql-driver/mysql#dsn-data-source-name)！
+其中最主要的还是链接数据库的 `DSN (Data Source Name)`，其格式是 `[username[:password]@][protocol[(address)]]/dbname[?param1=value1&...&paramN=valueN]`；注意参数的大小写。更多参数相关的详细解释可以查看 <https://github.com/go-sql-driver/mysql#dsn-data-source-name>！
 
 #### 2.3.2 连接池配置
 
@@ -180,7 +183,7 @@ func main() {
 ```go
 sqlDB, err := db.DB()
 if err != nil {
-    log.Fatal("Failed to get database instance:", err)
+	log.Fatal("Failed to get database instance:", err)
 }
 
 // 设置连接池参数
@@ -195,7 +198,7 @@ Gorm 提供了灵活的日志配置选项，可以根据需要设置不同的日
 
 ```go
 db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{
-    Logger: logger.Default.LogMode(logger.Info), // 设置日志级别
+	Logger: logger.Default.LogMode(logger.Info), // 设置日志级别
 })
 ```
 
@@ -228,17 +231,18 @@ go run main.go
 
 ```go
 type User struct {
-    ID   uint   `gorm:"primaryKey"`
-    Name string `gorm:"size:255"`
-    Age  int
+	ID   uint   `gorm:"primaryKey"`
+	Name string `gorm:"size:255"`
+	Age  int
 }
 ```
 
 这个模型会被映射到数据库中的 `users` 表（Gorm 会自动将结构体名称转换为复数形式作为表名）。GORM 使用结构体名的 `snake_cases`(蛇形命名)作为表名；不过也可以通过 `TableName` 方法对表进行命名。比如将 User 的表名重写为 `profiles`：
+
 ```go
 // TableName 会将 User 的表名重写为 `profiles`
 func (User) TableName() string {
-  return "profiles"
+	return "profiles"
 }
 ```
 
@@ -261,58 +265,69 @@ Gorm 使用结构体标签（struct tags）来定义字段的数据库映射属�
 
 ```go
 type Product struct {
-    ID          uint      `gorm:"primaryKey"`
-    Code        string    `gorm:"uniqueIndex;size:50;not null"`
-    Price       float64   `gorm:"type:decimal(10,2)"`
-    CreatedAt   time.Time `gorm:"default:CURRENT_TIMESTAMP"`
-    UpdatedAt   time.Time `gorm:"default:CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"`
+	ID        uint      `gorm:"primaryKey"`
+	Code      string    `gorm:"uniqueIndex;size:50;not null"`
+	Price     float64   `gorm:"type:decimal(10,2)"`
+	CreatedAt time.Time `gorm:"default:CURRENT_TIMESTAMP"`
+	UpdatedAt time.Time `gorm:"default:CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"`
 }
 ```
 
 让我们详细解析这个产品模型的结构：
 
 1. **ID 字段**：
-   ```go
-   ID uint `gorm:"primaryKey"`
-   ```
-   - 使用 `uint` 类型作为主键
-   - `primaryKey` 标签将其设置为表的主键
-   - 默认情况下，Gorm 会将其设置为自增主键
+
+    ```go
+    ID uint `gorm:"primaryKey"`
+    ```
+
+    - 使用 `uint` 类型作为主键
+    - `primaryKey` 标签将其设置为表的主键
+    - 默认情况下，Gorm 会将其设置为自增主键
 
 2. **Code 字段**：
-   ```go
-   Code string `gorm:"uniqueIndex;size:50;not null"`
-   ```
-   - 使用 `string` 类型存储产品编码
-   - `uniqueIndex` 标签创建唯一索引，确保产品编码不重复
-   - `size:50` 限制字段长度为 50 个字符
-   - `not null` 确保该字段不能为空
+
+    ```go
+    Code string `gorm:"uniqueIndex;size:50;not null"`
+    ```
+
+    - 使用 `string` 类型存储产品编码
+    - `uniqueIndex` 标签创建唯一索引，确保产品编码不重复
+    - `size:50` 限制字段长度为 50 个字符
+    - `not null` 确保该字段不能为空
 
 3. **Price 字段**：
-   ```go
-   Price float64 `gorm:"type:decimal(10,2)"`
-   ```
-   - 使用 `float64` 类型存储价格
-   - `type:decimal(10,2)` 指定数据库中的类型为 decimal，总长度 10 位，小数位 2 位
-   - 这样可以精确存储货币金额，避免浮点数计算误差
+
+    ```go
+    Price float64 `gorm:"type:decimal(10,2)"`
+    ```
+
+    - 使用 `float64` 类型存储价格
+    - `type:decimal(10,2)` 指定数据库中的类型为 decimal，总长度 10 位，小数位 2 位
+    - 这样可以精确存储货币金额，避免浮点数计算误差
 
 4. **CreatedAt 字段**：
-   ```go
-   CreatedAt time.Time `gorm:"default:CURRENT_TIMESTAMP"`
-   ```
-   - 使用 `time.Time` 类型记录创建时间
-   - `default:CURRENT_TIMESTAMP` 设置默认值为当前时间戳
-   - 当创建新记录时，如果没有指定该字段的值，将自动使用当前时间
+
+    ```go
+    CreatedAt time.Time `gorm:"default:CURRENT_TIMESTAMP"`
+    ```
+
+    - 使用 `time.Time` 类型记录创建时间
+    - `default:CURRENT_TIMESTAMP` 设置默认值为当前时间戳
+    - 当创建新记录时，如果没有指定该字段的值，将自动使用当前时间
 
 5. **UpdatedAt 字段**：
-   ```go
-   UpdatedAt time.Time `gorm:"default:CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"`
-   ```
-   - 使用 `time.Time` 类型记录更新时间
-   - `default:CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP` 设置默认值为当前时间戳，并在记录更新时自动更新为当前时间
-   - 这个特性对于跟踪记录的修改时间非常有用
+
+    ```go
+    UpdatedAt time.Time `gorm:"default:CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"`
+    ```
+
+    - 使用 `time.Time` 类型记录更新时间
+    - `default:CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP` 设置默认值为当前时间戳，并在记录更新时自动更新为当前时间
+    - 这个特性对于跟踪记录的修改时间非常有用
 
 这个模型在数据库中的映射结果：
+
 - 表名：`products`（没有指定表名的时候，Gorm 自动将结构体名转换为复数形式）
 - 主键：`id`（自增）
 - 唯一索引：`code`（非空，最大长度 50）
@@ -327,10 +342,10 @@ Gorm 提供了 `gorm.Model` 结构体，它包含了常用的字段：
 
 ```go
 type Model struct {
-    ID        uint           `gorm:"primarykey"`
-    CreatedAt time.Time
-    UpdatedAt time.Time
-    DeletedAt gorm.DeletedAt `gorm:"index"`
+	ID        uint `gorm:"primarykey"`
+	CreatedAt time.Time
+	UpdatedAt time.Time
+	DeletedAt gorm.DeletedAt `gorm:"index"`
 }
 ```
 
@@ -338,9 +353,9 @@ type Model struct {
 
 ```go
 type User struct {
-    gorm.Model
-    Name string
-    Age  int
+	gorm.Model
+	Name string
+	Age  int
 }
 ```
 
@@ -350,19 +365,20 @@ type User struct {
 
 ```go
 type BaseModel struct {
-    ID        uint      `gorm:"primarykey"`
-    CreatedAt time.Time `gorm:"autoCreateTime"`
-    UpdatedAt time.Time `gorm:"autoUpdateTime"`
+	ID        uint      `gorm:"primarykey"`
+	CreatedAt time.Time `gorm:"autoCreateTime"`
+	UpdatedAt time.Time `gorm:"autoUpdateTime"`
 }
 
 type User struct {
-    BaseModel
-    Name string
-    Age  int
+	BaseModel
+	Name string
+	Age  int
 }
 ```
 
 完整代码示例如下：
+
 ```go
 package main
 
@@ -431,23 +447,23 @@ Go 类型到数据库类型的映射关系：
 type Status string
 
 const (
-    StatusActive   Status = "active"
-    StatusInactive Status = "inactive"
+	StatusActive   Status = "active"
+	StatusInactive Status = "inactive"
 )
 
 func (s Status) Value() (driver.Value, error) {
-    return string(s), nil
+	return string(s), nil
 }
 
 func (s *Status) Scan(value interface{}) error {
-    *s = Status(value.(string))
-    return nil
+	*s = Status(value.(string))
+	return nil
 }
 
 type User struct {
-    ID     uint
-    Name   string
-    Status Status `gorm:"type:varchar(20)"`
+	ID     uint
+	Name   string
+	Status Status `gorm:"type:varchar(20)"`
 }
 ```
 
@@ -466,12 +482,12 @@ type User struct {
 
 ```go
 type User struct {
-    ID   uint
-    Name string
+	ID   uint
+	Name string
 }
 
 func (User) TableName() string {
-    return "sys_users"
+	return "sys_users"
 }
 ```
 
@@ -487,9 +503,9 @@ db.Table("sys_users").Find(&users)
 
 ```go
 type User struct {
-    ID    uint   `gorm:"primaryKey"`
-    Email string `gorm:"uniqueIndex"`
-    Name  string `gorm:"index"`
+	ID    uint   `gorm:"primaryKey"`
+	Email string `gorm:"uniqueIndex"`
+	Name  string `gorm:"index"`
 }
 ```
 
@@ -497,11 +513,11 @@ type User struct {
 
 ```go
 type User struct {
-    ID        uint
-    FirstName string
-    LastName  string
-    Email     string
-    Index     string `gorm:"index:idx_name_email,unique"`
+	ID        uint
+	FirstName string
+	LastName  string
+	Email     string
+	Index     string `gorm:"index:idx_name_email,unique"`
 }
 ```
 
@@ -511,136 +527,145 @@ Gorm 提供了多个模型钩子，可以在特定操作前后执行自定义逻
 
 ```go
 type User struct {
-    ID   uint
-    Name string
+	ID   uint
+	Name string
 }
 
 // 创建前
 func (u *User) BeforeCreate(tx *gorm.DB) error {
-    // 处理逻辑
-    return nil
+	// 处理逻辑
+	return nil
 }
 
 // 更新前
 func (u *User) BeforeUpdate(tx *gorm.DB) error {
-    // 处理逻辑
-    return nil
+	// 处理逻辑
+	return nil
 }
 
 // 删除前
 func (u *User) BeforeDelete(tx *gorm.DB) error {
-    // 处理逻辑
-    return nil
+	// 处理逻辑
+	return nil
 }
 ```
 
 常用的钩子函数包括：
+
 1. **BeforeCreate**：在创建记录之前调用
-   ```go
-   func (u *User) BeforeCreate(tx *gorm.DB) error {
-       // 在创建记录前执行的操作
-       // 例如：设置默认值、数据验证、加密密码等
-       if u.Password != "" {
-           u.Password = hashPassword(u.Password)
-       }
-       return nil
-   }
-   ```
+
+    ```go
+    func (u *User) BeforeCreate(tx *gorm.DB) error {
+        // 在创建记录前执行的操作
+        // 例如：设置默认值、数据验证、加密密码等
+        if u.Password != "" {
+            u.Password = hashPassword(u.Password)
+        }
+        return nil
+    }
+    ```
 
 2. **AfterCreate**：在创建记录之后调用
-   ```go
-   func (u *User) AfterCreate(tx *gorm.DB) error {
-       // 在创建记录后执行的操作
-       // 例如：发送通知、更新缓存、记录日志等
-       sendWelcomeEmail(u.Email)
-       return nil
-   }
-   ```
+
+    ```go
+    func (u *User) AfterCreate(tx *gorm.DB) error {
+        // 在创建记录后执行的操作
+        // 例如：发送通知、更新缓存、记录日志等
+        sendWelcomeEmail(u.Email)
+        return nil
+    }
+    ```
 
 3. **BeforeUpdate**：在更新记录之前调用
-   ```go
-   func (u *User) BeforeUpdate(tx *gorm.DB) error {
-       // 在更新记录前执行的操作
-       // 例如：数据验证、更新修改时间等
-       if u.Password != "" {
-           u.Password = hashPassword(u.Password)
-       }
-       return nil
-   }
-   ```
+
+    ```go
+    func (u *User) BeforeUpdate(tx *gorm.DB) error {
+        // 在更新记录前执行的操作
+        // 例如：数据验证、更新修改时间等
+        if u.Password != "" {
+            u.Password = hashPassword(u.Password)
+        }
+        return nil
+    }
+    ```
 
 4. **AfterUpdate**：在更新记录之后调用
-   ```go
-   func (u *User) AfterUpdate(tx *gorm.DB) error {
-       // 在更新记录后执行的操作
-       // 例如：更新缓存、记录修改日志等
-       updateUserCache(u.ID)
-       return nil
-   }
-   ```
+
+    ```go
+    func (u *User) AfterUpdate(tx *gorm.DB) error {
+        // 在更新记录后执行的操作
+        // 例如：更新缓存、记录修改日志等
+        updateUserCache(u.ID)
+        return nil
+    }
+    ```
 
 5. **BeforeDelete**：在删除记录之前调用
-   ```go
-   func (u *User) BeforeDelete(tx *gorm.DB) error {
-       // 在删除记录前执行的操作
-       // 例如：检查是否可以删除、备份数据等
-       if u.IsAdmin {
-           return errors.New("cannot delete admin user")
-       }
-       return nil
-   }
-   ```
+
+    ```go
+    func (u *User) BeforeDelete(tx *gorm.DB) error {
+        // 在删除记录前执行的操作
+        // 例如：检查是否可以删除、备份数据等
+        if u.IsAdmin {
+            return errors.New("cannot delete admin user")
+        }
+        return nil
+    }
+    ```
 
 6. **AfterDelete**：在删除记录之后调用
-   ```go
-   func (u *User) AfterDelete(tx *gorm.DB) error {
-       // 在删除记录后执行的操作
-       // 例如：清理相关数据、记录删除日志等
-       cleanupUserData(u.ID)
-       return nil
-   }
-   ```
+
+    ```go
+    func (u *User) AfterDelete(tx *gorm.DB) error {
+        // 在删除记录后执行的操作
+        // 例如：清理相关数据、记录删除日志等
+        cleanupUserData(u.ID)
+        return nil
+    }
+    ```
 
 7. **BeforeFind**：在查询记录之前调用
-   ```go
-   func (u *User) BeforeFind(tx *gorm.DB) error {
-       // 在查询记录前执行的操作
-       // 例如：添加查询条件、设置查询范围等
-       tx.Statement.AddClause(clause.Where{
-           Expression: clause.Eq{Column: "status", Value: "active"},
-       })
-       return nil
-   }
-   ```
+
+    ```go
+    func (u *User) BeforeFind(tx *gorm.DB) error {
+        // 在查询记录前执行的操作
+        // 例如：添加查询条件、设置查询范围等
+        tx.Statement.AddClause(clause.Where{
+            Expression: clause.Eq{Column: "status", Value: "active"},
+        })
+        return nil
+    }
+    ```
 
 8. **AfterFind**：在查询记录之后调用
-   ```go
-   func (u *User) AfterFind(tx *gorm.DB) error {
-       // 在查询记录后执行的操作
-       // 例如：数据转换、加载关联数据等
-       u.FullName = u.FirstName + " " + u.LastName
-       return nil
-   }
-   ```
+
+    ```go
+    func (u *User) AfterFind(tx *gorm.DB) error {
+        // 在查询记录后执行的操作
+        // 例如：数据转换、加载关联数据等
+        u.FullName = u.FirstName + " " + u.LastName
+        return nil
+    }
+    ```
 
 使用钩子函数的注意事项：
 
 1. **错误处理**：
-   - 如果钩子函数返回错误，当前操作将被回滚
-   - 建议在钩子函数中处理所有可能的错误情况
+    - 如果钩子函数返回错误，当前操作将被回滚
+    - 建议在钩子函数中处理所有可能的错误情况
 
 2. **性能考虑**：
-   - 钩子函数会在每次操作时执行，应避免在其中执行耗时操作
-   - 对于批量操作，钩子函数会对每条记录执行，需要注意性能影响
+    - 钩子函数会在每次操作时执行，应避免在其中执行耗时操作
+    - 对于批量操作，钩子函数会对每条记录执行，需要注意性能影响
 
 3. **事务处理**：
-   - 钩子函数中的操作会自动包含在事务中
-   - 可以使用传入的 `tx *gorm.DB` 参数执行额外的数据库操作
+    - 钩子函数中的操作会自动包含在事务中
+    - 可以使用传入的 `tx *gorm.DB` 参数执行额外的数据库操作
 
 4. **最佳实践**：
-   - 保持钩子函数的简单性，复杂的业务逻辑应该放在服务层
-   - 在钩子函数中主要处理与数据模型直接相关的操作
-   - 避免在钩子函数中执行外部服务调用等不可靠操作
+    - 保持钩子函数的简单性，复杂的业务逻辑应该放在服务层
+    - 在钩子函数中主要处理与数据模型直接相关的操作
+    - 避免在钩子函数中执行外部服务调用等不可靠操作
 
 ## 四. 基本操作
 
@@ -651,22 +676,22 @@ func (u *User) BeforeDelete(tx *gorm.DB) error {
 在进入正题之前，我们先要了解基本的需求是怎样的，然后再通过一个完整的用户管理系统来学习 Gorm 的基本操作。这个系统需要实现以下功能：
 
 1. **用户模型**：
-   - 基本信息：ID、用户名、密码、邮箱、手机号
-   - 状态信息：是否激活、注册时间、最后登录时间
-   - 安全信息：密码加密存储、登录失败次数
+    - 基本信息：ID、用户名、密码、邮箱、手机号
+    - 状态信息：是否激活、注册时间、最后登录时间
+    - 安全信息：密码加密存储、登录失败次数
 
 2. **功能需求**：
-   - 用户注册：创建新用户，密码加密存储
-   - 用户查询：支持按 ID、用户名、邮箱查询
-   - 用户更新：修改用户信息，支持部分字段更新
-   - 用户删除：支持软删除和硬删除
-   - 用户列表：支持分页和条件筛选
+    - 用户注册：创建新用户，密码加密存储
+    - 用户查询：支持按 ID、用户名、邮箱查询
+    - 用户更新：修改用户信息，支持部分字段更新
+    - 用户删除：支持软删除和硬删除
+    - 用户列表：支持分页和条件筛选
 
 3. **数据验证**：
-   - 用户名：长度 3-20 字符，只能包含字母、数字和下划线
-   - 密码：长度 6-20 字符，必须包含字母和数字
-   - 邮箱：符合标准邮箱格式
-   - 手机号：符合中国大陆手机号格式
+    - 用户名：长度 3-20 字符，只能包含字母、数字和下划线
+    - 密码：长度 6-20 字符，必须包含字母和数字
+    - 邮箱：符合标准邮箱格式
+    - 手机号：符合中国大陆手机号格式
 
 #### 4.1.1 定义用户模型
 
@@ -712,7 +737,6 @@ func (u *User) BeforeUpdate(tx *gorm.DB) error {
 	}
 	return nil
 }
-
 ```
 
 ### 4.2 创建操作
@@ -849,12 +873,12 @@ func batchCreateUsers(db *gorm.DB) error {
 ```go
 // 根据 ID 查询用户
 func GetUserByID(db *gorm.DB, id uint) (*User, error) {
-    var user User
-    result := db.First(&user, id)
-    if result.Error != nil {
-        return nil, result.Error
-    }
-    return &user, nil
+	var user User
+	result := db.First(&user, id)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	return &user, nil
 }
 ```
 
@@ -863,22 +887,22 @@ func GetUserByID(db *gorm.DB, id uint) (*User, error) {
 ```go
 // 根据用户名查询
 func GetUserByUsername(db *gorm.DB, username string) (*User, error) {
-    var user User
-    result := db.Where("username = ?", username).First(&user)
-    if result.Error != nil {
-        return nil, result.Error
-    }
-    return &user, nil
+	var user User
+	result := db.Where("username = ?", username).First(&user)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	return &user, nil
 }
 
 // 根据邮箱查询
 func GetUserByEmail(db *gorm.DB, email string) (*User, error) {
-    var user User
-    result := db.Where("email = ?", email).First(&user)
-    if result.Error != nil {
-        return nil, result.Error
-    }
-    return &user, nil
+	var user User
+	result := db.Where("email = ?", email).First(&user)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	return &user, nil
 }
 ```
 
@@ -887,35 +911,35 @@ func GetUserByEmail(db *gorm.DB, email string) (*User, error) {
 ```go
 // 分页查询用户列表
 func ListUsers(db *gorm.DB, page, pageSize int, conditions map[string]interface{}) ([]*User, int64, error) {
-    var users []*User
-    var total int64
-    
-    // 构建查询
-    query := db.Model(&User{})
-    
-    // 添加查询条件
-    for key, value := range conditions {
-        query = query.Where(key+" = ?", value)
-    }
-    
-    // 获取总数
-    if err := query.Count(&total).Error; err != nil {
-        return nil, 0, err
-    }
-    
-    // 分页查询
-    offset := (page - 1) * pageSize
-    result := query.Offset(offset).Limit(pageSize).Find(&users)
-    if result.Error != nil {
-        return nil, 0, result.Error
-    }
-    
-    return users, total, nil
+	var users []*User
+	var total int64
+
+	// 构建查询
+	query := db.Model(&User{})
+
+	// 添加查询条件
+	for key, value := range conditions {
+		query = query.Where(key+" = ?", value)
+	}
+
+	// 获取总数
+	if err := query.Count(&total).Error; err != nil {
+		return nil, 0, err
+	}
+
+	// 分页查询
+	offset := (page - 1) * pageSize
+	result := query.Offset(offset).Limit(pageSize).Find(&users)
+	if result.Error != nil {
+		return nil, 0, result.Error
+	}
+
+	return users, total, nil
 }
 
 // 使用示例
 users, total, err := ListUsers(db, 1, 10, map[string]interface{}{
-    "is_active": true,
+	"is_active": true,
 })
 ```
 
@@ -926,8 +950,8 @@ users, total, err := ListUsers(db, 1, 10, map[string]interface{}{
 ```go
 // 更新用户状态
 func UpdateUserStatus(db *gorm.DB, id uint, isActive bool) error {
-    result := db.Model(&User{}).Where("id = ?", id).Update("is_active", isActive)
-    return result.Error
+	result := db.Model(&User{}).Where("id = ?", id).Update("is_active", isActive)
+	return result.Error
 }
 ```
 
@@ -936,17 +960,17 @@ func UpdateUserStatus(db *gorm.DB, id uint, isActive bool) error {
 ```go
 // 更新用户信息
 func UpdateUser(db *gorm.DB, id uint, updates map[string]interface{}) error {
-    result := db.Model(&User{}).Where("id = ?", id).Updates(updates)
-    return result.Error
+	result := db.Model(&User{}).Where("id = ?", id).Updates(updates)
+	return result.Error
 }
 
 // 使用示例
 err = UpdateUser(db, 1, map[string]interface{}{
-    "email": "new_email@example.com",
-    "phone": "13900139011",
+	"email": "new_email@example.com",
+	"phone": "13900139011",
 })
 if err != nil {
-    log.Fatal("Failed to update user:", err)
+	log.Fatal("Failed to update user:", err)
 }
 fmt.Println("User updated successfully")
 ```
@@ -958,8 +982,8 @@ fmt.Println("User updated successfully")
 ```go
 // 软删除用户
 func SoftDeleteUser(db *gorm.DB, id uint) error {
-    result := db.Delete(&User{}, id)
-    return result.Error
+	result := db.Delete(&User{}, id)
+	return result.Error
 }
 ```
 
@@ -968,8 +992,8 @@ func SoftDeleteUser(db *gorm.DB, id uint) error {
 ```go
 // 硬删除用户
 func HardDeleteUser(db *gorm.DB, id uint) error {
-    result := db.Unscoped().Delete(&User{}, id)
-    return result.Error
+	result := db.Unscoped().Delete(&User{}, id)
+	return result.Error
 }
 ```
 
@@ -978,8 +1002,8 @@ func HardDeleteUser(db *gorm.DB, id uint) error {
 ```go
 // 批量删除用户
 func BatchDeleteUsers(db *gorm.DB, ids []uint) error {
-    result := db.Delete(&User{}, ids)
-    return result.Error
+	result := db.Delete(&User{}, ids)
+	return result.Error
 }
 ```
 
@@ -988,24 +1012,24 @@ func BatchDeleteUsers(db *gorm.DB, ids []uint) error {
 ```go
 // 用户注册（包含事务）
 func RegisterUser(db *gorm.DB, user *User) error {
-    return db.Transaction(func(tx *gorm.DB) error {
-        // 创建用户
-        if err := tx.Create(user).Error; err != nil {
-            return err
-        }
-        
-        // 创建用户配置
-        if err := tx.Create(&UserConfig{UserID: user.ID}).Error; err != nil {
-            return err
-        }
-        
-        // 发送欢迎邮件
-        if err := sendWelcomeEmail(user.Email); err != nil {
-            return err
-        }
-        
-        return nil
-    })
+	return db.Transaction(func(tx *gorm.DB) error {
+		// 创建用户
+		if err := tx.Create(user).Error; err != nil {
+			return err
+		}
+
+		// 创建用户配置
+		if err := tx.Create(&UserConfig{UserID: user.ID}).Error; err != nil {
+			return err
+		}
+
+		// 发送欢迎邮件
+		if err := sendWelcomeEmail(user.Email); err != nil {
+			return err
+		}
+
+		return nil
+	})
 }
 ```
 
@@ -1014,23 +1038,22 @@ func RegisterUser(db *gorm.DB, user *User) error {
 ```go
 // 统一的错误处理
 func handleGormError(err error) error {
-    if err == nil {
-        return nil
-    }
-    
-    switch {
-    case errors.Is(err, gorm.ErrRecordNotFound):
-        return errors.New("记录不存在")
-    case errors.Is(err, gorm.ErrInvalidData):
-        return errors.New("无效的数据")
-    case errors.Is(err, gorm.ErrInvalidTransaction):
-        return errors.New("无效的事务")
-    default:
-        return fmt.Errorf("数据库错误: %v", err)
-    }
+	if err == nil {
+		return nil
+	}
+
+	switch {
+	case errors.Is(err, gorm.ErrRecordNotFound):
+		return errors.New("记录不存在")
+	case errors.Is(err, gorm.ErrInvalidData):
+		return errors.New("无效的数据")
+	case errors.Is(err, gorm.ErrInvalidTransaction):
+		return errors.New("无效的事务")
+	default:
+		return fmt.Errorf("数据库错误: %v", err)
+	}
 }
 ```
-
 
 ## 五. 高级查询
 
@@ -1045,12 +1068,12 @@ N+1 查询问题是一个常见的性能问题，特别是在处理关联数据�
 ```go
 // 不推荐的方式（会导致 N+1 查询问题）
 var users []User
-db.Find(&users)  // 第一次查询：获取所有用户
+db.Find(&users) // 第一次查询：获取所有用户
 
 for _, user := range users {
-    var orders []Order
-    db.Where("user_id = ?", user.ID).Find(&orders)  // 对每个用户执行一次查询
-    user.Orders = orders
+	var orders []Order
+	db.Where("user_id = ?", user.ID).Find(&orders) // 对每个用户执行一次查询
+	user.Orders = orders
 }
 ```
 
@@ -1065,7 +1088,7 @@ for _, user := range users {
 ```go
 // 推荐的方式（使用预加载）
 var users []User
-db.Preload("Orders").Find(&users)  // 只需要执行 2 次查询
+db.Preload("Orders").Find(&users) // 只需要执行 2 次查询
 ```
 
 预加载会生成优化的 SQL 查询，通常只需要执行 2 次查询：
@@ -1113,13 +1136,13 @@ Gorm 支持链式查询，可以优雅地组合多个查询条件：
 
 ```go
 // 链式查询示例
-db.Where("name LIKE ?", "%clin%").    // 模糊查询
-   Or("email LIKE ?", "%lin%").      // OR 条件
-   Not("age = ?", 18).               // NOT 条件
-   Order("age desc").                // 排序
-   Limit(10).                        // 限制结果数量
-   Offset(0).                        // 分页
-   Find(&users)
+db.Where("name LIKE ?", "%clin%"). // 模糊查询
+					Or("email LIKE ?", "%lin%"). // OR 条件
+					Not("age = ?", 18).          // NOT 条件
+					Order("age desc").           // 排序
+					Limit(10).                   // 限制结果数量
+					Offset(0).                   // 分页
+					Find(&users)
 ```
 
 ### 5.4 聚合查询
@@ -1141,15 +1164,15 @@ db.Model(&Order{}).Select("avg(amount)").Scan(&avg)
 
 // 分组查询
 type Result struct {
-    Name  string
-    Total int
+	Name  string
+	Total int
 }
 var results []Result
 db.Model(&User{}).
-   Select("name, count(*) as total").
-   Group("name").
-   Having("count(*) > ?", 1).
-   Find(&results)
+	Select("name, count(*) as total").
+	Group("name").
+	Having("count(*) > ?", 1).
+	Find(&results)
 ```
 
 ### 5.5 事务处理
@@ -1159,19 +1182,19 @@ Gorm 提供了完整的事务支持：
 ```go
 // 使用事务
 err := db.Transaction(func(tx *gorm.DB) error {
-    // 在事务中执行一些操作
-    if err := tx.Create(&user).Error; err != nil {
-        // 返回错误会回滚事务
-        return err
-    }
+	// 在事务中执行一些操作
+	if err := tx.Create(&user).Error; err != nil {
+		// 返回错误会回滚事务
+		return err
+	}
 
-    if err := tx.Create(&order).Error; err != nil {
-        // 返回错误会回滚事务
-        return err
-    }
+	if err := tx.Create(&order).Error; err != nil {
+		// 返回错误会回滚事务
+		return err
+	}
 
-    // 返回 nil 提交事务
-    return nil
+	// 返回 nil 提交事务
+	return nil
 })
 ```
 
@@ -1214,30 +1237,30 @@ db.Model(&User{}).Count(&count)
 
 ```go
 func ListUsers(db *gorm.DB, page, pageSize int, conditions map[string]interface{}) ([]*User, int64, error) {
-    var users []*User
-    var total int64
+	var users []*User
+	var total int64
 
-    // 构建查询
-    query := db.Model(&User{})
+	// 构建查询
+	query := db.Model(&User{})
 
-    // 添加查询条件
-    for key, value := range conditions {
-        query = query.Where(key+" = ?", value)
-    }
+	// 添加查询条件
+	for key, value := range conditions {
+		query = query.Where(key+" = ?", value)
+	}
 
-    // 获取总数
-    if err := query.Count(&total).Error; err != nil {
-        return nil, 0, err
-    }
+	// 获取总数
+	if err := query.Count(&total).Error; err != nil {
+		return nil, 0, err
+	}
 
-    // 分页查询
-    offset := (page - 1) * pageSize
-    result := query.Offset(offset).Limit(pageSize).Find(&users)
-    if result.Error != nil {
-        return nil, 0, result.Error
-    }
+	// 分页查询
+	offset := (page - 1) * pageSize
+	result := query.Offset(offset).Limit(pageSize).Find(&users)
+	if result.Error != nil {
+		return nil, 0, result.Error
+	}
 
-    return users, total, nil
+	return users, total, nil
 }
 ```
 
@@ -1245,36 +1268,36 @@ func ListUsers(db *gorm.DB, page, pageSize int, conditions map[string]interface{
 
 ```go
 func SearchUsers(db *gorm.DB, keyword string, minAge, maxAge int, isActive *bool) ([]*User, error) {
-    var users []*User
-    query := db.Model(&User{})
+	var users []*User
+	query := db.Model(&User{})
 
-    // 关键词搜索
-    if keyword != "" {
-        query = query.Where(
-            db.Where("name LIKE ?", "%"+keyword+"%").
-                Or("email LIKE ?", "%"+keyword+"%"),
-        )
-    }
+	// 关键词搜索
+	if keyword != "" {
+		query = query.Where(
+			db.Where("name LIKE ?", "%"+keyword+"%").
+				Or("email LIKE ?", "%"+keyword+"%"),
+		)
+	}
 
-    // 年龄范围
-    if minAge > 0 {
-        query = query.Where("age >= ?", minAge)
-    }
-    if maxAge > 0 {
-        query = query.Where("age <= ?", maxAge)
-    }
+	// 年龄范围
+	if minAge > 0 {
+		query = query.Where("age >= ?", minAge)
+	}
+	if maxAge > 0 {
+		query = query.Where("age <= ?", maxAge)
+	}
 
-    // 激活状态
-    if isActive != nil {
-        query = query.Where("is_active = ?", *isActive)
-    }
+	// 激活状态
+	if isActive != nil {
+		query = query.Where("is_active = ?", *isActive)
+	}
 
-    // 执行查询
-    if err := query.Find(&users).Error; err != nil {
-        return nil, err
-    }
+	// 执行查询
+	if err := query.Find(&users).Error; err != nil {
+		return nil, err
+	}
 
-    return users, nil
+	return users, nil
 }
 ```
 
@@ -1282,48 +1305,47 @@ func SearchUsers(db *gorm.DB, keyword string, minAge, maxAge int, isActive *bool
 
 ```go
 type UserStats struct {
-    TotalUsers     int64   `json:"total_users"`
-    ActiveUsers    int64   `json:"active_users"`
-    AverageAge     float64 `json:"average_age"`
-    MaxAge         int     `json:"max_age"`
-    MinAge         int     `json:"min_age"`
+	TotalUsers  int64   `json:"total_users"`
+	ActiveUsers int64   `json:"active_users"`
+	AverageAge  float64 `json:"average_age"`
+	MaxAge      int     `json:"max_age"`
+	MinAge      int     `json:"min_age"`
 }
 
 func GetUserStats(db *gorm.DB) (*UserStats, error) {
-    var stats UserStats
+	var stats UserStats
 
-    // 使用事务确保数据一致性
-    err := db.Transaction(func(tx *gorm.DB) error {
-        // 总用户数
-        if err := tx.Model(&User{}).Count(&stats.TotalUsers).Error; err != nil {
-            return err
-        }
+	// 使用事务确保数据一致性
+	err := db.Transaction(func(tx *gorm.DB) error {
+		// 总用户数
+		if err := tx.Model(&User{}).Count(&stats.TotalUsers).Error; err != nil {
+			return err
+		}
 
-        // 活跃用户数
-        if err := tx.Model(&User{}).Where("is_active = ?", true).Count(&stats.ActiveUsers).Error; err != nil {
-            return err
-        }
+		// 活跃用户数
+		if err := tx.Model(&User{}).Where("is_active = ?", true).Count(&stats.ActiveUsers).Error; err != nil {
+			return err
+		}
 
-        // 年龄统计
-        if err := tx.Model(&User{}).
-            Select("AVG(age) as average_age, MAX(age) as max_age, MIN(age) as min_age").
-            Scan(&stats).Error; err != nil {
-            return err
-        }
+		// 年龄统计
+		if err := tx.Model(&User{}).
+			Select("AVG(age) as average_age, MAX(age) as max_age, MIN(age) as min_age").
+			Scan(&stats).Error; err != nil {
+			return err
+		}
 
-        return nil
-    })
+		return nil
+	})
 
-    if err != nil {
-        return nil, err
-    }
+	if err != nil {
+		return nil, err
+	}
 
-    return &stats, nil
+	return &stats, nil
 }
 ```
 
 这些高级查询功能使 Gorm 能够处理各种复杂的数据库操作场景，同时保持代码的简洁性和可维护性。在实际应用中，可以根据具体需求选择合适的查询方式，并注意查询性能的优化。
-
 
 ## 六. 关联关系
 
@@ -1336,64 +1358,64 @@ func GetUserStats(db *gorm.DB) (*UserStats, error) {
 ```go
 // 用户模型
 type User struct {
-    ID        uint      `gorm:"primaryKey"`
-    Name      string    `gorm:"size:50;not null"`
-    Email     string    `gorm:"size:100;uniqueIndex;not null"`
-    Posts     []Post    // 一对多：一个用户有多篇文章
-    Profile   Profile   // 一对一：一个用户有一个个人资料
-    Tags      []Tag     `gorm:"many2many:user_tags;"` // 多对多：用户和标签
-    CreatedAt time.Time
-    UpdatedAt time.Time
+	ID        uint    `gorm:"primaryKey"`
+	Name      string  `gorm:"size:50;not null"`
+	Email     string  `gorm:"size:100;uniqueIndex;not null"`
+	Posts     []Post  // 一对多：一个用户有多篇文章
+	Profile   Profile // 一对一：一个用户有一个个人资料
+	Tags      []Tag   `gorm:"many2many:user_tags;"` // 多对多：用户和标签
+	CreatedAt time.Time
+	UpdatedAt time.Time
 }
 
 // 文章模型
 type Post struct {
-    ID        uint      `gorm:"primaryKey"`
-    Title     string    `gorm:"size:200;not null"`
-    Content   string    `gorm:"type:text"`
-    UserID    uint      // 外键：关联用户
-    User      User      // 多对一：文章属于一个用户
-    Comments  []Comment // 一对多：一篇文章有多个评论
-    Tags      []Tag     `gorm:"many2many:post_tags;"` // 多对多：文章和标签
-    CreatedAt time.Time
-    UpdatedAt time.Time
+	ID        uint      `gorm:"primaryKey"`
+	Title     string    `gorm:"size:200;not null"`
+	Content   string    `gorm:"type:text"`
+	UserID    uint      // 外键：关联用户
+	User      User      // 多对一：文章属于一个用户
+	Comments  []Comment // 一对多：一篇文章有多个评论
+	Tags      []Tag     `gorm:"many2many:post_tags;"` // 多对多：文章和标签
+	CreatedAt time.Time
+	UpdatedAt time.Time
 }
 
 // 评论模型
 type Comment struct {
-    ID        uint      `gorm:"primaryKey"`
-    Content   string    `gorm:"type:text;not null"`
-    PostID    uint      // 外键：关联文章
-    Post      Post      // 多对一：评论属于一篇文章
-    UserID    uint      // 外键：关联用户
-    User      User      // 多对一：评论属于一个用户
-    CreatedAt time.Time
+	ID        uint   `gorm:"primaryKey"`
+	Content   string `gorm:"type:text;not null"`
+	PostID    uint   // 外键：关联文章
+	Post      Post   // 多对一：评论属于一篇文章
+	UserID    uint   // 外键：关联用户
+	User      User   // 多对一：评论属于一个用户
+	CreatedAt time.Time
 }
 
 // 个人资料模型
 type Profile struct {
-    ID        uint      `gorm:"primaryKey"`
-    UserID    uint      `gorm:"uniqueIndex"` // 外键：关联用户
-    User      User      // 一对一：个人资料属于一个用户
-    Bio       string    `gorm:"type:text"`
-    Avatar    string    `gorm:"size:200"`
-    CreatedAt time.Time
-    UpdatedAt time.Time
+	ID        uint   `gorm:"primaryKey"`
+	UserID    uint   `gorm:"uniqueIndex"` // 外键：关联用户
+	User      User   // 一对一：个人资料属于一个用户
+	Bio       string `gorm:"type:text"`
+	Avatar    string `gorm:"size:200"`
+	CreatedAt time.Time
+	UpdatedAt time.Time
 }
 
 // 标签模型
 type Tag struct {
-    ID        uint      `gorm:"primaryKey"`
-    Name      string    `gorm:"size:50;uniqueIndex;not null"`
-    Posts     []Post    `gorm:"many2many:post_tags;"` // 多对多：标签和文章
-    Users     []User    `gorm:"many2many:user_tags;"` // 多对多：标签和用户
-    CreatedAt time.Time
+	ID        uint   `gorm:"primaryKey"`
+	Name      string `gorm:"size:50;uniqueIndex;not null"`
+	Posts     []Post `gorm:"many2many:post_tags;"` // 多对多：标签和文章
+	Users     []User `gorm:"many2many:user_tags;"` // 多对多：标签和用户
+	CreatedAt time.Time
 }
 ```
 
 实体关系图：
 
-```
+```text
 +-------------+      1:1      +-------------+
 |    User     |<------------->|   Profile   |
 +-------------+               +-------------+
@@ -1436,18 +1458,20 @@ type Tag struct {
 ```
 
 关系说明：
+
 1. **一对一关系（1:1）**：
-   - 一个用户只能有一个个人资料
-   - 一个个人资料只能属于一个用户
+    - 一个用户只能有一个个人资料
+    - 一个个人资料只能属于一个用户
 2. **一对多关系（1:\*）**：
-   - 一个用户可以有多篇文章
-   - 一篇文章可以有多个评论
-   - 一个用户可以发表多个评论
+    - 一个用户可以有多篇文章
+    - 一篇文章可以有多个评论
+    - 一个用户可以发表多个评论
 3. **多对多关系（\*:\*）**：
-   - 用户和标签：一个用户可以关注多个标签，一个标签可以被多个用户关注
-   - 文章和标签：一篇文章可以有多个标签，一个标签可以用于多篇文章
+    - 用户和标签：一个用户可以关注多个标签，一个标签可以被多个用户关注
+    - 文章和标签：一篇文章可以有多个标签，一个标签可以用于多篇文章
 
 中间表：
+
 - `user_tags`：用户和标签的关联表
 - `post_tags`：文章和标签的关联表
 
@@ -1460,32 +1484,32 @@ type Tag struct {
 ```go
 // 创建用户及其个人资料
 func CreateUserWithProfile(db *gorm.DB, user *User, profile *Profile) error {
-    return db.Transaction(func(tx *gorm.DB) error {
-        // 创建用户
-        if err := tx.Create(user).Error; err != nil {
-            return err
-        }
-        
-        // 设置个人资料的用户ID
-        profile.UserID = user.ID
-        
-        // 创建个人资料
-        if err := tx.Create(profile).Error; err != nil {
-            return err
-        }
-        
-        return nil
-    })
+	return db.Transaction(func(tx *gorm.DB) error {
+		// 创建用户
+		if err := tx.Create(user).Error; err != nil {
+			return err
+		}
+
+		// 设置个人资料的用户ID
+		profile.UserID = user.ID
+
+		// 创建个人资料
+		if err := tx.Create(profile).Error; err != nil {
+			return err
+		}
+
+		return nil
+	})
 }
 
 // 使用示例
 user := &User{
-    Name:  "张三",
-    Email: "zhangsan@example.com",
+	Name:  "张三",
+	Email: "zhangsan@example.com",
 }
 profile := &Profile{
-    Bio:    "热爱编程的开发者",
-    Avatar: "avatar.jpg",
+	Bio:    "热爱编程的开发者",
+	Avatar: "avatar.jpg",
 }
 err := CreateUserWithProfile(db, user, profile)
 ```
@@ -1495,12 +1519,12 @@ err := CreateUserWithProfile(db, user, profile)
 ```go
 // 查询用户及其个人资料
 func GetUserWithProfile(db *gorm.DB, userID uint) (*User, error) {
-    var user User
-    err := db.Preload("Profile").First(&user, userID).Error
-    if err != nil {
-        return nil, err
-    }
-    return &user, nil
+	var user User
+	err := db.Preload("Profile").First(&user, userID).Error
+	if err != nil {
+		return nil, err
+	}
+	return &user, nil
 }
 ```
 
@@ -1513,21 +1537,21 @@ func GetUserWithProfile(db *gorm.DB, userID uint) (*User, error) {
 ```go
 // 创建文章
 func CreatePost(db *gorm.DB, post *Post) error {
-    return db.Create(post).Error
+	return db.Create(post).Error
 }
 
 // 使用示例
 post := &Post{
-    Title:   "Gorm 使用指南",
-    Content: "这是一篇关于 Gorm 的详细教程...",
-    UserID:  1, // 关联到用户ID为1的用户
+	Title:   "Gorm 使用指南",
+	Content: "这是一篇关于 Gorm 的详细教程...",
+	UserID:  1, // 关联到用户ID为1的用户
 }
 err := CreatePost(db, post)
 
 post = &Post{
-    Title:   "并发编程之 WaitGroup",
-    Content: "这是一篇介绍 sync.WaitGroup 的文章...",
-    UserId:  1,
+	Title:   "并发编程之 WaitGroup",
+	Content: "这是一篇介绍 sync.WaitGroup 的文章...",
+	UserId:  1,
 }
 err := CreatePost(db, post)
 ```
@@ -1537,19 +1561,19 @@ err := CreatePost(db, post)
 ```go
 // 查询用户的所有文章
 func GetUserPosts(db *gorm.DB, userID uint) ([]Post, error) {
-    var posts []Post
-    err := db.Where("user_id = ?", userID).Find(&posts).Error
-    return posts, err
+	var posts []Post
+	err := db.Where("user_id = ?", userID).Find(&posts).Error
+	return posts, err
 }
 
 // 根据文章 ID 查询文章详情及其作者
 func GetPostWithAuthor(db *gorm.DB, postID uint) (*Post, error) {
-    var post Post
-    err := db.Preload("User").First(&post, postID).Error
-    if err != nil {
-        return nil, err
-    }
-    return &post, nil
+	var post Post
+	err := db.Preload("User").First(&post, postID).Error
+	if err != nil {
+		return nil, err
+	}
+	return &post, nil
 }
 ```
 
@@ -1562,19 +1586,19 @@ func GetPostWithAuthor(db *gorm.DB, postID uint) (*Post, error) {
 ```go
 // 为文章添加标签
 func AddTagsToPost(db *gorm.DB, postID uint, tagIDs []uint) error {
-    return db.Transaction(func(tx *gorm.DB) error {
-        var post Post
-        if err := tx.First(&post, postID).Error; err != nil {
-            return err
-        }
-        
-        var tags []Tag
-        if err := tx.Find(&tags, tagIDs).Error; err != nil {
-            return err
-        }
-        
-        return tx.Model(&post).Association("Tags").Replace(tags)
-    })
+	return db.Transaction(func(tx *gorm.DB) error {
+		var post Post
+		if err := tx.First(&post, postID).Error; err != nil {
+			return err
+		}
+
+		var tags []Tag
+		if err := tx.Find(&tags, tagIDs).Error; err != nil {
+			return err
+		}
+
+		return tx.Model(&post).Association("Tags").Replace(tags)
+	})
 }
 
 // 使用示例
@@ -1587,22 +1611,22 @@ err := AddTagsToPost(db, 1, tagIDs)
 ```go
 // 查询文章及其标签
 func GetPostWithTags(db *gorm.DB, postID uint) (*Post, error) {
-    var post Post
-    err := db.Preload("Tags").First(&post, postID).Error
-    if err != nil {
-        return nil, err
-    }
-    return &post, nil
+	var post Post
+	err := db.Preload("Tags").First(&post, postID).Error
+	if err != nil {
+		return nil, err
+	}
+	return &post, nil
 }
 
 // 查询标签的所有文章
 func GetTagPosts(db *gorm.DB, tagID uint) ([]Post, error) {
-    var tag Tag
-    err := db.Preload("Posts").First(&tag, tagID).Error
-    if err != nil {
-        return nil, err
-    }
-    return tag.Posts, nil
+	var tag Tag
+	err := db.Preload("Posts").First(&tag, tagID).Error
+	if err != nil {
+		return nil, err
+	}
+	return tag.Posts, nil
 }
 ```
 
@@ -1613,14 +1637,14 @@ func GetTagPosts(db *gorm.DB, tagID uint) ([]Post, error) {
 ```go
 // 添加评论
 func AddComment(db *gorm.DB, comment *Comment) error {
-    return db.Create(comment).Error
+	return db.Create(comment).Error
 }
 
 // 使用示例
 comment := &Comment{
-    Content: "这是一篇很棒的文章！",
-    PostID:  1,
-    UserID:  2,
+	Content: "这是一篇很棒的文章！",
+	PostID:  1,
+	UserID:  2,
 }
 err := AddComment(db, comment)
 ```
@@ -1630,24 +1654,24 @@ err := AddComment(db, comment)
 ```go
 // 删除文章的所有评论
 func DeletePostComments(db *gorm.DB, postID uint) error {
-    return db.Where("post_id = ?", postID).Delete(&Comment{}).Error
+	return db.Where("post_id = ?", postID).Delete(&Comment{}).Error
 }
 
 // 删除文章的特定标签
 func RemoveTagFromPost(db *gorm.DB, postID, tagID uint) error {
-    return db.Transaction(func(tx *gorm.DB) error {
-        var post Post
-        if err := tx.First(&post, postID).Error; err != nil {
-            return err
-        }
-        
-        var tag Tag
-        if err := tx.First(&tag, tagID).Error; err != nil {
-            return err
-        }
-        
-        return tx.Model(&post).Association("Tags").Delete(tag)
-    })
+	return db.Transaction(func(tx *gorm.DB) error {
+		var post Post
+		if err := tx.First(&post, postID).Error; err != nil {
+			return err
+		}
+
+		var tag Tag
+		if err := tx.First(&tag, tagID).Error; err != nil {
+			return err
+		}
+
+		return tx.Model(&post).Association("Tags").Delete(tag)
+	})
 }
 ```
 
@@ -1656,19 +1680,19 @@ func RemoveTagFromPost(db *gorm.DB, postID, tagID uint) error {
 ```go
 // 更新文章的所有标签
 func UpdatePostTags(db *gorm.DB, postID uint, tagIDs []uint) error {
-    return db.Transaction(func(tx *gorm.DB) error {
-        var post Post
-        if err := tx.First(&post, postID).Error; err != nil {
-            return err
-        }
-        
-        var tags []Tag
-        if err := tx.Find(&tags, tagIDs).Error; err != nil {
-            return err
-        }
-        
-        return tx.Model(&post).Association("Tags").Replace(tags)
-    })
+	return db.Transaction(func(tx *gorm.DB) error {
+		var post Post
+		if err := tx.First(&post, postID).Error; err != nil {
+			return err
+		}
+
+		var tags []Tag
+		if err := tx.Find(&tags, tagIDs).Error; err != nil {
+			return err
+		}
+
+		return tx.Model(&post).Association("Tags").Replace(tags)
+	})
 }
 ```
 
@@ -1679,17 +1703,17 @@ func UpdatePostTags(db *gorm.DB, postID uint, tagIDs []uint) error {
 ```go
 // 查询用户及其所有关联数据
 func GetUserWithAllRelations(db *gorm.DB, userID uint) (*User, error) {
-    var user User
-    err := db.Preload("Profile").
-        Preload("Posts").
-        Preload("Posts.Comments").
-        Preload("Posts.Tags").
-        Preload("Tags").
-        First(&user, userID).Error
-    if err != nil {
-        return nil, err
-    }
-    return &user, nil
+	var user User
+	err := db.Preload("Profile").
+		Preload("Posts").
+		Preload("Posts.Comments").
+		Preload("Posts.Tags").
+		Preload("Tags").
+		First(&user, userID).Error
+	if err != nil {
+		return nil, err
+	}
+	return &user, nil
 }
 ```
 
@@ -1698,14 +1722,14 @@ func GetUserWithAllRelations(db *gorm.DB, userID uint) (*User, error) {
 ```go
 // 查询用户及其最近的文章
 func GetUserWithRecentPosts(db *gorm.DB, userID uint, limit int) (*User, error) {
-    var user User
-    err := db.Preload("Posts", func(db *gorm.DB) *gorm.DB {
-        return db.Order("created_at desc").Limit(limit)
-    }).First(&user, userID).Error
-    if err != nil {
-        return nil, err
-    }
-    return &user, nil
+	var user User
+	err := db.Preload("Posts", func(db *gorm.DB) *gorm.DB {
+		return db.Order("created_at desc").Limit(limit)
+	}).First(&user, userID).Error
+	if err != nil {
+		return nil, err
+	}
+	return &user, nil
 }
 ```
 
@@ -1727,26 +1751,27 @@ func GetUserWithRecentPosts(db *gorm.DB, userID uint, limit int) (*User, error) 
 #### 7.1.1 事务的特性（ACID）
 
 1. **原子性（Atomicity）**：
-   - 事务中的所有操作要么全部完成，要么全部不完成
-   - 如果事务执行过程中发生错误，所有已执行的操作都会回滚
+    - 事务中的所有操作要么全部完成，要么全部不完成
+    - 如果事务执行过程中发生错误，所有已执行的操作都会回滚
 
 2. **一致性（Consistency）**：
-   - 事务执行前后，数据库从一个一致状态转换到另一个一致状态
-   - 所有数据必须满足预定义的规则和约束
+    - 事务执行前后，数据库从一个一致状态转换到另一个一致状态
+    - 所有数据必须满足预定义的规则和约束
 
 3. **隔离性（Isolation）**：
-   - 并发执行的事务之间互不影响
-   - 一个事务的执行不能被其他事务干扰
+    - 并发执行的事务之间互不影响
+    - 一个事务的执行不能被其他事务干扰
 
 4. **持久性（Durability）**：
-   - 一旦事务提交，其结果就是永久的
-   - 即使系统崩溃，已提交的事务结果也不会丢失
+    - 一旦事务提交，其结果就是永久的
+    - 即使系统崩溃，已提交的事务结果也不会丢失
 
 ### 7.2 事务操作方法
 
 Gorm 中提供了两种事务的操作方法，**自动提交**和**手动提交**！
 
 这两种方式各有特点：
+
 - 自动提交方式使用起来更简单，代码更简洁，适合大多数场景；
 - 手动提交方式则提供了更细粒度的控制，适合需要特殊处理的场景。
 
@@ -1759,19 +1784,19 @@ Gorm 提供了 `Transaction` 方法，它接受一个函数作为参数，自动
 ```go
 // 使用自动事务
 err := db.Transaction(func(tx *gorm.DB) error {
-    // 在事务中执行操作
-    if err := tx.Create(&user).Error; err != nil {
-        // 返回错误会回滚事务
-        return err
-    }
+	// 在事务中执行操作
+	if err := tx.Create(&user).Error; err != nil {
+		// 返回错误会回滚事务
+		return err
+	}
 
-    if err := tx.Create(&profile).Error; err != nil {
-        // 返回错误会回滚事务
-        return err
-    }
+	if err := tx.Create(&profile).Error; err != nil {
+		// 返回错误会回滚事务
+		return err
+	}
 
-    // 返回 nil 提交事务
-    return nil
+	// 返回 nil 提交事务
+	return nil
 })
 ```
 
@@ -1785,22 +1810,22 @@ tx := db.Begin()
 
 // 在事务中执行操作
 if err := tx.Create(&user).Error; err != nil {
-    // 发生错误时回滚事务
-    tx.Rollback()
-    return err
+	// 发生错误时回滚事务
+	tx.Rollback()
+	return err
 }
 
 if err := tx.Create(&profile).Error; err != nil {
-    // 发生错误时回滚事务
-    tx.Rollback()
-    return err
+	// 发生错误时回滚事务
+	tx.Rollback()
+	return err
 }
 
 // 提交事务
 if err := tx.Commit().Error; err != nil {
-    // 提交失败时回滚事务
-    tx.Rollback()
-    return err
+	// 提交失败时回滚事务
+	tx.Rollback()
+	return err
 }
 ```
 
@@ -1811,27 +1836,27 @@ if err := tx.Commit().Error; err != nil {
 ```go
 // 用户注册（包含创建用户和个人资料）
 func RegisterUser(db *gorm.DB, user *User, profile *Profile) error {
-    return db.Transaction(func(tx *gorm.DB) error {
-        // 创建用户
-        if err := tx.Create(user).Error; err != nil {
-            return err
-        }
+	return db.Transaction(func(tx *gorm.DB) error {
+		// 创建用户
+		if err := tx.Create(user).Error; err != nil {
+			return err
+		}
 
-        // 设置个人资料的用户ID
-        profile.UserID = user.ID
+		// 设置个人资料的用户ID
+		profile.UserID = user.ID
 
-        // 创建个人资料
-        if err := tx.Create(profile).Error; err != nil {
-            return err
-        }
+		// 创建个人资料
+		if err := tx.Create(profile).Error; err != nil {
+			return err
+		}
 
-        // 发送欢迎邮件（如果失败，整个事务会回滚）
-        if err := sendWelcomeEmail(user.Email); err != nil {
-            return err
-        }
+		// 发送欢迎邮件（如果失败，整个事务会回滚）
+		if err := sendWelcomeEmail(user.Email); err != nil {
+			return err
+		}
 
-        return nil
-    })
+		return nil
+	})
 }
 ```
 
@@ -1840,31 +1865,31 @@ func RegisterUser(db *gorm.DB, user *User, profile *Profile) error {
 ```go
 // 发布文章（包含创建文章和添加标签）
 func PublishPost(db *gorm.DB, post *Post, tagIDs []uint) error {
-    return db.Transaction(func(tx *gorm.DB) error {
-        // 创建文章
-        if err := tx.Create(post).Error; err != nil {
-            return err
-        }
+	return db.Transaction(func(tx *gorm.DB) error {
+		// 创建文章
+		if err := tx.Create(post).Error; err != nil {
+			return err
+		}
 
-        // 获取标签
-        var tags []Tag
-        if err := tx.Find(&tags, tagIDs).Error; err != nil {
-            return err
-        }
+		// 获取标签
+		var tags []Tag
+		if err := tx.Find(&tags, tagIDs).Error; err != nil {
+			return err
+		}
 
-        // 添加标签关联
-        if err := tx.Model(post).Association("Tags").Replace(tags); err != nil {
-            return err
-        }
+		// 添加标签关联
+		if err := tx.Model(post).Association("Tags").Replace(tags); err != nil {
+			return err
+		}
 
-        // 更新用户文章计数
-        if err := tx.Model(&User{}).Where("id = ?", post.UserID).
-            UpdateColumn("post_count", gorm.Expr("post_count + ?", 1)).Error; err != nil {
-            return err
-        }
+		// 更新用户文章计数
+		if err := tx.Model(&User{}).Where("id = ?", post.UserID).
+			UpdateColumn("post_count", gorm.Expr("post_count + ?", 1)).Error; err != nil {
+			return err
+		}
 
-        return nil
-    })
+		return nil
+	})
 }
 ```
 
@@ -1873,26 +1898,26 @@ func PublishPost(db *gorm.DB, post *Post, tagIDs []uint) error {
 ```go
 // 删除评论（包含删除评论和更新计数）
 func DeleteComment(db *gorm.DB, commentID uint) error {
-    return db.Transaction(func(tx *gorm.DB) error {
-        // 获取评论信息
-        var comment Comment
-        if err := tx.First(&comment, commentID).Error; err != nil {
-            return err
-        }
+	return db.Transaction(func(tx *gorm.DB) error {
+		// 获取评论信息
+		var comment Comment
+		if err := tx.First(&comment, commentID).Error; err != nil {
+			return err
+		}
 
-        // 删除评论
-        if err := tx.Delete(&comment).Error; err != nil {
-            return err
-        }
+		// 删除评论
+		if err := tx.Delete(&comment).Error; err != nil {
+			return err
+		}
 
-        // 更新文章评论计数
-        if err := tx.Model(&Post{}).Where("id = ?", comment.PostID).
-            UpdateColumn("comment_count", gorm.Expr("comment_count - ?", 1)).Error; err != nil {
-            return err
-        }
+		// 更新文章评论计数
+		if err := tx.Model(&Post{}).Where("id = ?", comment.PostID).
+			UpdateColumn("comment_count", gorm.Expr("comment_count - ?", 1)).Error; err != nil {
+			return err
+		}
 
-        return nil
-    })
+		return nil
+	})
 }
 ```
 
@@ -1902,80 +1927,79 @@ Gorm 支持嵌套事务，内部事务会继承外部事务：
 
 ```go
 func ComplexOperation(db *gorm.DB) error {
-    return db.Transaction(func(tx *gorm.DB) error {
-        // 外部事务
-        if err := tx.Create(&user).Error; err != nil {
-            return err
-        }
+	return db.Transaction(func(tx *gorm.DB) error {
+		// 外部事务
+		if err := tx.Create(&user).Error; err != nil {
+			return err
+		}
 
-        // 嵌套事务
-        if err := tx.Transaction(func(tx2 *gorm.DB) error {
-            if err := tx2.Create(&profile).Error; err != nil {
-                return err
-            }
-            return nil
-        }); err != nil {
-            return err
-        }
+		// 嵌套事务
+		if err := tx.Transaction(func(tx2 *gorm.DB) error {
+			if err := tx2.Create(&profile).Error; err != nil {
+				return err
+			}
+			return nil
+		}); err != nil {
+			return err
+		}
 
-        return nil
-    })
+		return nil
+	})
 }
 ```
 
 ### 7.5 事务最佳实践
 
 1. **保持事务简短**：
-   - 事务应该尽可能短
-   - 避免在事务中执行耗时操作
-   - 不要在事务中调用外部服务
+    - 事务应该尽可能短
+    - 避免在事务中执行耗时操作
+    - 不要在事务中调用外部服务
 
 2. **合理设置事务隔离级别**：
 
-   ```go
-   // 设置事务隔离级别
-   tx := db.Set("gorm:query_option", "FOR UPDATE").Begin()
-   ```
+    ```go
+    // 设置事务隔离级别
+    tx := db.Set("gorm:query_option", "FOR UPDATE").Begin()
+    ```
 
 3. **正确处理错误**：
-   - 总是检查错误并适当处理
-   - 在发生错误时确保事务回滚
-   - 记录事务相关的错误日志
+    - 总是检查错误并适当处理
+    - 在发生错误时确保事务回滚
+    - 记录事务相关的错误日志
 
 4. **避免长事务**：
-   - 长事务会占用数据库资源
-   - 可能导致死锁
-   - 影响系统性能
+    - 长事务会占用数据库资源
+    - 可能导致死锁
+    - 影响系统性能
 
 5. **使用事务超时**：
 
-   ```go
-   // 设置事务超时
-   ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
-   defer cancel()
-   
-   tx := db.WithContext(ctx).Begin()
-   ```
+    ```go
+    // 设置事务超时
+    ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+    defer cancel()
+
+    tx := db.WithContext(ctx).Begin()
+    ```
 
 6. **事务重试机制**：
 
-   ```go
-   func WithRetry(db *gorm.DB, maxRetries int, fn func(tx *gorm.DB) error) error {
-       var err error
-       for i := 0; i < maxRetries; i++ {
-           err = db.Transaction(fn)
-           if err == nil {
-               return nil
-           }
-           // 可以添加重试延迟
-           time.Sleep(time.Millisecond * 100)
-       }
-       return err
-   }
-   ```
+    ```go
+    func WithRetry(db *gorm.DB, maxRetries int, fn func(tx *gorm.DB) error) error {
+        var err error
+        for i := 0; i < maxRetries; i++ {
+            err = db.Transaction(fn)
+            if err == nil {
+                return nil
+            }
+            // 可以添加重试延迟
+            time.Sleep(time.Millisecond * 100)
+        }
+        return err
+    }
+    ```
 
 通过合理使用事务，我们可以确保数据的一致性和完整性，特别是在处理复杂的业务逻辑时。在实际应用中，应该根据具体需求选择合适的事务处理方式，并注意事务的性能影响。
-
 
 ## 八. 数据库迁移
 
@@ -2003,17 +2027,17 @@ err := db.AutoMigrate(&User{}, &Post{}, &Comment{}, &Profile{}, &Tag{})
 // 设置迁移选项
 err := db.AutoMigrate(&User{}, &Post{})
 if err != nil {
-    log.Fatal("Failed to migrate database:", err)
+	log.Fatal("Failed to migrate database:", err)
 }
 
 // 检查表是否存在
 if db.Migrator().HasTable(&User{}) {
-    fmt.Println("User table exists")
+	fmt.Println("User table exists")
 }
 
 // 检查字段是否存在
 if db.Migrator().HasColumn(&User{}, "email") {
-    fmt.Println("Email column exists")
+	fmt.Println("Email column exists")
 }
 ```
 
@@ -2027,7 +2051,7 @@ err := db.Migrator().CreateTable(&User{})
 
 // 创建表时指定选项
 err := db.Set("gorm:table_options", "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4").
-    Migrator().CreateTable(&User{})
+	Migrator().CreateTable(&User{})
 ```
 
 #### 8.2.2 删除表
@@ -2104,47 +2128,47 @@ err := db.Migrator().DropConstraint(&Post{}, "User")
 ```go
 // 定义迁移版本
 type Migration struct {
-    ID        uint      `gorm:"primaryKey"`
-    Name      string    `gorm:"size:100;not null"`
-    AppliedAt time.Time `gorm:"not null"`
+	ID        uint      `gorm:"primaryKey"`
+	Name      string    `gorm:"size:100;not null"`
+	AppliedAt time.Time `gorm:"not null"`
 }
 
 // 执行迁移
 func RunMigrations(db *gorm.DB) error {
-    // 创建迁移表
-    if err := db.AutoMigrate(&Migration{}); err != nil {
-        return err
-    }
+	// 创建迁移表
+	if err := db.AutoMigrate(&Migration{}); err != nil {
+		return err
+	}
 
-    // 定义迁移列表
-    migrations := []struct {
-        name string
-        fn   func(*gorm.DB) error
-    }{
-        {"create_users_table", func(db *gorm.DB) error {
-            return db.AutoMigrate(&User{})
-        }},
-        {"create_posts_table", func(db *gorm.DB) error {
-            return db.AutoMigrate(&Post{})
-        }},
-        // 添加更多迁移...
-    }
+	// 定义迁移列表
+	migrations := []struct {
+		name string
+		fn   func(*gorm.DB) error
+	}{
+		{"create_users_table", func(db *gorm.DB) error {
+			return db.AutoMigrate(&User{})
+		}},
+		{"create_posts_table", func(db *gorm.DB) error {
+			return db.AutoMigrate(&Post{})
+		}},
+		// 添加更多迁移...
+	}
 
-    // 执行迁移
-    for _, m := range migrations {
-        var count int64
-        db.Model(&Migration{}).Where("name = ?", m.name).Count(&count)
-        if count == 0 {
-            if err := m.fn(db); err != nil {
-                return err
-            }
-            if err := db.Create(&Migration{Name: m.name, AppliedAt: time.Now()}).Error; err != nil {
-                return err
-            }
-        }
-    }
+	// 执行迁移
+	for _, m := range migrations {
+		var count int64
+		db.Model(&Migration{}).Where("name = ?", m.name).Count(&count)
+		if count == 0 {
+			if err := m.fn(db); err != nil {
+				return err
+			}
+			if err := db.Create(&Migration{Name: m.name, AppliedAt: time.Now()}).Error; err != nil {
+				return err
+			}
+		}
+	}
 
-    return nil
+	return nil
 }
 ```
 
@@ -2153,28 +2177,28 @@ func RunMigrations(db *gorm.DB) error {
 ```go
 // 数据迁移示例
 func MigrateUserData(db *gorm.DB) error {
-    return db.Transaction(func(tx *gorm.DB) error {
-        // 备份数据
-        if err := tx.Exec("CREATE TABLE users_backup AS SELECT * FROM users").Error; err != nil {
-            return err
-        }
+	return db.Transaction(func(tx *gorm.DB) error {
+		// 备份数据
+		if err := tx.Exec("CREATE TABLE users_backup AS SELECT * FROM users").Error; err != nil {
+			return err
+		}
 
-        // 修改表结构
-        if err := tx.AutoMigrate(&User{}); err != nil {
-            return err
-        }
+		// 修改表结构
+		if err := tx.AutoMigrate(&User{}); err != nil {
+			return err
+		}
 
-        // 迁移数据
-        if err := tx.Exec(`
-            UPDATE users 
-            SET new_field = old_field 
-            WHERE new_field IS NULL
-        `).Error; err != nil {
-            return err
-        }
+		// 迁移数据
+		if err := tx.Exec(`
+			UPDATE users
+			SET new_field = old_field
+			WHERE new_field IS NULL
+		`).Error; err != nil {
+			return err
+		}
 
-        return nil
-    })
+		return nil
+	})
 }
 ```
 
@@ -2183,58 +2207,58 @@ func MigrateUserData(db *gorm.DB) error {
 ```go
 // 迁移回滚示例
 func RollbackMigration(db *gorm.DB, migrationName string) error {
-    return db.Transaction(func(tx *gorm.DB) error {
-        // 获取迁移记录
-        var migration Migration
-        if err := tx.Where("name = ?", migrationName).First(&migration).Error; err != nil {
-            return err
-        }
+	return db.Transaction(func(tx *gorm.DB) error {
+		// 获取迁移记录
+		var migration Migration
+		if err := tx.Where("name = ?", migrationName).First(&migration).Error; err != nil {
+			return err
+		}
 
-        // 执行回滚操作
-        switch migrationName {
-        case "create_users_table":
-            if err := tx.Migrator().DropTable(&User{}); err != nil {
-                return err
-            }
-        case "create_posts_table":
-            if err := tx.Migrator().DropTable(&Post{}); err != nil {
-                return err
-            }
-        // 添加更多回滚操作...
-        }
+		// 执行回滚操作
+		switch migrationName {
+		case "create_users_table":
+			if err := tx.Migrator().DropTable(&User{}); err != nil {
+				return err
+			}
+		case "create_posts_table":
+			if err := tx.Migrator().DropTable(&Post{}); err != nil {
+				return err
+			}
+			// 添加更多回滚操作...
+		}
 
-        // 删除迁移记录
-        return tx.Delete(&migration).Error
-    })
+		// 删除迁移记录
+		return tx.Delete(&migration).Error
+	})
 }
 ```
 
 ### 8.6 迁移注意事项
 
 1. **备份数据**：
-   - 在执行迁移前备份重要数据
-   - 在测试环境中先验证迁移脚本
-   - 准备回滚方案
+    - 在执行迁移前备份重要数据
+    - 在测试环境中先验证迁移脚本
+    - 准备回滚方案
 
 2. **性能考虑**：
-   - 避免在高峰期执行迁移
-   - 对于大表迁移，考虑分批处理
-   - 使用事务确保数据一致性
+    - 避免在高峰期执行迁移
+    - 对于大表迁移，考虑分批处理
+    - 使用事务确保数据一致性
 
 3. **版本控制**：
-   - 记录所有迁移历史
-   - 使用版本号管理迁移
-   - 保持迁移脚本的可重复性
+    - 记录所有迁移历史
+    - 使用版本号管理迁移
+    - 保持迁移脚本的可重复性
 
 4. **错误处理**：
-   - 正确处理迁移过程中的错误
-   - 提供详细的错误信息
-   - 实现自动重试机制
+    - 正确处理迁移过程中的错误
+    - 提供详细的错误信息
+    - 实现自动重试机制
 
 5. **测试验证**：
-   - 编写迁移测试用例
-   - 验证数据完整性
-   - 检查索引和外键约束
+    - 编写迁移测试用例
+    - 验证数据完整性
+    - 检查索引和外键约束
 
 通过合理使用 Gorm 的迁移功能，我们可以安全地管理数据库结构的变更，确保应用程序的稳定运行。在实际应用中，应该根据项目需求选择合适的迁移策略，并注意数据安全和性能影响。
 
@@ -2258,15 +2282,15 @@ func RollbackMigration(db *gorm.DB, migrationName string) error {
 最后，相关资料推荐：
 
 1. **官方文档**：
-   - [Gorm 官方文档](https://gorm.io/docs/)
-   - [API 参考](https://pkg.go.dev/gorm.io/gorm)
+    - [Gorm 官方文档](https://gorm.io/docs/)
+    - [API 参考](https://pkg.go.dev/gorm.io/gorm)
 
 2. **Go 语言相关**：
-   - 《Go 语言实战》
-   - 《Go 程序设计语言》
-   - 《Go Web 编程》
+    - 《Go 语言实战》
+    - 《Go 程序设计语言》
+    - 《Go Web 编程》
 
 3. **数据库相关**：
-   - 《数据库系统概念》
-   - 《高性能 MySQL》
-   - 《SQL 必知必会》
+    - 《数据库系统概念》
+    - 《高性能 MySQL》
+    - 《SQL 必知必会》

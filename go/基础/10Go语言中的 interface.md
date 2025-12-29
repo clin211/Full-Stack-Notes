@@ -26,11 +26,11 @@ Go 语言要求接口类型声明中的方法必须是具名的，并且方法�
 
 ```go
 type 接口名称 interface {
-    method(参数列表) 返回值列表
-    method2(参数列表) 返回值列表
-    method3(参数列表) 返回值列表
-    ...
-    methodN(参数列表) 返回值列表
+	method(参数列表) 返回值列表
+	method2(参数列表) 返回值列表
+	method3(参数列表) 返回值列表
+	...
+	methodN(参数列表) 返回值列表
 }
 ```
 
@@ -93,8 +93,6 @@ type Reader interface {
 }
 ```
 
-
-
 ### 接口的静态特性和动态特性
 
 接口在Go语言中具有静态类型和动态类型的特性。静态类型意味着编译器会在编译阶段对接口类型变量的赋值进行类型检查，确保右值的类型实现了接口中定义的所有方法。而动态特性是指接口类型变量在运行时存储了右值的真实类型信息。 [传送门](https://go.dev/play/p/lESavt3NdXZ)
@@ -140,7 +138,7 @@ func main() {
 
 在 `main` 函数中，我们声明了一个接口类型的变量 `animal` 。接着，我们创建了一个 `Cat` 类型的实例 `cat` 和一个 `Dog` 类型的实例 `dog`。
 
-接下来，我们将 `cat`赋值给`animal`变量，并调用`animal.Speak()`方法。这时，编译器会进行静态类型检查，确保`cat`的类型实现了`Animal `接口中定义的所有方法。因为 `cat` 实现了 `Speak()` 方法，所以静态类型检查通过，程序输出 `Meow`。
+接下来，我们将 `cat`赋值给`animal`变量，并调用`animal.Speak()`方法。这时，编译器会进行静态类型检查，确保`cat`的类型实现了`Animal`接口中定义的所有方法。因为 `cat` 实现了 `Speak()` 方法，所以静态类型检查通过，程序输出 `Meow`。
 
 接着，我们将 `dog` 赋值给 `animal` 变量，并再次调用 `animal.Speak()` 方法。同样，编译器会进行静态类型检查，确保 `dog` 的类型实现了 `Animal` 接口中定义的所有方法。因为 `dog` 实现了 `Speak()` 方法，所以静态类型检查通过，程序输出`Woof`。
 
@@ -148,7 +146,7 @@ func main() {
 
 这样，我们可以根据实际情况，将不同的具体类型赋值给接口变量，并在运行时期根据具体类型的实现调用对应的方法。这就是接口在Go 语言中具有静态类型和动态类型特性的含义。
 
-### 一切皆组合： 
+### 一切皆组合
 
 #### 垂直组合
 
@@ -216,24 +214,21 @@ func main() {
 	processor.Read()
 	processor.Log("This is a log message.")
 }
-
 ```
 
 在这个示例中，我们定义了三个接口：`Writer`、`Reader`和`Logger`，它们分别有各自的方法。
 
 然后，我们定义了与这些接口对应的具体类型：`FileWriter`、`ConsoleReader`和`FileLogger`。这些具体类型分别实现了相应接口的方法。
 
-接下来，我们定义了一个名为 `FileProcessor` 的新结构体类型。该结构体类型嵌入了 `Writer`、`Reader `和 `Logger` 接口类型。通过这种方式，`FileProcessor` 结构体获得了这些接口中定义的方法。
+接下来，我们定义了一个名为 `FileProcessor` 的新结构体类型。该结构体类型嵌入了 `Writer`、`Reader`和 `Logger` 接口类型。通过这种方式，`FileProcessor` 结构体获得了这些接口中定义的方法。
 
-在 `main` 函数中，我们创建了`FileWriter`、`ConsoleReader `和 `FileLogger`的实例，并将它们分别赋值给 `writer`、`reader `和`logger `变量。
+在 `main` 函数中，我们创建了`FileWriter`、`ConsoleReader`和 `FileLogger`的实例，并将它们分别赋值给 `writer`、`reader`和`logger`变量。
 
-然后，我们创建了一个 `FileProcessor` 类型的实例 `processor`，并将 `writer`、`reader `和 `logger `作为嵌入字段的值进行初始化。
+然后，我们创建了一个 `FileProcessor` 类型的实例 `processor`，并将 `writer`、`reader`和 `logger`作为嵌入字段的值进行初始化。
 
-最后，我们可以通过 `processor` 实例直接调用 `Writer`、`Reader `和 `Logger` 接口的方法，而不需要在每个方法中进行额外的逻辑。例如，我们可以使用 `processor.Write()` 来调用 `FileWriter` 的 `Write` 方法，使用 `processor.Read()` 来调用`ConsoleReader `的 `Read` 方法，使用 `processor.Log()` 来调用 `FileLogger` 的 `Log` 方法。
+最后，我们可以通过 `processor` 实例直接调用 `Writer`、`Reader`和 `Logger` 接口的方法，而不需要在每个方法中进行额外的逻辑。例如，我们可以使用 `processor.Write()` 来调用 `FileWriter` 的 `Write` 方法，使用 `processor.Read()` 来调用`ConsoleReader`的 `Read` 方法，使用 `processor.Log()` 来调用 `FileLogger` 的 `Log` 方法。
 
 通过这种方式，我们可以将不同的功能组合在一起，形成一个更强大的工具，以满足我们的需求。这就是垂直组合在Go语言中的应用。
-
-
 
 #### 水平组合
 
@@ -295,6 +290,6 @@ func main() {
 }
 ```
 
-在上述示例中，定义了两个接口：`Writer` 和 `Reader`，它们分别有各自的方法。然后又定义了一个名为 `Processor` 的结构体类型，它包含了`Writer` 和 `Reader` 接口类型的字段。通过这种方式，`Processor ` 结构体可以获得这些接口中定义的方法。接着定义了一个 `ProcessData` 函数，它接受一个 `Writer` 接口类型的参数 `w` 和一个 `Reader` 接口类型的参数`r`。在这个函数中，使用传入的 `w` 和`r` 参数来进行数据处理，调用 `Write` 方法向 `w` 写入数据，然后调用 `Read` 方法从 `r` 中读取数据。然后定义了一个 `FileWriter` 结构体类型，它实现了 `Writer` 接口的 `Write` 方法。接着，又定义了一个 `ConsoleReader` 结构体类型，它实现了`Reader`接口的`Read`方法。在`main`函数中，创建了一个 `FileWriter` 类型的实例 `writer` 和一个 `ConsoleReader` 类型的实例 `reader`。然后创建了一个 `Processor` 类型的实例 `processor`，并将 `writer` 和 `reader` 作为嵌入字段的值进行初始化。最后，调用 `ProcessData` 函数，并将 `processor.Writer` 和 `processor.Reader` 作为参数传递进去。这样就可以在 `ProcessData `函数中使用相同的接口类型参数对不同类型的实现进行操作，实现了水平组合。
+在上述示例中，定义了两个接口：`Writer` 和 `Reader`，它们分别有各自的方法。然后又定义了一个名为 `Processor` 的结构体类型，它包含了`Writer` 和 `Reader` 接口类型的字段。通过这种方式，`Processor` 结构体可以获得这些接口中定义的方法。接着定义了一个 `ProcessData` 函数，它接受一个 `Writer` 接口类型的参数 `w` 和一个 `Reader` 接口类型的参数`r`。在这个函数中，使用传入的 `w` 和`r` 参数来进行数据处理，调用 `Write` 方法向 `w` 写入数据，然后调用 `Read` 方法从 `r` 中读取数据。然后定义了一个 `FileWriter` 结构体类型，它实现了 `Writer` 接口的 `Write` 方法。接着，又定义了一个 `ConsoleReader` 结构体类型，它实现了`Reader`接口的`Read`方法。在`main`函数中，创建了一个 `FileWriter` 类型的实例 `writer` 和一个 `ConsoleReader` 类型的实例 `reader`。然后创建了一个 `Processor` 类型的实例 `processor`，并将 `writer` 和 `reader` 作为嵌入字段的值进行初始化。最后，调用 `ProcessData` 函数，并将 `processor.Writer` 和 `processor.Reader` 作为参数传递进去。这样就可以在 `ProcessData`函数中使用相同的接口类型参数对不同类型的实现进行操作，实现了水平组合。
 
 通过这种方式，可以将不同类型的实现传递给函数或方法，只要它们实现了相应接口的方法。就可以在函数或方法中使用相同的接口类型参数对不同类型的实现进行操作，实现了水平组合。水平组合使得代码更加灵活和可扩展，可以根据需要动态地组合不同的功能实现。

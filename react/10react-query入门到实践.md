@@ -101,15 +101,13 @@ ReactDOM.createRoot(rootElement).render(<App />)
 
 ```ts
 const { status, fetchStatus, isPending, isSuccess, error, data, isError, isFetching, isPaused } = useQuery({
-  queryKey: ['repoData'],
-  queryFn: async () => {
-    const response = await fetch(
-      'https://api.github.com/repos/TanStack/query',
-    )
-    return await response.json()
-  },
+    queryKey: ['repoData'],
+    queryFn: async () => {
+        const response = await fetch('https://api.github.com/repos/TanStack/query')
+        return await response.json()
+    }
 })
-console.log('status', status, 'fetchStatus', fetchStatus, 'isPending', isPending, 'isSuccess', isSuccess,'error', error, 'data', data, 'isError', isError, 'isFetching', isFetching)
+console.log('status', status, 'fetchStatus', fetchStatus, 'isPending', isPending, 'isSuccess', isSuccess, 'error', error, 'data', data, 'isError', isError, 'isFetching', isFetching)
 ```
 
 可以从上面这段代码中看到在不同阶段，这些状态描述了请求的不同状态；它们分别如下：
@@ -148,53 +146,45 @@ console.log('status', status, 'fetchStatus', fetchStatus, 'isPending', isPending
 
 - Header 组件：
 
-  ```jsx
-  import { useQuery } from '@tanstack/react-query'
-  
-  const Header = () => {
-      // 发请求
-      const { isPending, error, data, isFetching } = useQuery({
-          queryKey: ['repoData'],
-          queryFn: async () => {
-              const response = await fetch(
-                  'https://api.github.com/repos/TanStack/query',
-              )
-              return await response.json()
-          },
-      })
-      console.log('', isPending, error, data, isFetching)
-      return (
-          <div>Header</div>
-      )
-  }
-  
-  export default Header
-  ```
+    ```jsx
+    import { useQuery } from '@tanstack/react-query'
+
+    const Header = () => {
+        // 发请求
+        const { isPending, error, data, isFetching } = useQuery({
+            queryKey: ['repoData'],
+            queryFn: async () => {
+                const response = await fetch('https://api.github.com/repos/TanStack/query')
+                return await response.json()
+            }
+        })
+        console.log('', isPending, error, data, isFetching)
+        return <div>Header</div>
+    }
+
+    export default Header
+    ```
 
 - Footer 组件
 
-  ```jsx
-  import { useQuery } from '@tanstack/react-query'
-  
-  const Footer = () => {
-      // 发请求
-      const { isPending, error, data, isFetching } = useQuery({
-          queryKey: ['repoData'],
-          queryFn: async () => {
-              const response = await fetch(
-                  'https://api.github.com/repos/TanStack/query',
-              )
-              return await response.json()
-          },
-      })
-      console.log('', isPending, error, data, isFetching)
-      return (
-          <div>Footer</div>
-      )
-  }
-  
-  export default Footer
-  ```
+    ```jsx
+    import { useQuery } from '@tanstack/react-query'
+
+    const Footer = () => {
+        // 发请求
+        const { isPending, error, data, isFetching } = useQuery({
+            queryKey: ['repoData'],
+            queryFn: async () => {
+                const response = await fetch('https://api.github.com/repos/TanStack/query')
+                return await response.json()
+            }
+        })
+        console.log('', isPending, error, data, isFetching)
+        return <div>Footer</div>
+    }
+
+    export default Footer
+    ```
 
 将上面两个组件整个到一个组件中，然后在浏览器中看看实际的请求效果：
 
@@ -222,35 +212,35 @@ export default Main
 
 - **简单查询键**：最简单的形式是一个包含常量值的数组。例如：
 
-  ```js
-  useQuery({ queryKey: ['todos'], ... })
-  ```
+    ```js
+    useQuery({ queryKey: ['todos'], ... })
+    ```
 
 - **动态查询键**：可以包含动态参数，例如：
 
-  ```js
-  useQuery({ queryKey: ['todos', { status, page }], ... })
-  ```
+    ```js
+    useQuery({ queryKey: ['todos', { status, page }], ... })
+    ```
 
 - **查询键的唯一性**：`queryKey` 的顺序和内容都会影响查询的唯一性。相同的 `queryKey` 会被视为相同的查询，只有在 `queryKey` 不同的情况下，TanStack Query 才会重新获取数据。
 
 - **对象的顺序无关**：在 `queryKey` 中，如果使用对象作为参数，键的顺序不影响查询的唯一性。例如以下会被视为相同的查询：
 
-  ```js
-  useQuery({ queryKey: ['todos', { status, page }], ... })
-  useQuery({ queryKey: ['todos', { page, status }], ... })
-  useQuery({ queryKey: ['todos', { page, status, other: undefined }], ... })
-  ```
+    ```js
+    useQuery({ queryKey: ['todos', { status, page }], ... })
+    useQuery({ queryKey: ['todos', { page, status }], ... })
+    useQuery({ queryKey: ['todos', { page, status, other: undefined }], ... })
+    ```
 
 - **数组项的顺序相关**：如果 `queryKey` 是由数组组成，数组项的顺序是重要的。例如以下会被视为不同的查询：
 
-  ```js
-  useQuery({ queryKey: ['todos', status, page], ... })
-  useQuery({ queryKey: ['todos', page, status], ... })
-  useQuery({ queryKey: ['todos', undefined, page, status], ...})
-  ```
+    ```js
+    useQuery({ queryKey: ['todos', status, page], ... })
+    useQuery({ queryKey: ['todos', page, status], ... })
+    useQuery({ queryKey: ['todos', undefined, page, status], ...})
+    ```
 
-  通过合理使用 `queryKey`，可以有效地管理查询的状态和数据缓存，确保应用程序的性能和响应速度。
+    通过合理使用 `queryKey`，可以有效地管理查询的状态和数据缓存，确保应用程序的性能和响应速度。
 
 ## 数据缓存与更新
 
@@ -261,20 +251,20 @@ export default Main
 TanStack Query 通过一个全局缓存对象来存储所有的 `Query` 对象，通过 `queryKey` 来映射对应的 `Query` 对象。当然这个 `queryKey` 要满足唯一性；比较容易想到的一种方式就是通过 [JSON.stringify](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify) 来将数据序列化，然后对比序列化后的字符串。比如：
 
 ```js
-const arr1 = ['x', 'y', {key: 'value1'}];
-const arr2 = ['x', 'y', {key: 'value1'}];
-JSON.stringify(arr1) === JSON.stringify(arr2); // true
+const arr1 = ['x', 'y', { key: 'value1' }]
+const arr2 = ['x', 'y', { key: 'value1' }]
+JSON.stringify(arr1) === JSON.stringify(arr2) // true
 ```
 
 虽然这个方法这行，但是......在 JavaScript 中对象中的键是有顺序的，并不是按照插入顺序来 `JSON.stringify`，就会导致两个对象内容相同，序列化之后的结果不同。比如：
 
 ```js
-const obj1 = { name: 'Alice', age: 24 };
-const obj2 = { age: 24, name: 'Alice' };
+const obj1 = { name: 'Alice', age: 24 }
+const obj2 = { age: 24, name: 'Alice' }
 
-JSON.stringify(obj1); // '{"name":"Alice","age":24}'
-JSON.stringify(obj2); // '{"age":24,"name":"Alice"}'
-JSON.stringify(obj1) === JSON.stringify(obj2); // false
+JSON.stringify(obj1) // '{"name":"Alice","age":24}'
+JSON.stringify(obj2) // '{"age":24,"name":"Alice"}'
+JSON.stringify(obj1) === JSON.stringify(obj2) // false
 ```
 
 在上面的例子中，尽管 `obj1` 和 `obj2` 具有相同的键和值，但它们的序列化后的结果不同。既然是对象属性的顺序，那我们就可以在序列化之前对独享属性进行排序，达到一个稳定的字符串结果，好在 JSON.stringify 提供了第二个参数参数，这个参数是一个函数，在序列化过程中，被序列化的值的每个属性都会经过该函数进行转换和处理。

@@ -169,7 +169,7 @@ echo "姓名: $USER_NAME, 年龄: $USER_AGE, 性别: $USER_GENDER"
 
 #### 目录结构
 
-```
+```text
 project/
 ├── main.sh          # 主脚本
 ├── lib/             # 库目录
@@ -306,16 +306,16 @@ Shell 脚本不是面向对象的语言，没有真正的类和继承机制，�
 # 定义"基类"
 Animal_create() {
     local name=$1
-    
+
     # 属性
     eval "Animal_${name}_type=\"Animal\""
     eval "Animal_${name}_sound=\"\""
-    
+
     # 方法
     eval "Animal_${name}_speak() {
         echo \"\$Animal_${name}_type says: \$Animal_${name}_sound\"
     }"
-    
+
     eval "Animal_${name}_set_sound() {
         Animal_${name}_sound=\"\$1\"
     }"
@@ -339,14 +339,14 @@ source ./animal.sh
 # 定义"子类"
 Dog_create() {
     local name=$1
-    
+
     # 首先创建"父类"实例
     Animal_create "$name"
-    
+
     # 覆盖属性
     eval "Animal_${name}_type=\"Dog\""
     eval "Animal_${name}_sound=\"Woof\""
-    
+
     # 添加新方法
     eval "Animal_${name}_fetch() {
         echo \"Dog ${name} is fetching the ball!\"
@@ -444,17 +444,17 @@ echo "恢复正常执行"
 process_log() {
     local log_file=$1
     local threshold=$2
-    
+
     awk -v threshold="$threshold" '
     BEGIN {
         print "开始分析日志文件..."
         count = 0
     }
-    
+
     /ERROR/ {
         errors[count++] = $0
     }
-    
+
     END {
         print "发现 " count " 个错误"
         if (count > threshold) {
@@ -477,7 +477,7 @@ batch_replace() {
     local file=$1
     local pattern=$2
     local replacement=$3
-    
+
     sed -i.bak "s#$pattern#$replacement#g" "$file"
     if [ $? -eq 0 ]; then
         echo "替换成功，备份文件为 ${file}.bak"
@@ -511,7 +511,7 @@ source "$BASE_DIR/lib/utils.sh"
 init() {
     log_info "初始化监控系统"
     safe_mkdir "$LOG_DIR"
-    
+
     # 加载配置
     if [ -f "$CONFIG_FILE" ]; then
         source "$CONFIG_FILE"
@@ -519,7 +519,7 @@ init() {
         log_error "配置文件不存在: $CONFIG_FILE"
         exit 1
     fi
-    
+
     # 加载启用的模块
     for module in $ENABLED_MODULES; do
         if [ -f "$MODULES_DIR/${module}.sh" ]; then
@@ -534,7 +534,7 @@ init() {
 # 运行监控
 run() {
     log_info "开始运行监控"
-    
+
     # 调用每个模块的检查函数
     for module in $ENABLED_MODULES; do
         if type -t "${module}_check" &>/dev/null; then
@@ -544,7 +544,7 @@ run() {
             log_warn "模块 $module 没有实现 check 函数"
         fi
     done
-    
+
     log_info "监控运行完成"
 }
 
@@ -568,12 +568,12 @@ CPU_CRITICAL_THRESHOLD=${CPU_CRITICAL_THRESHOLD:-95}
 # CPU 检查函数
 cpu_check() {
     log_info "检查 CPU 使用率"
-    
+
     # 获取 CPU 使用率
     local cpu_usage=$(top -l 1 | grep "CPU usage" | awk '{print $3}' | cut -d% -f1)
-    
+
     log_info "当前 CPU 使用率: ${cpu_usage}%"
-    
+
     # 根据阈值判断
     if (( $(echo "$cpu_usage >= $CPU_CRITICAL_THRESHOLD" | bc -l) )); then
         log_error "CPU 使用率过高: ${cpu_usage}%"

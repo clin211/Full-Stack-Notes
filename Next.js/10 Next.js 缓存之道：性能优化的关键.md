@@ -1,8 +1,8 @@
-在现代 Web 开发领域，性能优化始终是一个核心话题。Next.js 引入[缓存](https://nextjs.org/docs/app/building-your-application/caching "Caching in Next.js")策略成为了提升性能的另一大利器。缓存技术通过存储数据的重复副本来减少数据检索时间，提高响应速度，并减轻服务器负载。在 Next.js中，合理地利用缓存不仅可以显著减少服务器的响应时间，降低资源消耗，还能最终提升用户体验。本文将深入探讨 Next.js 中的缓存机制，包括其工作原理、不同类型的缓存策略等内容。
+在现代 Web 开发领域，性能优化始终是一个核心话题。Next.js 引入[缓存](https://nextjs.org/docs/app/building-your-application/caching 'Caching in Next.js')策略成为了提升性能的另一大利器。缓存技术通过存储数据的重复副本来减少数据检索时间，提高响应速度，并减轻服务器负载。在 Next.js中，合理地利用缓存不仅可以显著减少服务器的响应时间，降低资源消耗，还能最终提升用户体验。本文将深入探讨 Next.js 中的缓存机制，包括其工作原理、不同类型的缓存策略等内容。
 
 > **文中示例的开发环境：**
 >
-> - node.js v20.10.0
+> - Node.js v20.10.0
 > - pnpm v8.12.1
 > - vs vode v1.95.3
 > - chrome v131.0.6778.140
@@ -24,7 +24,7 @@
 
 ![来自 Next.js 官网](assets/da99b2a5-6aca-4b00-a398-f3dc5633b951.png)
 
-打包构建路由 `/a` 时，因为路由中的请求是首次触发，所以都会 MISS（缓存未命中），从数据源获取数据后，将数据在[请求记忆](https://nextjs.org/docs/app/building-your-application/caching#request-memoization "请求记忆")和[数据缓存](https://nextjs.org/docs/app/building-your-application/caching#data-cache "数据缓存")中都保存了一份（也就是 SET 操作），最后将生成的 RSC Payload 和 HTML 也在服务端保存了一份（完整路由缓存）。
+打包构建路由 `/a` 时，因为路由中的请求是首次触发，所以都会 MISS（缓存未命中），从数据源获取数据后，将数据在[请求记忆](https://nextjs.org/docs/app/building-your-application/caching#request-memoization '请求记忆')和[数据缓存](https://nextjs.org/docs/app/building-your-application/caching#data-cache '数据缓存')中都保存了一份（也就是 SET 操作），最后将生成的 RSC Payload 和 HTML 也在服务端保存了一份（完整路由缓存）。
 
 当客户端访问 `/a` 的时候，命中（HIT）服务端缓存的 RSC Payload 和 HTML，并将 RSC Payload 在客户端保存一份（路由缓存）。
 
@@ -48,9 +48,9 @@ React 扩展了 [fetch](https://nextjs.org/docs/app/api-reference/functions/fetc
 
 ```jsx
 async function getItem() {
-  // `fetch` 函数会自动被缓存，结果会被存储
-  const res = await fetch('https://.../item/1')
-  return res.json()
+    // `fetch` 函数会自动被缓存，结果会被存储
+    const res = await fetch('https://.../item/1')
+    return res.json()
 }
 
 // 这个函数被调用了两次，但只在第一次执行
@@ -84,18 +84,18 @@ const item = await getItem() // 缓存命中
 
 记忆仅适用于 fetch 请求中的 `GET` 方法，其他方法（例如 `POST` 和 `DELETE`）不会被记忆。此默认行为是 React 优化，不建议选择退出。
 
-如果不希望某个 fetch 请求被记忆，可以使用 [AbortController](https://developer.mozilla.org/zh-CN/docs/Web/API/AbortController "AbortController") 中的 `signal` 属性。使用方式如下：
+如果不希望某个 fetch 请求被记忆，可以使用 [AbortController](https://developer.mozilla.org/zh-CN/docs/Web/API/AbortController 'AbortController') 中的 `signal` 属性。使用方式如下：
 
 ```js
 const { signal } = new AbortController()
 fetch(url, { signal })
 ```
 
-> 如果对这个 API 不熟悉，可以查看 [AbortController](https://developer.mozilla.org/zh-CN/docs/Web/API/AbortController) 文档，体验地址：[https://mdn.github.io/dom-examples/abort-api/](https://mdn.github.io/dom-examples/abort-api/ "abort api")
+> 如果对这个 API 不熟悉，可以查看 [AbortController](https://developer.mozilla.org/zh-CN/docs/Web/API/AbortController) 文档，体验地址：[https://mdn.github.io/dom-examples/abort-api/](https://mdn.github.io/dom-examples/abort-api/ 'abort api')
 
 ### React 的 cache 函数
 
-如果你不能使用 fetch 请求，但是又想实现记忆，可以借助 React 的 [cache](https://react.dev/reference/react/cache#noun-labs-1201738-(2)) 函数：
+如果你不能使用 fetch 请求，但是又想实现记忆，可以借助 React 的 [cache](<https://react.dev/reference/react/cache#noun-labs-1201738-(2)>) 函数：
 
 ```js
 import { cache } from 'react'
@@ -124,22 +124,22 @@ cache 还是一个实验性 API，生产环境慎用！
 >
 > ```json
 > {
-> "dependencies": {
->  "react": "^19.0.0",
->  "react-dom": "^19.0.0",
->  "next": "15.1.0"
-> },
-> "devDependencies": {
->  "typescript": "^5",
->  "@types/node": "^20",
->  "@types/react": "^19",
->  "@types/react-dom": "^19",
->  "postcss": "^8",
->  "tailwindcss": "^3.4.1",
->  "eslint": "^9",
->  "eslint-config-next": "15.1.0",
->  "@eslint/eslintrc": "^3"
-> }
+>     "dependencies": {
+>         "react": "^19.0.0",
+>         "react-dom": "^19.0.0",
+>         "next": "15.1.0"
+>     },
+>     "devDependencies": {
+>         "typescript": "^5",
+>         "@types/node": "^20",
+>         "@types/react": "^19",
+>         "@types/react-dom": "^19",
+>         "postcss": "^8",
+>         "tailwindcss": "^3.4.1",
+>         "eslint": "^9",
+>         "eslint-config-next": "15.1.0",
+>         "@eslint/eslintrc": "^3"
+>     }
 > }
 > ```
 
@@ -219,6 +219,7 @@ async function getData() {
 ## 数据缓存
 
 Next.js 有自己的数据缓存方案，可以跨服务端请求和构建部署存储数据；因为 Next.js 扩展了原生 fetch API，允许服务器上的每个请求设置自己的缓存方式。
+
 > 在浏览器中，fetch 的 `cache` 选项指示请求如何与浏览器的 HTTP 缓存交互，在 Next.js 中，`cache` 选项指示服务器端请求如何与服务器的数据缓存交互。
 
 ### 工作原理
@@ -271,13 +272,13 @@ Next.js 提供了两种方式更新缓存：
 基于时间的重新验证，需要使用 `fetch` 的 `next.revalidate` 选项设置缓存的时间（注意它是以秒为单位）。
 
 ```js
-fetch('https://...', { next: { revalidate: 3600 } }); // 3600s ==> 每小时验证一次
+fetch('https://...', { next: { revalidate: 3600 } }) // 3600s ==> 每小时验证一次
 ```
 
-还可以借助[路由段配置项](https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config#revalidate "Route Segment Config")来配置该路由所有的 fetch 请求：
+还可以借助[路由段配置项](https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config#revalidate 'Route Segment Config')来配置该路由所有的 fetch 请求：
 
 ```ts
-export const revalidate = 3600; // 在 layout.tsx | page.tsx | route.ts 文件添加都行，不能重复定义
+export const revalidate = 3600 // 在 layout.tsx | page.tsx | route.ts 文件添加都行，不能重复定义
 ```
 
 这个配置我们后面详细讲解！基于时间的重新验证原理图如下：
@@ -306,15 +307,15 @@ export const revalidate = 3600; // 在 layout.tsx | page.tsx | route.ts 文件�
 
 - 是将 fetch 的 `cache` 选项设置为 `no-store`，**每次调用的时候都会重新获取数据**；示例如下：
 
-  ```jsx
-  let data = await fetch('https://api.vercel.app/blog', { cache: 'no-store' }); // 每次调用的时候都会重新获取数据
-  ```
-  
+    ```jsx
+    let data = await fetch('https://api.vercel.app/blog', { cache: 'no-store' }) // 每次调用的时候都会重新获取数据
+    ```
+
 - 一种是使用[路由段配置项](https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config#dynamic)，它会**影响该路由段中的所有数据请求**：
 
-  ```jsx
-  export const dynamic = 'force-dynamic'; // 强制动态渲染
-  ```
+    ```jsx
+    export const dynamic = 'force-dynamic' // 强制动态渲染
+    ```
 
 ### 案例：基于时间和按需的重新验证
 
@@ -343,169 +344,166 @@ export async function GET() {
 
 - 基于时间的重新验证
 
-  演示的场景是一个静态渲染页面，每 5 秒重新构建一次获取 time API 的最新数据。在 `app/` 下，创建 `static-rendering-revalidate-5s/page.tsx`，写入内容如下：
+    演示的场景是一个静态渲染页面，每 5 秒重新构建一次获取 time API 的最新数据。在 `app/` 下，创建 `static-rendering-revalidate-5s/page.tsx`，写入内容如下：
 
-  ```jsx
-  import React from 'react'
+    ```jsx
+    import React from 'react'
 
-  export default async function page() {
-      const port = process.env.PORT;
-      const res = await fetch(`http://localhost:${port}/api/time`, { next: { revalidate: 5 } })
-      const data = await res.json()
-      return (
-          <div>
-              <p> 本次渲染时的时间:{new Date().toString()} </p>
-              <p> 服务端获取的数据:{JSON.stringify(data)}</p>
-          </div>
-      )
-  }
-  ```
+    export default async function page() {
+        const port = process.env.PORT
+        const res = await fetch(`http://localhost:${port}/api/time`, { next: { revalidate: 5 } })
+        const data = await res.json()
+        return (
+            <div>
+                <p> 本次渲染时的时间:{new Date().toString()} </p>
+                <p> 服务端获取的数据:{JSON.stringify(data)}</p>
+            </div>
+        )
+    }
+    ```
 
-  在浏览器中访问 `http://localhost:3000/static-rendering-revalidate-5s` 后效果如下：
+    在浏览器中访问 `http://localhost:3000/static-rendering-revalidate-5s` 后效果如下：
 
-  ![](assets/df97bc3b-5c59-4903-9a37-4e7444799691.gif)
+    ![](assets/df97bc3b-5c59-4903-9a37-4e7444799691.gif)
 
-  从如中可以看出，服务端的数据不是浏览器每次刷新都获取，而是每 5s 获取一次然后更新。上面源码在 [https://github.com/clin211/next-awesome/commit/93b0380b0e314586db86838b14ba71dea3dd2c07](https://github.com/clin211/next-awesome/commit/93b0380b0e314586db86838b14ba71dea3dd2c07) 中可以找到！
+    从如中可以看出，服务端的数据不是浏览器每次刷新都获取，而是每 5s 获取一次然后更新。上面源码在 <https://github.com/clin211/next-awesome/commit/93b0380b0e314586db86838b14ba71dea3dd2c07> 中可以找到！
 
 - 按需重新验证
 
-  上面说完了基于时间的重新验证，也看看按需重新验证，按需重新验证要么路径（`revalidatePath`），要么基于缓存标签（`revalidateTag`），为了更直观的演示，通过在客户端的按钮来触发更新：
-  - 一个基于路径
-  - 一个基于标签
-  
-  目标清楚之后，我们就来写代码！
-  1. 在 `app/revalidate-functions/page.tsx` 中写入如下代码：
-  
-      ```jsx
-      import React from 'react'
-      import { RevalidatePathButton } from './revalidate-path-button'
-      import { RevalidateTagButton } from './revalidate-tag-button'
-      
-      const port = process.env.PORT;
-      export default async function page() {
-          const dataA = await fetch(`http://localhost:${port}/api/time?a`, {
-              cache: "force-cache",
-              next: {
-                  tags: ["a"],
-              },
-          })
-              .then((res) => res.json())
-              .then((res) => res);
-      
-          const dataB = await fetch(`http://localhost:${port}/api/time?b`, {
-              cache: "force-cache",
-              next: {
-                  tags: ["b"],
-              },
-          })
-              .then((res) => res.json())
-              .then((res) => res);
-      
-          return (
-              <div className="flex justify-center">
-                  <div className="p-8 space-y-4">
-                      <h1 className="text-4xl font-semibold text-center">按需重新验证</h1>
-                      <div className="flex flex-col">
-                          <RevalidatePathButton label="基于路径 Revalidate" />
-                      </div>
-                      <div className="flex flex-col gap-2">
-                          <p className="font-[family-name:var(--font-geist-mono)]">
-                              基于标签 Revalidate A：
-                              <code className="bg-black/[.05] px-1 py-0.5 rounded font-semibold">
-                                  {JSON.stringify(dataA)}
-                              </code>
-                          </p>
-                          <RevalidateTagButton tag="a" label="基于标签 Revalidate A" />
-                      </div>
-                      <div className="flex flex-col gap-2">
-                          <p className="font-[family-name:var(--font-geist-mono)]">
-                              基于标签 Revalidate B：
-                              <code className="bg-black/[.05] px-1 py-0.5 rounded font-semibold">
-                                  {JSON.stringify(dataB)}
-                              </code>
-                          </p>
-                          <RevalidateTagButton tag="b" label="基于标签 Revalidate B" />
-                      </div>
-                  </div>
-              </div>
-          )
-      }
-      ```
+    上面说完了基于时间的重新验证，也看看按需重新验证，按需重新验证要么路径（`revalidatePath`），要么基于缓存标签（`revalidateTag`），为了更直观的演示，通过在客户端的按钮来触发更新：
+    - 一个基于路径
+    - 一个基于标签
 
-  2. 定义两个客户端组件 `/app/revalidate-functions/revalidate-path-button.tsx` 和 `/app/revalidate-functions/revalidate-tag-button.tsx`，代码如下：
+    目标清楚之后，我们就来写代码！
+    1. 在 `app/revalidate-functions/page.tsx` 中写入如下代码：
 
-      ```jsx
-      // /app/revalidate-functions/revalidate-path-button.tsx
-      "use client";
-      
-      import { revalidatePath } from "./actions";
-      interface RevalidatePathButtonProps {
-          label: string;
-      }
-      
-      export function RevalidatePathButton({ label }: RevalidatePathButtonProps) {
-          return (
-              <button
-                  className="py-1 border hover:bg-gray-50"
-                  onClick={() => revalidatePath()}
-              >
-                  {label}
-              </button>
-          );
-      }
-      ```
+        ```jsx
+        import React from 'react'
+        import { RevalidatePathButton } from './revalidate-path-button'
+        import { RevalidateTagButton } from './revalidate-tag-button'
 
-      ```jsx
-      // /app/revalidate-functions/revalidate-tag-button.tsx
-      "use client";
-      
-      import { revalidateTag } from "./actions";
-      interface RevalidateTagButtonProps {
-          tag: string;
-          label: string;
-      }
-      
-      export function RevalidateTagButton({ tag, label }: RevalidateTagButtonProps) {
-          return (
-              <button
-                  className="py-1 border hover:bg-gray-50"
-                  onClick={() => revalidateTag(tag)}
-              >
-                  {label}
-              </button>
-          );
-      }
-      ```
+        const port = process.env.PORT
+        export default async function page() {
+            const dataA = await fetch(`http://localhost:${port}/api/time?a`, {
+                cache: 'force-cache',
+                next: {
+                    tags: ['a']
+                }
+            })
+                .then((res) => res.json())
+                .then((res) => res)
 
-  3. 在基于路径更新的组件本质上用了 `next/cache` 包的 `revalidatePath`，而基于标签的组件则是用了 `next/cache` 包的 `revalidateTag`，封装后的代码如下：
+            const dataB = await fetch(`http://localhost:${port}/api/time?b`, {
+                cache: 'force-cache',
+                next: {
+                    tags: ['b']
+                }
+            })
+                .then((res) => res.json())
+                .then((res) => res)
 
-      ```jsx
-      "use server";
-      
-      import {
-          revalidateTag as nextRevalidateTag,
-          revalidatePath as nextRevalidatePath,
-      } from "next/cache";
-      
-      export async function revalidatePath() {
-          nextRevalidatePath("/revalidate-functions");
-      }
-      
-      export async function revalidateTag(tag: string) {
-          nextRevalidateTag(tag);
-      }
-      ```
+            return (
+                <div className="flex justify-center">
+                    <div className="p-8 space-y-4">
+                        <h1 className="text-4xl font-semibold text-center">按需重新验证</h1>
+                        <div className="flex flex-col">
+                            <RevalidatePathButton label="基于路径 Revalidate" />
+                        </div>
+                        <div className="flex flex-col gap-2">
+                            <p className="font-[family-name:var(--font-geist-mono)]">
+                                基于标签 Revalidate A：
+                                <code className="bg-black/[.05] px-1 py-0.5 rounded font-semibold">{JSON.stringify(dataA)}</code>
+                            </p>
+                            <RevalidateTagButton tag="a" label="基于标签 Revalidate A" />
+                        </div>
+                        <div className="flex flex-col gap-2">
+                            <p className="font-[family-name:var(--font-geist-mono)]">
+                                基于标签 Revalidate B：
+                                <code className="bg-black/[.05] px-1 py-0.5 rounded font-semibold">{JSON.stringify(dataB)}</code>
+                            </p>
+                            <RevalidateTagButton tag="b" label="基于标签 Revalidate B" />
+                        </div>
+                    </div>
+                </div>
+            )
+        }
+        ```
+
+    2. 定义两个客户端组件 `/app/revalidate-functions/revalidate-path-button.tsx` 和 `/app/revalidate-functions/revalidate-tag-button.tsx`，代码如下：
+
+        ```jsx
+        // /app/revalidate-functions/revalidate-path-button.tsx
+        "use client";
+
+        import { revalidatePath } from "./actions";
+        interface RevalidatePathButtonProps {
+            label: string;
+        }
+
+        export function RevalidatePathButton({ label }: RevalidatePathButtonProps) {
+            return (
+                <button
+                    className="py-1 border hover:bg-gray-50"
+                    onClick={() => revalidatePath()}
+                >
+                    {label}
+                </button>
+            );
+        }
+        ```
+
+        ```jsx
+        // /app/revalidate-functions/revalidate-tag-button.tsx
+        "use client";
+
+        import { revalidateTag } from "./actions";
+        interface RevalidateTagButtonProps {
+            tag: string;
+            label: string;
+        }
+
+        export function RevalidateTagButton({ tag, label }: RevalidateTagButtonProps) {
+            return (
+                <button
+                    className="py-1 border hover:bg-gray-50"
+                    onClick={() => revalidateTag(tag)}
+                >
+                    {label}
+                </button>
+            );
+        }
+        ```
+
+    3. 在基于路径更新的组件本质上用了 `next/cache` 包的 `revalidatePath`，而基于标签的组件则是用了 `next/cache` 包的 `revalidateTag`，封装后的代码如下：
+
+        ```jsx
+        "use server";
+
+        import {
+            revalidateTag as nextRevalidateTag,
+            revalidatePath as nextRevalidatePath,
+        } from "next/cache";
+
+        export async function revalidatePath() {
+            nextRevalidatePath("/revalidate-functions");
+        }
+
+        export async function revalidateTag(tag: string) {
+            nextRevalidateTag(tag);
+        }
+        ```
 
     写了这么多代码，我们再浏览器中访问 `http://localhost:3000/revalidate-functions` 看看具体效果：
-  - 基于路径的效果
-  
-    ![](assets/73d4a631-f90b-43ed-b364-eeed745b5612.gif)
-  
-    从图中可以看出，每点击一次“基于路径 Revalidate”，都会导致页面的信息更新。
-  - 基于标签的效果
-  
-    ![](assets/fee1954b-b3a9-4fa8-a0a4-2468a1624cb7.gif)
-    基于标签的则只更新“自己标签”的信息。
+    - 基于路径的效果
+
+        ![](assets/73d4a631-f90b-43ed-b364-eeed745b5612.gif)
+
+        从图中可以看出，每点击一次“基于路径 Revalidate”，都会导致页面的信息更新。
+
+    - 基于标签的效果
+
+        ![](assets/fee1954b-b3a9-4fa8-a0a4-2468a1624cb7.gif)
+        基于标签的则只更新“自己标签”的信息。
 
 ## 完整路由缓存
 
@@ -571,7 +569,7 @@ Next.js 有一个存放在内存中的客户端缓存，它会在用户会话期
 
 > 这个缓存特指 Next.js 和 Server Components，跟浏览器的 （后向缓存）是不同的，尽管它们的效果相似。
 
-> 需要注意的是，这个缓存专门用于 Next.js 和 Server Components，与浏览器的[bfcache（back/forward cache）](https://developer.mozilla.org/zh-CN/docs/Glossary/bfcache "back/forward cache")不同，尽管它们具有类似的效果。
+> 需要注意的是，这个缓存专门用于 Next.js 和 Server Components，与浏览器的[bfcache（back/forward cache）](https://developer.mozilla.org/zh-CN/docs/Glossary/bfcache 'back/forward cache')不同，尽管它们具有类似的效果。
 
 ### 持续时长（Duration）
 
@@ -579,33 +577,34 @@ Next.js 有一个存放在内存中的客户端缓存，它会在用户会话期
 
 - **会话（Session）**：缓存在导航过程中持续存在。但它在页面刷新时会被清除。
 - **自动失效周期（Automatic Invalidation Period）**：单个路由段会在特定时长后自动失效：
-  - 默认预取（`prefetch={null}` 或未指定）：动态页面不缓存，静态页面缓存 5 分钟。
-  - 全预取（`prefetch={true}` 或 `router.prefetch`）：静态和动态页面均缓存 5 分钟。
-  
+    - 默认预取（`prefetch={null}` 或未指定）：动态页面不缓存，静态页面缓存 5 分钟。
+    - 全预取（`prefetch={true}` 或 `router.prefetch`）：静态和动态页面均缓存 5 分钟。
+
 虽然页面刷新会清除所有缓存段，但自动失效周期只影响从预获取时间开始的单个路由段。
 
-> 可以使用实验性的 [staleTimes](https://nextjs.org/docs/app/api-reference/config/next-config-js/staleTimes "staleTimes") 配置选项来调整自动失效时间。
+> 可以使用实验性的 [staleTimes](https://nextjs.org/docs/app/api-reference/config/next-config-js/staleTimes 'staleTimes') 配置选项来调整自动失效时间。
 
 ### 失效方式（Invalidation）
 
 有两种方法可以使路由缓存失效：
 
 1. **在服务器操作中**：
-   - 通过路径（`revalidatePath`）或缓存标签（`revalidateTag`）按需重新验证数据。
+    - 通过路径（`revalidatePath`）或缓存标签（`revalidateTag`）按需重新验证数据。
 
-   - 使用 `cookies.set` 或 `cookies.delete` 可以使得路由器缓存失效，以防止使用 `cookies` 的路由变得过时（例如认证）。
+    - 使用 `cookies.set` 或 `cookies.delete` 可以使得路由器缓存失效，以防止使用 `cookies` 的路由变得过时（例如认证）。
 
 2. **通过调用路由器方法**：
-   - 调用 `router.refresh` 将使路由器缓存失效，并为当前路由向服务器发起新的请求。
+    - 调用 `router.refresh` 将使路由器缓存失效，并为当前路由向服务器发起新的请求。
 
 ### 退出方式（Opting out）
 
 从 Next.js 15 开始，默认情况下页面路由段不再被启用缓存。
+
 > 在 Next.js 14 中，路由缓存是无法退出的，但两种方式可以处理：
 >
 > - 通过调用 `router.refresh`、`revalidatePath` 或 `revalidateTag` 使其失效。这将清除缓存并向服务器发送新的请求，以确保显示最新的数据。
 > - 可以通过给 `<Link>` 组件的 `prefetch` 传递 `false` 来退出预获取，但依然会临时存储路由段 30s，这是为了实现嵌套路由段之间的即时导航。另外访问过的路由也会被缓存。
 
-我在 GitHub 中找到一个关于 Next.js 15 版本缓存示例的库，可以结合本文查看他的代码：[https://github.com/neoki07/nextjs15-cache-playground.git](https://github.com/neoki07/nextjs15-cache-playground.git)；虽然他用的不是正式版，但辅助我们理解理论还是不错的。拉取下来跑起来效果如下：
+我在 GitHub 中找到一个关于 Next.js 15 版本缓存示例的库，可以结合本文查看他的代码：<https://github.com/neoki07/nextjs15-cache-playground.git>；虽然他用的不是正式版，但辅助我们理解理论还是不错的。拉取下来跑起来效果如下：
 
 ![](assets/0da1e388-d089-4a0e-8b93-aaf3f8c9a544.png)

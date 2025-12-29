@@ -10,16 +10,16 @@
 
 ![](assets/b6c766d2-475f-40c3-a1bd-ef5cfc891c8d.png)
 
-在浏览器中访问 [http://localhost:3000/](http://localhost:3000/) 效果如下：
+在浏览器中访问 <http://localhost:3000/> 效果如下：
 ![](assets/60a7a8ec-502b-48cb-9a34-e455794d27da.png)
-
 
 ## 基本使用
 
 Script 是 Next.js 内置的脚本组件，用于控制加载和执行三方脚本文件。使用基本示例如下：
+
 ```jsx
 // src/app/home/page.tsx
-import Script from 'next/script';
+import Script from 'next/script'
 
 export default function Home() {
     return (
@@ -27,11 +27,12 @@ export default function Home() {
             <h1>Welcome to My Site</h1>
             <Script src="https://example.com/script.js" />
         </>
-    );
+    )
 }
 ```
 
 上面这段代码是在单个路由的 page.tsx 中使用，也可以在 layout.tsx 中来使用，实现多个路由的脚本加载：
+
 ```jsx
 // src/app/home/layout.tsx
 import { ReactNode } from 'react';
@@ -48,6 +49,7 @@ export default function HomeLayout({ children }: { children: ReactNode }) {
 ```
 
 当然也可以在根布局中加载：
+
 ```jsx
 import "./globals.css";
 import Script from 'next/script';
@@ -90,7 +92,9 @@ export default function RootLayout({
 除了上面这些基础的使用姿势外，还有加载策略和内联脚本；我们先来看看这个组件的一些属性，然后在介绍这些属性的时候，再着重看看加载策略和内联脚本的使用姿势。
 
 ## 属性介绍
+
 `<Script>` 组件没有 `Link` 组件那么多属性，它只有五个属性：
+
 | 属性       | 使用示例                              | 类型     | 是否必须                       |
 | ---------- | ------------------------------------- | -------- | ------------------------------ |
 | `src`      | `src="https://example.com/script.js"` | string   | 除非使用内嵌脚本，否则必须填写 |
@@ -100,18 +104,20 @@ export default function RootLayout({
 | `onError`  | `onError={onErrorFunc}`               | function | -                              |
 
 ### src 属性
+
 这个属性跟原生的 script 中的 src 一样，可以是外部脚本地址或者内部地址都可以，除非使用内敛脚本，都则都必须传此属性。
 
 外部地址或者内部地址我们这里就不做演示了，重点来看看内联脚本，内联脚本就是像在 `<script>` 标签中写 JavaScript 代码一样：
+
 ```jsx
-import Script from 'next/script';
+import Script from 'next/script'
 
 export default function page() {
     return (
         <section>
             <h1>src Props</h1>
-            <p id='now'>now: </p>
-            <Script id='src-props-time-now'>
+            <p id="now">now: </p>
+            <Script id="src-props-time-now">
                 {`
                     setInterval(() => {
                         const now = new Date();
@@ -123,6 +129,7 @@ export default function page() {
     )
 }
 ```
+
 效果如下：
 
 ![](assets/06d7fe1c-012d-4959-a85e-61b52515377b.gif)
@@ -130,6 +137,7 @@ export default function page() {
 可以看到上面代码中 `<Script>` 组件上分配了一个 `id`，它是用来做性能优化的，当使用内联脚本的时候，必须使用分配一个 `id`。
 
 除了使用上面这种方式外，还可以使用 `dangerouslySetInnerHTML` 属性：
+
 ```jsx
 import Script from 'next/script'
 
@@ -137,15 +145,18 @@ export default function page() {
     return (
         <section>
             <h1>src Props dangerouslySetInnerHTML</h1>
-            <p id='now'>now: </p>
-            <Script id="dangerouslySetInnerHTML" dangerouslySetInnerHTML={{
-                __html: `
+            <p id="now">now: </p>
+            <Script
+                id="dangerouslySetInnerHTML"
+                dangerouslySetInnerHTML={{
+                    __html: `
                   setInterval(() => {
                       const now = new Date();
                       document.getElementById('now').textContent = "now: "+now;
                   }, 1000);
               `
-            }} />
+                }}
+            />
         </section>
     )
 }
@@ -154,7 +165,9 @@ export default function page() {
 效果是一样的，这里就不截图了。
 
 ### strategy 属性
+
 此属性表示当前脚本的加载策略；一共有四种：
+
 - `beforeInteractive`： 在可交互前加载，适用于如机器人检测、Cookie 管理等
 - `afterInteractive`：默认值，在可交互后加载，适用于如数据统计等
 - `lazyOnload`：在浏览器空闲时间加载
@@ -163,6 +176,7 @@ export default function page() {
 #### **beforeInteractive**
 
 在可交互之前加载。`beforeInteractive` 脚本必须放在根布局（`app/layout.tsx`）之中，用于加载整站都需要的脚本，适用于一些在页面具有可交互前需要获取的关键脚本。带有此属性的 `Script` 组件无论写在哪个位置，它都会被注入到 HTML 文档的 `head` 标签中：
+
 ```jsx
 import "./globals.css";
 import Script from "next/script";
@@ -201,21 +215,23 @@ export default function RootLayout({
     );
 }
 ```
+
 上面代码中，虽然将 `Script` 组件写在 `body` 标签最后，但编译后依然被注入到 `head` 标签中；如下图：
 
 ![](assets/9cad3c0c-f5f9-4c9e-802b-63cb26fbbbc4.png)
 
 #### **afterInteractive**
+
 在页面可交互后（不一定是完全可交互）后加载，这是 `Script` 组件默认的加载策略，适用于需要尽快加载的脚本。`afterInteractive` 脚本可以写在任何页面或者布局中，并且只有当浏览器中打开该页面的时候才会加载和执行。
 
 ```jsx
 import Script from 'next/script'
- 
+
 export default function Page() {
     return (
-      <>
-          <Script src="https://example.com/script.js" strategy="afterInteractive" />
-      </>
+        <>
+            <Script src="https://example.com/script.js" strategy="afterInteractive" />
+        </>
     )
 }
 ```
@@ -223,11 +239,12 @@ export default function Page() {
 此策略的应用场景比如：百度站点统计、Google Tag Managers、Analysis 等等。
 
 #### **lazyOnload**
+
 此策略在浏览器空闲的时候注入到 HTML 客户端，并在页面所有资源都获取后开始加载。此策略是用于不需要提前加载的后台或者低优先级脚本。`lazyOnload` 脚本可以写在任何页面或者布局中，并且只有当浏览器中打开该页面的时候才会加载和执行。
 
 ```jsx
 import Script from 'next/script'
- 
+
 export default function Page() {
     return (
         <>
@@ -236,7 +253,9 @@ export default function Page() {
     )
 }
 ```
+
 不需要立即加载的场景可以使用此策略，比如：
+
 - 网站接入的第三方聊天插件
 - 社交属性的小部件
 
@@ -247,6 +266,7 @@ export default function Page() {
 ### onLoad 属性
 
 一些三方脚本需要在脚本加载完毕后执行 JavaScript 代码以完成实例化或者调用函数。如果使用 `afterInteractive` 或者 `lazyOnload` 作为加载策略，则可以在加载完后使用 `onLoad` 属性执行代码，下面以 lodash 为例：
+
 ```jsx
 'use client'
 
@@ -258,7 +278,7 @@ export default function Page() {
             <Script
                 src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.20/lodash.min.js"
                 onLoad={() => {
-                    console.log("lodash loaded:", _.sample([1, 2, 3, 4]))
+                    console.log('lodash loaded:', _.sample([1, 2, 3, 4]))
                 }}
             />
         </>
@@ -270,20 +290,20 @@ export default function Page() {
 
 ![](assets/3b01cb04-fe23-4507-90d4-91e9f1c8410e.png)
 
->`onLoad` 不能在服务端组件中使用，只能在客户端中使用。而且 `onLoad` 不能和 `beforeInteractive` 一起使用，使用 `onReady` 代替。
+> `onLoad` 不能在服务端组件中使用，只能在客户端中使用。而且 `onLoad` 不能和 `beforeInteractive` 一起使用，使用 `onReady` 代替。
 
 ### onReady
 
 某些三方脚本要求用户在脚本完成加载后以及每次组件挂载的时候执行 JavaScript 代码，就比如地图导航。你可以使用 `onLoad` 属性处理首次加载，使用 `onReady` 属性处理组件每次重新挂载的时候执行代码：
 
 下面以接入腾讯地图为例：
+
 ```jsx
 'use client'
 
 import Script from 'next/script'
 
 export default function Page() {
-
     return (
         <>
             <div id="container"></div>
@@ -291,21 +311,22 @@ export default function Page() {
                 id="google-maps"
                 src="https://map.qq.com/api/gljs?v=1.exp&key=OB4BZ-D4W3U-B7VVO-4PJWW-6TKDJ-WPB77"
                 onReady={() => {
-                    const center = new TMap.LatLng(39.984104, 116.307503);
+                    const center = new TMap.LatLng(39.984104, 116.307503)
                     //初始化地图
-                    const map = new TMap.Map("container", {
-                        rotation: 20,//设置地图旋转角度
+                    const map = new TMap.Map('container', {
+                        rotation: 20, //设置地图旋转角度
                         pitch: 30, //设置俯仰角度（0~45）
-                        zoom: 12,//设置地图缩放级别
-                        center: center//设置地图中心点坐标
-                    });
-                    console.log('map:', map);
+                        zoom: 12, //设置地图缩放级别
+                        center: center //设置地图中心点坐标
+                    })
+                    console.log('map:', map)
                 }}
             />
         </>
     )
 }
 ```
+
 > 上面是为了演示 `Script` 组件的 `onReady` 属性，如果在项目开发中，建议使用 [tlbs-map地图组件库](https://lbs.qq.com/webApi/javascriptGL/glGuide/glComponents) 开发地图业务，它支持 Vue 和 React 框架，能够降低你的开发成本。
 
 效果如下图：
@@ -315,7 +336,9 @@ export default function Page() {
 `onReady` 也不能在服务端组件中使用，只能在客户端中使用。
 
 ### onError 属性
+
 当脚本加载失败的时候用于捕获错误，此时可以使用 `onError` 属性处理：
+
 ```jsx
 'use client'
 
@@ -334,6 +357,7 @@ export default function Page() {
     )
 }
 ```
+
 效果如下：
 
 ![](assets/903b19ca-cd62-4852-8505-59b0097291a9.png)
@@ -350,40 +374,39 @@ import Script from 'next/script'
 export default function Page() {
     return (
         <>
-            <Script
-                src="https://example.com/script.js"
-                id="example-script"
-                nonce="XUENAJFW"
-                data-test="script"
-            />
+            <Script src="https://example.com/script.js" id="example-script" nonce="XUENAJFW" data-test="script" />
         </>
     )
 }
 ```
 
 下面这段代码定义了一个 TypeScript 接口 `ScriptProps`，它扩展了 `ScriptHTMLAttributes<HTMLScriptElement>` 接口。
+
 ```ts
 export interface ScriptProps extends ScriptHTMLAttributes<HTMLScriptElement> {
-  strategy?: 'afterInteractive' | 'lazyOnload' | 'beforeInteractive' | 'worker'
-  id?: string
-  onLoad?: (e: any) => void
-  onReady?: () => void | null
-  onError?: (e: any) => void
-  children?: React.ReactNode
-  stylesheets?: string[]
+    strategy?: 'afterInteractive' | 'lazyOnload' | 'beforeInteractive' | 'worker'
+    id?: string
+    onLoad?: (e: any) => void
+    onReady?: () => void | null
+    onError?: (e: any) => void
+    children?: React.ReactNode
+    stylesheets?: string[]
 }
 ```
-想要了解更多底层细节可以看 [https://github.com/vercel/next.js/blob/v15.1.5/packages/next/src/client/script.tsx](https://github.com/vercel/next.js/blob/v15.1.5/packages/next/src/client/script.tsx)
 
+想要了解更多底层细节可以看 <https://github.com/vercel/next.js/blob/v15.1.5/packages/next/src/client/script.tsx>
 
 ## 最佳实践与注意事项
+
 ### 提供优化 Script 组件加载性能的建议（如合理选择加载策略、避免重复加载等）
+
 1. 懒加载
 
     `next/script` 是 Next.js 提供的专用组件，用于优化脚本的加载方式。它支持多种加载策略，如 `lazyOnload`，可以将非关键脚本推迟到页面加载完成后加载。
+
     ```jsx
-    import Script from 'next/script';
-    
+    import Script from 'next/script'
+
     export default function Page() {
         return (
             <div>
@@ -394,101 +417,110 @@ export interface ScriptProps extends ScriptHTMLAttributes<HTMLScriptElement> {
                     onLoad={() => console.log('Script loaded!')}
                 />
             </div>
-        );
+        )
     }
     ```
+
 2. 动态加载第三方脚本
 
     如果你的组件依赖于外部脚本（例如某个第三方库），可以将这些脚本的加载逻辑封装在动态组件中。通过设置 `ssr: false`，这些脚本将仅在客户端加载，从而减少服务器端的负载。
+
     ```jsx
-    import dynamic from 'next/dynamic';
-    
+    import dynamic from 'next/dynamic'
+
     const ScriptComponent = dynamic(() => import('@/components/ScriptComponent'), {
-        ssr: false, // 避免在服务器端加载脚本
-    });
-    
+        ssr: false // 避免在服务器端加载脚本
+    })
+
     export default function Page() {
         return (
             <div>
                 <h1>content</h1>
                 <ScriptComponent />
             </div>
-        );
+        )
     }
     ```
+
 3. 避免重复加载
 
 Next.js 会根据 id 属性去重，确保相同的脚本不会重复加载。
+
 ```jsx
 <Script id="analytics-script" src="https://example.com/analytics.js" />
 ```
 
-
 ### 使用 Script 组件时需要注意的安全问题（如防止 [XSS](https://zh.wikipedia.org/wiki/%E8%B7%A8%E7%B6%B2%E7%AB%99%E6%8C%87%E4%BB%A4%E7%A2%BC) 攻击）
+
 1. **配置内容安全策略（Content Security Policy，CSP）**
 
     内容安全策略（CSP）是一种额外的安全层，用于帮助检测和减少某些类型的攻击，如 XSS 和数据注入攻击。通过配置 CSP，可以限制页面加载的资源来源，从而防止恶意脚本的执行。配置有两种方式：静态配置和动态配置。
-    
-    a. **静态配置**
-    
-      在 next.config.ts 文件中通过 `headers` 属性定义静态 CSP，例如：
-      ```js
-      import type { NextConfig } from "next";
-    
-      const nextConfig: NextConfig = {
-        /* config options here */
-        async headers() {
-          return [
-            {
-              source: '/(.*)',
-              headers: [
-                {
-                  key: 'Content-Security-Policy',
-                  value: "default-src 'self'; script-src 'self' https://trusted.cdn.com; object-src 'none';",
-                },
-              ],
-            },
-          ];
-        },
-      };
-    
-      export default nextConfig;
-      ```
-      - `default-src 'self'`：默认仅允许从当前域加载所有资源。
-      - `script-src 'self' https://trusted.cdn.com`：脚本仅允许从当前域和可信的 CDN 加载。
-      - `object-src 'none'`：禁止加载 `<object>`、`<embed>` 或 `<applet>` 标签内容。
 
-      b. **动态配置**
-    
-      如果需要动态生成 CSP，可以使用 Next.js 的中间件。例如：
-      ```jsx
-      import { NextRequest, NextResponse } from 'next/server';
-    
-      export function middleware(request: NextRequest) {
-          const nonce = Buffer.from(crypto.randomUUID()).toString('base64');
-          const cspHeader = `
-          default-src 'self';
-          script-src 'self' 'nonce-${nonce}' 'strict-dynamic';
-          style-src 'self' 'nonce-${nonce}';
-          img-src 'self' blob: data:;
-          font-src 'self';
-          object-src 'none';
-          base-uri 'self';
-          form-action 'self';
-          frame-ancestors 'none';
-          upgrade-insecure-requests;
-        `.replace(/\s{2,}/g, ' ').trim();
-    
-          const response = NextResponse.next({
-              request: {
-                  headers: new Headers(request.headers),
+    a. **静态配置**
+
+    在 next.config.ts 文件中通过 `headers` 属性定义静态 CSP，例如：
+
+    ```js
+    import type { NextConfig } from "next";
+
+    const nextConfig: NextConfig = {
+      /* config options here */
+      async headers() {
+        return [
+          {
+            source: '/(.*)',
+            headers: [
+              {
+                key: 'Content-Security-Policy',
+                value: "default-src 'self'; script-src 'self' https://trusted.cdn.com; object-src 'none';",
               },
-          });
-          response.headers.set('Content-Security-Policy', cspHeader);
-          return response;
-      }
-      ```
-      > 关于 XSS 相关内容可以访问博客园 [feixianxing](https://www.cnblogs.com/feixianxing) 分享的[网络安全 如何预防XSS](https://www.cnblogs.com/feixianxing/p/18393032/network-safety-cross-site-scripting-content-security-policy) 文章：https://www.cnblogs.com/feixianxing/p/18393032/network-safety-cross-site-scripting-content-security-policy
+            ],
+          },
+        ];
+      },
+    };
+
+    export default nextConfig;
+    ```
+
+    - `default-src 'self'`：默认仅允许从当前域加载所有资源。
+    - `script-src 'self' https://trusted.cdn.com`：脚本仅允许从当前域和可信的 CDN 加载。
+    - `object-src 'none'`：禁止加载 `<object>`、`<embed>` 或 `<applet>` 标签内容。
+
+    b. **动态配置**
+
+    如果需要动态生成 CSP，可以使用 Next.js 的中间件。例如：
+
+    ```jsx
+    import { NextRequest, NextResponse } from 'next/server';
+
+    export function middleware(request: NextRequest) {
+        const nonce = Buffer.from(crypto.randomUUID()).toString('base64');
+        const cspHeader = `
+        default-src 'self';
+        script-src 'self' 'nonce-${nonce}' 'strict-dynamic';
+        style-src 'self' 'nonce-${nonce}';
+        img-src 'self' blob: data:;
+        font-src 'self';
+        object-src 'none';
+        base-uri 'self';
+        form-action 'self';
+        frame-ancestors 'none';
+        upgrade-insecure-requests;
+      `.replace(/\s{2,}/g, ' ').trim();
+
+        const response = NextResponse.next({
+            request: {
+                headers: new Headers(request.headers),
+            },
+        });
+        response.headers.set('Content-Security-Policy', cspHeader);
+        return response;
+    }
+    ```
+
+    > 关于 XSS 相关内容可以访问博客园 [feixianxing](https://www.cnblogs.com/feixianxing) 分享的[网络安全 如何预防XSS](https://www.cnblogs.com/feixianxing/p/18393032/network-safety-cross-site-scripting-content-security-policy) 文章：<https://www.cnblogs.com/feixianxing/p/18393032/network-safety-cross-site-scripting-content-security-policy>
+
 2. **避免内联脚本**
 
     尽量避免使用内联脚本，因为它们更容易被 [XSS](https://zh.wikipedia.org/wiki/%E8%B7%A8%E7%B6%B2%E7%AB%99%E6%8C%87%E4%BB%A4%E7%A2%BC) 攻击利用。如果必须使用内联脚本，可以通过 CSP 的 nonce 功能来增强安全性。
@@ -501,12 +533,12 @@ Next.js 会根据 id 属性去重，确保相同的脚本不会重复加载。
 
     避免使用 `innerHTML` 或其他直接操作 DOM 的方法。推荐使用 `textContent` 或安全的 DOM 操作，以减少 XSS 风险。
 
-
 ## 总结
 
 Next.js 提供的 `Script` 组件是优化第三方脚本加载的利器，通过其内置的 `strategy` 属性，我们可以灵活控制脚本的加载时机，确保性能和用户体验之间的平衡。同时，诸如 `onLoad` 和 `onError` 等回调函数，赋予开发者更多脚本管理的能力。正确地使用 `Script` 组件，不仅能够提升页面加载速度，还能避免因脚本问题导致的用户体验下降。因此，在开发过程中，结合实际需求选择合适的加载策略是提升应用性能的关键一步。
 
 **「参考资源」**
-- [Script](https://nextjs.org/docs/app/api-reference/components/script)：https://nextjs.org/docs/app/api-reference/components/script
-- [Script Optimization](https://nextjs.org/docs/app/building-your-application/optimizing/scripts)：https://nextjs.org/docs/app/building-your-application/optimizing/scripts
-- [next.js 源码](https://github.com/vercel/next.js/tree/v15.1.5)：https://github.com/vercel/next.js/tree/v15.1.5
+
+- [Script](https://nextjs.org/docs/app/api-reference/components/script)：<https://nextjs.org/docs/app/api-reference/components/script>
+- [Script Optimization](https://nextjs.org/docs/app/building-your-application/optimizing/scripts)：<https://nextjs.org/docs/app/building-your-application/optimizing/scripts>
+- [next.js 源码](https://github.com/vercel/next.js/tree/v15.1.5)：<https://github.com/vercel/next.js/tree/v15.1.5>

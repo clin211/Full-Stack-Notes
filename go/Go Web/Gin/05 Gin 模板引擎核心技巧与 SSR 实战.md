@@ -10,7 +10,7 @@
 - 电商平台：商品详情页与订单确认页。
 - 管理后台：数据表格与报表生成。
 
-尽管如今前后端分离模式让前端承担了更多的渲染任务，但在需要 SEO 优化或快速生成静态页面时，服务端渲染依然具备不可替代的优势。而在 Web 开发的世界里，页面渲染与静态资源管理同样至关重要。无论是高效的模板引擎，还是优化的 CSS、JS 文件加载，Gin 都提供了强大的支持。  
+尽管如今前后端分离模式让前端承担了更多的渲染任务，但在需要 SEO 优化或快速生成静态页面时，服务端渲染依然具备不可替代的优势。而在 Web 开发的世界里，页面渲染与静态资源管理同样至关重要。无论是高效的模板引擎，还是优化的 CSS、JS 文件加载，Gin 都提供了强大的支持。
 
 ## Gin 模板引擎
 
@@ -66,19 +66,19 @@ package main
 import "github.com/gin-gonic/gin"
 
 func main() {
- router := gin.Default()
- router.LoadHTMLGlob("templates/*")
- // router.LoadHTMLGlob("templates/**/*.html")  // 加载多级目录模板
+	router := gin.Default()
+	router.LoadHTMLGlob("templates/*")
+	// router.LoadHTMLGlob("templates/**/*.html")  // 加载多级目录模板
 
- router.GET("/", func(c *gin.Context) {
-  // 文件路径是基于加载模板文件下的路径
-  c.HTML(200, "index.html", gin.H{
-   "title":    "Gin Template Demo",
-   "username": "长林啊",
-  })
- })
+	router.GET("/", func(c *gin.Context) {
+		// 文件路径是基于加载模板文件下的路径
+		c.HTML(200, "index.html", gin.H{
+			"title":    "Gin Template Demo",
+			"username": "长林啊",
+		})
+	})
 
- router.Run(":8080")
+	router.Run(":8080")
 }
 ```
 
@@ -87,18 +87,16 @@ func main() {
 ```html
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>{{.title}}</title>
+    </head>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{.title}}</title>
-</head>
-
-<body>
-    <h2>this is home page</h2>
-    <h4>username: {{.username}}</h4>
-</body>
-
+    <body>
+        <h2>this is home page</h2>
+        <h4>username: {{.username}}</h4>
+    </body>
 </html>
 ```
 
@@ -122,10 +120,10 @@ router.SetHTMLTemplate(tmpl)
 
 // 渲染页面
 router.GET("/", func(c *gin.Context) {
-    c.HTML(http.StatusOK, "index.html", gin.H{
-        "Title": "自定义模板分隔符",
-        "Msg":   "Gin 模板支持自定义分隔符",
-    })
+	c.HTML(http.StatusOK, "index.html", gin.H{
+		"Title": "自定义模板分隔符",
+		"Msg":   "Gin 模板支持自定义分隔符",
+	})
 })
 ```
 
@@ -134,13 +132,13 @@ router.GET("/", func(c *gin.Context) {
 ```html
 <!DOCTYPE html>
 <html lang="zh">
-<head>
-    <meta charset="UTF-8">
-    <title>[[ .Title ]]</title>
-</head>
-<body>
-    <h1>[[ .Msg ]]</h1>
-</body>
+    <head>
+        <meta charset="UTF-8" />
+        <title>[[ .Title ]]</title>
+    </head>
+    <body>
+        <h1>[[ .Msg ]]</h1>
+    </body>
 </html>
 ```
 
@@ -152,12 +150,7 @@ router.GET("/", func(c *gin.Context) {
 模板中的注释不会被渲染到页面上。
 
 ```html
-{{/* 这是单行注释 */}}
-
-{{/*
-多行注释
-不会被渲染到输出
-*/}}
+{{/* 这是单行注释 */}} {{/* 多行注释 不会被渲染到输出 */}}
 ```
 
 ### 变量插值
@@ -184,13 +177,13 @@ router.GET("/", func(c *gin.Context) {
 
 ```go
 router.GET("/", func(c *gin.Context) {
-    // 文件路径是基于加载模板文件下的路径
-    c.HTML(200, "index.html", gin.H{
-        "title":     "Gin Template Demo",
-        "username":  "长林啊",
-        "isAdmin":   false,
-        "isLoginIn": true,
-    })
+	// 文件路径是基于加载模板文件下的路径
+	c.HTML(200, "index.html", gin.H{
+		"title":     "Gin Template Demo",
+		"username":  "长林啊",
+		"isAdmin":   false,
+		"isLoginIn": true,
+	})
 })
 ```
 
@@ -216,12 +209,12 @@ router.GET("/", func(c *gin.Context) {
 
 ```go
 router.GET("/", func(c *gin.Context) {
-  // 文件路径是基于加载模板文件下的路径
-  c.HTML(200, "index.html", gin.H{
-    // ...
-   "skills":    []string{"Go", "Gin", "MySQL", "Redis"},
-  })
- })
+	// 文件路径是基于加载模板文件下的路径
+	c.HTML(200, "index.html", gin.H{
+		// ...
+		"skills": []string{"Go", "Gin", "MySQL", "Redis"},
+	})
+})
 ```
 
 index.html 中的内容：
@@ -274,24 +267,24 @@ Go 的 `html/template` 允许注册自定义函数，并在模板中调用。在
 ```go
 // 注册函数 必须要在 加载模板之前！！！
 router.SetFuncMap(template.FuncMap{
-    "formatDate": func(t time.Time) string {
-        return t.Format("2006-01-02 15:04:05")
-    },
+	"formatDate": func(t time.Time) string {
+		return t.Format("2006-01-02 15:04:05")
+	},
 })
 
 router.LoadHTMLGlob("templates/*")
 // router.LoadHTMLGlob("templates/**/*.html")  // 加载多级目录模板
 
 router.GET("/", func(c *gin.Context) {
-    // 文件路径是基于加载模板文件下的路径
-    c.HTML(200, "index.html", gin.H{
-        "title":     "Gin Template Demo",
-        "username":  "长林啊",
-        "isAdmin":   false,
-        "isLoginIn": true,
-        "skills":    []string{"Go", "Gin", "MySQL", "Redis"},
-        "date":      time.Now(),
-    })
+	// 文件路径是基于加载模板文件下的路径
+	c.HTML(200, "index.html", gin.H{
+		"title":     "Gin Template Demo",
+		"username":  "长林啊",
+		"isAdmin":   false,
+		"isLoginIn": true,
+		"skills":    []string{"Go", "Gin", "MySQL", "Redis"},
+		"date":      time.Now(),
+	})
 })
 ```
 
@@ -311,22 +304,22 @@ router.GET("/", func(c *gin.Context) {
 
 - **默认输出会进行 HTML 转义**
 
-  ```html
-  <p>{{ .content }}</p>
-  ```
+    ```html
+    <p>{{ .content }}</p>
+    ```
 
-  如果 `content` 包含 `<script>alert('XSS')</script>`，它会被安全地转义为：
+    如果 `content` 包含 `<script>alert('XSS')</script>`，它会被安全地转义为：
 
-  ```html
-  &lt;script&gt;alert('XSS')&lt;/script&gt;
-  ```
-  
+    ```html
+    &lt;script&gt;alert('XSS')&lt;/script&gt;
+    ```
+
 - 如果需要输出原始 HTML 使用 `safeHTML` 函数：
 
-  ```html
-  <p>{{ .content | safeHTML }}</p>
-  ```
-  
+    ```html
+    <p>{{ .content | safeHTML }}</p>
+    ```
+
 ### 管道符
 
 管道符用于将一个值传递给一个函数，并可以链式调用多个函数；从右向左依次执行。
@@ -363,6 +356,7 @@ Go 的 `html/template` 支持多种字符串处理函数，常见的有：
 ### 数学运算
 
 Go 模板引擎不直接支持数学运算，但你可以通过自定义函数来实现：
+
 > 在前端生态中有一个很出名的 [lodash](https://lodash.com/) 库，这是一个功能完备的工具库，Go 语言中与之相匹配的也有一个，那就是 [samber/lo](https://github.com/samber/lo) 库：<https://github.com/samber/lo>
 
 - `lo.Sum` 可以快速对数组或切片求和。
@@ -373,47 +367,47 @@ Go 模板引擎不直接支持数学运算，但你可以通过自定义函数�
 package main
 
 import (
- "html/template"
- "time"
+	"html/template"
+	"time"
 
- "github.com/gin-gonic/gin"
- "github.com/samber/lo"
+	"github.com/gin-gonic/gin"
+	"github.com/samber/lo"
 )
 
 func main() {
- router := gin.Default()
+	router := gin.Default()
 
- // 注册函数
- router.SetFuncMap(template.FuncMap{
-  "formatDate": func(t time.Time) string {
-   return t.Format("2006-01-02 15:04:05")
-  },
-  "add":      lo.Sum[int],         // 求和
-  "max":      lo.Max[int],         // 最大值
-  "min":      lo.Min[int],         // 最小值
-  "contains": lo.Contains[string], // 判断是否包含
- })
+	// 注册函数
+	router.SetFuncMap(template.FuncMap{
+		"formatDate": func(t time.Time) string {
+			return t.Format("2006-01-02 15:04:05")
+		},
+		"add":      lo.Sum[int],         // 求和
+		"max":      lo.Max[int],         // 最大值
+		"min":      lo.Min[int],         // 最小值
+		"contains": lo.Contains[string], // 判断是否包含
+	})
 
- router.LoadHTMLGlob("templates/*")
- // router.LoadHTMLGlob("templates/**/*.html")  // 加载多级目录模板
+	router.LoadHTMLGlob("templates/*")
+	// router.LoadHTMLGlob("templates/**/*.html")  // 加载多级目录模板
 
- router.GET("/", func(c *gin.Context) {
-  // 文件路径是基于加载模板文件下的路径
-  c.HTML(200, "index.html", gin.H{
-   "title":     "Gin Template Demo",
-   "username":  "长林啊",
-   "isAdmin":   false,
-   "isLoginIn": true,
-   "skills":    []string{"Go", "Gin", "MySQL", "Redis"},
-   "date":      time.Now(),
-   "content":   "<script>alert('XSS')</script>",
-   "numbers":   []int{3, 5, 7, 2},
-   "word":      "hello",
-   "words":     []string{"hello", "world", "gin"},
-  })
- })
+	router.GET("/", func(c *gin.Context) {
+		// 文件路径是基于加载模板文件下的路径
+		c.HTML(200, "index.html", gin.H{
+			"title":     "Gin Template Demo",
+			"username":  "长林啊",
+			"isAdmin":   false,
+			"isLoginIn": true,
+			"skills":    []string{"Go", "Gin", "MySQL", "Redis"},
+			"date":      time.Now(),
+			"content":   "<script>alert('XSS')</script>",
+			"numbers":   []int{3, 5, 7, 2},
+			"word":      "hello",
+			"words":     []string{"hello", "world", "gin"},
+		})
+	})
 
- router.Run(":8080")
+	router.Run(":8080")
 }
 ```
 
@@ -441,62 +435,58 @@ func main() {
 
 - `header.html` 文件的内容：
 
-  ```html
-  {{ define "header.html" }}
-  <header>
-      <h1>这是页面头部</h1>
-      <nav>
-          <a href="/">首页</a> |
-          <a href="/about">关于</a> |
-          <a href="/contact">联系我们</a>
-      </nav>
-  </header>
-  {{ end }}
-  ```
+    ```html
+    {{ define "header.html" }}
+    <header>
+        <h1>这是页面头部</h1>
+        <nav>
+            <a href="/">首页</a> | <a href="/about">关于</a> |
+            <a href="/contact">联系我们</a>
+        </nav>
+    </header>
+    {{ end }}
+    ```
 
 - `footer.html` 文件的内容：
 
-  ```html
-  {{ define "footer.html" }}
-  <footer>
-      <p>© 2025 Gin Demo. All rights reserved.</p>
-  </footer>
-  {{ end }}
-  ```
+    ```html
+    {{ define "footer.html" }}
+    <footer>
+        <p>© 2025 Gin Demo. All rights reserved.</p>
+    </footer>
+    {{ end }}
+    ```
 
 - `content.html` 文件的内容：
 
-  ```html
-  {{ define "header.html" }}
-  <header>
-      <h1>这是页面头部</h1>
-      <nav>
-          <a href="/">首页</a> |
-          <a href="/about">关于</a> |
-          <a href="/contact">联系我们</a>
-      </nav>
-  </header>
-  {{ end }}
-  ```
+    ```html
+    {{ define "header.html" }}
+    <header>
+        <h1>这是页面头部</h1>
+        <nav>
+            <a href="/">首页</a> | <a href="/about">关于</a> |
+            <a href="/contact">联系我们</a>
+        </nav>
+    </header>
+    {{ end }}
+    ```
 
 接着就是在 `pages/detail.html` 中来整合这三个模板：
 
 ```html
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>{{.Title}}</title>
-</head>
+    <head>
+        <meta charset="UTF-8" />
+        <title>{{.Title}}</title>
+    </head>
 
-<body>
-    <p>detail</p>
-    {{ template "header.html" . }}
-    <div class="content">
-        {{ template "content.html" . }}
-    </div>
-    {{ template "footer.html" . }}
-</body>
+    <body>
+        <p>detail</p>
+        {{ template "header.html" . }}
+        <div class="content">{{ template "content.html" . }}</div>
+        {{ template "footer.html" . }}
+    </body>
 </html>
 ```
 
@@ -505,9 +495,9 @@ func main() {
 ```go
 // 路由
 router.GET("/detail", func(c *gin.Context) {
-    c.HTML(http.StatusOK, "detail.html", gin.H{
-        "Title": "Gin 模板继承",
-    })
+	c.HTML(http.StatusOK, "detail.html", gin.H{
+		"Title": "Gin 模板继承",
+	})
 })
 ```
 
@@ -542,9 +532,9 @@ router.GET("/detail", func(c *gin.Context) {
 最后的效果如下：
 
 - 列表页
-![](https://files.mdnice.com/user/8213/b3536490-a49b-420b-99eb-3e538ad6dc27.jpg)
+  ![](https://files.mdnice.com/user/8213/b3536490-a49b-420b-99eb-3e538ad6dc27.jpg)
 - 点击产品后的效果：
-![](https://files.mdnice.com/user/8213/8f84e166-4f3c-41de-a3a9-866ab1f0e5da.jpg)
+  ![](https://files.mdnice.com/user/8213/8f84e166-4f3c-41de-a3a9-866ab1f0e5da.jpg)
 
 知道最终要做一个什么东西后，我们先理一下具体实施步骤：
 
@@ -564,7 +554,7 @@ router.Static("/static", "./static")
 
 // other code...
 router.GET("/products", func(c *gin.Context) {
-    c.HTML(http.StatusOK, "products.html", nil)
+	c.HTML(http.StatusOK, "products.html", nil)
 })
 ```
 

@@ -11,7 +11,6 @@
 
 ## 一、基础知识介绍
 
-
 ### 1.1 Docker 简介
 
 Docker 是一个开源的应用容器引擎，它让开发者可以打包他们的应用以及依赖包到一个可移植的容器中，然后发布到任何流行的 Linux 或 Windows 机器上。通过容器化技术，Docker 彻底改变了软件交付和部署的方式。
@@ -257,20 +256,19 @@ Dockerfile 最佳实践：
 
 - **基于 scratch 的最小镜像**：使用空白基础镜像，仅包含必要组件，减小攻击面和镜像体积
 - **编译优化**：
-  - `-trimpath`：移除路径信息，提高可重现性
-  - `-ldflags="-w -s"`：去除调试信息，减小二进制大小
-  - 内嵌版本信息，便于运行时识别和故障排查
+    - `-trimpath`：移除路径信息，提高可重现性
+    - `-ldflags="-w -s"`：去除调试信息，减小二进制大小
+    - 内嵌版本信息，便于运行时识别和故障排查
 - **安全最佳实践**：
-  - 使用非 root 用户运行应用
-  - 多阶段构建隔离编译环境与运行环境
-  - 复制必要的 SSL 证书，确保 HTTPS 连接安全
+    - 使用非 root 用户运行应用
+    - 多阶段构建隔离编译环境与运行环境
+    - 复制必要的 SSL 证书，确保 HTTPS 连接安全
 - **操作便利性**：
-  - 健康检查配置，便于容器编排系统监控应用状态
-  - 使用 ENTRYPOINT 和 CMD 分离，提供灵活的启动选项
-  - 明确声明端口和存储卷
+    - 健康检查配置，便于容器编排系统监控应用状态
+    - 使用 ENTRYPOINT 和 CMD 分离，提供灵活的启动选项
+    - 明确声明端口和存储卷
 
 对于需要更多依赖的应用，可以使用 Alpine 作为基础镜像，但 scratch 对于典型的 Go 服务通常已经足够，且提供了最小的镜像体积。
-
 
 ## 二、使用 GitHub Actions 和 Docker Compose 构建 Go 项目
 
@@ -284,7 +282,7 @@ Dockerfile 最佳实践：
 
 Go 项目通常遵循以下目录结构：
 
-```
+```text
 my-project/
 ├── cmd/                # 主要应用入口点
 │   └── server/         # 服务启动代码
@@ -1056,31 +1054,31 @@ chown deploy:deploy /opt/go-app
 为了实现安全的自动部署，我们需要配置 SSH 密钥认证：
 
 1. **在 GitHub Actions 运行器上生成 SSH 密钥**：
+
     ```bash
     ssh-keygen -t rsa -b 2048 -C "your_email@example.com" -f deploy-go
     ```
 
     具体来说，命令的各个部分的含义是：
-
-    * `ssh-keygen`: 是一个用于生成 SSH 密钥对的命令。
-    * `-t rsa`: 指定生成的密钥类型为 RSA。
-    * `-b 2048`: 指定密钥的位数为 2048 位。
-    * `-C "your_email@example.com"`: 指定密钥的注释（comment）为你的邮箱地址。
-    * `-f deploy-go`: 指定生成的密钥文件名为 `deploy-go`。
+    - `ssh-keygen`: 是一个用于生成 SSH 密钥对的命令。
+    - `-t rsa`: 指定生成的密钥类型为 RSA。
+    - `-b 2048`: 指定密钥的位数为 2048 位。
+    - `-C "your_email@example.com"`: 指定密钥的注释（comment）为你的邮箱地址。
+    - `-f deploy-go`: 指定生成的密钥文件名为 `deploy-go`。
 
     执行这行命令后，会生成两个文件：`deploy-go`（私钥）和 `deploy-go.pub`（公钥）。生成的密钥文件 `deploy-go` 和 `deploy-go.pub` 将会保存在当前工作目录中；如下图：
-  
-   ![](./assets/bf0d233a-0aa8-4b63-b8ee-396db88b2116.png)
 
+    ![](./assets/bf0d233a-0aa8-4b63-b8ee-396db88b2116.png)
 
 2. **将公钥添加到服务器的授权密钥**：
 
-   ```bash
-   cat deploy-go.pub >> ~/.ssh/authorized_keys
-   ```
-   这个命令会将公钥文件 `deploy-go.pub` 的内容追加到 `~/.ssh/authorized_keys` 文件中。
+    ```bash
+    cat deploy-go.pub >> ~/.ssh/authorized_keys
+    ```
 
-   > 注意：如果你是通过 SSH 连接到服务器的，那么你需要将公钥添加到服务器上的 `~/.ssh/authorized_keys` 文件中，而不是本地机器上的文件中。
+    这个命令会将公钥文件 `deploy-go.pub` 的内容追加到 `~/.ssh/authorized_keys` 文件中。
+
+    > 注意：如果你是通过 SSH 连接到服务器的，那么你需要将公钥添加到服务器上的 `~/.ssh/authorized_keys` 文件中，而不是本地机器上的文件中。
 
 3. **在 GitHub 仓库中添加私钥作为 Secret**：  
    将私钥（deploy-go）内容添加为名为 `SERVER_SSH_KEY` 的 GitHub Secret。
@@ -1088,6 +1086,7 @@ chown deploy:deploy /opt/go-app
 ### 3.2 镜像同步到服务器
 
 有两种主要方法可以将 Docker 镜像从 CI/CD 环境同步到生产服务器：
+
 - 通过 Docker 镜像仓库拉取
 - 直接使用 SSH 传输镜像文件。
 
@@ -1248,10 +1247,10 @@ echo "[$(date)] Deployment completed successfully!"
 
 1. **停止后启动**：先停止旧容器，再启动新容器（有短暂停机时间）
 
-   ```bash
-   docker-compose down
-   docker-compose up -d
-   ```
+    ```bash
+    docker-compose down
+    docker-compose up -d
+    ```
 
 2. **蓝绿部署**：启动新容器后再停止旧容器（需要额外资源）
 
@@ -1265,28 +1264,27 @@ echo "[$(date)] Deployment completed successfully!"
    # 验证蓝色环境健康
    sleep 10
    if curl -s http://localhost:8081/health | grep -q "ok"; then
-     # 切换流量（更新 Nginx 配置）
-     sed -i 's/proxy_pass http:\/\/localhost:8080/proxy_pass http:\/\/localhost:8081/' /etc/nginx/sites-enabled/app.conf
-     nginx -s reload
-     
-     # 停止绿色环境
-     docker-compose -f docker-compose.green.yml down
+        # 切换流量（更新 Nginx 配置）
+        sed -i 's/proxy_pass http:\/\/localhost:8080/proxy_pass http:\/\/localhost:8081/' /etc/nginx/sites-enabled/app.conf
+        nginx -s reload
+        
+        # 停止绿色环境
+        docker-compose -f docker-compose.green.yml down
    else
-     echo "New deployment is unhealthy, aborting!"
-     docker-compose -f docker-compose.blue.yml down
-     exit 1
+        echo "New deployment is unhealthy, aborting!"
+        docker-compose -f docker-compose.blue.yml down
+        exit 1
    fi
    ```
 
 3. **滚动更新**：对于多容器服务，一次替换一个容器
 
-   ```bash
-   # 对于使用 Docker Swarm 的情况
-   docker service update --image $IMAGE_NAME:$NEW_TAG --update-parallelism 1 --update-delay 30s my_service
-   ```
+    ```bash
+    # 对于使用 Docker Swarm 的情况
+    docker service update --image $IMAGE_NAME:$NEW_TAG --update-parallelism 1 --update-delay 30s my_service
+    ```
 
 每种策略都有其优缺点，根据应用需求和可用资源选择合适的策略。本文所用的策略是停止后启动！
-
 
 ## 四、阿里云镜像仓库集成
 
@@ -1308,12 +1306,12 @@ echo "[$(date)] Deployment completed successfully!"
 
 在容器化部署方案中，私有镜像仓库是确保交付链路安全与高效的关键环节。
 
-#### 阿里云容器镜像服务功能简介：
+#### 阿里云容器镜像服务功能简介
 
 1. **个人版和企业版**：
-   - 个人版：适合个人开发者和小型团队，提供基本的镜像托管功能
-   - 企业版：提供更高的安全性、可扩展性和管理功能，适合企业级应用
-2. **多地域部署**： 
+    - 个人版：适合个人开发者和小型团队，提供基本的镜像托管功能
+    - 企业版：提供更高的安全性、可扩展性和管理功能，适合企业级应用
+2. **多地域部署**：
    支持在全球多个地域部署镜像仓库，便于跨地域应用部署和团队协作
 3. **镜像安全扫描**：
    自动扫描镜像中的安全漏洞，提供修复建议
@@ -1330,12 +1328,12 @@ echo "[$(date)] Deployment completed successfully!"
 2. 可以为不同的仓库设置不同的访问权限，如只读、推送、管理等
 3. 支持生成临时访问凭证，用于 CI/CD 系统安全访问
 
-
 ### 4.2 配置 GitHub Actions 推送到阿里云镜像仓库
 
 要将 GitHub Actions 工作流与阿里云容器镜像服务集成，需要进行以下配置。
 
 #### 创建容器实例
+
 这里创建个人版的实例，容器镜像服务ACR个人版面向个人开发者，提供基础的容器镜像服务，包括应用镜像托管能力、稳定的镜像构建服务以及便捷的镜像授权功能，方便进行镜像全生命周期管理。虽然受限，但也够用了。
 
 ![](./assets/60d86e55-22f7-425c-84f7-673ff712c14a.png)
@@ -1358,20 +1356,18 @@ echo "[$(date)] Deployment completed successfully!"
 
 1. **创建 GitHub Secrets**：
    在 GitHub 仓库设置中，添加以下 Secrets：
-   - `ALIYUN_USERNAME`：阿里云访问密钥 ID（AccessKey ID）
-   - `ALIYUN_PASSWORD`：阿里云访问密钥密码（AccessKey Secret）
-   - `ALIYUN_REGISTRY`：阿里云容器镜像服务的注册表地址（如 `registry.cn-hangzhou.aliyuncs.com`）
-   - `ALIYUN_NAMESPACE`：命名空间名称
-   
-   ![](./assets/35ec4058-7f9e-42fa-a647-235188d8f316.png)
+    - `ALIYUN_USERNAME`：阿里云访问密钥 ID（AccessKey ID）
+    - `ALIYUN_PASSWORD`：阿里云访问密钥密码（AccessKey Secret）
+    - `ALIYUN_REGISTRY`：阿里云容器镜像服务的注册表地址（如 `registry.cn-hangzhou.aliyuncs.com`）
+    - `ALIYUN_NAMESPACE`：命名空间名称
 
+    ![](./assets/35ec4058-7f9e-42fa-a647-235188d8f316.png)
 
-   ![](./assets/9f25ff4f-4983-47ab-b385-c7ea92cd6bcb.png)
+    ![](./assets/9f25ff4f-4983-47ab-b385-c7ea92cd6bcb.png)
 
-   ![](./assets/48e0d577-1774-44b7-9047-cb5fa6b8c843.png)
+    ![](./assets/48e0d577-1774-44b7-9047-cb5fa6b8c843.png)
 
-   ![](./assets/3e355248-a9b3-46fd-8f8f-7baef65a25e1.png)
-
+    ![](./assets/3e355248-a9b3-46fd-8f8f-7baef65a25e1.png)
 
 2. **配置 Docker 登录步骤**：
    在 GitHub Actions 工作流中添加登录步骤：
@@ -1427,7 +1423,7 @@ echo "[$(date)] Deployment completed successfully!"
          type=raw,value=latest,enable=${{ github.ref == 'refs/heads/main' }}
    ```
 
-   这会生成多个标签，包括语义化版本标签和 Git SHA 标签，便于版本追踪。
+    这会生成多个标签，包括语义化版本标签和 Git SHA 标签，便于版本追踪。
 
 2. **镜像分层优化**：
 
@@ -1459,54 +1455,54 @@ echo "[$(date)] Deployment completed successfully!"
 
 1. **创建认证配置**：
 
-   ```bash
-   # 在服务器上登录到阿里云容器镜像服务
-   docker login --username=${ALIYUN_USERNAME} \
-     --password=${ALIYUN_PASSWORD} \
-     ${ALIYUN_REGISTRY}
-   ```
+    ```bash
+    # 在服务器上登录到阿里云容器镜像服务
+    docker login --username=${ALIYUN_USERNAME} \
+      --password=${ALIYUN_PASSWORD} \
+      ${ALIYUN_REGISTRY}
+    ```
 
-   这会在 `~/.docker/config.json` 中创建认证信息。
+    这会在 `~/.docker/config.json` 中创建认证信息。
 
 2. **使用凭证助手**：  
    为了提高安全性，可以使用 Docker 凭证助手来安全存储凭证：
 
-   ```bash
-   # 安装 pass
-   apt-get install -y pass
-   
-   # 初始化 pass
-   gpg --gen-key  # 按照提示操作
-   pass init "Docker Registry Authentication"
-   
-   # 安装 docker-credential-helpers
-   curl -L https://github.com/docker/docker-credential-helpers/releases/download/v0.6.4/docker-credential-pass-v0.6.4-amd64.tar.gz | tar xz
-   chmod +x docker-credential-pass
-   mv docker-credential-pass /usr/local/bin/
-   
-   # 配置 Docker 使用凭证助手
-   cat > ~/.docker/config.json << EOF
-   {
-     "credsStore": "pass"
-   }
-   EOF
-   
-   # 登录（凭证将安全存储）
-   docker login --username=${ALIYUN_USERNAME} \
-     --password=${ALIYUN_PASSWORD} \
-     ${ALIYUN_REGISTRY}
-   ```
+    ```bash
+    # 安装 pass
+    apt-get install -y pass
+
+    # 初始化 pass
+    gpg --gen-key  # 按照提示操作
+    pass init "Docker Registry Authentication"
+
+    # 安装 docker-credential-helpers
+    curl -L https://github.com/docker/docker-credential-helpers/releases/download/v0.6.4/docker-credential-pass-v0.6.4-amd64.tar.gz | tar xz
+    chmod +x docker-credential-pass
+    mv docker-credential-pass /usr/local/bin/
+
+    # 配置 Docker 使用凭证助手
+    cat > ~/.docker/config.json << EOF
+    {
+      "credsStore": "pass"
+    }
+    EOF
+
+    # 登录（凭证将安全存储）
+    docker login --username=${ALIYUN_USERNAME} \
+      --password=${ALIYUN_PASSWORD} \
+      ${ALIYUN_REGISTRY}
+    ```
 
 3. **为服务用户配置权限**：  
    如果使用非 root 用户运行 Docker，需要确保该用户有权限访问凭证：
 
-   ```bash
-   # 将凭证复制到服务用户的主目录
-   mkdir -p /home/deploy/.docker
-   cp ~/.docker/config.json /home/deploy/.docker/
-   chown -R deploy:deploy /home/deploy/.docker
-   chmod 600 /home/deploy/.docker/config.json
-   ```
+    ```bash
+    # 将凭证复制到服务用户的主目录
+    mkdir -p /home/deploy/.docker
+    cp ~/.docker/config.json /home/deploy/.docker/
+    chown -R deploy:deploy /home/deploy/.docker
+    chmod 600 /home/deploy/.docker/config.json
+    ```
 
 #### 自动拉取最新镜像
 
@@ -1535,47 +1531,47 @@ echo "[$(date)] Deployment completed successfully!"
 2. **使用 Webhook 触发器**：  
    设置服务器上的 Webhook 监听器，当镜像推送完成时自动触发部署：
 
-   ```bash
-   # 在服务器上安装简单的 webhook 服务器
-   apt-get install -y webhook
-   
-   # 配置 webhook
-   cat > /etc/webhook.conf << EOF
-   [
-     {
-       "id": "deploy",
-       "execute-command": "/opt/scripts/deploy.sh",
-       "command-working-directory": "/opt/go-app",
-       "response-message": "Deploying application...",
-       "trigger-rule": {
-         "match": {
-           "type": "value",
-           "value": "YOUR_SECRET_TOKEN",
-           "parameter": {
-             "source": "header",
-             "name": "X-Deploy-Token"
-           }
-         }
-       }
-     }
-   ]
-   EOF
-   
-   # 创建部署脚本
-   cat > /opt/scripts/deploy.sh << EOF
-   #!/bin/bash
-   cd /opt/go-app
-   docker-compose pull
-   docker-compose down
-   docker-compose up -d
-   EOF
-   chmod +x /opt/scripts/deploy.sh
-   
-   # 启动 webhook 服务
-   webhook -hooks /etc/webhook.conf -verbose
-   ```
+    ```bash
+    # 在服务器上安装简单的 webhook 服务器
+    apt-get install -y webhook
 
-   然后在 GitHub Actions 中触发 webhook：
+    # 配置 webhook
+    cat > /etc/webhook.conf << EOF
+    [
+      {
+        "id": "deploy",
+        "execute-command": "/opt/scripts/deploy.sh",
+        "command-working-directory": "/opt/go-app",
+        "response-message": "Deploying application...",
+        "trigger-rule": {
+          "match": {
+            "type": "value",
+            "value": "YOUR_SECRET_TOKEN",
+            "parameter": {
+              "source": "header",
+              "name": "X-Deploy-Token"
+            }
+          }
+        }
+      }
+    ]
+    EOF
+
+    # 创建部署脚本
+    cat > /opt/scripts/deploy.sh << EOF
+    #!/bin/bash
+    cd /opt/go-app
+    docker-compose pull
+    docker-compose down
+    docker-compose up -d
+    EOF
+    chmod +x /opt/scripts/deploy.sh
+
+    # 启动 webhook 服务
+    webhook -hooks /etc/webhook.conf -verbose
+    ```
+
+    然后在 GitHub Actions 中触发 webhook：
 
    ```yaml
    - name: Trigger deployment webhook
@@ -1867,26 +1863,26 @@ jobs:
 
 1. **仓库级别环境变量**：
 
-   ```yaml
-   env:
-     APP_NAME: go-app
-     REGISTRY: registry.cn-hangzhou.aliyuncs.com
-     NAMESPACE: your-namespace
-   ```
+    ```yaml
+    env:
+        APP_NAME: go-app
+        REGISTRY: registry.cn-hangzhou.aliyuncs.com
+        NAMESPACE: your-namespace
+    ```
 
-   这些是全局配置，可以在工作流中随时引用。
+    这些是全局配置，可以在工作流中随时引用。
 
 2. **GitHub Secrets**：
    需要在仓库 Settings -> Secrets and variables -> Actions 中添加以下机密：
-   - `ALIYUN_USERNAME`: 阿里云访问密钥 ID
-   - `ALIYUN_PASSWORD`: 阿里云访问密钥密码
-   - `SERVER_HOST`: 服务器 IP 地址
-   - `SERVER_USER`: SSH 用户名
-   - `SERVER_SSH_KEY`: SSH 私钥
-   - `DB_USER`: 数据库用户名
-   - `DB_PASSWORD`: 数据库密码
-   - `DB_NAME`: 数据库名称
-   - `SLACK_WEBHOOK`: Slack 通知 Webhook URL
+    - `ALIYUN_USERNAME`: 阿里云访问密钥 ID
+    - `ALIYUN_PASSWORD`: 阿里云访问密钥密码
+    - `SERVER_HOST`: 服务器 IP 地址
+    - `SERVER_USER`: SSH 用户名
+    - `SERVER_SSH_KEY`: SSH 私钥
+    - `DB_USER`: 数据库用户名
+    - `DB_PASSWORD`: 数据库密码
+    - `DB_NAME`: 数据库名称
+    - `SLACK_WEBHOOK`: Slack 通知 Webhook URL
 
 3. **环境特定变量**：
    工作流使用 `environment: production` 配置环境特定的变量和密钥，可以实现更细粒度的权限控制。
@@ -1897,15 +1893,15 @@ jobs:
 
 1. **失败检测**：
 
-   ```bash
-   if ! docker-compose ps | grep -q "Up"; then
-     echo "Deployment failed!"
-     docker-compose logs
-     exit 1
-   fi
-   ```
+    ```bash
+    if ! docker-compose ps | grep -q "Up"; then
+      echo "Deployment failed!"
+      docker-compose logs
+      exit 1
+    fi
+    ```
 
-   在部署后，检查容器是否正常运行，如果失败则输出日志并终止工作流。
+    在部署后，检查容器是否正常运行，如果失败则输出日志并终止工作流。
 
 2. **Slack 通知**：
    使用 `rtCamp/action-slack-notify` 动作在部署成功或失败时发送通知，让团队成员及时了解部署状态。
@@ -1922,11 +1918,11 @@ jobs:
 1. **GitHub Actions 状态徽章**：
    在项目 README 中添加工作流状态徽章：
 
-   ```markdown
-   ![部署状态](https://github.com/username/repo/actions/workflows/deploy.yml/badge.svg)
-   
-   比如：![deploy status](https://github.com/clin211/miniblog/actions/workflows/deploy.yml/badge.svg)
-   ```
+    ```markdown
+    ![部署状态](https://github.com/username/repo/actions/workflows/deploy.yml/badge.svg)
+
+    比如：![deploy status](https://github.com/clin211/miniblog/actions/workflows/deploy.yml/badge.svg)
+    ```
 
 2. **部署健康检查**：
    在应用中实现健康检查 API，并在 docker-compose.yml 中配置健康检查：
@@ -1946,27 +1942,27 @@ jobs:
 3. **Prometheus 指标收集**：
    在 Go 应用中添加 Prometheus 指标支持：
 
-   ```go
-   import (
-     "github.com/prometheus/client_golang/prometheus"
-     "github.com/prometheus/client_golang/prometheus/promhttp"
-   )
-   
-   func setupMetrics() {
-     // 注册自定义指标
-     deploymentCounter := prometheus.NewCounter(prometheus.CounterOpts{
-       Name: "app_deployments_total",
-       Help: "Total number of deployments",
-     })
-     prometheus.MustRegister(deploymentCounter)
-     
-     // 部署时增加计数
-     deploymentCounter.Inc()
-     
-     // 暴露 /metrics 端点
-     http.Handle("/metrics", promhttp.Handler())
-   }
-   ```
+    ```go
+    import (
+        "github.com/prometheus/client_golang/prometheus"
+        "github.com/prometheus/client_golang/prometheus/promhttp"
+    )
+
+    func setupMetrics() {
+        // 注册自定义指标
+        deploymentCounter := prometheus.NewCounter(prometheus.CounterOpts{
+            Name: "app_deployments_total",
+            Help: "Total number of deployments",
+        })
+        prometheus.MustRegister(deploymentCounter)
+
+        // 部署时增加计数
+        deploymentCounter.Inc()
+
+        // 暴露 /metrics 端点
+        http.Handle("/metrics", promhttp.Handler())
+    }
+    ```
 
 4. **Grafana 部署面板**：
    创建专门的 Grafana 面板来监控部署指标，包括部署频率、部署持续时间和部署成功率等。
@@ -1998,63 +1994,63 @@ jobs:
 2. **结构化日志**：
    在 Go 应用中使用结构化日志格式，便于分析：
 
-   ```go
-   import (
-     "github.com/rs/zerolog"
-     "github.com/rs/zerolog/log"
-   )
-   
-   func setupLogging() {
-     zerolog.TimeFieldFormat = zerolog.TimeFormatUnix
-     
-     log.Info().
-       Str("version", version).
-       Str("commit", commitSha).
-       Str("environment", environment).
-       Msg("Application started")
-   }
-   ```
+    ```go
+    import (
+        "github.com/rs/zerolog"
+        "github.com/rs/zerolog/log"
+    )
+
+    func setupLogging() {
+        zerolog.TimeFieldFormat = zerolog.TimeFormatUnix
+
+        log.Info().
+            Str("version", version).
+            Str("commit", commitSha).
+            Str("environment", environment).
+            Msg("Application started")
+    }
+    ```
 
 3. **部署事件记录**：
    在部署过程中记录关键事件，便于追踪：
 
-   ```bash
-   echo "[$(date)] Deployment started: version $VERSION" >> /var/log/deployment.log
-   # 执行部署步骤
-   echo "[$(date)] Deployment completed: status $?" >> /var/log/deployment.log
-   ```
+    ```bash
+    echo "[$(date)] Deployment started: version $VERSION" >> /var/log/deployment.log
+    # 执行部署步骤
+    echo "[$(date)] Deployment completed: status $?" >> /var/log/deployment.log
+    ```
 
 #### 故障排查策略
 
 1. **蓝绿部署排查**：
    当使用蓝绿部署时，保留旧版本一段时间，便于快速回滚和对比排查：
 
-   ```bash
-   # 不要立即删除旧容器，先停止它们
-   docker-compose -f docker-compose.green.yml stop
-   
-   # 保留一段时间后再清理
-   (sleep 1h && docker-compose -f docker-compose.green.yml down) &
-   ```
+    ```bash
+    # 不要立即删除旧容器，先停止它们
+    docker-compose -f docker-compose.green.yml stop
+
+    # 保留一段时间后再清理
+    (sleep 1h && docker-compose -f docker-compose.green.yml down) &
+    ```
 
 2. **部署历史记录**：
    记录每次部署的详细信息，便于追溯问题：
 
-   ```bash
-   cat > /opt/go-app/deployments.log << EOF
-   $(date) - Version: $VERSION, Commit: $COMMIT_SHA, User: $GITHUB_ACTOR
-   $(docker-compose ps)
-   ---
-   EOF
-   ```
+    ```bash
+    cat > /opt/go-app/deployments.log << EOF
+    $(date) - Version: $VERSION, Commit: $COMMIT_SHA, User: $GITHUB_ACTOR
+    $(docker-compose ps)
+    ---
+    EOF
+    ```
 
 3. **镜像版本管理**：
    保留历史镜像版本，便于回滚测试：
 
-   ```bash
-   # 在清理镜像前，保留最近 5 个版本
-   docker image ls $IMAGE_NAME --format "{{.Tag}}" | sort -r | tail -n +6 | xargs -I {} docker image rm $IMAGE_NAME:{}
-   ```
+    ```bash
+    # 在清理镜像前，保留最近 5 个版本
+    docker image ls $IMAGE_NAME --format "{{.Tag}}" | sort -r | tail -n +6 | xargs -I {} docker image rm $IMAGE_NAME:{}
+    ```
 
 ### 5.3 优化与最佳实践
 
@@ -2065,17 +2061,17 @@ jobs:
 1. **缓存优化**：
    除了 Docker 构建缓存，还可以缓存 Go 模块和测试结果：
 
-   ```yaml
-   - name: Go 模块缓存
-     uses: actions/cache@v3
-     with:
-       path: |
-         ~/.cache/go-build
-         ~/go/pkg/mod
-       key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
-       restore-keys: |
-         ${{ runner.os }}-go-
-   ```
+    ```yaml
+    - name: Go 模块缓存
+      uses: actions/cache@v3
+      with:
+          path: |
+              ~/.cache/go-build
+              ~/go/pkg/mod
+          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+          restore-keys: |
+              ${{ runner.os }}-go-
+    ```
 
 2. **并行作业**：
    将独立的任务拆分为并行作业，例如同时进行代码检查和构建准备工作。
@@ -2091,20 +2087,20 @@ jobs:
 1. **密钥轮换**：
    定期轮换所有部署密钥，减少泄露风险：
 
-   ```bash
-   # 创建轮换密钥的脚本
-   cat > rotate_keys.sh << EOF
-   #!/bin/bash
-   # 生成新的 SSH 密钥
-   ssh-keygen -t ed25519 -f deploy_key -N ""
-   
-   # 更新服务器上的授权密钥
-   ssh user@server "sed -i '/github-actions/d' ~/.ssh/authorized_keys"
-   cat deploy_key.pub | ssh user@server "cat >> ~/.ssh/authorized_keys"
-   
-   echo "现在，将 deploy_key 添加到 GitHub Secrets..."
-   EOF
-   ```
+    ```bash
+    # 创建轮换密钥的脚本
+    cat > rotate_keys.sh << EOF
+    #!/bin/bash
+    # 生成新的 SSH 密钥
+    ssh-keygen -t ed25519 -f deploy_key -N ""
+
+    # 更新服务器上的授权密钥
+    ssh user@server "sed -i '/github-actions/d' ~/.ssh/authorized_keys"
+    cat deploy_key.pub | ssh user@server "cat >> ~/.ssh/authorized_keys"
+
+    echo "现在，将 deploy_key 添加到 GitHub Secrets..."
+    EOF
+    ```
 
 2. **漏洞扫描**：
    在部署前添加容器镜像漏洞扫描：
@@ -2151,7 +2147,7 @@ jobs:
        # ... 构建逻辑 ...
    ```
 
-   然后在主工作流中调用：
+    然后在主工作流中调用：
 
    ```yaml
    jobs:

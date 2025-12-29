@@ -9,18 +9,19 @@
 ## 共性痛点
 
 文件上传功能看似简单，但实际开发中可能遇到多种复杂问题，包括安全、性能、存储和用户体验等多个方面。从服务端的角度看至少要注意以下问题：
+
 - **接收文件内容**：用户点击上传按钮时，浏览器(客户端)通过 HTTP 请求（通常是 POST）把文件上传到服务器，服务端需要能够识别和提取上传的文件数据，比如使用 `multipart/form-data` 方式接收文件。
 - **校验文件合法性**：上传前，必须进行一些“基本的检查”以防止上传非法文件或占用大量资源：文件大小限制、文件类型检查、文件名格式（防止特殊字符或路径穿越攻击）。
 - **保存文件到服务器**：文件上传后，需要决定保存在哪里：本地磁盘？云存储（对象存储服务（MinIO、阿里 OSS、S3 等）？数据库（极少数场景）？文件保存时可能还要进行重命名或生成唯一 ID，防止重复/冲突。
 - **返回上传结果给前端**：上传完成后，服务端需要告知前端上传是否成功，并返回有用的信息，前端可以用这个地址进行展示、预览或提交表单。
 - **异常处理**——上传过程中可能遇到各种问题，必须做出友好提示：
 
-  | 错误场景       | 应对方式                   |
-  | -------------- | -------------------------- |
-  | 上传超时       | 设置合理超时时间、提示用户 |
-  | 文件太大       | 返回错误码 + 友好文案      |
-  | 格式不对       | 明确提示“仅支持 JPG/PNG”   |
-  | 服务器存储失败 | 写入日志、返回 500         |
+    | 错误场景       | 应对方式                   |
+    | -------------- | -------------------------- |
+    | 上传超时       | 设置合理超时时间、提示用户 |
+    | 文件太大       | 返回错误码 + 友好文案      |
+    | 格式不对       | 明确提示“仅支持 JPG/PNG”   |
+    | 服务器存储失败 | 写入日志、返回 500         |
 
 > 你可以把“文件上传”想象成一个运输流程：
 >
@@ -33,6 +34,7 @@
 在实际开发中，我们需要根据不同业务需求，灵活选择合适的文件上传模式。而这些上传模式本质上，都是围绕上传过程中的几个核心问题——如**文件接收、合法性校验、存储策略、用户反馈、异常与安全控制**——来进行不同维度的扩展和演化的。
 
 以下是几种典型上传方式与其应对痛点的关系：
+
 1. **单文件上传**是最基础的上传模式，适用于一次上传一个小文件的简单场景。它在**接收、校验、存储、反馈**等环节都相对简单，是入门开发最常见的起点。这种模式下，重点在于文件大小、类型的校验，以及基础的存储路径设计。
 2. **多文件批量上传**则扩展了上传能力，允许用户一次选择多个文件。它解决了**多次请求成本高、用户操作繁琐**的问题，同时也带来了新的挑战，比如**批量接收与校验、并发存储控制以及整体进度管理**等。
 3. **文件夹上传**面向的是更复杂的结构化数据场景，比如项目文件、文档集等。这类模式重点解决了**目录结构还原**与**递归接收文件**的问题，要求服务端具备自动创建目录结构、批量处理子文件的能力。
@@ -46,6 +48,7 @@
 在 Go 生态中，虽然核心开发团队并没有强制的官方项目结构标准，但社区里流传最广、被广泛采用的是 [`Standard Go Project Layout`](https://github.com/golang-standards/project-layout/blob/master/README_zh.md)。它提供了一套通用的项目目录组织方式，适用于绝大多数中小型项目，尤其是在团队协作和代码可维护性方面，有一定的规范作用。
 
 下面我们就基于 Standard Go Project Layout 来搭建，最后的项目架构如下：
+
 ```txt
 upload-file/
 ├── api                                       # API接口定义
@@ -85,15 +88,16 @@ upload-file/
 ```
 
 路由说明：
+
 ```bash
-POST   /api/v1/upload/file             上传单文件  
-POST   /api/v1/upload/multiple         上传多个文件  
-POST   /api/v1/upload/folder           上传文件夹  
-POST   /api/v1/upload/chunk/init       初始化分片上传，返回 uploadID  
-POST   /api/v1/upload/chunk            上传分片（服务端自动触发合并）  
-GET    /api/v1/upload/chunk/status     查询分片上传状态（可选，用于断点续传）  
-GET    /api/v1/upload/url              获取文件访问地址（支持 MinIO 对象存储）  
-GET    /api/v1/upload/meta/:file_id    获取文件元信息（如大小、类型等）  
+POST   /api/v1/upload/file             上传单文件
+POST   /api/v1/upload/multiple         上传多个文件
+POST   /api/v1/upload/folder           上传文件夹
+POST   /api/v1/upload/chunk/init       初始化分片上传，返回 uploadID
+POST   /api/v1/upload/chunk            上传分片（服务端自动触发合并）
+GET    /api/v1/upload/chunk/status     查询分片上传状态（可选，用于断点续传）
+GET    /api/v1/upload/url              获取文件访问地址（支持 MinIO 对象存储）
+GET    /api/v1/upload/meta/:file_id    获取文件元信息（如大小、类型等）
 DELETE /api/v1/upload                  删除文件（通过 file_id 或 object_key）
 ```
 
@@ -103,6 +107,7 @@ DELETE /api/v1/upload                  删除文件（通过 file_id 或 object_
 - 支持大部分浏览器上传方式，包括 [`webkitdirectory`](https://developer.mozilla.org/zh-CN/docs/Web/API/HTMLInputElement/webkitdirectory) 的文件夹上传
 
 我们已经把项目目录和路由设计好了，下面就是初始化项目、安装所需依赖、编写配置文件、创建配置加载结构体；详细如下：
+
 1. **项目初始化**
 2. **配置文件与加载配置逻辑**
 3. **服务端启动与路由配置**
@@ -112,23 +117,27 @@ DELETE /api/v1/upload                  删除文件（通过 file_id 或 object_
 7. **测试与验证**
 
 > 本文的环境如下：
+>
 > - Go: go1.24.2
 > - vscode：1.99.2
-> - os: Mac OS 
+> - os: Mac OS
 
 ### 项目初始化
 
 1. **创建项目目录并初始化**
+
     ```sh
-    mkdir 06-upload-file && cd 06-upload-file && go mod init github.com/clin211/gin-learn/06-upload-file 
+    mkdir 06-upload-file && cd 06-upload-file && go mod init github.com/clin211/gin-learn/06-upload-file
     ```
 
 2. **安装 Gin**
+
     ```sh
     go get github.com/gin-gonic/gin
     ```
 
 ### 配置文件与加载配置逻辑
+
 1. **编写配置文件**
 
     通常项目的配置项管理都是使用 `yaml`、`yml`、`json`、`ini`等，我们这里就使用 yaml 格式来编写配置文件 `config.yaml` 定义常用配置，如 MinIO 连接信息、上传路径、文件大小限制、文件格式等。
@@ -136,40 +145,41 @@ DELETE /api/v1/upload                  删除文件（通过 file_id 或 object_
     ```yaml
     # Server
     server:
-      port: 8080
-      mode: debug # debug, release
-      read_timeout: 10s
-      write_timeout: 10s
+        port: 8080
+        mode: debug # debug, release
+        read_timeout: 10s
+        write_timeout: 10s
 
     # Logger
     logger:
-      level: debug # debug, info, warn, error, fatal, panic
-      format: json # json, console
+        level: debug # debug, info, warn, error, fatal, panic
+        format: json # json, console
 
     # 本地上传配置
     local:
-      upload_dir: ./upload/dir
-      allowed_extensions: [ ".jpg", ".jpeg", ".png", ".gif", ".bmp", ".webp" ]
-      max_file_size: 50MB
+        upload_dir: ./upload/dir
+        allowed_extensions: ['.jpg', '.jpeg', '.png', '.gif', '.bmp', '.webp']
+        max_file_size: 50MB
 
     # Aliyun OSS 配置
     ali_oss:
-      access_key_id: your_access_key_id
-      access_key_secret: your_access_key_secret
-      bucket_name: your_bucket_name
-      endpoint: oss-cn-hangzhou.aliyuncs.com
+        access_key_id: your_access_key_id
+        access_key_secret: your_access_key_secret
+        bucket_name: your_bucket_name
+        endpoint: oss-cn-hangzhou.aliyuncs.com
 
     # MinIO 配置
     minio:
-      access_key: your_access_key
-      secret_key: your_secret_key
-      bucket_name: your_bucket_name
-      endpoint: http://minio:9000
+        access_key: your_access_key
+        secret_key: your_secret_key
+        bucket_name: your_bucket_name
+        endpoint: http://minio:9000
     ```
 
 2. **创建配置加载结构体**
 
     在 `internal/config/config.go` 中读取配置文件并使用 viper 解析，如下：
+
     ```go
     package config
 
@@ -267,50 +277,49 @@ DELETE /api/v1/upload                  删除文件（通过 file_id 或 object_
     ```
 
     这段代码是使用了 viper 库来读取和解析配置文件。分别有三大模块：
-
     - **配置结构体**
 
-      代码定义了一个 `Config` 结构体，包含了几个子结构体：
-      * `ServerConfig`: 服务器配置
-      * `LoggerConfig`: 日志配置
-      * `LocalConfig`: 本地存储配置
-      * `AliOSSConfig`: 阿里云 OSS 配置
-      * `MinIOConfig`: MinIO 配置
+        代码定义了一个 `Config` 结构体，包含了几个子结构体：
+        - `ServerConfig`: 服务器配置
+        - `LoggerConfig`: 日志配置
+        - `LocalConfig`: 本地存储配置
+        - `AliOSSConfig`: 阿里云 OSS 配置
+        - `MinIOConfig`: MinIO 配置
 
-      每个子结构体都有自己的字段，例如 `ServerConfig` 有 `Port`、`Mode`、`ReadTimeout` 和 `WriteTimeout` 字段。
+        每个子结构体都有自己的字段，例如 `ServerConfig` 有 `Port`、`Mode`、`ReadTimeout` 和 `WriteTimeout` 字段。
 
     - **包级别变量**
 
-      代码定义了几个包级别变量，分别对应于每个配置结构体：
-      * `Server`: 服务器配置
-      * `Logger`: 日志配置
-      * `Local`: 本地存储配置
-      * `AliOSS`: 阿里云 OSS 配置
-      * `MinIO`: MinIO 配置
+        代码定义了几个包级别变量，分别对应于每个配置结构体：
+        - `Server`: 服务器配置
+        - `Logger`: 日志配置
+        - `Local`: 本地存储配置
+        - `AliOSS`: 阿里云 OSS 配置
+        - `MinIO`: MinIO 配置
 
-      这些变量将被用来存储解析后的配置值。
+        这些变量将被用来存储解析后的配置值。
 
     - **初始化配置**
 
-      `Init` 函数用于初始化配置。它接受一个 `configPath` 参数，指定配置文件的路径。函数首先设置 viper 的配置文件路径，并启用环境变量支持。然后，它读取配置文件并解析到包级别变量中。
+        `Init` 函数用于初始化配置。它接受一个 `configPath` 参数，指定配置文件的路径。函数首先设置 viper 的配置文件路径，并启用环境变量支持。然后，它读取配置文件并解析到包级别变量中。
 
     - **解析配置**
 
-      函数使用 viper 的 `UnmarshalKey` 方法来解析配置文件中的值到包级别变量中。例如，它使用 `viper.UnmarshalKey("server", &Server)` 来解析 `server` 配置块中的值到 `Server` 变量中。
+        函数使用 viper 的 `UnmarshalKey` 方法来解析配置文件中的值到包级别变量中。例如，它使用 `viper.UnmarshalKey("server", &Server)` 来解析 `server` 配置块中的值到 `Server` 变量中。
 
 3. **在入口文件中执行读取配置项**
 
     ```go
     package main
-    
+
     import (
         "fmt"
         "log"
         "path/filepath"
-    
+
         "github.com/clin211/gin-learn/06-upload-file/internal/config"
     )
-    
+
     func main() {
         // 初始化配置
         configPath := filepath.Join("configs", "config.yaml")
@@ -318,36 +327,37 @@ DELETE /api/v1/upload                  删除文件（通过 file_id 或 object_
             log.Fatalf("初始化配置失败: %v", err)
             return
         }
-    
+
         // 现在可以通过 config.xx 来访问配置
         fmt.Println("config.Local.UploadDir: ", config.Local.UploadDir)
     }
     ```
-    
+
 4. **测试验证**
 
     在项目的根目录下进入终端，然后执行 `go run cmd/main.go`，效果如下：
+
     ```sh
     go run cmd/main.go
     config.Local.UploadDir:  ./upload/dir
     ```
 
-
 ### 服务端启动与路由配置
 
 1. 在启动文件中添加启动 Gin HTTP 服务器的逻辑
+
     ```go
     package main
-  
+
     import (
         "fmt"
         "log"
         "path/filepath"
-  
+
         "github.com/clin211/gin-learn/06-upload-file/internal/config"
         "github.com/gin-gonic/gin"
     )
-  
+
     func main() {
         // 初始化配置
         configPath := filepath.Join("configs", "config.yaml")
@@ -355,10 +365,10 @@ DELETE /api/v1/upload                  删除文件（通过 file_id 或 object_
             log.Fatalf("初始化配置失败: %v", err)
             return
         }
-  
+
         // 现在可以通过 config.xx 来访问配置
         fmt.Println("config.Local.UploadDir: ", config.Local.UploadDir)
-  
+
         // Gin 初始化
         gin.SetMode(config.Server.Mode)
         router := gin.Default()
@@ -372,13 +382,15 @@ DELETE /api/v1/upload                  删除文件（通过 file_id 或 object_
         router.Run(port)
     }
     ```
+
     在终端中运行 `go run cmd/main.go` 启动服务后，请求 `/health` 接口看看效果：
+
     ```sh
     curl localhost:8080/health
-    
+
     {"message":"ok"}
     ```
-  
+
 2. 规划路由
 
     注册上传相关接口（单文件、多文件、文件夹、分片上传等）。配置上传处理的路由和对应的 handler。
@@ -389,15 +401,16 @@ DELETE /api/v1/upload                  删除文件（通过 file_id 或 object_
     - **测试**: 通过定义接口，可以更容易地进行单元测试，因为可以使用 mock 对象来模拟接口的实现。
 
     在 `api/v1/upload/upload.go` 中写入如下内容：
+
     ```go
     package upload
-    
+
     import (
         "github.com/gin-gonic/gin"
     )
-    
+
     type FileUploader struct{}
-    
+
     type Uploader interface {
         File(c *gin.Context)        // 上传单文件
         Multiple(c *gin.Context)    // 上传多个文件
@@ -409,145 +422,161 @@ DELETE /api/v1/upload                  删除文件（通过 file_id 或 object_
         GetFileURL(c *gin.Context)  // 获取文件访问地址（支持 MinIO 对象存储）
         Delete(c *gin.Context)      // 删除文件（通过 file_id 或 object_key）
     }
-    
+
     // 检查是否实现了 Uploader 接口
     var _ Uploader = &FileUploader{}
     ```
 
     然后在 `/api/v1/upload` 下依次创建对应路由的文件：
     - chunk-init.go
-      ```go
-      package upload
-      
-      import "github.com/gin-gonic/gin"
-      
-      func (u *FileUploader) ChunkInit(c *gin.Context) {
-          c.JSON(200, gin.H{
-              "message": "chunk init ok",
-          })
-      }
-      ```
+
+        ```go
+        package upload
+
+        import "github.com/gin-gonic/gin"
+
+        func (u *FileUploader) ChunkInit(c *gin.Context) {
+            c.JSON(200, gin.H{
+                "message": "chunk init ok",
+            })
+        }
+        ```
+
     - chunk.go
-      ```go
-      package upload
-      
-      import "github.com/gin-gonic/gin"
-      
-      func (u *FileUploader) Chunk(c *gin.Context) {
-          c.JSON(200, gin.H{
-              "message": "chunk ok",
-          })
-      }
-      ```
+
+        ```go
+        package upload
+
+        import "github.com/gin-gonic/gin"
+
+        func (u *FileUploader) Chunk(c *gin.Context) {
+            c.JSON(200, gin.H{
+                "message": "chunk ok",
+            })
+        }
+        ```
+
     - chunk-status.go
-      ```go
-      package upload
-      
-      import "github.com/gin-gonic/gin"
-      
-      // 查询分片上传状态（可选，用于断点续传）
-      func (u *FileUploader) ChunkStatus(c *gin.Context) {
-          // 获取文件名
-          fileName := c.Query("filename")
-      
-          // 获取分片上传状态
-          chunkStatus := c.Query("chunkStatus")
-      
-          c.JSON(200, gin.H{
-              "message":     "chunk status ok",
-              "fileName":    fileName,
-              "chunkStatus": chunkStatus,
-          })
-      }
-      ```
+
+        ```go
+        package upload
+
+        import "github.com/gin-gonic/gin"
+
+        // 查询分片上传状态（可选，用于断点续传）
+        func (u *FileUploader) ChunkStatus(c *gin.Context) {
+            // 获取文件名
+            fileName := c.Query("filename")
+
+            // 获取分片上传状态
+            chunkStatus := c.Query("chunkStatus")
+
+            c.JSON(200, gin.H{
+                "message":     "chunk status ok",
+                "fileName":    fileName,
+                "chunkStatus": chunkStatus,
+            })
+        }
+        ```
+
     - file.go
-      ```go
-      package upload
-      
-      import "github.com/gin-gonic/gin"
-      
-      func (u *FileUploader) File(c *gin.Context) {
-          c.JSON(200, gin.H{
-              "message": "file ok",
-          })
-      }
-      ```
+
+        ```go
+        package upload
+
+        import "github.com/gin-gonic/gin"
+
+        func (u *FileUploader) File(c *gin.Context) {
+            c.JSON(200, gin.H{
+                "message": "file ok",
+            })
+        }
+        ```
+
     - folder.go
-      ```go
-      package upload
-      
-      import "github.com/gin-gonic/gin"
-      
-      func (u *FileUploader) Folder(c *gin.Context) {
-          c.JSON(200, gin.H{
-              "message": "folder ok",
-          })
-      }
-      ```
+
+        ```go
+        package upload
+
+        import "github.com/gin-gonic/gin"
+
+        func (u *FileUploader) Folder(c *gin.Context) {
+            c.JSON(200, gin.H{
+                "message": "folder ok",
+            })
+        }
+        ```
+
     - meta.go
-      ```go
-      package upload
-      
-      import "github.com/gin-gonic/gin"
-      
-      func (u *FileUploader) Meta(c *gin.Context) {
-          c.JSON(200, gin.H{
-              "message": "meta ok",
-          })
-      }
-      ```
+
+        ```go
+        package upload
+
+        import "github.com/gin-gonic/gin"
+
+        func (u *FileUploader) Meta(c *gin.Context) {
+            c.JSON(200, gin.H{
+                "message": "meta ok",
+            })
+        }
+        ```
+
     - multiple.go
-      ```go
-      package upload
-      
-      import "github.com/gin-gonic/gin"
-      
-      func (u *FileUploader) Multiple(c *gin.Context) {
-          c.JSON(200, gin.H{
-              "message": "multiple ok",
-          })
-      }
-      ```
+
+        ```go
+        package upload
+
+        import "github.com/gin-gonic/gin"
+
+        func (u *FileUploader) Multiple(c *gin.Context) {
+            c.JSON(200, gin.H{
+                "message": "multiple ok",
+            })
+        }
+        ```
+
     - url.go
-      ```go
-      package upload
-      
-      import (
-          "fmt"
-      
-          "github.com/gin-gonic/gin"
-      )
-      
-      // 获取文件访问地址（支持 MinIO 对象存储）
-      func (u *FileUploader) GetFileURL(c *gin.Context) {
-          // 获取文件名
-          fileName := c.Query("filename")
-      
-          // 获取文件访问地址
-          fileURL := fmt.Sprintf("http://%s/%s", "127.0.0.1:8080", fileName)
-      
-          c.JSON(200, gin.H{
-              "message": "ok",
-              "fileURL": fileURL,
-          })
-      }
-      ```
-    
+
+        ```go
+        package upload
+
+        import (
+            "fmt"
+
+            "github.com/gin-gonic/gin"
+        )
+
+        // 获取文件访问地址（支持 MinIO 对象存储）
+        func (u *FileUploader) GetFileURL(c *gin.Context) {
+            // 获取文件名
+            fileName := c.Query("filename")
+
+            // 获取文件访问地址
+            fileURL := fmt.Sprintf("http://%s/%s", "127.0.0.1:8080", fileName)
+
+            c.JSON(200, gin.H{
+                "message": "ok",
+                "fileURL": fileURL,
+            })
+        }
+        ```
+
 3. 路由文件和相关初始化完成之后，还需要再入口文件中完善路由的注册
+
     ```go
     package main
-    
+
     import (
         "fmt"
         "log"
         "path/filepath"
-    
+
         "github.com/gin-gonic/gin"
-    
+
         v1 "github.com/clin211/gin-learn/06-upload-file/api/v1"
         "github.com/clin211/gin-learn/06-upload-file/internal/config"
     )
-    
+
     func main() {
         // 初始化配置
         configPath := filepath.Join("configs", "config.yaml")
@@ -555,10 +584,10 @@ DELETE /api/v1/upload                  删除文件（通过 file_id 或 object_
             log.Fatalf("初始化配置失败: %v", err)
             return
         }
-    
+
         // 现在可以通过 config.xx 来访问配置
         fmt.Println("config.Local.UploadDir: ", config.Local.UploadDir)
-    
+
         // Gin 初始化
         gin.SetMode(config.Server.Mode)
         router := gin.Default()
@@ -567,65 +596,83 @@ DELETE /api/v1/upload                  删除文件（通过 file_id 或 object_
                 "message": "ok",
             })
         })
-    
+
         v1.RegisterRoutes(router)
-    
+
         port := fmt.Sprintf(":%d", config.Server.Port)
         fmt.Println("server start at ", port)
         router.Run(port)
     }
     ```
-4. 重新运行 `go run cmd/main.go` 启动服务来检验一下相关路由，这里继续使用 curl 来请求
 
+4. 重新运行 `go run cmd/main.go` 启动服务来检验一下相关路由，这里继续使用 curl 来请求
     - **单个文件上传**
-      ```sh
-      url -X POST http://localhost:8080/api/v1/upload/file
-      {"message":"file ok"}
-      ```
+
+        ```sh
+        url -X POST http://localhost:8080/api/v1/upload/file
+        {"message":"file ok"}
+        ```
+
     - 多文件上传
-      ```sh
-      curl -X POST http://localhost:8080/api/v1/upload/multiple                   
-      {"message":"multiple ok"}
-      ```
+
+        ```sh
+        curl -X POST http://localhost:8080/api/v1/upload/multiple
+        {"message":"multiple ok"}
+        ```
+
     - 文件夹上传
-      ```sh
-      curl -X POST http://localhost:8080/api/v1/upload/folder  
-      {"message":"folder ok"}
-      ```
+
+        ```sh
+        curl -X POST http://localhost:8080/api/v1/upload/folder
+        {"message":"folder ok"}
+        ```
+
     - 初始化分片上传
-      ```sh
-      curl -X POST http://localhost:8080/api/v1/upload/chunk/init      
-      {"message":"chunk init ok"}
-      ```
+
+        ```sh
+        curl -X POST http://localhost:8080/api/v1/upload/chunk/init
+        {"message":"chunk init ok"}
+        ```
+
     - 上传分片
-      ```sh
-      url -X POST http://localhost:8080/api/v1/upload/chunk     
-      {"message":"chunk ok"}
-      ```
+
+        ```sh
+        url -X POST http://localhost:8080/api/v1/upload/chunk
+        {"message":"chunk ok"}
+        ```
+
     - 查询分片上传状态
-      ```sh
-      curl -X GET http://localhost:8080/api/v1/upload/chunk/status
-      {"chunkStatus":"","fileName":"","message":"chunk status ok"}
-      ```
+
+        ```sh
+        curl -X GET http://localhost:8080/api/v1/upload/chunk/status
+        {"chunkStatus":"","fileName":"","message":"chunk status ok"}
+        ```
+
     - 获取文件访问地址
-      ```sh
-      curl -X GET http://localhost:8080/api/v1/upload/url         
-      {"fileURL":"http://127.0.0.1:8080/","message":"ok"}
-      ```
+
+        ```sh
+        curl -X GET http://localhost:8080/api/v1/upload/url
+        {"fileURL":"http://127.0.0.1:8080/","message":"ok"}
+        ```
+
     - 获取文件元信息
-      ```sh
-      curl -X GET http://localhost:8080/api/v1/upload/meta/phone.txt
-      {"message":"meta ok"}
-      ```
+
+        ```sh
+        curl -X GET http://localhost:8080/api/v1/upload/meta/phone.txt
+        {"message":"meta ok"}
+        ```
+
     - 删除文件
-      ```sh
-      curl -X DELETE http://localhost:8080/api/v1/upload/phone.txt
-      {"message":"删除失败"}
-      ```
+
+        ```sh
+        curl -X DELETE http://localhost:8080/api/v1/upload/phone.txt
+        {"message":"删除失败"}
+        ```
 
 ### 上传功能的实现
 
 目录结构：
+
 ```sh
 internal/
 ├── config
@@ -662,16 +709,16 @@ internal/
 我们采用 `年/月/日/UUID.扩展名` 的路径生成策略，主要基于以下考虑：
 
 1. **UUID的优势**：
-   - **全局唯一性**：UUID算法确保生成的标识符在时间和空间上具有极高的唯一性，几乎不可能发生冲突
-   - **无中央协调**：不需要中央服务器分配，适合分布式系统
-   - **不可预测性**：增强了安全性，攻击者难以猜测或遍历文件路径
-   - **无状态生成**：不依赖数据库或其他外部系统，提高了系统的可靠性
+    - **全局唯一性**：UUID算法确保生成的标识符在时间和空间上具有极高的唯一性，几乎不可能发生冲突
+    - **无中央协调**：不需要中央服务器分配，适合分布式系统
+    - **不可预测性**：增强了安全性，攻击者难以猜测或遍历文件路径
+    - **无状态生成**：不依赖数据库或其他外部系统，提高了系统的可靠性
 
 2. **日期目录结构的优势**：
-   - **自然分类**：按时间组织文件符合人类直觉，便于管理
-   - **性能优化**：避免单目录下文件过多，提高文件系统访问效率
-   - **方便备份**：可以按日期范围进行增量备份或归档
-   - **容量规划**：通过分析日期目录的大小，可以预测存储需求增长趋势
+    - **自然分类**：按时间组织文件符合人类直觉，便于管理
+    - **性能优化**：避免单目录下文件过多，提高文件系统访问效率
+    - **方便备份**：可以按日期范围进行增量备份或归档
+    - **容量规划**：通过分析日期目录的大小，可以预测存储需求增长趋势
 
 根据上面的分析，在 `internal/pkg/pathutil/pathutil.go` 中实现如下：
 
@@ -711,26 +758,29 @@ func GenerateFilePath(filename string) string {
 路径的问题解决之后，下一步就开始着手于存储，我们先来做本地存储，也就是直接上传到服务器指定目录下，在 config.yaml 中已经配置了具体的存储路径。
 
 为了存储方式的可扩展性，在我们的文件上传系统中，采用了抽象存储接口设计模式，这是一种面向接口编程的实践，通过 `storage` 和 `local` (alioss、七牛云等)的分离实现了存储层的解耦与灵活性。`storage` 文件定义了一个抽象的 Storage 接口，而 `local` 则是该接口的一个具体实现。这种设计基于以下核心理念：
+
 - **依赖倒置原则**：系统依赖于抽象接口而非具体实现，使得高层模块不依赖于低层模块的具体实现细节。业务逻辑只需关注 Storage 接口提供的方法，而不需要了解底层存储的具体实现方式。
 - **单一职责原则**：个文件有明确的职责边界：`storage` 专注于定义存储服务的行为契约（接口）、`local` 专注于实现本地文件系统存储的具体逻辑。
 - **开闭原则**：系统对扩展开放，对修改封闭。当需要支持新的存储方式时，只需创建新的接口实现，而无需修改现有代码。
 
 这种抽象存储接口设计为系统带来了显著的优势：
+
 1. 存储策略灵活切换  
-  系统可以在不同的存储实现之间无缝切换，例如：
+   系统可以在不同的存储实现之间无缝切换，例如：
     - 本地文件系统存储（LocalStorage）
     - 云对象存储（如阿里云OSS、七牛云等）
     - MinIO 对象存储
     - 分布式文件系统存储
       只需确保新的存储实现了 Storage 接口的所有方法，就能与系统无缝集成。
 2. 业务逻辑与存储分离  
-上传处理逻辑不需要关心文件最终存储在哪里，只需调用接口方法即可完成存储操作，这降低了系统各部分之间的耦合度。
+   上传处理逻辑不需要关心文件最终存储在哪里，只需调用接口方法即可完成存储操作，这降低了系统各部分之间的耦合度。
 3. 测试便利性  
-在测试环境中，可以轻松使用模拟（Mock）存储实现来替代真实存储，简化测试流程，提高测试覆盖率。
+   在测试环境中，可以轻松使用模拟（Mock）存储实现来替代真实存储，简化测试流程，提高测试覆盖率。
 4. 渐进式迁移能力  
-当需要将存储从一种方式迁移到另一种方式时（例如从本地存储迁移到云存储），可以实现平滑过渡，甚至支持多存储并行使用的混合策略。
+   当需要将存储从一种方式迁移到另一种方式时（例如从本地存储迁移到云存储），可以实现平滑过渡，甚至支持多存储并行使用的混合策略。
 
 有了上面的铺垫，我们就来具体实现其逻辑，在 `internal/pkg/storage/storage.go` 中定义接口：
+
 ```go
 package storage
 
@@ -742,13 +792,15 @@ type Storage interface {
 	Delete(objectKey string) error
 }
 ```
+
 `Storage` 接口定义了三个核心方法，每个方法都有明确的单一职责：
+
 - `Save`：负责将上传的文件保存到存储系统中；接收文件数据和目标路径，返回错误信息或成功状态。
-- `GetURL`：负责获取已存储文件的访问地址；接收文件的唯一标识符返回可访问的 URL  和可能的错误。
+- `GetURL`：负责获取已存储文件的访问地址；接收文件的唯一标识符返回可访问的 URL 和可能的错误。
 - `Delete`：负责从存储系统中删除指定文件；接收文件的唯一标识符，返回操作成功与否的错误信息。
 
-
 在理解了 storage 中定义的抽象接口后， 接下来便是 Storage 接口的第一个具体实现——本地文件系统存，在 `internal/pkg/storage/local.go` 中实现本地存储的逻辑如下：
+
 ```go
 package storage
 
@@ -840,6 +892,7 @@ func (s *LocalStorage) Delete(objectKey string) error {
 上面两部分实现唯一路径和本地存储的功能，接下来就来实现接收上传、校验合法性和返回数据。
 
 校验合法性我们可以将其单独抽离成一个包，为什么要抽离成一个单独的包呢？
+
 - **关注点分离**：验证逻辑与存储逻辑属于不同的关注点。将它们分开可以让每个模块专注于自己的核心职责：`storage` 包负责如何存储和检索文件；`validator` 包负责确保文件符合系统规则和要求。这种关注点分离使代码结构更加清晰，每个组件的边界和职责得到明确定义。
 - **代码复用性提升**：验证功能往往需要在系统的多个位置被调用。例如：上传接口需要验证文件、导入功能需要验证文件、后台管理界面需要验证文件；将验证逻辑抽离为独立包，可以在所有这些场景中复用相同的规则和行为，避免代码重复。
 - **一致性保证**：当所有文件验证都通过同一个集中的验证器进行时，系统能够确保一致的验证行为。这防止了不同模块实施不同验证规则的风险，降低了安全漏洞的可能性。
@@ -878,7 +931,9 @@ func ValidateFile(f *multipart.FileHeader) error {
 	return nil
 }
 ```
+
 上面这段代码中，主要做了以下几个方面的事：
+
 - **白名单机制**：系统采用"默认拒绝"的策略，只允许明确定义的文件类型，而非尝试列出所有不允许的类型。这种白名单方法大大降低了系统被恶意文件攻击的风险。
 - **大小写不敏感处理**：通过 `strings.ToLower()` 将文件扩展名转为小写，防止攻击者利用大小写混合（如 ".pNg" 或 ".jPg"）绕过验证。
 - **早期验证**：在文件处理流程的最开始就进行类型验证，节约系统资源，避免处理不安全的文件。
@@ -888,6 +943,7 @@ func ValidateFile(f *multipart.FileHeader) error {
 在完成了文件验证后，系统需要处理文件的实际上传并将其存储到指定位置。这一环节是整个上传功能的核心，它将用户提交的文件安全地转移到存储系统中，并返回相关的访问信息。
 
 上传逻辑在 `internal/logic/upload/file.go` 中实现，详细代码如下：
+
 ```go
 package upload
 
@@ -947,6 +1003,7 @@ func (l *FileUploadLogic) Upload(file *multipart.FileHeader) (string, error) {
 ```
 
 最后实现接收文件，将其功能串起来，在 `api/v1/upload/file.go`中实现文件数据的验证和响应：
+
 ```go
 package upload
 
@@ -983,8 +1040,8 @@ func (u *FileUploader) File(c *gin.Context) {
 }
 ```
 
-
 运行 `go run cmd/main.go` 启动服务后，测试单文件上传的命令：
+
 ```sh
 curl -X POST \
   http://localhost:8080/api/v1/upload/file \

@@ -8,24 +8,24 @@ Shell 脚本是一种将多个命令组织在一起的文本文件，它可以�
 
 1. 使用文本编辑器创建一个新文件：
 
-   ```bash
-   touch hello.sh
-   ```
+    ```bash
+    touch hello.sh
+    ```
 
 2. 用编辑器打开文件：
 
-   ```bash
-   nano hello.sh   # 或使用其他编辑器如 vim、VSCode 等
-   ```
+    ```bash
+    nano hello.sh   # 或使用其他编辑器如 vim、VSCode 等
+    ```
 
 3. 添加以下内容：
 
-   ```bash
-   #!/bin/bash
-   
-   echo "Hello, World!"
-   echo "这是我的第一个 Shell 脚本"
-   ```
+    ```bash
+    #!/bin/bash
+
+    echo "Hello, World!"
+    echo "这是我的第一个 Shell 脚本"
+    ```
 
 4. 保存文件并退出编辑器。
 
@@ -50,7 +50,7 @@ chmod +x hello.sh
 
 输出应该是：
 
-```
+```text
 Hello, World!
 这是我的第一个 Shell 脚本
 ```
@@ -136,7 +136,7 @@ echo "参数个数: $#"
 
 如果你执行 `./params.sh hello world`，输出将是：
 
-```
+```text
 脚本名称: ./params.sh
 第一个参数: hello
 第二个参数: world
@@ -395,13 +395,13 @@ do
         echo "跳过 5"
         continue
     fi
-    
+
     if [ $NUM -eq 8 ]
     then
         echo "在 8 处终止循环"
         break
     fi
-    
+
     echo "数字: $NUM"
 done
 ```
@@ -483,7 +483,7 @@ handle_change() {
     local file=$1
     local event=$2
     local dir_type=$3
-    
+
     echo "$(timestamp) [$dir_type] $file: $event"
 }
 
@@ -491,9 +491,9 @@ handle_change() {
 monitor_directory() {
     local dir=$1
     local dir_type=$2
-    
+
     echo "开始监控 $dir_type 目录: $dir"
-    
+
     fswatch -r "$dir" | while read file event; do
         handle_change "$file" "$event" "$dir_type"
     done &
@@ -517,13 +517,13 @@ wait
 1. **变量定义**：定义了要监控的 Chrome 目录
 2. **依赖检查**：检查 fswatch 命令是否可用
 3. **函数定义**：
-   - `timestamp()` - 生成时间戳
-   - `handle_change()` - 处理文件变化事件
-   - `monitor_directory()` - 设置目录监控
+    - `timestamp()` - 生成时间戳
+    - `handle_change()` - 处理文件变化事件
+    - `monitor_directory()` - 设置目录监控
 4. **主程序流程**：
-   - 显示欢迎信息
-   - 启动三个监控进程（在后台运行）
-   - 使用 `wait` 命令保持脚本运行
+    - 显示欢迎信息
+    - 启动三个监控进程（在后台运行）
+    - 使用 `wait` 命令保持脚本运行
 
 脚本使用 `fswatch` 命令监控目录变化，并为每个变化的文件输出一条带有时间戳的日志信息。
 
@@ -536,8 +536,8 @@ wait
 3. 编写一个备份脚本，将指定目录的内容复制到一个以当前日期命名的备份目录中。
 
 4. 修改 watch-chrome.sh 脚本，添加以下功能：
-   - 将监控日志保存到文件
-   - 添加一个选项可以指定要监控的特定文件类型
+    - 将监控日志保存到文件
+    - 添加一个选项可以指定要监控的特定文件类型
 
 ## 小结
 

@@ -28,11 +28,10 @@ package main
 import "fmt"
 
 func main() {
-    m := map[int]string{} // 或者 var m map[int]string = map[int]string{}
+	m := map[int]string{} // 或者 var m map[int]string = map[int]string{}
 	m[1] = "go programming"
 	fmt.Printf("m[1]: %s", m[1]) // m[1]: go programming
 }
-
 ```
 
 显示初始化 `map` 类型变量 m，虽然 m 中没有任何键值对，但变量 m 也不等同于初值 `nil` 的 `map` 的变量，此时对其操作不会引起程序异常。
@@ -127,7 +126,6 @@ func main() {
 	m["key3"] = 3
 	fmt.Println(len(m)) // 3
 }
-
 ```
 
 ### 查找和数据读取
@@ -149,12 +147,11 @@ func main() {
 	// "key1"在map中，v将被赋予"key1"键对应的value
 	fmt.Printf("v: %d", v) // v: 0 int 类型零值
 }
-
 ```
 
 ### 删除数据
 
-> 使用内置函数 `delete` 来删除 `map` 中的数据；`delete` 函数是从 `map `中删除键的唯一方法；即使传给 `delete` 的键在 `map` 中并不存在，`delete` 函数的执行也不会失败，也不会抛出运行时的异常。
+> 使用内置函数 `delete` 来删除 `map` 中的数据；`delete` 函数是从 `map`中删除键的唯一方法；即使传给 `delete` 的键在 `map` 中并不存在，`delete` 函数的执行也不会失败，也不会抛出运行时的异常。
 
 ```go
 package main
@@ -167,8 +164,8 @@ func main() {
 		"key2": 22,
 	}
 
-	fmt.Println(m)    // map[key1:13 key2:22]
-    // 第一个参数是 map 类型变量，第二个参数就是要删除的键
+	fmt.Println(m) // map[key1:13 key2:22]
+	// 第一个参数是 map 类型变量，第二个参数就是要删除的键
 	delete(m, "key2") // 删除"key2"
 	fmt.Println(m)    // map[key1:13]
 }
@@ -230,8 +227,6 @@ func main() {
 ```
 
 > 对同一个`map`做多次遍历的时候,每次遍历元素的次序都不相同。
-
-
 
 Tips:
 

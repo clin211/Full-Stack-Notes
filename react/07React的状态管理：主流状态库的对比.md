@@ -28,7 +28,7 @@ React 状态管理是指处理和更新 React 组件状态的过程。它涉及�
 | [react-query](https://github.com/TanStack/query)         | 41.4k  | v5.52.0  | 2019     | 2024-08-21   |
 | [swr](https://github.com/vercel/swr)                     | 30.1k  | v2.2.5   | 2019     | 2024-02-16   |
 
-从上面的图中可以看到，可以看到 react-redux 无论 star 数还是流行度都遥遥领先，其次就是 Zustand。虽然 redux 作为老牌的状态管理库仍被用在大量项目中，但他的 Stars 上升排名仅仅只能排到第十位，而且其由于较高的上手难度以及较为繁琐的配置和模板代码，被很多人所诟病。下图就是2023年过去一年状态管理库 star 数的上升情况（https://risingstars.js.org/2023/en#section-statemanagement）:
+从上面的图中可以看到，可以看到 react-redux 无论 star 数还是流行度都遥遥领先，其次就是 Zustand。虽然 redux 作为老牌的状态管理库仍被用在大量项目中，但他的 Stars 上升排名仅仅只能排到第十位，而且其由于较高的上手难度以及较为繁琐的配置和模板代码，被很多人所诟病。下图就是2023年过去一年状态管理库 star 数的上升情况（<https://risingstars.js.org/2023/en#section-statemanagement）>:
 
 ![QQ_1724312823400](assets/QQ_1724312823400.png)
 
@@ -38,7 +38,7 @@ redux 是一个比较老牌的一个 JavaScript 应用的状态管理库，常�
 
 > Redux 也可以不和 React 组合使用的（通常一起使用）。
 
-### 什么时候应该用 Redux 
+### 什么时候应该用 Redux
 
 Redux 可帮助你处理共享状态的管理，但与其他工具一样，它也有学习和维护成本。这是短期和长期生产力之间的权衡。
 
@@ -62,100 +62,90 @@ Redux 在以下情景中更有用：
 ```html
 <!DOCTYPE html>
 <html>
+    <head>
+        <title>Redux basic example</title>
+    </head>
 
-<head>
-    <title>Redux basic example</title>
-</head>
-
-<body>
-    <div>
-        <p>
-            Clicked: <span id="value">0</span> times
-            <button id="increment">+</button>
-            <button id="decrement">-</button>
-            <button id="incrementIfOdd">Increment if odd</button>
-            <button id="incrementAsync">Increment async</button>
-        </p>
-    </div>
-    <script type="module">
-        import { createStore } from "https://unpkg.com/redux@latest/dist/redux.browser.mjs";
-        // 定义初始状态值
-        const initialState = {
-            value: 0
-        };
-
-        const types = {
-            INCREMENT: "counter/incremented",
-            DECREMENT: "counter/decremented"
-        };
-
-        // 创建一个“reducer”函数
-        function counterReducer (state = initialState, action) {
-            // 根据 action 的类型来更新状态
-            switch (action.type) {
-                case types.INCREMENT:
-                    return { ...state, value: state.value + 1 };
-                case types.DECREMENT:
-                    return { ...state, value: state.value - 1 };
-                default:
-                    // 没有匹配上的 action.type，返回原始 state
-                    return state;
+    <body>
+        <div>
+            <p>
+                Clicked: <span id="value">0</span> times
+                <button id="increment">+</button>
+                <button id="decrement">-</button>
+                <button id="incrementIfOdd">Increment if odd</button>
+                <button id="incrementAsync">Increment async</button>
+            </p>
+        </div>
+        <script type="module">
+            import { createStore } from 'https://unpkg.com/redux@latest/dist/redux.browser.mjs'
+            // 定义初始状态值
+            const initialState = {
+                value: 0
             }
-        }
 
-        // 通过 createStore 方法创建一个新的 Redux store，使用 counterReducer 进行更新逻辑
-        const store = createStore(counterReducer);
+            const types = {
+                INCREMENT: 'counter/incremented',
+                DECREMENT: 'counter/decremented'
+            }
 
-        const valueEl = document.getElementById("value");
+            // 创建一个“reducer”函数
+            function counterReducer(state = initialState, action) {
+                // 根据 action 的类型来更新状态
+                switch (action.type) {
+                    case types.INCREMENT:
+                        return { ...state, value: state.value + 1 }
+                    case types.DECREMENT:
+                        return { ...state, value: state.value - 1 }
+                    default:
+                        // 没有匹配上的 action.type，返回原始 state
+                        return state
+                }
+            }
 
-        // 每当存储的状态发生变化时，更新 UI，读取最新的存储状态并显示新数据
-        function render () {
-            const state = store.getState();
-            valueEl.innerHTML = state.value.toString();
-        }
+            // 通过 createStore 方法创建一个新的 Redux store，使用 counterReducer 进行更新逻辑
+            const store = createStore(counterReducer)
 
-        // 用初始数据更新 UI
-        render();
+            const valueEl = document.getElementById('value')
 
-        // 数据变化时触发render
-        store.subscribe(render);
+            // 每当存储的状态发生变化时，更新 UI，读取最新的存储状态并显示新数据
+            function render() {
+                const state = store.getState()
+                valueEl.innerHTML = state.value.toString()
+            }
 
-        document
-            .getElementById("increment")
-            .addEventListener("click", function () {
-                store.dispatch({ type: types.INCREMENT });
-            });
+            // 用初始数据更新 UI
+            render()
 
-        document
-            .getElementById("decrement")
-            .addEventListener("click", function () {
-                store.dispatch({ type: types.DECREMENT });
-            });
+            // 数据变化时触发render
+            store.subscribe(render)
 
-        document
-            .getElementById("incrementIfOdd")
-            .addEventListener("click", function () {
+            document.getElementById('increment').addEventListener('click', function () {
+                store.dispatch({ type: types.INCREMENT })
+            })
+
+            document.getElementById('decrement').addEventListener('click', function () {
+                store.dispatch({ type: types.DECREMENT })
+            })
+
+            document.getElementById('incrementIfOdd').addEventListener('click', function () {
                 // 当 store 中的状态是奇数时，dispatch 一个 INCREMENT 事件
                 if (store.getState().value % 2 !== 0) {
-                    store.dispatch({ type: types.INCREMENT });
+                    store.dispatch({ type: types.INCREMENT })
                 }
-            });
+            })
 
-        document
-            .getElementById("incrementAsync")
-            .addEventListener("click", function () {
+            document.getElementById('incrementAsync').addEventListener('click', function () {
                 // 模拟异步逻辑
                 setTimeout(function () {
-                    store.dispatch({ type: types.INCREMENT });
-                }, 1000);
-            });
-    </script>
-</body>
-
+                    store.dispatch({ type: types.INCREMENT })
+                }, 1000)
+            })
+        </script>
+    </body>
 </html>
 ```
 
-因为 Redux 是一个无任何依赖的独立的 js 库，所以我这个示例里只用了一个 script 标签去加载 Redux 库，用了基础的 JS、HTML 去写 UI。但在实际开发中，Redux 通常是通过[ npm 包的方式引入](https://cn.redux.js.org/introduction/installation)的，UI 通常是通过像 [React](https://reactjs.org/) 这类的库去创建的。
+因为 Redux 是一个无任何依赖的独立的 js 库，所以我这个示例里只用了一个 script 标签去加载 Redux 库，用了基础的 JS、HTML 去写 UI。但在实际开发中，Redux 通常是通过[npm 包的方式引入](https://cn.redux.js.org/introduction/installation)的，UI 通常是通过像 [React](https://reactjs.org/) 这类的库去创建的。
 
 ### 数据流
 
@@ -178,14 +168,12 @@ Redux 在以下情景中更有用：
 
 ![单向数据流](assets/one-way-data-flow-04fe46332c1ccb3497ecb04b94e55b97.png)
 
-
-
 ## redux 在 react 中的使用
 
 ### 使用 Vite 创建一个 React 项目
 
 ```sh
-$ npx create-vite
+npx create-vite
 ```
 
 ![QQ_1725432433311](assets/QQ_1725432433311.png)
@@ -228,7 +216,7 @@ $ npx create-vite
 安装这两个扩展库：
 
 ```sh
-$ npm install @reduxjs/toolkit react-redux
+npm install @reduxjs/toolkit react-redux
 ```
 
 > 我这里安装完成之后所对应的版本是：
@@ -253,7 +241,7 @@ Redux 本身是一个独立的库，可以与任何 UI 层或框架一起使用�
 1. UI 组件：负责呈现页面（React侧）。
 2. 容器组件：负责管理数据和业务逻辑（Redux侧）。
 
-> Redux 和 React-Redux 的区别是什么？ 
+> Redux 和 React-Redux 的区别是什么？
 >
 > Redux 是基础的状态管理库，而 React-Redux 是针对 React 的库，用于简化 Redux 在 React 应用中的使用。
 
@@ -277,9 +265,9 @@ import store from './store/store'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
-  <Provider store={store}>
-    <App />
-  </Provider>,
+    <Provider store={store}>
+        <App />
+    </Provider>
 )
 ```
 
@@ -298,12 +286,12 @@ react-redux 提供了两种 “消费”方式，一种 Hooks，另一种 connec
 - **易用性**：更直观，适合使用函数组件和 Hooks 的现代 React 开发。
 
 ```jsx
-import { useSelector } from 'react-redux';
+import { useSelector } from 'react-redux'
 
 const MyComponent = () => {
-    const myData = useSelector((state) => state.myReducer.myData);
-	return <div>{myData}</div>;
-};
+    const myData = useSelector((state) => state.myReducer.myData)
+    return <div>{myData}</div>
+}
 ```
 
 **connect**
@@ -315,17 +303,17 @@ const MyComponent = () => {
 - **易用性**：对于初学者来说，理解起来可能稍微复杂，尤其是在嵌套的组件中。
 
 ```jsx
-import { connect } from 'react-redux';
+import { connect } from 'react-redux'
 
 const MyComponent = ({ myData }) => {
-	return <div>{myData}</div>;
-};
+    return <div>{myData}</div>
+}
 
 const mapStateToProps = (state) => ({
-	myData: state.myReducer.myData,
-});
+    myData: state.myReducer.myData
+})
 
-export default connect(mapStateToProps)(MyComponent);
+export default connect(mapStateToProps)(MyComponent)
 ```
 
 > 小结一下：
@@ -340,14 +328,14 @@ export default connect(mapStateToProps)(MyComponent);
 `useSelector` 是 `react-redux` 提供的一个 React Hook，用于从 Redux Store 中获取状态数据。使用方式也比较简单，在函数组件中：
 
 ```jsx
-import { useSelector } from "react-redux";
+import { useSelector } from 'react-redux'
 
 function App() {
-	const {count} = useSelector((state) => state.counter)
-	return <div>{count}</div>
+    const { count } = useSelector((state) => state.counter)
+    return <div>{count}</div>
 }
 
-export default App;
+export default App
 ```
 
 当 Redux Store 中的状态发生变化时，使用 `useSelector` 的组件会自动重新渲染。这是通过引用相等性检查（shallow equality check）实现的，只有当选择的数据发生变化时，组件才会更新。
@@ -368,47 +356,36 @@ const user = useSelector((state) => state.auth.currentUser)
 `connect` 是 React-Redux 提供的一个函数，用于将 React 组件与 Redux store 连接起来。这个函数可以传四个参数：
 
 ```ts
-function connect<
-  TStateProps = {},
-  TDispatchProps = {},
-  TOwnProps = {},
-  TMergedProps = {},
-  State = unknown,
->(
-  mapStateToProps?: MapStateToPropsParam<TStateProps, TOwnProps, State>,
-  mapDispatchToProps?: MapDispatchToPropsParam<TDispatchProps, TOwnProps>,
-  mergeProps?: MergeProps<TStateProps, TDispatchProps, TOwnProps, TMergedProps>,
-  options: ConnectOptions<unknown, unknown, unknown, unknown> = {},
-): unknown 
+function connect<TStateProps = {}, TDispatchProps = {}, TOwnProps = {}, TMergedProps = {}, State = unknown>(mapStateToProps?: MapStateToPropsParam<TStateProps, TOwnProps, State>, mapDispatchToProps?: MapDispatchToPropsParam<TDispatchProps, TOwnProps>, mergeProps?: MergeProps<TStateProps, TDispatchProps, TOwnProps, TMergedProps>, options: ConnectOptions<unknown, unknown, unknown, unknown> = {}): unknown
 ```
 
 - `mapStateToProps`：将 Redux Store 中的状态映射到组件的 props。
 
-  ```js
-  const mapStateToProps = state => {
-    return {
-      count: state.count,
+    ```js
+    const mapStateToProps = (state) => {
+        return {
+            count: state.count
+        }
     }
-  }
-  ```
+    ```
 
 - `mapDispatchToProps`：将 action creators 映射到组件的 props 中的回调函数。
 
-  ```js
-  const mapDispatchToProps = {
-    increment,
-    decrement,
-  }
-  ```
+    ```js
+    const mapDispatchToProps = {
+        increment,
+        decrement
+    }
+    ```
 
 完整示例如下：
 
 ```jsx
-import React from 'react';
-import { connect } from 'react-redux';
-import { increment, decrement } from './actions';
+import React from 'react'
+import { connect } from 'react-redux'
+import { increment, decrement } from './actions'
 
-function App ({ count, increment, decrement }) {
+function App({ count, increment, decrement }) {
     return (
         <div>
             <button onClick={increment}> + </button>
@@ -418,20 +395,19 @@ function App ({ count, increment, decrement }) {
     )
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
     return {
-        count: state.count,
+        count: state.count
     }
 }
 
 const mapDispatchToProps = {
     increment,
-    decrement,
+    decrement
 }
 
 // 使用 connect 函数连接组件和 Redux store
 export default connect(mapStateToProps, mapDispatchToProps)(App)
-
 ```
 
 在上面的示例中，我们通过 `connect` 函数把 Redux Store 和组件连接起来。我们使用 `mapStateToProps` 函数将 Redux store 中的 `count` 状态映射到 App 组件的 `count props` 中，同时使用 `mapDispatchToProps` 对象将 `increment` 和 `decrement` 的 action creators 映射到组件的 `increment` 和 `decrement` props 中的回调函数。
@@ -442,7 +418,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(App)
 
 这里仍然区分函数组件和类组件，如果在类组件中，可以使用上面 connect 的方式去修改，下面我们重点来看看函数组件中应该怎么去修改？
 
-没错，就是 `useDispatch` 钩子函数，useDispatch` 是 `react-redux` 提供的一个 React Hook，用于在函数组件中获取 Redux store 的 `dispatch` 函数。允许你发送（dispatch）actions，以更新 Redux store 的状态。比如：
+没错，就是 `useDispatch` 钩子函数，useDispatch`是`react-redux`提供的一个 React Hook，用于在函数组件中获取 Redux store 的`dispatch` 函数。允许你发送（dispatch）actions，以更新 Redux store 的状态。比如：
 
 ```js
 const inc = () => dispatch(increment())
@@ -451,10 +427,10 @@ const inc = () => dispatch(increment())
 `useDispatch` 通常与 `useSelector` 一起使用，使得组件能够同时访问状态和更新状态。但只能在函数组件中使用，不能在类组件中使用。
 
 ```jsx
-import { useDispatch, useSelector } from "react-redux"
-import { increment, decrement } from "./store/reducers/counter"
+import { useDispatch, useSelector } from 'react-redux'
+import { increment, decrement } from './store/reducers/counter'
 
-function UseDispatch () {
+function UseDispatch() {
     const { count } = useSelector((state) => state.counter)
     // 使用useDispatch()函数
     const dispatch = useDispatch()
@@ -475,70 +451,91 @@ export default UseDispatch
 在这个示例中，使用 `useDispatch` 钩子函数获取了 Redux store 的 `dispatch` 函数，并将其赋值给 `dispatch` 变量。随后，我们可以在组件中使用 `dispatch` 函数来派发 Redux actions，例如在按钮的点击事件处理函数中派发 `increment` 和 `decrement` actions。
 
 #### 在 redux 中处理异步 action
+
 在 Redux 中处理异步 action 有几种常见的方案，主要包括 Redux Thunk、Redux Saga、Redux Observable、以及使用 Redux Toolkit 的 createAsyncThunk。每种方案都有其特点和适用场景。以下是几种主要的方案：
+
 ##### Redux Thunk
+
 **特点**:
-  - 允许你在 action creator 中返回函数（thunk）而不是 action 对象。
-  - 这个函数可以进行异步操作，并在异步操作完成后手动 dispatch action。
-  - 简单易用，适合大部分中小型项目。
+
+- 允许你在 action creator 中返回函数（thunk）而不是 action 对象。
+- 这个函数可以进行异步操作，并在异步操作完成后手动 dispatch action。
+- 简单易用，适合大部分中小型项目。
 
 **优点**:
-  - 简单直观，学习成本低。
-  - 可以直接访问 Redux 的 dispatch 和 getState。
+
+- 简单直观，学习成本低。
+- 可以直接访问 Redux 的 dispatch 和 getState。
 
 **缺点**:
-  - 随着项目复杂度增加，thunk 的嵌套和管理可能变得繁琐。
+
+- 随着项目复杂度增加，thunk 的嵌套和管理可能变得繁琐。
   适用场景:
-  - 项目规模较小到中等。
-  - 需要简单的异步数据获取或 API 调用。
+- 项目规模较小到中等。
+- 需要简单的异步数据获取或 API 调用。
 
 ##### Redux Saga
+
 **特点**:
+
 - 基于 ES6 generator functions 的中间件，用来管理应用中的副作用（side effects）。
 - 通过 saga，你可以使用更复杂的控制流，如并发、取消、重试等操作。
 
 **优点**:
+
 - 强大的副作用管理功能，可以处理复杂的异步操作和控制流。
 - 测试性好，因为 saga 本质上是一个普通函数。
 
 **缺点**:
+
 - 学习曲线较陡，需要理解 generator 和 effects 模式。
 - 代码可能会变得冗长和复杂。
 
 **适用场景**:
+
 - 大型项目，尤其是需要处理复杂的异步逻辑。
 - 需要高级副作用管理功能，例如并发控制、任务取消等。
 
 ##### Redux Observable
+
 **特点**:
+
 - 基于 RxJS 的中间件，用来处理异步 action 流。
 - 使用 observable 和操作符来处理 action 流和副作用。
 
 **优点**:
+
 - 通过流式处理异步操作，功能强大且灵活。
 - 可以轻松处理复杂的异步流程，如并发、多路复用、任务取消等。
 
 **缺点**:
+
 - 学习曲线陡峭，需要了解 RxJS 的概念。
 - 不适合简单的异步操作。
 
 **适用场景**:
+
 - 需要使用或已经在使用 RxJS 的项目。
 - 需要流式处理的复杂异步操作。
 
 ##### Redux Toolkit 的 createAsyncThunk
+
 **特点**:
+
 - Redux Toolkit 内置的异步 action 处理工具，简化了异步操作的定义。
 - 通过 createAsyncThunk，你可以轻松创建一个支持异步操作的 thunk。
-  
+
 **优点**:
+
 - 集成在 Redux Toolkit 中，使用简便，代码量少。
 - 自动处理异步请求的状态管理（如 pending、fulfilled、rejected）。
 
 **缺点**:
+
 - 灵活性不如 saga 或 observable，但适合大多数异步场景。
 
 **适用场景**:
+
 - 使用 Redux Toolkit 的项目。
 - 需要快速实现简单的异步逻辑，而不需要复杂的控制流。
 
@@ -588,20 +585,14 @@ function configureStore<
 ##### 返回值
 
 ```ts
-export type EnhancedStore<
-  S = any,
-  A extends Action = UnknownAction,
-  E extends Enhancers = Enhancers,
-> = ExtractStoreExtensions<E> &
-  Store<S, A, UnknownIfNonSpecific<ExtractStateExtensions<E>>>
-    
-    
+export type EnhancedStore<S = any, A extends Action = UnknownAction, E extends Enhancers = Enhancers> = ExtractStoreExtensions<E> & Store<S, A, UnknownIfNonSpecific<ExtractStateExtensions<E>>>
+
 interface Store<S = any, A extends Action = UnknownAction, StateExt extends unknown = unknown> {
-    dispatch: Dispatch<A>;
-    getState(): S & StateExt;
-    subscribe(listener: ListenerCallback): Unsubscribe;
-    replaceReducer(nextReducer: Reducer<S, A>): void;
-    [Symbol.observable](): Observable<S & StateExt>;
+    dispatch: Dispatch<A>
+    getState(): S & StateExt
+    subscribe(listener: ListenerCallback): Unsubscribe
+    replaceReducer(nextReducer: Reducer<S, A>): void
+    [Symbol.observable](): Observable<S & StateExt>
 }
 ```
 
@@ -612,11 +603,11 @@ interface Store<S = any, A extends Action = UnknownAction, StateExt extends unkn
 
 ```js
 import { configureStore } from '@reduxjs/toolkit'
-import rootReducer from './reducers';
+import rootReducer from './reducers'
 
-const store = configureStore({ reducer: rootReducer });
+const store = configureStore({ reducer: rootReducer })
 
-export default store;
+export default store
 ```
 
 上面这段代码的就使用 Redux Toolkit 的 `configureStore` 函数创建一个 Redux Store 实例，并导出该 Store，以便在整个应用中进行状态管理。
@@ -677,52 +668,51 @@ function createSlice({
 
 ```js
 // src/store/reducers/counter.js
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit'
 
 // 定义初始状态
 const initialState = {
-    count: 0,
-};
+    count: 0
+}
 
 // 创建一个 Redux slice
 const counterSlice = createSlice({
     name: 'counter',
     initialState,
     reducers: {
-        increment (state) {
-            state.count += 1;
+        increment(state) {
+            state.count += 1
         },
-        decrement (state) {
-            state.count -= 1;
+        decrement(state) {
+            state.count -= 1
         },
-        incrementIfOdd (state) {
+        incrementIfOdd(state) {
             if (state.count % 2 !== 0) {
-                state.count += 1;
+                state.count += 1
             }
-        },
-    },
-});
+        }
+    }
+})
 
 // 导出action creators
-export const { increment, decrement, incrementIfOdd, incrementAsync } = counterSlice.actions;
+export const { increment, decrement, incrementIfOdd, incrementAsync } = counterSlice.actions
 // 导出reducer
-export default counterSlice.reducer;
+export default counterSlice.reducer
 ```
 
 ```js
 // src/store/store.js
-import { configureStore } from '@reduxjs/toolkit';
-import counter from './reducers/counter';
+import { configureStore } from '@reduxjs/toolkit'
+import counter from './reducers/counter'
 
 // 创建 Redux store
 const store = configureStore({
     reducer: {
         counter
-    },
-});
+    }
+})
 
 export default store
-
 ```
 
 ### 在项目的根目录中引入 Provider
@@ -730,16 +720,16 @@ export default store
 ```jsx
 // src/main.jsx
 import { createRoot } from 'react-dom/client'
-import { Provider } from "react-redux";
+import { Provider } from 'react-redux'
 
 import App from './App.jsx'
 import './index.css'
 import store from './store/store'
 
 createRoot(document.getElementById('root')).render(
-  <Provider store={store}>
-    <App />
-  </Provider>,
+    <Provider store={store}>
+        <App />
+    </Provider>
 )
 ```
 
@@ -755,24 +745,17 @@ import { decrement, increment, incrementIfOdd } from './store/reducers/counter'
 
 export const Increment = () => {
     const dispatch = useDispatch()
-    return (
-        <button onClick={() => dispatch(increment())}>Increment</button>
-    )
+    return <button onClick={() => dispatch(increment())}>Increment</button>
 }
-
 
 export const Decrement = () => {
     const dispatch = useDispatch()
-    return (
-        <button onClick={() => dispatch(decrement())}>Decrement</button>
-    )
+    return <button onClick={() => dispatch(decrement())}>Decrement</button>
 }
 
 export const IncrementIfOdd = () => {
     const dispatch = useDispatch()
-    return (
-        <button onClick={() => dispatch(incrementIfOdd())}>Increment if odd</button>
-    )
+    return <button onClick={() => dispatch(incrementIfOdd())}>Increment if odd</button>
 }
 ```
 
@@ -784,18 +767,18 @@ import { useSelector } from 'react-redux'
 // ...
 import { Decrement, Increment, IncrementIfOdd } from './Components'
 
-function App () {
-  const counter = useSelector(state => state.counter)
-  return (
-    <>
-      {
-      	// ...其他 UI
-      }
-      <Increment />
-      <Decrement />
-      <IncrementIfOdd />
-    </>
-  )
+function App() {
+    const counter = useSelector((state) => state.counter)
+    return (
+        <>
+            {
+                // ...其他 UI
+            }
+            <Increment />
+            <Decrement />
+            <IncrementIfOdd />
+        </>
+    )
 }
 
 export default App

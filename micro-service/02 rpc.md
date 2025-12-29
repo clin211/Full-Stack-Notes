@@ -46,43 +46,39 @@ RPC（Remote Procedure Call，远程过程调用）是一种允许程序调用�
 调用流程分步详解
 
 1. 用户发起调用（User → User-stub）
-   - 用户调用本地接口，实际由 User-stub 接管。
-   - 关键设计：用户感知不到远程调用，接口与本地代码一致。
+    - 用户调用本地接口，实际由 User-stub 接管。
+    - 关键设计：用户感知不到远程调用，接口与本地代码一致。
 2. 参数打包与生成调用包（User-stub → RPC Runtime）
-   - 打包（Pack）：将方法名、参数序列化为 Call Packet（如 Protobuf 编码）。
-   - 依赖接口（Interface）：通过预定义的接口描述（如 IDL）确保数据格式一致。
+    - 打包（Pack）：将方法名、参数序列化为 Call Packet（如 Protobuf 编码）。
+    - 依赖接口（Interface）：通过预定义的接口描述（如 IDL）确保数据格式一致。
 3. 网络传输（RPC Runtime → Network）
-   - RPC 运行时将 Call Packet 发送到网络层，准备传输至被调用方机器。
+    - RPC 运行时将 Call Packet 发送到网络层，准备传输至被调用方机器。
 
 4. 跨机器传输（Network → Callee Machine）
+    - 调用包通过底层协议（如 TCP）传输到目标机器。
 
-   - 调用包通过底层协议（如 TCP）传输到目标机器。
-
-   - 服务发现：依赖注册中心或 DNS 定位目标服务地址（图中未显式标注）。
+    - 服务发现：依赖注册中心或 DNS 定位目标服务地址（图中未显式标注）。
 
 5. 接收与解包（Server-stub）
+    - 服务端 RPC 运行时接收 Call Packet，交给 Server-stub 解包（反序列化）。
 
-   - 服务端 RPC 运行时接收 Call Packet，交给 Server-stub 解包（反序列化）。
-
-   - 还原请求：提取方法名、参数，准备调用服务端代码。
+    - 还原请求：提取方法名、参数，准备调用服务端代码。
 
 6. 调用服务端方法（Server-stub → Server）
+    - 反射或路由：根据方法名调用对应的服务实现。
 
-   - 反射或路由：根据方法名调用对应的服务实现。
-
-   - 业务执行（Work）：服务端执行业务逻辑（如查询数据库）。
+    - 业务执行（Work）：服务端执行业务逻辑（如查询数据库）。
 
 7. 生成结果包（Server-stub → RPC Runtime）
-   - 打包（Pack）：将结果或异常序列化为 Result Packet。
+    - 打包（Pack）：将结果或异常序列化为 Result Packet。
 
 8. 结果回传（Network → Caller Machine）
-   - Result Packet 通过网络返回调用方机器。
+    - Result Packet 通过网络返回调用方机器。
 
 9. 解包与返回用户（User-stub → User）
+    - 调用方 RPC 运行时接收结果，User-stub 解包后返回给用户。
 
-   - 调用方 RPC 运行时接收结果，User-stub 解包后返回给用户。
-
-   - 用户感知：结果如同本地方法返回，全程无感知远程交互。
+    - 用户感知：结果如同本地方法返回，全程无感知远程交互。
 
 ## RPC 与 REST API 的对比
 
@@ -122,7 +118,7 @@ RPC（Remote Procedure Call，远程过程调用）是一种允许程序调用�
 - **RPC（gRPC）** 主要使用 **Protocol Buffers（Protobuf）**，比 JSON **更紧凑、解析速度更快**。
 - **REST API** 主要使用 **JSON**，可读性强但**数据冗余较大**。
 
- **示例：相同的数据，Protobuf 和 JSON 的对比**
+    **示例：相同的数据，Protobuf 和 JSON 的对比**
 
 ```proto
 message User {
@@ -131,12 +127,12 @@ message User {
 }
 ```
 
- 对应 JSON 版本：
+对应 JSON 版本：
 
 ```json
 {
-  "name": "Alice",
-  "age": 25
+    "name": "Alice",
+    "age": 25
 }
 ```
 
@@ -169,13 +165,13 @@ client.SayHello(context.Background(), &pb.HelloRequest{Name: "Alice"})
 #### **REST API 客户端调用**
 
 ```javascript
-fetch("https://api.example.com/hello", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ name: "Alice" })
+fetch('https://api.example.com/hello', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ name: 'Alice' })
 })
-.then(response => response.json())
-.then(data => console.log(data.message));
+    .then((response) => response.json())
+    .then((data) => console.log(data.message))
 ```
 
 REST API 需要**手动管理请求 URL、Headers、Body**，而 gRPC 直接调用方法，更简洁。
@@ -187,8 +183,8 @@ REST API 需要**手动管理请求 URL、Headers、Body**，而 gRPC 直接调�
 
 ### 🔹适用场景
 
-| 适用场景                | 选择 RPC                 | 选择 REST API         |
-| ----------------------- | ------------------------ | --------------------- |
+| 适用场景                | 选择 RPC                  | 选择 REST API          |
+| ----------------------- | ------------------------- | ---------------------- |
 | **微服务架构**          | ✅ gRPC 更高效            | ❌ REST API 有性能瓶颈 |
 | **Web 应用**            | ❌ 需要额外实现 REST 兼容 | ✅ REST API 直接可用   |
 | **移动端 / 低带宽环境** | ✅ Protobuf 省流量        | ❌ JSON 传输数据大     |
@@ -236,8 +232,8 @@ REST API 需要**手动管理请求 URL、Headers、Body**，而 gRPC 直接调�
 package main
 
 import (
- "net"
- "net/rpc"
+	"net"
+	"net/rpc"
 )
 
 // 定义服务结构体
@@ -245,29 +241,29 @@ type MathService struct{}
 
 // 实现服务方法（需满足RPC方法签名：func (t *T) MethodName(argType T1, replyType *T2) error）
 func (s *MathService) Multiply(args *int, reply *int) error {
- *reply = *args * 10
- return nil
+	*reply = *args * 10
+	return nil
 }
 
 func main() {
- // 注册RPC服务
- rpc.Register(new(MathService))
+	// 注册RPC服务
+	rpc.Register(new(MathService))
 
- // 监听TCP端口
- listener, err := net.Listen("tcp", ":1234")
- if err != nil {
-  panic(err)
- }
- defer listener.Close()
+	// 监听TCP端口
+	listener, err := net.Listen("tcp", ":1234")
+	if err != nil {
+		panic(err)
+	}
+	defer listener.Close()
 
- // 处理连接
- for {
-  conn, err := listener.Accept()
-  if err != nil {
-   continue
-  }
-  go rpc.ServeConn(conn) // 为每个连接启动RPC服务
- }
+	// 处理连接
+	for {
+		conn, err := listener.Accept()
+		if err != nil {
+			continue
+		}
+		go rpc.ServeConn(conn) // 为每个连接启动RPC服务
+	}
 }
 ```
 
@@ -278,26 +274,26 @@ func main() {
 package main
 
 import (
- "fmt"
- "net/rpc"
+	"fmt"
+	"net/rpc"
 )
 
 func main() {
- // 连接RPC服务端
- client, err := rpc.Dial("tcp", "localhost:1234") // 端口必须跟服务端保持一致
- if err != nil {
-  panic(err)
- }
- defer client.Close()
+	// 连接RPC服务端
+	client, err := rpc.Dial("tcp", "localhost:1234") // 端口必须跟服务端保持一致
+	if err != nil {
+		panic(err)
+	}
+	defer client.Close()
 
- // 调用远程方法
- var reply int
- err = client.Call("MathService.Multiply", 5, &reply)
- if err != nil {
-  panic(err)
- }
+	// 调用远程方法
+	var reply int
+	err = client.Call("MathService.Multiply", 5, &reply)
+	if err != nil {
+		panic(err)
+	}
 
- fmt.Println("Result:", reply) // 输出：Result: 50
+	fmt.Println("Result:", reply) // 输出：Result: 50
 }
 ```
 
@@ -325,36 +321,36 @@ func main() {
 package main
 
 import (
- "net"
- "net/rpc"
- "net/rpc/jsonrpc"
+	"net"
+	"net/rpc"
+	"net/rpc/jsonrpc"
 )
 
 type MathService struct{}
 
 func (s *MathService) Multiply(args *int, reply *int) error {
- *reply = *args * 10
- return nil
+	*reply = *args * 10
+	return nil
 }
 
 func main() {
- rpc.Register(new(MathService))
+	rpc.Register(new(MathService))
 
- // 注册HTTP处理器
- rpc.HandleHTTP()
+	// 注册HTTP处理器
+	rpc.HandleHTTP()
 
- // 启动HTTP服务
- l, e := net.Listen("tcp", ":9092")
- if e != nil {
-  panic(e)
- }
+	// 启动HTTP服务
+	l, e := net.Listen("tcp", ":9092")
+	if e != nil {
+		panic(e)
+	}
 
- for {
-  conn, _ := l.Accept()
+	for {
+		conn, _ := l.Accept()
 
-  // 使用 JSON RPC 处理连接
-  rpc.ServeCodec(jsonrpc.NewServerCodec(conn))
- }
+		// 使用 JSON RPC 处理连接
+		rpc.ServeCodec(jsonrpc.NewServerCodec(conn))
+	}
 }
 ```
 
@@ -364,26 +360,25 @@ func main() {
 package main
 
 import (
- "fmt"
- "net/rpc/jsonrpc"
+	"fmt"
+	"net/rpc/jsonrpc"
 )
 
 func main() {
- client, err := jsonrpc.Dial("tcp", "localhost:9092")
- if err != nil {
-  panic(err)
- }
- defer client.Close()
+	client, err := jsonrpc.Dial("tcp", "localhost:9092")
+	if err != nil {
+		panic(err)
+	}
+	defer client.Close()
 
- var reply int
- err = client.Call("MathService.Multiply", 5, &reply)
- if err != nil {
-  panic(err)
- }
+	var reply int
+	err = client.Call("MathService.Multiply", 5, &reply)
+	if err != nil {
+		panic(err)
+	}
 
- fmt.Println("Result:", reply) // 输出：Result: 50
+	fmt.Println("Result:", reply) // 输出：Result: 50
 }
-
 ```
 
 在对应的目录下面，执行 `go run server/main.go` 和 `go run client/main.go` 两个命令，如下图：
@@ -394,29 +389,27 @@ func main() {
 >
 > 1. **方法签名要求**：
 >
->    ```go
->    func (t *T) MethodName(argType T1, replyType *T2) error
->    ```
+>     ```go
+>     func (t *T) MethodName(argType T1, replyType *T2) error
+>     ```
 >
->    - 方法必须为**导出类型**（首字母大写）
->    - 第二个参数必须为指针类型（用于接收返回值）
->    - 必须返回 `error` 类型
+>     - 方法必须为**导出类型**（首字母大写）
+>     - 第二个参数必须为指针类型（用于接收返回值）
+>     - 必须返回 `error` 类型
 >
 > 2. **通信协议**：
->    - `net/rpc` 默认使用 **Gob 编码**（二进制协议）
->    - `net/rpc/jsonrpc` 使用 **JSON 编码**（可跨语言调用）
->
+>     - `net/rpc` 默认使用 **Gob 编码**（二进制协议）
+>     - `net/rpc/jsonrpc` 使用 **JSON 编码**（可跨语言调用）
 > 3. **服务注册**：
 >
->    ```go
->    rpc.Register(service)      // 注册服务实例
->    rpc.HandleHTTP()           // HTTP协议专用注册
->    ```
+>     ```go
+>     rpc.Register(service)      // 注册服务实例
+>     rpc.HandleHTTP()           // HTTP协议专用注册
+>     ```
 
 通过标准库可快速实现 RPC 基础功能，但若需**服务发现**、**负载均衡**等高级特性，建议使用更完善的框架（如 [gRPC-Go](https://github.com/grpc/grpc-go) 或 [rpcx](https://github.com/smallnest/rpcx)）。
 
-> 上面所有代码都可以在 https://github.com/clin211/grpc 中找到!
-
+> 上面所有代码都可以在 <https://github.com/clin211/grpc> 中找到!
 
 ## 思考
 

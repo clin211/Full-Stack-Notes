@@ -1,4 +1,5 @@
 gRPC（全称：gRPC Remote Procedure Call）是由 Google 开发的一个高性能、开源、通用的远程过程调用（RPC）框架，默认采用 Protocol Buffers 数据序列化协议。它的核心特点包括：
+
 - 语言中立：支持多种语言，例如 Go、Java、C、C++、C#、Node.js、PHP、Python、Ruby 等；
 - 基于 IDL 定义服务：基于 IDL（Interface Definition Language）文件定义服务，通过 proto3 工具生成指定语言的数据结构、服务端接口以及客户端 Stub。通过这种方式，也可以将服务端和客户端解耦，使客户端和服务端可以并行开发；
 - 基于 HTTP/2 协议：通信协议基于标准的 HTTP/2 设计，支持双向流、消息头压缩、单 TCP 的多路复用、服务端推送等特性；
@@ -28,7 +29,7 @@ gRPC API 接口通常使用的数据传输格式是 [Protocol Buffers](https://p
 
 ## Protocol Buffers 介绍
 
-**Protocol Buffers**（简称 *Protobuf*）是由 Google 开发的一种与语言无关、平台无关的高性能数据序列化协议。它在分布式系统和网络通信中应用广泛，常常与 gRPC 搭配使用。其核心特点包括：
+**Protocol Buffers**（简称 _Protobuf_）是由 Google 开发的一种与语言无关、平台无关的高性能数据序列化协议。它在分布式系统和网络通信中应用广泛，常常与 gRPC 搭配使用。其核心特点包括：
 
 1. **高效的序列化与反序列化**  
    Protobuf 使用二进制格式存储和传输数据，体积更小、速度更快，相比于 JSON、XML 等文本格式具有更高的传输和处理效率。
@@ -48,6 +49,7 @@ gRPC API 接口通常使用的数据传输格式是 [Protocol Buffers](https://p
 
 - **定义接口和数据结构**  
   通过 `.proto` 文件，开发者可以明确地定义服务接口、RPC 方法以及消息的数据结构，这为客户端和服务端提供了统一的通信规范。
+
     ```protoc
     // 定义请求消息，包含所有基本数据类型
     message AllTypesRequest {
@@ -70,9 +72,10 @@ gRPC API 接口通常使用的数据传输格式是 [Protocol Buffers](https://p
     ```
 
     > 后面我会专门针对这些数据类型写一篇文章来介绍，这里只是先做了解！
-  
+
 - **高效的序列化与反序列化**  
   Protocol Buffers 将消息数据转换成紧凑的二进制格式进行传输，这不仅降低了数据传输的开销，还大大提高了序列化和反序列化的效率。
+
     ```protoc
     // 定义一个服务，包含一个方法 ProcessAllTypes
     service DataService {
@@ -80,15 +83,17 @@ gRPC API 接口通常使用的数据传输格式是 [Protocol Buffers](https://p
         rpc ProcessAllTypes(AllTypesRequest) returns (AllTypesResponse);
     }
     ```
+
 - **跨语言与跨平台支持**  
-基于 .proto 文件，可以自动生成多种编程语言（如 C++、Java、Python、Go 等）的代码，实现不同语言和平台之间的无缝通信。后面做演示！
+  基于 .proto 文件，可以自动生成多种编程语言（如 C++、Java、Python、Go 等）的代码，实现不同语言和平台之间的无缝通信。后面做演示！
 
 ## 环境搭建
+
 简单的了解了基本原理和 Protocol Buffers 之后，接下来就安装环境；
 
 ### Protocol 编译器安装
 
-我这里就不一一列举具体的系统或者具体的语言区安装，就以 Go 语言为例，其它语言官方也提供了具体的安装方式 [https://grpc.io/docs/languages/](https://grpc.io/docs/languages/)，或者手动安装，官方地址：
+我这里就不一一列举具体的系统或者具体的语言区安装，就以 Go 语言为例，其它语言官方也提供了具体的安装方式 <https://grpc.io/docs/languages/>，或者手动安装，官方地址：
 
 ![](./assets/422b946d-ef59-4c3d-9d2a-3b5e8f7c6021.png)
 
@@ -97,61 +102,81 @@ gRPC API 接口通常使用的数据传输格式是 [Protocol Buffers](https://p
 ![](./assets/b054522f-82d6-4c05-b2ac-ba77cb2ee642.png)
 
 官方还提供了其他的安装方式：
+
 - Windows 使用 Winget 安装：
-  ```sh
-  > $ winget install protobuf
-  ```
+
+    ```sh
+    > $ winget install protobuf
+    ```
+
 - linux 使用 `apt` 或者 `apt-get` 安装：
-  ```sh
-  $ apt install -y protobuf-compiler
-  ```
+
+    ```sh
+    apt install -y protobuf-compiler
+    ```
+
 - Mac OS 使用 Homebrew 安装：
-  ```sh
-  $ brew install protobuf
-  ```
+
+    ```sh
+    brew install protobuf
+    ```
 
 安装完成之后，使用 `protoc --version` 命令查看是否安装成功：
+
 ```sh
 $ protoc --version
 libprotoc 30.0
 ```
+
 ![](./assets/be4484cb-dc27-4955-9fb0-73dfa49ad4e4.png)
 
 上面安装了 Protocol Buffer 的编译器，接着就安装 gRPC 相关的 Go 依赖：
+
 ```sh
 go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
 go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
 ```
+
 检查是否安装成功：
+
 ```sh
-$ protoc-gen-go --version && protoc-gen-go-grpc --version
+protoc-gen-go --version && protoc-gen-go-grpc --version
 
 ```
+
 ![](./assets/0aba8d06-a307-4d94-8398-273572d7389b.png)
 
 这两个工具的作用：
+
 - `protoc-gen-go`：用于生成 Go 结构体代码（message 解析）。
 - `protoc-gen-go-grpc`：用于生成 gRPC 服务端和客户端代码。
 
 > 如果终端中打印找不到这两命令的话，很可能是没有添加到系统环境变量中，MacOS 中可以使用下面的命令：
+>
 > ```sh
 > export PATH="$PATH:$(go env GOPATH)/bin"
 > ```
 
 ## helloworld 开发
+
 上面把环境都搞定了，接下来就先来做一个 helloworld 的示例！
 
 ### 定义服务
 
 我们先新建一个 01helloworld 的目录，然后初始化项目：
+
 ```sh
-$ mkdir 01helloworld && cd 01helloworld && go mod init hellowrold
+mkdir 01helloworld && cd 01helloworld && go mod init hellowrold
 ```
+
 接下来在 01helloworld 目录中创建一个 proto 文件夹，这个文件夹主要是弄来放 `proto` 文件的（有的公司把它放在 api 目录下），然后创建 `helloworld.proto` 文件：
+
 ```sh
-$ mkdir proto && touch proto/helloworld.proto
+mkdir proto && touch proto/helloworld.proto
 ```
+
 在 `helloworld.proto` 文件中，定义一个 `HelloWorld` 服务，该服务包含一个 `SayHello` 方法，该方法接受 `HelloRequest` 并返回 `HelloResponse`：
+
 ```proto
 syntax = "proto3"; // 指定使用 Protocol Buffers v3 语法
 
@@ -185,11 +210,13 @@ message HelloReply {
 ### 生成 Go 代码
 
 在定义好 `.proto` 文件后，我们需要使用 `protoc` 编译它，生成 gRPC 服务端和客户端的 Go 代码。在 `helloworld.proto` 所在目录执行以下命令，生成 gRPC 代码：
+
 ```sh
 protoc --go_out=. --go_opt=paths=source_relative \
        --go-grpc_out=. --go-grpc_opt=paths=source_relative \
        ./proto/helloworld.proto
 ```
+
 > 参数说明：
 >
 > - `--go_out=.`：生成 Go 结构体代码（message 类型）。
@@ -197,23 +224,29 @@ protoc --go_out=. --go_opt=paths=source_relative \
 > - `proto/helloworld.proto`：指定 `.proto` 文件路径。
 
 执行成功后，`proto/` 目录下会生成两个文件：
+
 ```tree
 proto/
 ├── helloworld.pb.go        # 处理消息类型的 Go 代码
 └── helloworld_grpc.pb.go   # 处理 gRPC 服务的 Go 代码
 ```
+
 完整目录如下：
 ![](./assets/8ba396f4-c6ad-48be-a9e8-3eb17959ab97.png)
 
 ### 实现 gRPC 服务器
+
 到这里，我们已经成功生成了 gRPC Go 代码。下一步，我们将实现 GreeterServer，并启动 gRPC 服务器。
 
 在项目根目录下创建 server 目录，并在其中新建 `main.go` 文件：
+
 ```sh
-$ mkdir server
-$ touch server/main.go
+mkdir server
+touch server/main.go
 ```
+
 然后，编写 `main.go` 代码：
+
 ```go
 package main
 
@@ -263,27 +296,34 @@ func main() {
 	}
 }
 ```
+
 - `pb.UnimplementedGreeterServer` 是 `protoc` 自动生成的默认实现，可以确保后续 `proto` 文件升级时不会影响已有代码。
 - `SayHello` 方法接收 `HelloRequest`，提取 `name` 字段，并返回 HelloReply，其中包含问候消息。
 - `listener, err := net.Listen("tcp", ":50051")` 监听 50051 端口，等待客户端连接。
 
 确保 `protoc` 生成的代码已经编译，并执行以下命令启动服务器：
+
 ```sh
 go run server/main.go
 ```
+
 效果如下：
 
 ![](./assets/d1594848-3fe9-4ad6-ac4c-028bf7fed5bd.png)
 
 ### 实现 gRPC 客户端
+
 我们已经成功启动了 gRPC 服务器，现在我们需要实现一个客户端，来调用 `Greeter` 服务的 `SayHello` 和 `SayHelloAgain` 方法，并获取返回结果。
 
 在项目根目录下创建 client 目录，并在其中新建 `main.go` 文件：
+
 ```sh
-$ mkdir client
-$ touch client/main.go
+mkdir client
+touch client/main.go
 ```
+
 然后，在 `client/main.go` 中编写以下代码：
+
 ```go
 package main
 
@@ -349,9 +389,11 @@ func main() {
 	log.Printf("Greeting: %s", r.GetMessage())
 }
 ```
+
 上面的代码有详细的注释，这里就不一一解释了！因为上一步我们运行了服务端的服务，运行客户端：
+
 ```sh
-$ go run client/main.go
+go run client/main.go
 ```
 
 ![](./assets/df00ecea-1b2a-4372-b18b-b2e290d66422.jpg)
@@ -360,10 +402,10 @@ $ go run client/main.go
 
 ## 总结
 
-gRPC 是 Google 开源的高性能远程过程调用（RPC）框架，基于 HTTP/2 协议，并使用 Protocol Buffers（Protobuf）作为数据序列化格式。它具备语言无关性，支持多种编程语言，使得跨语言通信变得高效且标准化。gRPC 继承了 Google 内部 Stubby 系统的设计理念，能够在分布式系统和微服务架构中发挥巨大作用。  
+gRPC 是 Google 开源的高性能远程过程调用（RPC）框架，基于 HTTP/2 协议，并使用 Protocol Buffers（Protobuf）作为数据序列化格式。它具备语言无关性，支持多种编程语言，使得跨语言通信变得高效且标准化。gRPC 继承了 Google 内部 Stubby 系统的设计理念，能够在分布式系统和微服务架构中发挥巨大作用。
 
-在 gRPC 的调用流程中，客户端通过 gRPC Stub 调用远程方法，数据经过 Protobuf 序列化后发送至服务器端。服务器端解码并执行业务逻辑，再通过 Protobuf 序列化响应数据返回给客户端，实现高效的远程调用。  
+在 gRPC 的调用流程中，客户端通过 gRPC Stub 调用远程方法，数据经过 Protobuf 序列化后发送至服务器端。服务器端解码并执行业务逻辑，再通过 Protobuf 序列化响应数据返回给客户端，实现高效的远程调用。
 
-gRPC 主要依赖 Protocol Buffers 来定义接口和数据结构，提供高效的序列化与反序列化能力，同时支持版本兼容性。Protobuf 采用二进制格式存储数据，相比 JSON 和 XML 具有更小的体积和更高的解析速度。基于 `.proto` 文件，开发者可以自动生成不同语言的代码，实现跨平台和跨语言的无缝通信。  
+gRPC 主要依赖 Protocol Buffers 来定义接口和数据结构，提供高效的序列化与反序列化能力，同时支持版本兼容性。Protobuf 采用二进制格式存储数据，相比 JSON 和 XML 具有更小的体积和更高的解析速度。基于 `.proto` 文件，开发者可以自动生成不同语言的代码，实现跨平台和跨语言的无缝通信。
 
 最后通过这个简单的 `SayHello` 服务，我们初步了解了 gRPC 的开发流程，包括 Protobuf 定义、服务器实现和客户端调用。这为后续深入学习 gRPC 的流式通信、拦截器等高级特性打下了基础。

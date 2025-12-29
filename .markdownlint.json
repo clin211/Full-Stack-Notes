@@ -1,8 +1,6 @@
 {
+    "MD010": false,
     "MD045": false,
-    "MD013": {
-        "line_length": 2000
-    },
     "code-block-style": {
         "style": "fenced"
     },
@@ -22,7 +20,7 @@
         "style": "---"
     },
     "line-length": {
-        "strict": true,
+        "line_length": 2000,
         "code_blocks": false
     },
     "link-image-style": {
