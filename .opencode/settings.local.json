@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(markdownlint:*)",
+      "Bash(/Users/forest/code/Full-Stack-Notes/scripts/format-go-in-markdown.sh:*)"
+    ]
+  }
+}

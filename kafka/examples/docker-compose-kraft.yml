@@ -1,0 +1,56 @@
+services:
+  kafka:
+    image: confluentinc/cp-kafka:7.5.0
+    hostname: kafka
+    container_name: kafka-kraft
+    ports:
+      - "9092:9092"
+      - "9093:9093"
+    environment:
+      # === 基础配置 ===
+      KAFKA_NODE_ID: 1
+      # KRaft 模式必需的集群 ID（Confluent 镜像使用 CLUSTER_ID 而非 KAFKA_CLUSTER_ID）
+      CLUSTER_ID: 'MkU3OEVBNTcwNTJENDM2Qk'
+
+      # === 角色配置 ===
+      # broker: 处理客户端请求
+      # controller: 参与元数据管理
+      KAFKA_PROCESS_ROLES: 'broker,controller'
+
+      # === Controller 配置 ===
+      # 单节点模式，quorum voters 只有一个
+      KAFKA_CONTROLLER_QUORUM_VOTERS: '1@kafka:9093'
+
+      # === 监听器配置 ===
+      KAFKA_LISTENERS: 'PLAINTEXT://kafka:9092,CONTROLLER://kafka:9093'
+      KAFKA_ADVERTISED_LISTENERS: 'PLAINTEXT://kafka:9092'
+      KAFKA_CONTROLLER_LISTENER_NAMES: 'CONTROLLER'
+      KAFKA_INTER_BROKER_LISTENER_NAME: 'PLAINTEXT'
+
+      # === 安全协议 ===
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: 'CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT'
+
+      # === Topic 配置 ===
+      # 默认副本因子（单节点只能设为 1）
+      KAFKA_DEFAULT_REPLICATION_FACTOR: 1
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+
+      # === 性能优化 ===
+      # 关闭初始再平衡延迟
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+
+      # === 日志配置 ===
+      KAFKA_LOG_DIRS: '/var/lib/kafka/data'
+    volumes:
+      - kafka-kraft-data:/var/lib/kafka/data
+    # 单节点模式需要特殊的健康检查
+    healthcheck:
+      test: ["CMD", "kafka-broker-api-versions", "--bootstrap-server", "localhost:9092"]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+
+volumes:
+  kafka-kraft-data:
