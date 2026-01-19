@@ -11,4 +11,4 @@ allowed-tools: Bash(git add:*)
 **暂存区变更 (Staged Changes):**
 !`git diff --staged`
 
-请以markdown的格式，只输出commit message本身，不要有任何额外的解释。
+请以中文markdown的格式，只输出commit message本身，不要有任何额外的解释。
